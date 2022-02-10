@@ -1,0 +1,19 @@
+#quadrant-callout {
+	position: fixed;
+	width: 250px;
+	min-width: 250px;
+	display: none;
+	padding: 20px;
+	border: 5px solid #e0e0e0;
+	border-radius: 20px;
+	background-color: #f9f9f9;
+}
+
+.quadrant {
+	zoom: 0.8;
+	position: absolute;
+	margin-left: 40px;
+}
+
+.effectiveness-chart-container {
+}	

@@ -1,0 +1,87 @@
+/* ENPS */
+
+.enps {
+    height: 120px; 
+    background-color: lightslategrey; 
+    font-size: 20px; 
+    width: 450px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    padding: 20px;
+}
+
+.enps-score {
+    font-size: 40px;
+    margin-top: 4px;
+}
+
+.enps-distribution {
+    opacity: 0;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    margin: 0;
+    border: 0;
+    font-size: 12px; 
+    width: 150px; 
+    display: table-cell;
+    padding: 10px;
+}
+
+.enps-distribution-promoters:before,
+.enps-distribution-detractors:before
+ {
+    content: "\2191";
+    font-size: 20px;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+}
+
+.enps-distribution-score {
+    display: block;
+    font-size: 20px;
+    margin-top: 4px;
+}
+
+.enps-distribution-description {
+    opacity: 0;
+    height: 60px;
+    text-align: center;
+    vertical-align: top;
+    margin-top: 20px;
+    color: #999;
+    margin: 0;
+    border: 0;
+    font-size: 12px; 
+    width: 150px; 
+    display: table-cell;
+    padding: 10px;
+}
+.enps-distribution-description:hover {
+    color: black;
+}
+
+.enps-distribution-count {
+    font-size: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c0c0c0;
+    margin-top: 20px;
+}
+
+.enps-add,
+.enps-subtract {
+    position: absolute;
+    font-size: 10px;
+    bottom: 272px;
+    opacity: 0;
+    z-index: 999;
+    color: white;
+}
+
+.enps, .enps-distribution {
+    filter: drop-shadow(0 1rem 2rem #999);    
+}
