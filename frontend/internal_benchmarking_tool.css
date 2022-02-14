@@ -1,0 +1,15 @@
+.selector-group {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.selector-row {
+    display: flex;
+    flex-direction: row;
+}
+.selector-label {
+    width: 30%;
+}
+#internal-benchmarking-tool-details select {
+    margin-bottom: 20px;
+}

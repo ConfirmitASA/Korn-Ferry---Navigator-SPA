@@ -7,22 +7,22 @@ var images_preload = [
 	"https://upload.wikimedia.org/wikipedia/commons/9/9e/Korn-ferry-logo.jpg",
 	"https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/KFW_Homepage_banner_1680x995.jpg"
 ];
- 
+
 function Main_PreloadImages(e) {
-    for (var i=0; i <images_preload.length; ++i) {
-        var tempImage = new Image();
-        tempImage.addEventListener("load", Main_PreloadImageProgress, true);
-        tempImage.src = images_preload[i];
-    }
+	for (var i=0; i <images_preload.length; ++i) {
+		var tempImage = new Image();
+		tempImage.addEventListener("load", Main_PreloadImageProgress, true);
+		tempImage.src = images_preload[i];
+	}
 }
- 
+
 function Main_PreloadImageProgress() {
-    images_preloaded_count++;
-     
-    if (images_preloaded_count == images_preload.length) {
-        //ALL Images have been loaded, perform the desired action
+	images_preloaded_count++;
+
+	if (images_preloaded_count == images_preload.length) {
+		//ALL Images have been loaded, perform the desired action
 		Main_PreloadComplete();
-    }
+	}
 }
 
 function Main_Menitem_Click() {
@@ -41,7 +41,7 @@ function Main_Menitem_Click() {
 
 	// Get the id of the menu item that was clicked (1, 2, 3, ...)
 	var id = $(this).attr('id').split('-')[1];
-	
+
 	switch ( id ) {
 
 		case 'Filters':
@@ -52,15 +52,15 @@ function Main_Menitem_Click() {
 			// Re-render this page		
 			var codeblock = "$('#page-" + id + "').html (" + id + "_Render());";
 			Main_IncrementClickCount ( id );
-			
+
 			try {
-				eval ( codeblock );			
+				eval ( codeblock );
 			}
 			catch (e) {
 				console.log ( 'Could not re-render page: ' + codeblock );
 			}
 			break;
-		
+
 		default:
 	}
 
@@ -114,12 +114,12 @@ function Main_Menitem_Click() {
 }
 
 function Main_ResetClickCount ( id ) {
-	stats[id] = 0;	
+	stats[id] = 0;
 }
 
 function Main_IncrementClickCount( id ) {
 	if (stats[id] == null) stats[id] = 0;
-		stats[id]++;
+	stats[id]++;
 }
 
 function Main_IsFirstClick( id ) {
@@ -218,28 +218,28 @@ function Main_ItemMap() {
 	}
 	return item_map;
 }
-	
+
 function Main_SubmitQuery ( query ) {
-	
+
 	try {
 		Query( query );
 		mySubmit();
 	}
 	catch (e) {
 		Main_TestQuery ( query );
-		WaitMessage();		
-	}			
-	
+		WaitMessage();
+	}
+
 }
 
 function Main_RefreshCurrentPage() {
 	console.log ('MainRefreshCurrentPage: ' + State_GetCurrentPageId() );
-	
+
 	State_ClickCurrentPage();
 
 	Main_ScrollToTop();
 }
-	
+
 function Main_TextSubstitution() {
 	$('.dynamic-content').each(
 		function () {
@@ -248,14 +248,14 @@ function Main_TextSubstitution() {
 			eval ("value = " + id + ';');
 			$(this).html( value );
 		}
-	);		
-	
-	
+	);
+
+
 	// Update Filter Summary
 	$('.filtersummary').each( function() {
-		$(this).css('display', $(this).text() == '' ? 'none' : ''); 
-	});			
-	
+		$(this).css('display', $(this).text() == '' ? 'none' : '');
+	});
+
 }
 
 function Main_RenderPage( item, section_id ) {
@@ -271,7 +271,7 @@ function Main_RenderPage( item, section_id ) {
 		eval ( codeblock );
 
 		// Implement page specs
-		Main_Section ( 
+		Main_Section (
 			section_id, //p.SectionId,
 			p.Label,
 			p.LeftPane,
@@ -323,7 +323,7 @@ function Main_RenderPage( item, section_id ) {
 
 	Main_ScrollToTop();
 
-	
+
 
 }
 
@@ -351,14 +351,14 @@ function Main_RenderMenu() {
 	for (var i=0; i<meta.Menu.length; ++i) {
 		var item = meta.Menu[i];
 		o.push ( '<div class="menuitem" id="menuitem-' + item.Code + '">' + item.Label + '</div>' );
-		
+
 		if ( item.Submenu != null) {
 			var o2 = [];
 			var sections = [];
 			for (var j=0; j<item.Submenu.length; ++j) {
 				var subitem = item.Submenu[j];
 				o2.push ( '<div class="submenuitem" id="submenuitem-' + item.Code + '-' + subitem.Code + '">' + subitem.Label + '</div>' );
-				sections.push ( 
+				sections.push (
 					'<div class="section" id="section-' + item.Code + '-' + subitem.Code + '"></div>\n'
 				);
 
@@ -366,15 +366,15 @@ function Main_RenderMenu() {
 			$('#page-' + item.Code).find('.submenu').html ( o2.join('') );
 			$('#page-' + item.Code).find('.sections').html ( sections.join('') );
 		}
-		
+
 	}
 	$('.menu').html ( o.join('') );
-}	
+}
 
 function Main_Section(id, title, text, html_content, class_name, style, show_filter_summary) {
 	//console.log ( id + ': show_filter_summary=' + show_filter_summary );
 	var o = [];
-	o.push ( 
+	o.push (
 		`
 			<div class="page-container ${class_name}">
 				<div class="bannerHomepage insightBanner">
@@ -414,20 +414,28 @@ function Main_Section(id, title, text, html_content, class_name, style, show_fil
 			</div>
 		`
 	);
-	
+
 	return $('#' + id). html ( o.join('') );
 }
 
 function Main_TestQuery( query ) {
-	
+
 	var newdata = {};
 	var newdata = {};
 	if ( query.EffectivenessByDemo ) {
-		
+
 		var demo = query.EffectivenessByDemo.Demo;
 		data.EffectivenessByDemo = TestData_EffectivenessByDemo( demo );
-		
+
 	}
+
+	if(query.InternalBenchmarkingTool) {
+		//Set test data for IBT here?
+		var breakByVariable = query.InternalBenchmarkingTool.Demo;
+		//console.log('breakByVariable ' + breakByVariable);
+		TestData_fillBreakByData(breakByVariable);
+	}
+
 	Main_RefreshCurrentPage();
 }
 

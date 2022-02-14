@@ -1,35 +1,37 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons ) { 
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons ) {
 	var o = [];
-	
+
 	o.push(`<table id="${table_id}" class="${class_name}">`);
 
 	// Headers
 	o.push('<thead>');
+	o.push('<tr>');
+	for (var i=0; i<headers.length; ++i)
+		o.push( TH( headers[i].Label ) );
 
-    for (var i=0; i<headers.length; ++i)
-        o.push( TH( headers[i].Label ) );
-	
+	o.push('</tr>');
 	o.push('</thead>');
 
-    // Data
-    for (var i=0; i<data.length; ++i) {
-        var d = data[i];
-        
+	// Data
+	for (var i=0; i<data.length; ++i) {
+		var d = data[i];
+
 		o.push('<tr>');
-        for (var j=0; j<d.length; ++j)
-    		o.push ( TD (d[j], headers[j].ClassName) );
+		for (var j=0; j<d.length; ++j)
+			o.push ( TD (d[j], headers[j].ClassName) );
 
 		o.push('</tr>');
-	}	
+	}
 
 	o.push('</table>');
 
-    // Script Code to Initialize DataTable
-    var script_code = `
+	// Script Code to Initialize DataTable
+	var script_code = `
 		var tbl = $('#${table_id}');
 
 		tbl.DataTable({
 			'searching': false,
+			'sorting': ${isSortable},
 			'paging': false,
 			'info': false,
 			dom: 'Bfrtip',
@@ -40,9 +42,9 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
     `;
 
 	return {
-        Html: o.join(''),
-        ScriptCode: script_code
-    };
+		Html: o.join(''),
+		ScriptCode: script_code
+	};
 }
 
 function TD(x, classname) {
