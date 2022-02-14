@@ -1,4 +1,4 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons ) {
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, innerDimensionSortingSettings) {
 	var o = [];
 
 	o.push(`<table id="${table_id}" class="${class_name}">`);
@@ -26,6 +26,19 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 	o.push('</table>');
 
 	// Script Code to Initialize DataTable
+	var orderStr;
+
+	if(!!innerDimensionSortingSettings && innerDimensionSortingSettings.isApplied) {
+		orderStr = `
+			'order': [],			
+			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
+			'columnDefs': [
+				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] }
+			]
+		`;
+	}
+
+
 	var script_code = `
 		var tbl = $('#${table_id}');
 
@@ -34,6 +47,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'sorting': ${isSortable},
 			'paging': false,
 			'info': false,
+			${orderStr},
 			dom: 'Bfrtip',
 			buttons: ${showButtons ? "['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']" : "[]"}
 		});

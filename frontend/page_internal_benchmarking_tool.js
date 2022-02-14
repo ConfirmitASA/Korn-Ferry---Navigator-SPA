@@ -154,108 +154,67 @@ function BenchmarkingTool_GetItemsTable() {
     var comparatorsVar = State_Get('display_comparators');
 
     var headers = [
+        {Label: 'dimensionN', ClassName: 'text-cell'},
+        {Label: 'dimensionFlag', ClassName: 'text-cell'},
         {Label: "#", ClassName: 'text-cell'},
-        {Label: `${data.Report.ReportBase} N=${data.Questions[demoVar].N}`, ClassName: 'numeric-cell'},
+        {Label: `${data.Report.ReportBase} N=${data.Questions['questions.' + demoVar].N}`, ClassName: 'numeric-cell'},
     ];
 
+    var breakByAnswers = meta.Labels['questions.' + demoVar].Answers;
+
+    for(var i = 0; i < breakByAnswers.length; i++) {
+        headers.push({Label: `${demoVar}: ${breakByAnswers[i].Label} N=${data.Questions['questions.' + demoVar].Answers[breakByAnswers[i].Code].N}`, ClassName: 'numeric-cell'})
+    }
+
     var table_data = [];
-    var row_data = [];
-    var totalColumnRowValue;
 
     if(rowVar == 'AllDimensions') {
         var dimensionOptions = Object.keys(data.Dimensions);
 
         for(var i in dimensionOptions) {
-            if(metricVar == 'PercentFavorable') {
-                totalColumnRowValue = data.Dimensions[dimensionOptions[i]].Distribution.Fav;
-            } else {
-                if(metricVar == 'PercentUnfavorable') {
-                    totalColumnRowValue = data.Dimensions[dimensionOptions[i]].Distribution.Unfav;
-                } else {
-                    totalColumnRowValue = null;
-                }
-            }
-
-            row_data = [
-                meta.Labels[dimensionOptions[i]].Label,
-                totalColumnRowValue
-            ];
-
-            table_data.push ( row_data );
+            table_data.push (BenchmarkingTool_GetDimensionRowData(i, dimensionOptions[i], demoVar, breakByAnswers, metricVar));
         }
     } else {
         if(rowVar == 'AllQuestions') {
             var itemOptions = Object.keys(data.ItemsNew);
 
             for (var i in itemOptions) {
-                if (metricVar == 'PercentFavorable') {
-                    totalColumnRowValue = data.ItemsNew[itemOptions[i]].Distribution.Fav;
-                } else {
-                    if (metricVar == 'PercentUnfavorable') {
-                        totalColumnRowValue = data.ItemsNew[itemOptions[i]].Distribution.Unfav;
-                    } else {
-                        totalColumnRowValue = null;
-                    }
-                }
-
-                row_data = [
-                    meta.Labels[itemOptions[i]].Label,
-                    totalColumnRowValue
-                ];
-
-                table_data.push(row_data);
+                table_data.push(BenchmarkingTool_GetItemRowData(0, itemOptions[i], demoVar, breakByAnswers, metricVar));
             }
         } else {
             if(rowVar == 'AllQuestionsOrdByDimension') {
                 var dimensionOptions = Object.keys(data.Dimensions);
 
                 for(var i in dimensionOptions) {
-
-                    if (metricVar == 'PercentFavorable') {
-                        totalColumnRowValue = data.Dimensions[dimensionOptions[i]].Distribution.Fav;
-                    } else {
-                        if (metricVar == 'PercentUnfavorable') {
-                            totalColumnRowValue = data.Dimensions[dimensionOptions[i]].Distribution.Unfav;
-                        } else {
-                            totalColumnRowValue = null;
-                        }
-                    }
-
-                    row_data = [
-                        meta.Labels[dimensionOptions[i]].Label,
-                        totalColumnRowValue
-                    ];
-
-                    table_data.push(row_data);
+                    table_data.push(BenchmarkingTool_GetDimensionRowData(i, dimensionOptions[i], demoVar, breakByAnswers, metricVar));
 
                     var itemOptions = data.Dimensions[dimensionOptions[i]].Items;
-                    console.log(itemOptions);
 
                     for (var j in itemOptions) {
-                        console.log('item option ' + itemOptions[j]);
-                        if (metricVar == 'PercentFavorable') {
-                            totalColumnRowValue = data.ItemsNew[itemOptions[j]].Distribution.Fav;
-                        } else {
-                            if (metricVar == 'PercentUnfavorable') {
-                                totalColumnRowValue = data.ItemsNew[itemOptions[j]].Distribution.Unfav;
-                            } else {
-                                totalColumnRowValue = null;
-                            }
-                        }
-
-                        row_data = [
-                            meta.Labels[itemOptions[j]].Label,
-                            totalColumnRowValue
-                        ];
-
-                        table_data.push(row_data);
+                        table_data.push(BenchmarkingTool_GetItemRowData(i, itemOptions[j], demoVar, breakByAnswers, metricVar));
                     }
                 }
             } else {
-                return { Html: "" };
+                if(rowVar.indexOf('dimensions') >= 0) {
+                    table_data.push (BenchmarkingTool_GetDimensionRowData(0, rowVar, demoVar, breakByAnswers, metricVar));
+
+                    var itemOptionsForOneDimensions = data.Dimensions[rowVar].Items;
+
+                    for (var j in itemOptionsForOneDimensions) {
+                        table_data.push(BenchmarkingTool_GetItemRowData(0, itemOptionsForOneDimensions[j], demoVar, breakByAnswers, metricVar));
+                    }
+                } else {
+                    return {Html: ""};
+                }
             }
 
         }
+    }
+
+    var innerDimensionSortingSettings = {
+        isApplied: true,
+        hiddenColumns: [0, 1],
+        orderFixed: '{ pre: [[ 0, "asc" ], [ 1, "desc" ]] }'
     }
 
     var dt = Component_DataTable (
@@ -263,9 +222,88 @@ function BenchmarkingTool_GetItemsTable() {
         'items-table',
         headers,
         table_data,
-        false,
-        true
+        true,
+        true,
+        innerDimensionSortingSettings
     );
 
     return dt;
+}
+
+function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, breakByAnswers, metricVar) {
+    var totalColumnRowValue;
+
+    if(metricVar == 'PercentFavorable') {
+        totalColumnRowValue = data.Dimensions[dimensionId].Distribution.Fav;
+    } else {
+        if(metricVar == 'PercentUnfavorable') {
+            totalColumnRowValue = data.Dimensions[dimensionId].Distribution.Unfav;
+        } else {
+            totalColumnRowValue = null;
+        }
+    }
+
+    var row_data = [
+        dimensionN,
+        1,
+        meta.Labels[dimensionId].Label,
+        totalColumnRowValue
+    ];
+
+    for(var i = 0; i < breakByAnswers.length; i++) {
+        var breakByRowValue;
+
+        if(metricVar == 'PercentFavorable') {
+            breakByRowValue = data.Dimensions[dimensionId].BreakBy[demoVar].Answers[breakByAnswers[i].Code].Distribution.Fav;
+        } else {
+            if(metricVar == 'PercentUnfavorable') {
+                breakByRowValue = data.Dimensions[dimensionId].BreakBy[demoVar].Answers[breakByAnswers[i].Code].Distribution.Unfav;
+            } else {
+                breakByRowValue = null;
+            }
+        }
+
+        row_data.push(breakByRowValue);
+    }
+
+    return row_data;
+}
+
+function BenchmarkingTool_GetItemRowData(dimensionN, itemId, demoVar, breakByAnswers, metricVar) {
+    var totalColumnRowValue;
+
+    if (metricVar == 'PercentFavorable') {
+        totalColumnRowValue = data.ItemsNew[itemId].Distribution.Fav;
+    } else {
+        if (metricVar == 'PercentUnfavorable') {
+            totalColumnRowValue = data.ItemsNew[itemId].Distribution.Unfav;
+        } else {
+            totalColumnRowValue = null;
+        }
+    }
+
+    var row_data = [
+        dimensionN,
+        0,
+        meta.Labels[itemId].Label,
+        totalColumnRowValue
+    ];
+
+    for(var i = 0; i < breakByAnswers.length; i++) {
+        var breakByRowValue;
+
+        if(metricVar == 'PercentFavorable') {
+            breakByRowValue = data.ItemsNew[itemId].BreakBy[demoVar].Answers[breakByAnswers[i].Code].Distribution.Fav;
+        } else {
+            if(metricVar == 'PercentUnfavorable') {
+                breakByRowValue = data.ItemsNew[itemId].BreakBy[demoVar].Answers[breakByAnswers[i].Code].Distribution.Unfav;
+            } else {
+                breakByRowValue = null;
+            }
+        }
+
+        row_data.push(breakByRowValue);
+    }
+
+    return row_data;
 }
