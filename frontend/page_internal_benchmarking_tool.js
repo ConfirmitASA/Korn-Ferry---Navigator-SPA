@@ -157,6 +157,7 @@ function BenchmarkingTool_GetItemsTable() {
         {Label: 'dimensionN', ClassName: 'text-cell'},
         {Label: 'dimensionFlag', ClassName: 'text-cell'},
         {Label: "#", ClassName: 'text-cell'},
+        {Label: 'Question', ClassName: 'text-cell'},
         {Label: `${data.Report.ReportBase} N=${data.Questions['questions.' + demoVar].N}`, ClassName: 'numeric-cell'},
     ];
 
@@ -246,6 +247,7 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, 
     var row_data = [
         dimensionN,
         1,
+        '&#9674;',
         meta.Labels[dimensionId].Label,
         totalColumnRowValue
     ];
@@ -285,6 +287,7 @@ function BenchmarkingTool_GetItemRowData(dimensionN, itemId, demoVar, breakByAns
     var row_data = [
         dimensionN,
         0,
+        itemId.split('.')[1],
         meta.Labels[itemId].Label,
         totalColumnRowValue
     ];
