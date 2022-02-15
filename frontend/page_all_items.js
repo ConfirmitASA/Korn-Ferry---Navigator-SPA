@@ -63,13 +63,13 @@ function AllItems_ItemsTable() {
 		);
 
 		var rowdata = [
-			item.Id,
-			item.Label,
-			item.N,
-			item.Fav,
-			item.Neu,
-			item.Unfav,
-			distribution_chart_html
+			{Label: item.Id, ClassName: 'numeric-cell'},
+			{Label: item.Label, ClassName: 'text-cell'},
+			{Label: item.N, ClassName: 'numeric-cell'},
+			{Label: item.Fav, ClassName: 'numeric-cell distribution-cell'},
+			{Label: item.Neu, ClassName: 'numeric-cell distribution-cell'},
+			{Label: item.Unfav, ClassName: 'numeric-cell distribution-cell'},
+			{Label: distribution_chart_html, ClassName: 'text-cell'}
 		];
 
 		table_data.push ( rowdata );

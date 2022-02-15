@@ -71,11 +71,12 @@
 	    }
 
 	    .dt-button {
-	        color: white;
-	        background-color: #77bc1f;
-	        padding: 4px 20px;
-	        border: 0;
-	        margin-right: 12px;
+	        color: white !important;
+	        background: #77bc1f !important;
+	        padding: 4px 20px !important;
+	        border: 0 !important;
+	        margin-right: 12px !important;
+			border-radius: 0px !important;
 	    }
 
 	    .dt-button:hover {

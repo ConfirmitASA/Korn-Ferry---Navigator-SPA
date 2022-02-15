@@ -23,15 +23,18 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 	o.push('</thead>');
 
 	// Data
+	o.push('<tbody>');
 	for (var i=0; i<data.length; ++i) {
 		var d = data[i];
 
 		o.push('<tr>');
 		for (var j=0; j<d.length; ++j)
-			o.push ( TD (d[j]/*, headers[j].ClassName*/) );
+			o.push ( TD (d[j]) );
 
 		o.push('</tr>');
 	}
+
+	o.push('</tbody>');
 
 	o.push('</table>');
 
@@ -72,9 +75,9 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 	};
 }
 
-function TD(x, classname) {
-	if (classname == null) classname = "items-table-td";
-	return '<td class="' + classname + '">' + (x == null ? '-' : x) + '</td>';
+function TD(bodyCellObj, classname) {
+	if (classname == null) classname = bodyCellObj.ClassName;
+	return '<td class="' + classname + '">' + (!!bodyCellObj.Label ? bodyCellObj.Label : '-') + '</td>';
 }
 
 function TH(headerCellObj, classname) {

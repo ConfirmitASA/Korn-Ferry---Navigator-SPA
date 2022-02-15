@@ -251,11 +251,11 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, 
     }
 
     var row_data = [
-        dimensionN,
-        1,
-        '&#9674;',
-        meta.Labels[dimensionId].Label,
-        totalColumnRowValue
+        {Label: dimensionN, ClassName: 'text-cell'},
+        {Label: 1, ClassName: 'text-cell'},
+        {Label: '&#9674;', ClassName: 'text-cell'},
+        {Label: meta.Labels[dimensionId].Label, ClassName: 'text-cell'},
+        {Label: totalColumnRowValue, ClassName: 'numeric-cell'}
     ];
 
     for(var i = 0; i < breakByAnswers.length; i++) {
@@ -271,7 +271,7 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, 
             }
         }
 
-        row_data.push(breakByRowValue);
+        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell'});
     }
 
     return row_data;
@@ -291,11 +291,11 @@ function BenchmarkingTool_GetItemRowData(dimensionN, itemId, demoVar, breakByAns
     }
 
     var row_data = [
-        dimensionN,
-        0,
-        itemId.split('.')[1],
-        meta.Labels[itemId].Label,
-        totalColumnRowValue
+        {Label: dimensionN, ClassName: 'text-cell'},
+        {Label: 0, ClassName: 'text-cell'},
+        {Label: itemId.split('.')[1], ClassName: 'text-cell'},
+        {Label: meta.Labels[itemId].Label, ClassName: 'text-cell'},
+        {Label: totalColumnRowValue, ClassName: 'numeric-cell'}
     ];
 
     for(var i = 0; i < breakByAnswers.length; i++) {
@@ -311,7 +311,7 @@ function BenchmarkingTool_GetItemRowData(dimensionN, itemId, demoVar, breakByAns
             }
         }
 
-        row_data.push(breakByRowValue);
+        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell'});
     }
 
     return row_data;
