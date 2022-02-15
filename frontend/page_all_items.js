@@ -37,13 +37,13 @@ function AllItems_Render() {
 function AllItems_ItemsTable() {
 	// Return Value: {Html: <string>, [ScriptCode: <string>]}
 	var headers = [
-		{Label: "#", ClassName: 'numeric-cell'},
-		{Label: "Question", ClassName: 'text-cell'},
-		{Label: "Valid N", ClassName: 'numeric-cell'},
-		{Label: "Fav", ClassName: 'numeric-cell distribution-cell'},
-		{Label: "Neu", ClassName: 'numeric-cell distribution-cell'},
-		{Label: "Unfav", ClassName: 'numeric-cell distribution-cell'},
-		{Label: "Distribution", ClassName: 'text-cell'}
+		[{Label: "#", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Question", ClassName: 'text-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Valid N", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Fav", ClassName: 'numeric-cell distribution-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Neu", ClassName: 'numeric-cell distribution-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Unfav", ClassName: 'numeric-cell distribution-cell', ColSpan: 1, RowSpan: 1},
+		{Label: "Distribution", ClassName: 'text-cell', ColSpan: 1, RowSpan: 1}]
 	];
 
 	var bgcolors = ['#77bc1f', '#e0e0e0', '#d30f1d'];

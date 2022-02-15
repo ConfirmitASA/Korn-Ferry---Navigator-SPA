@@ -154,18 +154,24 @@ function BenchmarkingTool_GetItemsTable() {
     var comparatorsVar = State_Get('display_comparators');
 
     var headers = [
-        {Label: 'dimensionN', ClassName: 'text-cell'},
-        {Label: 'dimensionFlag', ClassName: 'text-cell'},
-        {Label: "#", ClassName: 'text-cell'},
-        {Label: 'Question', ClassName: 'text-cell'},
-        {Label: `${data.Report.ReportBase} N=${data.Questions['questions.' + demoVar].N}`, ClassName: 'numeric-cell'},
+        [
+            {Label: 'dimensionN', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
+            {Label: 'dimensionFlag', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
+            {Label: "#", ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
+            {Label: 'Question', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
+            {Label: `${data.Report.ReportBase} N=${data.Questions['questions.' + demoVar].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},
+            {Label: `${meta.Labels['questions.' + demoVar].Label}`, ClassName: 'numeric-cell', ColSpan: meta.Labels['questions.' + demoVar].Answers.length, RowSpan: 1}
+        ]
     ];
 
     var breakByAnswers = meta.Labels['questions.' + demoVar].Answers;
+    var headerRow = [];
 
     for(var i = 0; i < breakByAnswers.length; i++) {
-        headers.push({Label: `${demoVar}: ${breakByAnswers[i].Label} N=${data.Questions['questions.' + demoVar].Answers[breakByAnswers[i].Code].N}`, ClassName: 'numeric-cell'})
+        headerRow.push({Label: `${breakByAnswers[i].Label} N=${data.Questions['questions.' + demoVar].Answers[breakByAnswers[i].Code].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1})
     }
+
+    headers.push(headerRow);
 
     var table_data = [];
 

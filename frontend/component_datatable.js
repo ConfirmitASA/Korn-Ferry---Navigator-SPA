@@ -5,11 +5,21 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 
 	// Headers
 	o.push('<thead>');
-	o.push('<tr>');
-	for (var i=0; i<headers.length; ++i)
-		o.push( TH( headers[i].Label ) );
 
-	o.push('</tr>');
+	for (var i = 0; i < headers.length; i++) {
+		var headerRow = headers[i];
+
+		o.push('<tr>');
+
+		for(var j = 0; j < headerRow.length; j++) {
+			o.push( TH( headerRow[j] ) );
+		}
+
+		o.push('</tr>');
+	}
+
+
+
 	o.push('</thead>');
 
 	// Data
@@ -18,7 +28,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 
 		o.push('<tr>');
 		for (var j=0; j<d.length; ++j)
-			o.push ( TD (d[j], headers[j].ClassName) );
+			o.push ( TD (d[j]/*, headers[j].ClassName*/) );
 
 		o.push('</tr>');
 	}
@@ -33,7 +43,8 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'order': [],			
 			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
 			'columnDefs': [
-				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] }
+				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] },
+				{ targets: [0, 1, 2], type: "natural" }
 			]
 		`;
 	}
@@ -66,7 +77,7 @@ function TD(x, classname) {
 	return '<td class="' + classname + '">' + (x == null ? '-' : x) + '</td>';
 }
 
-function TH(x, classname) {
+function TH(headerCellObj, classname) {
 	if (classname == null) classname = "items-table-td";
-	return '<th class="' + classname + '">' + x + '</th>';
+	return '<th class="' + classname + '" colspan="' + headerCellObj.ColSpan + '" rowspan="' + headerCellObj.RowSpan + '">' + headerCellObj.Label + '</th>';
 }
