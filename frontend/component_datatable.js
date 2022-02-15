@@ -47,7 +47,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
 			'columnDefs': [
 				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] },
-				{ targets: [0, 1, 2], type: "natural" }
+				{ targets: [2], type: "natural" }
 			]
 		`;
 	}
