@@ -76,7 +76,7 @@ function BenchmarkingTool_Render() {
         o.join('')
     );
 
-    if(dt.ScriptCode != null) {
+    if(!!dt.ScriptCode) {
         eval ( dt.ScriptCode );
     }
 
@@ -90,7 +90,7 @@ function BenchmarkingTool_Render() {
             selectorElementValue: dimensionQuestionElementValue,
             parameterName: 'dimensions_questions'
         }
-        BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj);
+        BenchmarkingTool_HandleSelectorChange(selectorObj);
     });
 
     // Change Handler: Demographic Dropdown Selection
@@ -100,7 +100,7 @@ function BenchmarkingTool_Render() {
             selectorElementValue: demographicElementValue,
             parameterName: 'demo'
         }
-        BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj);
+        BenchmarkingTool_HandleSelectorChange(selectorObj);
     });
 
     // Change Handler: Metric Dropdown Selection
@@ -110,7 +110,7 @@ function BenchmarkingTool_Render() {
             selectorElementValue: metricElementValue,
             parameterName: 'metric'
         }
-        BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj);
+        BenchmarkingTool_HandleSelectorChange(selectorObj);
     });
 
     // Change Handler: Demographic Dropdown Selection
@@ -120,12 +120,12 @@ function BenchmarkingTool_Render() {
             selectorElementValue: comparatorsElementValue,
             parameterName: 'display_comparators'
         }
-        BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj);
+        BenchmarkingTool_HandleSelectorChange(selectorObj);
     });
 
 }
 
-function BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj) {
+function BenchmarkingTool_HandleSelectorChange(selectorObj) {
     // Save Selection
     State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
 
@@ -144,9 +144,20 @@ function BenchmarkingTool_HandleSelectorChange(dataTable, selectorObj) {
     } else {
         if(selectorObj.parameterName === 'dimensions_questions') {
             //redraw rows
+            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
             BenchmarkingTool_SortTable(dataTable, selectorObj.selectorElementValue);
-        }
+        } else {
+            var dt = BenchmarkingTool_GetItemsTable();
 
+            $('#items-table-internalBenchmarkingTool_wrapper').html(dt.Html);
+
+            if(!!dt.ScriptCode) {
+                eval ( dt.ScriptCode );
+            }
+
+            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
+            BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
+        }
     }
 }
 
