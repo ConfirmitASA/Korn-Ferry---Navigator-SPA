@@ -65,7 +65,7 @@ function BenchmarkingTool_Render() {
     `);
 
     o.push ( `
-        <h3>Placeholder Scoring for Internal Benchmarking Tool</h3>
+        <h3 id="internal-benchmarking-tool-table-title"></h3>
     `);
 
     var dt = BenchmarkingTool_GetItemsTable();
@@ -79,6 +79,8 @@ function BenchmarkingTool_Render() {
     if(!!dt.ScriptCode) {
         eval ( dt.ScriptCode );
     }
+
+    BenchmarkingTool_UpdateTableTitle();
 
     var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
     BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
@@ -129,6 +131,8 @@ function BenchmarkingTool_HandleSelectorChange(selectorObj) {
     // Save Selection
     State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
 
+    BenchmarkingTool_UpdateTableTitle();
+
     if(selectorObj.parameterName == 'demo') {
         var query = {
             Filters: State_Get('filter'),
@@ -159,6 +163,37 @@ function BenchmarkingTool_HandleSelectorChange(selectorObj) {
             BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
         }
     }
+}
+
+function BenchmarkingTool_UpdateTableTitle() {
+    var rowVar = State_Get('dimensions_questions');
+    var demoVar = State_Get('demo');
+    var metricVar = State_Get('metric');
+    var comparatorsVar = State_Get('display_comparators');
+
+    console.log(rowVar);
+
+    var rowText = '';
+
+    if(rowVar === 'AllDimensions') {
+        rowText = meta.Labels["drop_downs.AllDimensions"].Label;
+    } else {
+        if(rowVar === 'AllQuestions') {
+            rowText = meta.Labels["drop_downs.AllQuestions"].Label;
+        } else {
+            if(rowVar === 'AllQuestionsOrdByDimension') {
+                rowText = meta.Labels["drop_downs.AllQuestionsOrdByDimension"].Label;
+            } else {
+                if(rowVar.indexOf('dimensions') >= 0) {
+                    rowText = meta.Labels["drop_downs.DIMENSION"].Label + ' ' + meta.Labels[rowVar].Label;
+                }
+            }
+        }
+    }
+
+    var newTitle = `${rowText} for ${meta.Labels["drop_downs." + metricVar].Label} (${meta.Labels["drop_downs." + comparatorsVar].Label}) by ${meta.Labels["questions." + demoVar].Label}`;
+
+    $('#internal-benchmarking-tool-table-title').html(newTitle);
 }
 
 //only show items/dimensions based on the selector
@@ -218,7 +253,7 @@ function BenchmarkingTool_GetItemsTable() {
             {Label: 'dimensionN', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
             {Label: 'dimensionFlag', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
             {Label: 'dimensionId', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
-            {Label: "#", ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
+            {Label: "#", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},
             {Label: 'Question', ClassName: 'text-cell', ColSpan: 1, RowSpan: 2},
             {Label: `${data.Report.ReportBase} N=${data.Questions['questions.' + demoVar].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},
             {Label: `${meta.Labels['questions.' + demoVar].Label}`, ClassName: 'numeric-cell', ColSpan: meta.Labels['questions.' + demoVar].Answers.length, RowSpan: 1}
@@ -251,7 +286,8 @@ function BenchmarkingTool_GetItemsTable() {
     var innerDimensionSortingSettings = {
         isApplied: true,
         hiddenColumns: [0, 1, 2],
-        orderFixed: '{ pre: [[ 0, "asc" ], [ 1, "desc" ]] }'
+        orderFixed: '{ pre: [[ 0, "asc" ], [ 1, "desc" ]] }',
+        columnsWidth: '{ targets: [4], width: 200 },'
     }
 
     var dt = Component_DataTable (
@@ -282,12 +318,12 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, 
     }
 
     var row_data = [
-        {Label: dimensionN, ClassName: 'text-cell'},
-        {Label: '1', ClassName: 'text-cell'},
-        {Label: dimensionId, ClassName: 'text-cell'},
-        {Label: '&#9674;', ClassName: 'text-cell'},
-        {Label: meta.Labels[dimensionId].Label, ClassName: 'text-cell'},
-        {Label: totalColumnRowValue, ClassName: 'numeric-cell'}
+        {Label: dimensionN, ClassName: 'numeric-cell dimension-row-cell'},
+        {Label: '1', ClassName: 'text-cell dimension-row-cell'},
+        {Label: dimensionId, ClassName: 'text-cell dimension-row-cell'},
+        {Label: '&#9674;', ClassName: 'numeric-cell dimension-row-cell'},
+        {Label: meta.Labels[dimensionId].Label, ClassName: 'text-cell dimension-row-cell'},
+        {Label: totalColumnRowValue, ClassName: 'numeric-cell dimension-row-cell'}
     ];
 
     for(var i = 0; i < breakByAnswers.length; i++) {
@@ -307,7 +343,7 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, demoVar, 
             breakByRowValue = breakByRowValue - totalColumnRowValue; //significant difference here???
         }
 
-        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell'});
+        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell dimension-row-cell'});
     }
 
     return row_data;
@@ -327,12 +363,12 @@ function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, demoVa
     }
 
     var row_data = [
-        {Label: dimensionN, ClassName: 'text-cell'},
-        {Label: '0', ClassName: 'text-cell'},
-        {Label: dimensionId, ClassName: 'text-cell'},
-        {Label: itemId.split('.')[1], ClassName: 'text-cell'},
-        {Label: meta.Labels[itemId].Label, ClassName: 'text-cell'},
-        {Label: totalColumnRowValue, ClassName: 'numeric-cell'}
+        {Label: dimensionN, ClassName: 'text-cell item-row-cell'},
+        {Label: '0', ClassName: 'text-cell item-row-cell'},
+        {Label: dimensionId, ClassName: 'text-cell item-row-cell'},
+        {Label: itemId.split('.')[1], ClassName: 'numeric-cell item-row-cell'},
+        {Label: meta.Labels[itemId].Label, ClassName: 'text-cell item-row-cell'},
+        {Label: totalColumnRowValue, ClassName: 'numeric-cell item-row-cell'}
     ];
 
     for(var i = 0; i < breakByAnswers.length; i++) {
@@ -352,7 +388,7 @@ function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, demoVa
             breakByRowValue = breakByRowValue - totalColumnRowValue; //significant difference here???
         }
 
-        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell'});
+        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell item-row-cell'});
     }
 
     return row_data;

@@ -16,3 +16,20 @@
 #items-table-internalBenchmarkingTool_filter {
     display: none;
 }
+
+#items-table-internalBenchmarkingTool .dimension-row-cell {
+    font-weight: bold;
+}
+
+#items-table-internalBenchmarkingTool .text-cell {
+    width: 350px;
+}
+
+#items-table-internalBenchmarkingTool .items-table-td {
+    white-space: normal;
+    text-align: center;
+}
+
+#internal-benchmarking-tool-table-title {
+    margin-bottom: 20px;
+}

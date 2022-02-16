@@ -46,7 +46,8 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'order': [],			
 			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
 			'columnDefs': [
-				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] },
+				{ targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}], visible: false },
+				${innerDimensionSortingSettings.columnsWidth}
 				{ targets: [3], type: "natural" }
 			]
 		`;
@@ -62,6 +63,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'paging': false,
 			'info': false,
 			${orderStr},
+			'autoWidth': false,
 			dom: 'Bfrtip',
 			buttons: ${showButtons ? "['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']" : "[]"}
 		});
