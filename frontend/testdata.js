@@ -40,10 +40,53 @@ function TestData_EffectivenessByDemo( demo ) {
 function TestData_getDimensionOptionsFromMeta() {
 	return Object.keys(data.Dimensions);
 }
+function Data_getDimensionLabelsFromMeta() {
+	var dimensionIds = Object.keys(data.Dimensions);
+	var dimensionLabels = [];
+
+	for(var i = 0; i < dimensionIds.length; i++) {
+		var currentDimensionLabel = meta.Labels[dimensionIds[i]].Label;
+
+		if(!!currentDimensionLabel) {
+			dimensionLabels.push(currentDimensionLabel)
+		}
+	}
+
+	return dimensionLabels;
+}
 
 function TestData_getItemOptionsFromMeta() {
 	return Object.keys(data.ItemsNew);
 }
+function Data_getItemLabelsFromMeta() {
+	var itemIds = Object.keys(data.ItemsNew);
+	var itemLabels = [];
+
+	for(var i = 0; i < itemIds.length; i++) {
+		var currentItemLabel = meta.Labels[itemIds[i]].Label;
+
+		if(!!currentItemLabel) {
+			itemLabels.push(currentItemLabel)
+		}
+	}
+
+	return itemLabels;
+}
+function Data_getItemLabelsFromMetaByDimensionId(dimensionId) {
+	var itemIds = data.Dimensions[dimensionId].Items;
+	var itemLabels = [];
+
+	for(var i = 0; i < itemIds.length; i++) {
+		var currentItemLabel = meta.Labels['items.' + itemIds[i]].Label;
+
+		if(!!currentItemLabel) {
+			itemLabels.push(currentItemLabel)
+		}
+	}
+
+	return itemLabels;
+}
+
 function TestData_getBreakByData(breakByVariable) {
 	var breakByData = {};
 	breakByData[breakByVariable] = { Answers: {} };
@@ -51,11 +94,13 @@ function TestData_getBreakByData(breakByVariable) {
 	var breakByOptions = meta.Labels['questions.' + breakByVariable].Answers;
 
 	for(var i = 0; i < breakByOptions.length; i++) {
+		var rnd = Math.floor(Math.random() * 10);
+
 		var tmpBreakByData = {
-			N: 15792,
+			N: 15792 + rnd,
 			Distribution: {
-				Fav: 87,
-				Neu: 10,
+				Fav: 87+rnd,
+				Neu: 10-rnd,
 				Unfav: 2
 			},
 			vsTrend: "0",
@@ -3914,7 +3959,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.15','items.49','items.53','items.56','items.62'],
+			Items: ['15','49','53','56','62'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3928,7 +3973,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.36','items.52','items.57','items.61'],
+			Items: ['36','52','57','61'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3942,7 +3987,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.1','items.10','items.44','items.81','items.82'],
+			Items: ['1','10','44','81','82'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3956,7 +4001,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.2','items.24','items.35','items.64'],
+			Items: ['2','24','35','64'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3970,7 +4015,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.3','items.28','items.59','items.60','items.83','items.84'],
+			Items: ['3','28','59','60','83','84'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3984,7 +4029,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.4','items.41','items.47','items.69','items.70'],
+			Items: ['4','41','47','69','70'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -3998,7 +4043,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.5','items.16','items.48','items.51','items.79','items.80'],
+			Items: ['5','16','48','51','79','80'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4012,7 +4057,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.6','items.12','items.14','items.30','items.77','items.78'],
+			Items: ['6','12','14','30','77','78'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4026,7 +4071,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.7','items.38','items.40','items.73','items.74'],
+			Items: ['7','38','40','73','74'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4040,7 +4085,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.8','items.19','items.31','items.65','items.66','items.67','items.68'],
+			Items: ['8','19','31','65','66','67','68'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4054,7 +4099,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.11','items.22','items.50','items.85'],
+			Items: ['11','22','50','85'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4068,7 +4113,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.13','items.26','items.54','items.55','items.71','items.72'],
+			Items: ['13','26','54','55','71','72'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4082,7 +4127,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.29','items.34','items.58','items.63','items.86','items.87'],
+			Items: ['29','34','58','63','86','87'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4096,7 +4141,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.32','items.42','items.46','items.75','items.76'],
+			Items: ['32','42','46','75','76'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",
@@ -4110,7 +4155,7 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['items.95'],
+			Items: ['95'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
 			vsTrend: "0",

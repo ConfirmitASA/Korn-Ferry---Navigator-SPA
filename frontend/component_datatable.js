@@ -1,4 +1,4 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, innerDimensionSortingSettings) {
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, innerDimensionSortingSettings, isSearchable) {
 	var o = [];
 
 	o.push(`<table id="${table_id}" class="${class_name}">`);
@@ -46,7 +46,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'order': [],			
 			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
 			'columnDefs': [
-				{ visible: false, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] },
+				{ visible: true, targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}] },
 				{ targets: [2], type: "natural" }
 			]
 		`;
@@ -57,7 +57,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 		var tbl = $('#${table_id}');
 
 		tbl.DataTable({
-			'searching': false,
+			'searching': ${isSearchable},
 			'sorting': ${isSortable},
 			'paging': false,
 			'info': false,

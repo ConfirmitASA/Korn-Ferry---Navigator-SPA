@@ -13,3 +13,6 @@
 #internal-benchmarking-tool-details select {
     margin-bottom: 20px;
 }
+#items-table-internalBenchmarkingTool_filter {
+    display: none;
+}
