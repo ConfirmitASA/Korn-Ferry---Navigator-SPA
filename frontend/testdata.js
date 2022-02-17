@@ -89,13 +89,13 @@ function Data_getItemLabelsFromMetaByDimensionId(dimensionId) {
 
 function TestData_getBreakByData(breakByVariable) {
 	var breakByData = {};
-	breakByData[breakByVariable] = { Answers: {} };
+	breakByData.Variable = breakByVariable;
+	breakByData.Options = {};
 
 	var breakByOptions = meta.Labels['questions.' + breakByVariable].Answers;
 
-	for(var i = 0; i < breakByOptions.length; i++) {
+	for (var i in breakByOptions) {
 		var rnd = Math.floor(Math.random() * 10);
-
 		var tmpBreakByData = {
 			N: 15792 + rnd,
 			Distribution: {
@@ -107,23 +107,24 @@ function TestData_getBreakByData(breakByVariable) {
 			vsNorm: "38 *",
 			vsHighPerformers: "33 *",
 		}
-
-		breakByData[breakByVariable].Answers[breakByOptions[i].Code] = tmpBreakByData;
+		breakByData.Options[i] = tmpBreakByData;
 	}
 
 	return breakByData;
 }
 
-function TestData_fillBreakByData(breakByVariable) {
+function TestData_fillBreakByData() {
+	var breakByVariable = State_Get('breakby');
+	if (!breakByVariable) breakByVariable = ParamValues_Demo()[0].Code; // ???????????
+
 	var testBreakByData = TestData_getBreakByData(breakByVariable);
 
-	var itemsLabels = TestData_getItemOptionsFromMeta();
-	for(var i in itemsLabels) {
+	var itemsLabels = Object.keys(data.ItemsNew);
+	for (var i in itemsLabels) {
 		data.ItemsNew[itemsLabels[i]].BreakBy = testBreakByData;
 	}
-
-	var dimensionsLabels = TestData_getDimensionOptionsFromMeta();
-	for(var j in dimensionsLabels) {
+	var dimensionsLabels = Object.keys(data.Dimensions);
+	for (var j in dimensionsLabels) {
 		data.Dimensions[dimensionsLabels[j]].BreakBy = testBreakByData;
 	}
 }
@@ -242,7 +243,14 @@ if ( meta == null ) {
 				Sub: "However, 41 percent consider this a very important factor to job satisfaction, so companies should pay close attention to making sure employees feel they can advance in their careers without leaving the company."
 			}
 		],
-
+		Styles: {
+			DistributionChart: {
+				bgcolors: ['#77bc1f', '#e0e0e0', '#d30f1d'],
+				colors: ['white', 'black', 'white'],
+				height: '20px',
+				style: 'text-align:center; font-size: smaller',
+			},
+		},
 		Labels: {
 			"items.32": {
 				"Label": "I believe I am paid fairly for the work I do."
@@ -2080,6 +2088,11 @@ if ( meta == null ) {
 				"Title": "Top Dimensions",
 				"Label": "In this area you can explore survey dimensions in detail, zoom into questions within a dimension and apply demographic filters."
 			},
+			"items_details": {
+				"Id": "items_details",
+				"Title": "Top Dimensions",
+				"Label": "In this area you can explore survey dimensions in detail, zoom into questions within a dimension and apply demographic filters."
+			},
 			"survey_dimensions.dummy": {
 				"Label": "Dummy Text"
 			},
@@ -2640,60 +2653,50 @@ if ( meta == null ) {
 			"standard.dummy": {
 				"Label": "Dummy Text"
 			},
-			"questions.Gender":
-				{
-					"Label":"Gender",
-					"Answers":
-						[
-							{"Code":"410","Label":"Male"},
-							{"Code":"420","Label":"Female"},
-							{"Code":"430","Label":"Other/non-binary"},
-							{"Code":"440","Label":"Prefer not to say"}
-						]
-				},
-			"questions.Age":
-				{
-					"Label":"Age",
-					"Answers":
-						[
-							{"Code":"651","Label":"Under 20"},
-							{"Code":"652","Label":"20 to 29"},
-							{"Code":"653","Label":"30 to 39"},
-							{"Code":"654","Label":"40 to 49"},
-							{"Code":"655","Label":"50 to 59"},
-							{"Code":"656","Label":"Over 59"}
-						]
-				},
-			"questions.Tenure":
-				{
-					"Label":"Tenure",
-					"Answers":
-						[
-							{"Code":"701","Label":"Less than 1 year"},
-							{"Code":"702","Label":"1 year to less than 2 years"},
-							{"Code":"703","Label":"2 years to less than 5 years"},
-							{"Code":"704","Label":"5 years to less than 10 years"},
-							{"Code":"705","Label":"10 years or more"}
-						]
-				},
-			"questions.UnionNon":
-				{
-					"Label":"Union/Non-Union",
-					"Answers":
-						[
-							{"Code":"631","Label":"Union"},
-							{"Code":"632","Label":"Non-Union"}
-						]
-				},
-			"questions.Wage_Status":
-				{
-					"Label":"Wage_Status",
-					"Answers":
-						[
-							{"Code":"641","Label":"Hourly"},
-							{"Code":"642","Label":"Salaried"}
-						]
+			"questions.Gender": {
+				"Label": "Gender",
+				"Answers": {
+					"410": {"Label": "Male" },
+					"420": {"Label": "Female" },
+					"430": {"Label": "Other/non-binary" },
+					"440": {"Label": "Prefer not to say" }
 				}
+			},
+			"questions.Age": {
+				"Label": "Age",
+				"Answers":{
+					"651": {"Label": "Under 20" },
+					"652": {"Label": "20 to 29" },
+					"653": {"Label": "30 to 39" },
+					"654": {"Label": "40 to 49" },
+					"655": {"Label": "50 to 59" },
+					"656": {"Label": "Over 59" }
+				}
+			},
+			"questions.Tenure": {
+				"Label": "Tenure",
+				"Answers": {
+					"701": {"Label": "Less than 1 year" },
+					"702": {"Label": "1 year to less than 2 years" },
+					"703": {"Label": "2 years to less than 5 years" },
+					"704": {"Label": "5 years to less than 10 years" },
+					"705": {"Label": "10 years or more" }
+				}
+			},
+			"questions.UnionNon": {
+				"Label": "Union/Non-Union",
+				"Answers": {
+					"631": {"Label": "Union" },
+					"632": {"Label": "Non-Union" }
+				}
+			},
+			"questions.Wage_Status": {
+				"Label": "Wage_Status",
+				"Answers": {
+					"641": {"Label": "Hourly" },
+					"642": {"Label": "Salaried" }
+				}
+			}
 		}
 	};
 }
@@ -3946,9 +3949,7 @@ if ( data.EffectivenessProfile == null ) {
 	data.EffectivenessProfile.IsTestData = true;
 }
 
-if(data.Dimensions == null) {
-
-	var breakByFirstOption = ParamValues_Demo()[0].Code
+if (data.Dimensions == null) {
 
 	var dimensions = {
 		'dimensions.DIM_ENG': {
@@ -3959,11 +3960,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['15','49','53','56','62'],
+			Items: [15, 49, 53, 56, 62],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_ENA': {
 			N: 15792,
@@ -3973,11 +3974,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['36','52','57','61'],
+			Items: [36, 52, 57, 61],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N64': {
 			N: 15792,
@@ -3987,11 +3988,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['1','10','44','81','82'],
+			Items: [1, 10, 44, 81, 82],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N50': {
 			N: 15792,
@@ -4001,11 +4002,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['2','24','35','64'],
+			Items: [2, 24, 35, 64],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N65': {
 			N: 15792,
@@ -4015,11 +4016,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['3','28','59','60','83','84'],
+			Items: [3, 28, 59, 60, 83, 84],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N52': {
 			N: 15792,
@@ -4029,11 +4030,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['4','41','47','69','70'],
+			Items: [4, 41, 47, 69, 70],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N63': {
 			N: 15792,
@@ -4043,11 +4044,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['5','16','48','51','79','80'],
+			Items: [5, 16, 48, 51, 79, 80],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N61': {
 			N: 15792,
@@ -4057,11 +4058,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['6','12','14','30','77','78'],
+			Items: [6, 12, 14, 30, 77, 78],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N54': {
 			N: 15792,
@@ -4071,11 +4072,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['7','38','40','73','74'],
+			Items: [7, 38, 40, 73, 74],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N53': {
 			N: 15792,
@@ -4085,11 +4086,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['8','19','31','65','66','67','68'],
+			Items: [8, 19, 31, 65, 66, 67, 68],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N66': {
 			N: 15792,
@@ -4099,11 +4100,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['11','22','50','85'],
+			Items: [11, 22, 50, 85],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N51': {
 			N: 15792,
@@ -4113,11 +4114,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['13','26','54','55','71','72'],
+			Items: [13, 26, 54, 55, 71, 72],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N67': {
 			N: 15792,
@@ -4127,11 +4128,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['29','34','58','63','86','87'],
+			Items: [29, 34, 58, 63, 86, 87],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_N60': {
 			N: 15792,
@@ -4141,11 +4142,11 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['32','42','46','75','76'],
+			Items: [32, 42, 46, 75, 76],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+
+			vsTrend: "0"
 		},
 		'dimensions.DIM_NPS': {
 			N: 15792,
@@ -4155,19 +4156,19 @@ if(data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['95'],
+			Items: [95],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-			vsTrend: "0",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
-		}
+
+			vsTrend: "0"
+		},
+
 	};
 
 	data.Dimensions = dimensions;
-	//data.Dimensions.isTestData = true;
 }
 
-if(data.ItemsNew == null) {
+if (data.ItemsNew == null) {
 
 	var itemsNew = {
 
@@ -4178,10 +4179,10 @@ if(data.ItemsNew == null) {
 				Neu: 10,
 				Unfav: 2
 			},
+
 			vsTrend: "0",
 			vsNorm: "38 *",
-			vsHighPerformers: "33 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "33 *"
 		},
 		'items.10': {
 			N: 15713,
@@ -4190,10 +4191,10 @@ if(data.ItemsNew == null) {
 				Neu: 9,
 				Unfav: 8
 			},
+
 			vsTrend: "-2 *",
 			vsNorm: "35 *",
-			vsHighPerformers: "31 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "31 *"
 		},
 		'items.42': {
 			N: 15794,
@@ -4202,10 +4203,10 @@ if(data.ItemsNew == null) {
 				Neu: 17,
 				Unfav: 9
 			},
+
 			vsTrend: "-1",
 			vsNorm: "31 *",
-			vsHighPerformers: "26 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "26 *"
 		},
 		'items.7': {
 			N: 15795,
@@ -4214,10 +4215,10 @@ if(data.ItemsNew == null) {
 				Neu: 7,
 				Unfav: 6
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "31 *",
-			vsHighPerformers: "24 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "24 *"
 		},
 		'items.11': {
 			N: 15789,
@@ -4226,10 +4227,10 @@ if(data.ItemsNew == null) {
 				Neu: 13,
 				Unfav: 8
 			},
+
 			vsTrend: "0",
 			vsNorm: "29 *",
-			vsHighPerformers: "25 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "25 *"
 		},
 		'items.4': {
 			N: 15776,
@@ -4238,10 +4239,10 @@ if(data.ItemsNew == null) {
 				Neu: 11,
 				Unfav: 9
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "28 *",
-			vsHighPerformers: "20 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "20 *"
 		},
 		'items.22': {
 			N: 15489,
@@ -4250,10 +4251,10 @@ if(data.ItemsNew == null) {
 				Neu: 10,
 				Unfav: 5
 			},
+
 			vsTrend: "0",
 			vsNorm: "25 *",
-			vsHighPerformers: "17 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "17 *"
 		},
 		'items.40': {
 			N: 15601,
@@ -4262,10 +4263,10 @@ if(data.ItemsNew == null) {
 				Neu: 13,
 				Unfav: 2
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "22 *",
-			vsHighPerformers: "15 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "15 *"
 		},
 		'items.31': {
 			N: 15561,
@@ -4274,10 +4275,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 8
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "21 *",
-			vsHighPerformers: "11 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "11 *"
 		},
 		'items.15': {
 			N: 15767,
@@ -4286,10 +4287,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 9
 			},
+
 			vsTrend: "-2 *",
 			vsNorm: "20 *",
-			vsHighPerformers: "12 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "12 *"
 		},
 		'items.24': {
 			N: 15794,
@@ -4298,10 +4299,10 @@ if(data.ItemsNew == null) {
 				Neu: 11,
 				Unfav: 4
 			},
+
 			vsTrend: "1 *",
 			vsNorm: "20 *",
-			vsHighPerformers: "15 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "15 *"
 		},
 		'items.34': {
 			N: 15618,
@@ -4310,10 +4311,10 @@ if(data.ItemsNew == null) {
 				Neu: 10,
 				Unfav: 6
 			},
+
 			vsTrend: "1 *",
 			vsNorm: "19 *",
-			vsHighPerformers: "13 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "13 *"
 		},
 		'items.48': {
 			N: 15799,
@@ -4322,10 +4323,10 @@ if(data.ItemsNew == null) {
 				Neu: 11,
 				Unfav: 4
 			},
+
 			vsTrend: "-",
 			vsNorm: "17 *",
-			vsHighPerformers: "6 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "6 *"
 		},
 		'items.8': {
 			N: 15801,
@@ -4334,10 +4335,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 13
 			},
+
 			vsTrend: "0",
 			vsNorm: "16 *",
-			vsHighPerformers: "4 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "4 *"
 		},
 		'items.6': {
 			N: 15759,
@@ -4346,10 +4347,10 @@ if(data.ItemsNew == null) {
 				Neu: 15,
 				Unfav: 11
 			},
+
 			vsTrend: "-1",
 			vsNorm: "15 *",
-			vsHighPerformers: "7 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "7 *"
 		},
 		'items.19': {
 			N: 15613,
@@ -4358,10 +4359,10 @@ if(data.ItemsNew == null) {
 				Neu: 13,
 				Unfav: 10
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "14 *",
-			vsHighPerformers: "3 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "3 *"
 		},
 		'items.36': {
 			N: 15417,
@@ -4370,10 +4371,10 @@ if(data.ItemsNew == null) {
 				Neu: 18,
 				Unfav: 10
 			},
+
 			vsTrend: "0",
 			vsNorm: "14 *",
-			vsHighPerformers: "7 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "7 *"
 		},
 		'items.49': {
 			N: 15758,
@@ -4382,10 +4383,10 @@ if(data.ItemsNew == null) {
 				Neu: 12,
 				Unfav: 5
 			},
+
 			vsTrend: "-",
 			vsNorm: "14 *",
-			vsHighPerformers: "5 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "5 *"
 		},
 		'items.46': {
 			N: 15805,
@@ -4394,10 +4395,10 @@ if(data.ItemsNew == null) {
 				Neu: 15,
 				Unfav: 8
 			},
+
 			vsTrend: "-3 *",
 			vsNorm: "13 *",
-			vsHighPerformers: "6 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "6 *"
 		},
 		'items.1': {
 			N: 15792,
@@ -4406,10 +4407,10 @@ if(data.ItemsNew == null) {
 				Neu: 11,
 				Unfav: 9
 			},
+
 			vsTrend: "0",
 			vsNorm: "12 *",
-			vsHighPerformers: "6 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "6 *"
 		},
 		'items.44': {
 			N: 15795,
@@ -4418,10 +4419,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 4
 			},
+
 			vsTrend: "0",
 			vsNorm: "11 *",
-			vsHighPerformers: "5 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "5 *"
 		},
 		'items.47': {
 			N: 15804,
@@ -4430,10 +4431,10 @@ if(data.ItemsNew == null) {
 				Neu: 17,
 				Unfav: 18
 			},
+
 			vsTrend: "-4 *",
 			vsNorm: "11 *",
-			vsHighPerformers: "2 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "2 *"
 		},
 		'items.2': {
 			N: 15785,
@@ -4442,10 +4443,10 @@ if(data.ItemsNew == null) {
 				Neu: 9,
 				Unfav: 9
 			},
+
 			vsTrend: "-2 *",
 			vsNorm: "9 *",
-			vsHighPerformers: "4 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "4 *"
 		},
 		'items.3': {
 			N: 15399,
@@ -4454,10 +4455,10 @@ if(data.ItemsNew == null) {
 				Neu: 15,
 				Unfav: 12
 			},
+
 			vsTrend: "0",
 			vsNorm: "9 *",
-			vsHighPerformers: "3 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "3 *"
 		},
 		'items.35': {
 			N: 15608,
@@ -4466,10 +4467,10 @@ if(data.ItemsNew == null) {
 				Neu: 17,
 				Unfav: 4
 			},
+
 			vsTrend: "0",
 			vsNorm: "9 *",
-			vsHighPerformers: "4 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "4 *"
 		},
 		'items.30': {
 			N: 15780,
@@ -4478,10 +4479,10 @@ if(data.ItemsNew == null) {
 				Neu: 22,
 				Unfav: 24
 			},
+
 			vsTrend: "-2 *",
 			vsNorm: "8 *",
-			vsHighPerformers: "-1 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-1 *"
 		},
 		'items.13': {
 			N: 15721,
@@ -4490,10 +4491,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 13
 			},
+
 			vsTrend: "-1",
 			vsNorm: "6 *",
-			vsHighPerformers: "-5 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-5 *"
 		},
 		'items.29': {
 			N: 12893,
@@ -4502,10 +4503,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 16
 			},
+
 			vsTrend: "2 *",
 			vsNorm: "5 *",
-			vsHighPerformers: "-5 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-5 *"
 		},
 		'items.64': {
 			N: 15685,
@@ -4514,10 +4515,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "2 *",
-			vsHighPerformers: "-14 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-14 *"
 		},
 		'items.12': {
 			N: 15786,
@@ -4526,10 +4527,10 @@ if(data.ItemsNew == null) {
 				Neu: 9,
 				Unfav: 6
 			},
+
 			vsTrend: "0",
 			vsNorm: "-2 *",
-			vsHighPerformers: "-6 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-6 *"
 		},
 		'items.38': {
 			N: 15801,
@@ -4538,10 +4539,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 12
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-2 *",
-			vsHighPerformers: "-7 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-7 *"
 		},
 		'items.5': {
 			N: 15784,
@@ -4550,10 +4551,10 @@ if(data.ItemsNew == null) {
 				Neu: 15,
 				Unfav: 11
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-2 *",
-			vsHighPerformers: "-9 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-9 *"
 		},
 		'items.50': {
 			N: 12944,
@@ -4562,10 +4563,10 @@ if(data.ItemsNew == null) {
 				Neu: 24,
 				Unfav: 22
 			},
+
 			vsTrend: "-7 *",
 			vsNorm: "-4 *",
-			vsHighPerformers: "-13 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-13 *"
 		},
 		'items.70': {
 			N: 12989,
@@ -4574,10 +4575,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 41
 			},
+
 			vsTrend: "0",
 			vsNorm: "-5 *",
-			vsHighPerformers: "-17 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-17 *"
 		},
 		'items.63': {
 			N: 12931,
@@ -4586,10 +4587,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-6 *",
-			vsHighPerformers: "-19 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-19 *"
 		},
 		'items.77': {
 			N: 15721,
@@ -4598,10 +4599,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-7 *",
-			vsHighPerformers: "-17 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-17 *"
 		},
 		'items.14': {
 			N: 13036,
@@ -4610,10 +4611,10 @@ if(data.ItemsNew == null) {
 				Neu: 14,
 				Unfav: 8
 			},
+
 			vsTrend: "-1 *",
 			vsNorm: "-9 *",
-			vsHighPerformers: "-13 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-13 *"
 		},
 		'items.73': {
 			N: 12997,
@@ -4622,10 +4623,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "0",
 			vsNorm: "-11 *",
-			vsHighPerformers: "-19 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-19 *"
 		},
 		'items.69': {
 			N: 13015,
@@ -4634,10 +4635,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 39
 			},
+
 			vsTrend: "0",
 			vsNorm: "-12 *",
-			vsHighPerformers: "-24 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-24 *"
 		},
 		'items.58': {
 			N: 12933,
@@ -4646,10 +4647,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-13 *",
-			vsHighPerformers: "-26 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-26 *"
 		},
 		'items.75': {
 			N: 15755,
@@ -4658,10 +4659,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "1",
 			vsNorm: "-13 *",
-			vsHighPerformers: "-23 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-23 *"
 		},
 		'items.28': {
 			N: 12968,
@@ -4670,10 +4671,10 @@ if(data.ItemsNew == null) {
 				Neu: 19,
 				Unfav: 16
 			},
+
 			vsTrend: "-3 *",
 			vsNorm: "-14 *",
-			vsHighPerformers: "-19 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-19 *"
 		},
 		'items.74': {
 			N: 12969,
@@ -4682,10 +4683,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-15 *",
-			vsHighPerformers: "-21 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-21 *"
 		},
 		'items.87': {
 			N: 15712,
@@ -4694,10 +4695,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-15 *",
-			vsHighPerformers: "-26 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-26 *"
 		},
 		'items.16': {
 			N: 15492,
@@ -4706,10 +4707,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 13
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-16 *",
-			vsHighPerformers: "-20 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-20 *"
 		},
 		'items.26': {
 			N: 13002,
@@ -4718,10 +4719,10 @@ if(data.ItemsNew == null) {
 				Neu: 23,
 				Unfav: 23
 			},
+
 			vsTrend: "-3 *",
 			vsNorm: "-18 *",
-			vsHighPerformers: "-29 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-29 *"
 		},
 		'items.71': {
 			N: 14191,
@@ -4730,10 +4731,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "1",
 			vsNorm: "-19 *",
-			vsHighPerformers: "-33 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-33 *"
 		},
 		'items.41': {
 			N: 12922,
@@ -4742,10 +4743,10 @@ if(data.ItemsNew == null) {
 				Neu: 30,
 				Unfav: 10
 			},
+
 			vsTrend: "5 *",
 			vsNorm: "-20 *",
-			vsHighPerformers: "-22 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-22 *"
 		},
 		'items.66': {
 			N: 12845,
@@ -4754,10 +4755,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-21 *",
-			vsHighPerformers: "-30 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-30 *"
 		},
 		'items.76': {
 			N: 13042,
@@ -4766,10 +4767,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 41
 			},
+
 			vsTrend: "1",
 			vsNorm: "-21 *",
-			vsHighPerformers: "-31 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-31 *"
 		},
 		'items.61': {
 			N: 12872,
@@ -4778,10 +4779,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "1",
 			vsNorm: "-22 *",
-			vsHighPerformers: "-30 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-30 *"
 		},
 		'items.86': {
 			N: 12991,
@@ -4790,10 +4791,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "1",
 			vsNorm: "-22 *",
-			vsHighPerformers: "-28 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-28 *"
 		},
 		'items.59': {
 			N: 13000,
@@ -4802,10 +4803,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-23 *",
-			vsHighPerformers: "-29 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-29 *"
 		},
 		'items.78': {
 			N: 13024,
@@ -4814,10 +4815,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-23 *",
-			vsHighPerformers: "-33 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-33 *"
 		},
 		'items.60': {
 			N: 12877,
@@ -4826,10 +4827,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 41
 			},
+
 			vsTrend: "0",
 			vsNorm: "-25 *",
-			vsHighPerformers: "-35 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-35 *"
 		},
 		'items.85': {
 			N: 13014,
@@ -4838,10 +4839,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-26 *",
-			vsHighPerformers: "-33 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-33 *"
 		},
 		'items.53': {
 			N: 12949,
@@ -4850,10 +4851,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-28 *",
-			vsHighPerformers: "-34 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-34 *"
 		},
 		'items.80': {
 			N: 12481,
@@ -4862,10 +4863,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "1",
 			vsNorm: "-31 *",
-			vsHighPerformers: "-40 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-40 *"
 		},
 		'items.62': {
 			N: 12926,
@@ -4874,10 +4875,10 @@ if(data.ItemsNew == null) {
 				Neu: 25,
 				Unfav: 50
 			},
+
 			vsTrend: "0",
 			vsNorm: "-32 *",
-			vsHighPerformers: "-40 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-40 *"
 		},
 		'items.82': {
 			N: 13012,
@@ -4886,10 +4887,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-33 *",
-			vsHighPerformers: "-41 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-41 *"
 		},
 		'items.83': {
 			N: 12901,
@@ -4898,10 +4899,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 41
 			},
+
 			vsTrend: "0",
 			vsNorm: "-33 *",
-			vsHighPerformers: "-39 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-39 *"
 		},
 		'items.52': {
 			N: 13010,
@@ -4910,10 +4911,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-38 *"
 		},
 		'items.57': {
 			N: 13045,
@@ -4922,10 +4923,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-38 *"
 		},
 		'items.55': {
 			N: 12941,
@@ -4934,10 +4935,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-36 *",
-			vsHighPerformers: "-41 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-41 *"
 		},
 		'items.65': {
 			N: 12963,
@@ -4946,10 +4947,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 39
 			},
+
 			vsTrend: "1",
 			vsNorm: "-36 *",
-			vsHighPerformers: "-40 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-40 *"
 		},
 		'items.51': {
 			N: 13004,
@@ -4958,10 +4959,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-37 *",
-			vsHighPerformers: "-46 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-46 *"
 		},
 		'items.56': {
 			N: 13028,
@@ -4970,10 +4971,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "0",
 			vsNorm: "-37 *",
-			vsHighPerformers: "-44 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-44 *"
 		},
 		'items.67': {
 			N: 12939,
@@ -4982,10 +4983,10 @@ if(data.ItemsNew == null) {
 				Neu: 19,
 				Unfav: 40
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-39 *",
-			vsHighPerformers: "-47 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-47 *"
 		},
 		'items.68': {
 			N: 12958,
@@ -4994,10 +4995,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-39 *",
-			vsHighPerformers: "-46 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-46 *"
 		},
 		'items.79': {
 			N: 12971,
@@ -5006,10 +5007,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-40 *",
-			vsHighPerformers: "-48 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-48 *"
 		},
 		'items.54': {
 			N: 12918,
@@ -5018,10 +5019,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 39
 			},
+
 			vsTrend: "1",
 			vsNorm: "-42 *",
-			vsHighPerformers: "-47 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-47 *"
 		},
 		'items.81': {
 			N: 13001,
@@ -5030,10 +5031,10 @@ if(data.ItemsNew == null) {
 				Neu: 21,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-43 *",
-			vsHighPerformers: "-48 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-48 *"
 		},
 		'items.72': {
 			N: 12901,
@@ -5042,10 +5043,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "0",
 			vsNorm: "-45 *",
-			vsHighPerformers: "-49 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-49 *"
 		},
 		'items.84': {
 			N: 13857,
@@ -5054,10 +5055,10 @@ if(data.ItemsNew == null) {
 				Neu: 20,
 				Unfav: 40
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-45 *",
-			vsHighPerformers: "-48 *",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-48 *"
 		},
 		'items.95': {
 			N: 13857,
@@ -5066,17 +5067,18 @@ if(data.ItemsNew == null) {
 				Neu: 26,
 				Unfav: 39
 			},
+
 			vsTrend: "-1",
 			vsNorm: "-",
-			vsHighPerformers: "-",
-			BreakBy: TestData_getBreakByData(breakByFirstOption)
+			vsHighPerformers: "-"
 		},
 
 	};
 
 	data.ItemsNew = itemsNew;
-	//data.ItemsNew.isTestData = true;
 }
+
+TestData_fillBreakByData();
 
 if(data.Questions == null) {
 	var questionsData = {
