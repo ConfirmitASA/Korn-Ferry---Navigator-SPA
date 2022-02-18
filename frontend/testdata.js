@@ -5,7 +5,8 @@ function TestData_ENPS() {
 			Promoters: Math.round ( Math.random() * 1000 ),
 			Detractors: Math.round ( Math.random() * 500 ),
 			Neutrals: Math.round ( Math.random() * 500 )
-		}
+		},
+		DimensionID: 'DIM_NPS'
 	};
 
 	return testdata;
@@ -140,7 +141,7 @@ if ( meta == null ) {
 			{Code: 'Home', Label: 'Home'},
 			{Code: 'Slideshow', Label: 'Slideshow'},
 			{Code: 'Actions', Label: 'Actions', Submenu: [
-					{Code: 'KeyMetrics', Label: 'Key Metrics & Actions'},
+					{Code: 'KeyMetrics', Label: 'Key Metrics'},
 					{Code: 'StrengthsAndOpportunities', Label: 'Strengths & Opportunities'},
 					{Code: 'ActionsHome', Label: 'Home'},
 					{Code: 'ActionsCreatePlan', Label: 'Create Plan'},
