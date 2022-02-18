@@ -136,7 +136,7 @@ if ( meta == null ) {
 	meta =  {
 
 		Menu: [
-			{Code: 'Intro', Label: 'Intro'},
+			//{Code: 'Intro', Label: 'Intro'},
 			{Code: 'Home', Label: 'Home'},
 			{Code: 'Slideshow', Label: 'Slideshow'},
 			{Code: 'Actions', Label: 'Actions', Submenu: [
@@ -172,7 +172,7 @@ if ( meta == null ) {
 						{Code: 'AllItems', Label: 'All Items'},
 						{Code: 'SurveyDimensions', Label: 'Survey Dimensions'},
 						{Code: 'ResponseRates', Label: 'Response Rates'},
-						{Code: 'BenchmarkingTool', Label: 'Benchmarking Tool'},
+						{Code: 'BenchmarkingTool', Label: 'Demographic Heatmap'},
 						{Code: 'DemographicHighlighter', Label: 'Demographic Highlighter'},
 						{Code: 'NonStandardQuestions', Label: 'Non-standard Questions'}
 					]

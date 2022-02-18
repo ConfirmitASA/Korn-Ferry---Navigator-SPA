@@ -2,7 +2,7 @@
 
 function BenchmarkingTool_Page() {
     return {
-        Label: 'Internal Benchmarking Tool',
+        Label: 'Demographic Heatmap',
 
         LeftPane: meta.Labels.demographic_highlighter.Label,
 
@@ -28,7 +28,7 @@ function BenchmarkingTool_Render() {
         meta.Labels['labels.show'].Label,
         'internal-benchmarking-tool-dimensions-questions-dropdown',
         '',
-        ParamValues_InternalBenchmarkingTool_Dimensions_Questions(),
+        ParamValues_InternalBenchmarkingTool_Dimensions_Questions()
     );
 
     var breakby_dropdown = Component_Dropdown (
@@ -39,30 +39,29 @@ function BenchmarkingTool_Render() {
         ParamValues_Demo()
     );
 
-    var metric_dropdown = Component_Dropdown (
+    var metric_switchComponent = Component_TwoOptionSwitch (
         'metric',
         meta.Labels['labels.metric'].Label,
-        'internal-benchmarking-tool-metric-dropdown',
-        '',
-        ParamValues_InternalBenchmarkingTool_Metric(),
+        'internal-benchmarking-tool',
+        ParamValues_InternalBenchmarkingTool_Metric()
     );
 
-    var comparators_dropdown = Component_Dropdown (
+    var comparators_switchComponent = Component_TwoOptionSwitch (
         'display_comparators',
         meta.Labels['plot_your_results.Displaycomparatorsas'].Label,
-        'internal-benchmarking-tool-comparators-dropdown',
-        '',
-        ParamValues_InternalBenchmarkingTool_Comparators(),
+        'internal-benchmarking-tool',
+        ParamValues_InternalBenchmarkingTool_Comparators()
     );
 
     o.push(`
         <div class="selector-group">
             ${dimensionsQuestions_dropdown}
             ${breakby_dropdown}
-            ${metric_dropdown}
-            ${comparators_dropdown}
+            ${metric_switchComponent}
+            ${comparators_switchComponent}
         </div>
     `);
+
 
     o.push ( `
         <h3 id="internal-benchmarking-tool-table-title"></h3>
@@ -105,26 +104,73 @@ function BenchmarkingTool_Render() {
         BenchmarkingTool_HandleSelectorChange(selectorObj);
     });
 
-    // Change Handler: Metric Dropdown Selection
-    $('#internal-benchmarking-tool-metric-dropdown').change( function() {
+    $('#internal-benchmarking-tool-metric-left').click( function () {
         var metricElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: metricElementValue,
-            parameterName: 'metric'
+            parameterName: 'metric',
+            parameterElementId: 'internal-benchmarking-tool-metric-left'
         }
-        BenchmarkingTool_HandleSelectorChange(selectorObj);
+
+        BenchmarkingTool_HandleSwitchClick(selectorObj);
     });
 
-    // Change Handler: Demographic Dropdown Selection
-    $('#internal-benchmarking-tool-comparators-dropdown').change( function() {
+    $('#internal-benchmarking-tool-metric-right').click( function () {
+        var metricElementValue = $(this).val();
+        var selectorObj = {
+            selectorElementValue: metricElementValue,
+            parameterName: 'metric',
+            parameterElementId: 'internal-benchmarking-tool-metric-right'
+        }
+
+        BenchmarkingTool_HandleSwitchClick(selectorObj);
+    });
+
+    $('#internal-benchmarking-tool-display_comparators-left').click( function () {
         var comparatorsElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: comparatorsElementValue,
-            parameterName: 'display_comparators'
+            parameterName: 'display_comparators',
+            parameterElementId: 'internal-benchmarking-tool-display_comparators-left'
         }
-        BenchmarkingTool_HandleSelectorChange(selectorObj);
+        BenchmarkingTool_HandleSwitchClick(selectorObj);
     });
 
+    $('#internal-benchmarking-tool-display_comparators-right').click( function () {
+        var comparatorsElementValue = $(this).val();
+        var selectorObj = {
+            selectorElementValue: comparatorsElementValue,
+            parameterName: 'display_comparators',
+            parameterElementId: 'internal-benchmarking-tool-display_comparators-right'
+        }
+        BenchmarkingTool_HandleSwitchClick(selectorObj);
+    });
+}
+
+function BenchmarkingTool_HandleSwitchClick(selectorObj) {
+    var currentMetricVal = State_Get(selectorObj.parameterName);
+
+    if(currentMetricVal != selectorObj.selectorElementValue) {
+        var labelsForInput = $('#' + selectorObj.parameterElementId).parent().find('label');
+        if (labelsForInput.length > 0) {
+            State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
+
+            for(var i = 0; i < labelsForInput.length; i++) {
+                $(labelsForInput[i]).toggleClass('label-checked');
+            }
+
+            var dt = BenchmarkingTool_GetItemsTable();
+
+            $('#items-table-internalBenchmarkingTool_wrapper').html(dt.Html);
+
+            if(!!dt.ScriptCode) {
+                eval ( dt.ScriptCode );
+            }
+
+            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
+            BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
+        }
+    }
 }
 
 function BenchmarkingTool_HandleSelectorChange(selectorObj) {
@@ -170,8 +216,6 @@ function BenchmarkingTool_UpdateTableTitle() {
     var breakbyVar = State_Get('breakby');
     var metricVar = State_Get('metric');
     var comparatorsVar = State_Get('display_comparators');
-
-    console.log(rowVar);
 
     var rowText = '';
 

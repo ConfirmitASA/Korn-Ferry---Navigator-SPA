@@ -3,11 +3,17 @@
     flex-direction: column;
     width: 50%;
 }
-.selector-row {
+.selector-row,
+.switch-row {
     display: flex;
     flex-direction: row;
 }
-.selector-label {
+.switch-row {
+    align-items: center;
+    margin-bottom: 15px;
+}
+.selector-label,
+.switch-label {
     width: 30%;
 }
 #internal-benchmarking-tool-details select {
@@ -32,4 +38,27 @@
 
 #internal-benchmarking-tool-table-title {
     margin-bottom: 20px;
+}
+
+.switch-component {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    border: 1px solid #77bc1f;
+    max-width: 500px;
+    width: fit-content;
+}
+
+.switch-component input[type='radio'] {
+    display: none;
+}
+
+.switch-component label {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.switch-component .label-checked {
+    background-color: #77bc1f;
+    color: #ffffff;
 }
