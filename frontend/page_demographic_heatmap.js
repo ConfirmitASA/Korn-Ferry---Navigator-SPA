@@ -397,23 +397,37 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakby
     ];
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
-        var breakByRowValue;
+        var breakByRowValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
+        var vsTotalValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
+
+        var sigTestingClass = '';
+        var cellValue = '';
 
         if (metricVar == 'PercentFavorable') {
-            breakByRowValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].Distribution.Fav;
+            if (comparatorsVar == 'DifferencetoTotal') {
+                cellValue = vsTotalValue.Fav;
+            } else {
+                cellValue = breakByRowValue.Fav;
+            }
+
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*')>0) ? (vsTotalValue.Fav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
-                breakByRowValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].Distribution.Unfav;
+                if (comparatorsVar == 'DifferencetoTotal') {
+                    cellValue = vsTotalValue.Unfav;
+                } else {
+                    cellValue = breakByRowValue.Unfav;
+                }
+
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*')>0) ? (vsTotalValue.Unfav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
             } else {
-                breakByRowValue = null;
+                cellValue = null;
             }
         }
 
-        if (comparatorsVar == 'DifferencetoTotal') {
-            breakByRowValue = breakByRowValue - totalColumnRowValue; //significant difference here???
-        }
+        var datasortValue = parseInt(cellValue, 10);
 
-        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell dimension-row-cell'});
+        row_data.push({Label: cellValue, ClassName: 'numeric-cell dimension-row-cell ' + sigTestingClass, datasort: datasortValue});
     }
 
     return row_data;
@@ -447,23 +461,37 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
     ];
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
-        var breakByRowValue;
+        var breakByRowValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
+        var vsTotalValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
+
+        var sigTestingClass = '';
+        var cellValue = '';
 
         if (metricVar == 'PercentFavorable') {
-            breakByRowValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution.Fav;
+            if (comparatorsVar == 'DifferencetoTotal') {
+                cellValue = vsTotalValue.Fav;
+            } else {
+                cellValue = breakByRowValue.Fav;
+            }
+
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*')>0) ? (vsTotalValue.Fav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
-                breakByRowValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution.Unfav;
+                if (comparatorsVar == 'DifferencetoTotal') {
+                    cellValue = vsTotalValue.Unfav;
+                } else {
+                    cellValue = breakByRowValue.Unfav;
+                }
+
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*')>0) ? (vsTotalValue.Unfav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
             } else {
-                breakByRowValue = null;
+                cellValue = null;
             }
         }
 
-        if (comparatorsVar == 'DifferencetoTotal') {
-            breakByRowValue = breakByRowValue - totalColumnRowValue; //significant difference here???
-        }
+        var datasortValue = parseInt(cellValue, 10);
 
-        row_data.push({Label: breakByRowValue, ClassName: 'numeric-cell item-row-cell'});
+        row_data.push({Label: cellValue, ClassName: 'numeric-cell dimension-row-cell ' + sigTestingClass, datasort: datasortValue});
     }
 
     return row_data;

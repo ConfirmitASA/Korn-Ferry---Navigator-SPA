@@ -65,10 +65,13 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 
 function TD(bodyCellObj, classname) {
 	if (classname == null) classname = bodyCellObj.ClassName;
-	return '<td class="' + classname + '">' + (!!bodyCellObj.Label ? bodyCellObj.Label : '-') + '</td>';
+	var datasort = ('datasort' in bodyCellObj) ? ' data-sort="' + bodyCellObj.datasort + '"' : '';
+
+	return '<td class="' + classname + '"' + datasort + '>' + (!!bodyCellObj.Label ? bodyCellObj.Label : '-') + '</td>';
 }
 
 function TH(headerCellObj, classname) {
 	if (classname == null) classname = "items-table-td";
+
 	return '<th class="' + classname + '" colspan="' + headerCellObj.ColSpan + '" rowspan="' + headerCellObj.RowSpan + '">' + headerCellObj.Label + '</th>';
 }

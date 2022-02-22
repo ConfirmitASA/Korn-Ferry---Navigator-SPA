@@ -1137,6 +1137,19 @@ select {
 	font-family: "Gotham A", "Gotham B", sans-serif !important;
 	border: 1px solid #77bc1f;
 }
+.items-table th {
+    white-space: break-spaces;
+}
+
+.cell-green {
+    background-color: #D0FFD0 !important;
+    color: #707814;
+}
+
+.cell-red {
+    background-color: #FFF0F0 !important;
+    color: #D92131;
+}
 
 @media print {
     .menu,

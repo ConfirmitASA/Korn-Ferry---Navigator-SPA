@@ -104,9 +104,11 @@ function TestData_getBreakByData(breakByVariable) {
 				Neu: 10-rnd,
 				Unfav: 2
 			},
-			vsTrend: "0",
-			vsNorm: "38 *",
-			vsHighPerformers: "33 *",
+			vsTotal: {
+				Fav: String(5 - rnd),
+				Neu: String(10 - rnd),
+				Unfav: (0 - rnd) + ' *'
+			}
 		}
 		breakByData.Options[i] = tmpBreakByData;
 	}
@@ -3189,10 +3191,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['15', '49', '53', '56', '62'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['15', '49', '53', '56', '62']
 		},
 		'DIM_ENA': {
 			N: 15792,
@@ -3202,10 +3201,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['36', '52', '57', '61'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['36', '52', '57', '61']
 		},
 		'DIM_N64': {
 			N: 15792,
@@ -3215,10 +3211,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['1', '10', '44', '81', '82'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['1', '10', '44', '81', '82']
 		},
 		'DIM_N50': {
 			N: 15792,
@@ -3228,10 +3221,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['2', '24', '35', '64'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['2', '24', '35', '64']
 		},
 		'DIM_N65': {
 			N: 15792,
@@ -3241,10 +3231,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['3', '28', '59', '60', '83', '84'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['3', '28', '59', '60', '83', '84']
 		},
 		'DIM_N52': {
 			N: 15792,
@@ -3254,10 +3241,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['4', '41', '47', '69', '70'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['4', '41', '47', '69', '70']
 		},
 		'DIM_N63': {
 			N: 15792,
@@ -3267,10 +3251,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['5', '16', '48', '51', '79', '80'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['5', '16', '48', '51', '79', '80']
 		},
 		'DIM_N61': {
 			N: 15792,
@@ -3280,10 +3261,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['6', '12', '14', '30', '77', '78'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['6', '12', '14', '30', '77', '78']
 		},
 		'DIM_N54': {
 			N: 15792,
@@ -3293,10 +3271,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['7', '38', '40', '73', '74'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['7', '38', '40', '73', '74']
 		},
 		'DIM_N53': {
 			N: 15792,
@@ -3306,10 +3281,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['8', '19', '31', '65', '66', '67', '68'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['8', '19', '31', '65', '66', '67', '68']
 		},
 		'DIM_N66': {
 			N: 15792,
@@ -3319,10 +3291,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['11', '22', '50', '85'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['11', '22', '50', '85']
 		},
 		'DIM_N51': {
 			N: 15792,
@@ -3332,10 +3301,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['13', '26', '54', '55', '71', '72'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['13', '26', '54', '55', '71', '72']
 		},
 		'DIM_N67': {
 			N: 15792,
@@ -3345,10 +3311,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['29', '34', '58', '63', '86', '87'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['29', '34', '58', '63', '86', '87']
 		},
 		'DIM_N60': {
 			N: 15792,
@@ -3358,10 +3321,7 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['32', '42', '46', '75', '76'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
+			Items: ['32', '42', '46', '75', '76']
 		},
 		'DIM_NPS': {
 			N: 15792,
@@ -3371,11 +3331,8 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: ['95'],
-			vsHighPerformers: "33 *",
-			vsNorm: "38 *",
-			vsTrend: "0"
-		},
+			Items: ['95']
+		}
 
 	};
 
@@ -3392,10 +3349,7 @@ if (data.ItemsNew == null) {
 				Fav: 87,
 				Neu: 10,
 				Unfav: 2
-			},
-			vsTrend: "0",
-			vsNorm: "38 *",
-			vsHighPerformers: "33 *"
+			}
 		},
 		'10': {
 			N: 15713,
@@ -3403,10 +3357,7 @@ if (data.ItemsNew == null) {
 				Fav: 83,
 				Neu: 9,
 				Unfav: 8
-			},
-			vsTrend: "-2 *",
-			vsNorm: "35 *",
-			vsHighPerformers: "31 *"
+			}
 		},
 		'42': {
 			N: 15794,
@@ -3414,10 +3365,7 @@ if (data.ItemsNew == null) {
 				Fav: 74,
 				Neu: 17,
 				Unfav: 9
-			},
-			vsTrend: "-1",
-			vsNorm: "31 *",
-			vsHighPerformers: "26 *"
+			}
 		},
 		'7': {
 			N: 15795,
@@ -3425,10 +3373,7 @@ if (data.ItemsNew == null) {
 				Fav: 87,
 				Neu: 7,
 				Unfav: 6
-			},
-			vsTrend: "-1 *",
-			vsNorm: "31 *",
-			vsHighPerformers: "24 *"
+			}
 		},
 		'11': {
 			N: 15789,
@@ -3436,10 +3381,7 @@ if (data.ItemsNew == null) {
 				Fav: 79,
 				Neu: 13,
 				Unfav: 8
-			},
-			vsTrend: "0",
-			vsNorm: "29 *",
-			vsHighPerformers: "25 *"
+			}
 		},
 		'4': {
 			N: 15776,
@@ -3447,10 +3389,7 @@ if (data.ItemsNew == null) {
 				Fav: 80,
 				Neu: 11,
 				Unfav: 9
-			},
-			vsTrend: "-1 *",
-			vsNorm: "28 *",
-			vsHighPerformers: "20 *"
+			}
 		},
 		'22': {
 			N: 15489,
@@ -3458,10 +3397,7 @@ if (data.ItemsNew == null) {
 				Fav: 85,
 				Neu: 10,
 				Unfav: 5
-			},
-			vsTrend: "0",
-			vsNorm: "25 *",
-			vsHighPerformers: "17 *"
+			}
 		},
 		'40': {
 			N: 15601,
@@ -3469,10 +3405,7 @@ if (data.ItemsNew == null) {
 				Fav: 85,
 				Neu: 13,
 				Unfav: 2
-			},
-			vsTrend: "-1 *",
-			vsNorm: "22 *",
-			vsHighPerformers: "15 *"
+			}
 		},
 		'31': {
 			N: 15561,
@@ -3480,10 +3413,7 @@ if (data.ItemsNew == null) {
 				Fav: 78,
 				Neu: 14,
 				Unfav: 8
-			},
-			vsTrend: "-1 *",
-			vsNorm: "21 *",
-			vsHighPerformers: "11 *"
+			}
 		},
 		'15': {
 			N: 15767,
@@ -3491,10 +3421,7 @@ if (data.ItemsNew == null) {
 				Fav: 77,
 				Neu: 14,
 				Unfav: 9
-			},
-			vsTrend: "-2 *",
-			vsNorm: "20 *",
-			vsHighPerformers: "12 *"
+			}
 		},
 		'24': {
 			N: 15794,
@@ -3502,10 +3429,7 @@ if (data.ItemsNew == null) {
 				Fav: 86,
 				Neu: 11,
 				Unfav: 4
-			},
-			vsTrend: "1 *",
-			vsNorm: "20 *",
-			vsHighPerformers: "15 *"
+			}
 		},
 		'34': {
 			N: 15618,
@@ -3513,10 +3437,7 @@ if (data.ItemsNew == null) {
 				Fav: 84,
 				Neu: 10,
 				Unfav: 6
-			},
-			vsTrend: "1 *",
-			vsNorm: "19 *",
-			vsHighPerformers: "13 *"
+			}
 		},
 		'48': {
 			N: 15799,
@@ -3524,10 +3445,7 @@ if (data.ItemsNew == null) {
 				Fav: 86,
 				Neu: 11,
 				Unfav: 4
-			},
-			vsTrend: "-",
-			vsNorm: "17 *",
-			vsHighPerformers: "6 *"
+			}
 		},
 		'8': {
 			N: 15801,
@@ -3535,10 +3453,7 @@ if (data.ItemsNew == null) {
 				Fav: 73,
 				Neu: 14,
 				Unfav: 13
-			},
-			vsTrend: "0",
-			vsNorm: "16 *",
-			vsHighPerformers: "4 *"
+			}
 		},
 		'6': {
 			N: 15759,
@@ -3546,10 +3461,7 @@ if (data.ItemsNew == null) {
 				Fav: 74,
 				Neu: 15,
 				Unfav: 11
-			},
-			vsTrend: "-1",
-			vsNorm: "15 *",
-			vsHighPerformers: "7 *"
+			}
 		},
 		'19': {
 			N: 15613,
@@ -3557,10 +3469,7 @@ if (data.ItemsNew == null) {
 				Fav: 77,
 				Neu: 13,
 				Unfav: 10
-			},
-			vsTrend: "-1 *",
-			vsNorm: "14 *",
-			vsHighPerformers: "3 *"
+			}
 		},
 		'36': {
 			N: 15417,
@@ -3568,10 +3477,7 @@ if (data.ItemsNew == null) {
 				Fav: 72,
 				Neu: 18,
 				Unfav: 10
-			},
-			vsTrend: "0",
-			vsNorm: "14 *",
-			vsHighPerformers: "7 *"
+			}
 		},
 		'49': {
 			N: 15758,
@@ -3579,10 +3485,7 @@ if (data.ItemsNew == null) {
 				Fav: 83,
 				Neu: 12,
 				Unfav: 5
-			},
-			vsTrend: "-",
-			vsNorm: "14 *",
-			vsHighPerformers: "5 *"
+			}
 		},
 		'46': {
 			N: 15805,
@@ -3590,10 +3493,7 @@ if (data.ItemsNew == null) {
 				Fav: 77,
 				Neu: 15,
 				Unfav: 8
-			},
-			vsTrend: "-3 *",
-			vsNorm: "13 *",
-			vsHighPerformers: "6 *"
+			}
 		},
 		'1': {
 			N: 15792,
@@ -3601,10 +3501,7 @@ if (data.ItemsNew == null) {
 				Fav: 81,
 				Neu: 11,
 				Unfav: 9
-			},
-			vsTrend: "0",
-			vsNorm: "12 *",
-			vsHighPerformers: "6 *"
+			}
 		},
 		'44': {
 			N: 15795,
@@ -3612,10 +3509,7 @@ if (data.ItemsNew == null) {
 				Fav: 83,
 				Neu: 14,
 				Unfav: 4
-			},
-			vsTrend: "0",
-			vsNorm: "11 *",
-			vsHighPerformers: "5 *"
+			}
 		},
 		'47': {
 			N: 15804,
@@ -3623,10 +3517,7 @@ if (data.ItemsNew == null) {
 				Fav: 65,
 				Neu: 17,
 				Unfav: 18
-			},
-			vsTrend: "-4 *",
-			vsNorm: "11 *",
-			vsHighPerformers: "2 *"
+			}
 		},
 		'2': {
 			N: 15785,
@@ -3634,10 +3525,7 @@ if (data.ItemsNew == null) {
 				Fav: 82,
 				Neu: 9,
 				Unfav: 9
-			},
-			vsTrend: "-2 *",
-			vsNorm: "9 *",
-			vsHighPerformers: "4 *"
+			}
 		},
 		'3': {
 			N: 15399,
@@ -3645,10 +3533,7 @@ if (data.ItemsNew == null) {
 				Fav: 72,
 				Neu: 15,
 				Unfav: 12
-			},
-			vsTrend: "0",
-			vsNorm: "9 *",
-			vsHighPerformers: "3 *"
+			}
 		},
 		'35': {
 			N: 15608,
@@ -3656,10 +3541,7 @@ if (data.ItemsNew == null) {
 				Fav: 79,
 				Neu: 17,
 				Unfav: 4
-			},
-			vsTrend: "0",
-			vsNorm: "9 *",
-			vsHighPerformers: "4 *"
+			}
 		},
 		'30': {
 			N: 15780,
@@ -3667,10 +3549,7 @@ if (data.ItemsNew == null) {
 				Fav: 53,
 				Neu: 22,
 				Unfav: 24
-			},
-			vsTrend: "-2 *",
-			vsNorm: "8 *",
-			vsHighPerformers: "-1 *"
+			}
 		},
 		'13': {
 			N: 15721,
@@ -3678,10 +3557,7 @@ if (data.ItemsNew == null) {
 				Fav: 73,
 				Neu: 14,
 				Unfav: 13
-			},
-			vsTrend: "-1",
-			vsNorm: "6 *",
-			vsHighPerformers: "-5 *"
+			}
 		},
 		'29': {
 			N: 12893,
@@ -3689,10 +3565,7 @@ if (data.ItemsNew == null) {
 				Fav: 63,
 				Neu: 21,
 				Unfav: 16
-			},
-			vsTrend: "2 *",
-			vsNorm: "5 *",
-			vsHighPerformers: "-5 *"
+			}
 		},
 		'64': {
 			N: 15685,
@@ -3700,10 +3573,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "2 *",
-			vsHighPerformers: "-14 *"
+			}
 		},
 		'12': {
 			N: 15786,
@@ -3711,10 +3581,7 @@ if (data.ItemsNew == null) {
 				Fav: 85,
 				Neu: 9,
 				Unfav: 6
-			},
-			vsTrend: "0",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-6 *"
+			}
 		},
 		'38': {
 			N: 15801,
@@ -3722,10 +3589,7 @@ if (data.ItemsNew == null) {
 				Fav: 68,
 				Neu: 20,
 				Unfav: 12
-			},
-			vsTrend: "-1",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-7 *"
+			}
 		},
 		'5': {
 			N: 15784,
@@ -3733,10 +3597,7 @@ if (data.ItemsNew == null) {
 				Fav: 74,
 				Neu: 15,
 				Unfav: 11
-			},
-			vsTrend: "-1",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-9 *"
+			}
 		},
 		'50': {
 			N: 12944,
@@ -3744,10 +3605,7 @@ if (data.ItemsNew == null) {
 				Fav: 54,
 				Neu: 24,
 				Unfav: 22
-			},
-			vsTrend: "-7 *",
-			vsNorm: "-4 *",
-			vsHighPerformers: "-13 *"
+			}
 		},
 		'70': {
 			N: 12989,
@@ -3755,10 +3613,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 41
-			},
-			vsTrend: "0",
-			vsNorm: "-5 *",
-			vsHighPerformers: "-17 *"
+			}
 		},
 		'63': {
 			N: 12931,
@@ -3766,10 +3621,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-6 *",
-			vsHighPerformers: "-19 *"
+			}
 		},
 		'77': {
 			N: 15721,
@@ -3777,10 +3629,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-7 *",
-			vsHighPerformers: "-17 *"
+			}
 		},
 		'14': {
 			N: 13036,
@@ -3788,10 +3637,7 @@ if (data.ItemsNew == null) {
 				Fav: 78,
 				Neu: 14,
 				Unfav: 8
-			},
-			vsTrend: "-1 *",
-			vsNorm: "-9 *",
-			vsHighPerformers: "-13 *"
+			}
 		},
 		'73': {
 			N: 12997,
@@ -3799,10 +3645,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "0",
-			vsNorm: "-11 *",
-			vsHighPerformers: "-19 *"
+			}
 		},
 		'69': {
 			N: 13015,
@@ -3810,10 +3653,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 39
-			},
-			vsTrend: "0",
-			vsNorm: "-12 *",
-			vsHighPerformers: "-24 *"
+			}
 		},
 		'58': {
 			N: 12933,
@@ -3821,10 +3661,7 @@ if (data.ItemsNew == null) {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-13 *",
-			vsHighPerformers: "-26 *"
+			}
 		},
 		'75': {
 			N: 15755,
@@ -3832,10 +3669,7 @@ if (data.ItemsNew == null) {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "1",
-			vsNorm: "-13 *",
-			vsHighPerformers: "-23 *"
+			}
 		},
 		'28': {
 			N: 12968,
@@ -3843,10 +3677,7 @@ if (data.ItemsNew == null) {
 				Fav: 65,
 				Neu: 19,
 				Unfav: 16
-			},
-			vsTrend: "-3 *",
-			vsNorm: "-14 *",
-			vsHighPerformers: "-19 *"
+			}
 		},
 		'74': {
 			N: 12969,
@@ -3854,10 +3685,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-15 *",
-			vsHighPerformers: "-21 *"
+			}
 		},
 		'87': {
 			N: 15712,
@@ -3865,10 +3693,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-15 *",
-			vsHighPerformers: "-26 *"
+			}
 		},
 		'16': {
 			N: 15492,
@@ -3876,10 +3701,7 @@ if (data.ItemsNew == null) {
 				Fav: 66,
 				Neu: 21,
 				Unfav: 13
-			},
-			vsTrend: "-1",
-			vsNorm: "-16 *",
-			vsHighPerformers: "-20 *"
+			}
 		},
 		'26': {
 			N: 13002,
@@ -3887,10 +3709,7 @@ if (data.ItemsNew == null) {
 				Fav: 54,
 				Neu: 23,
 				Unfav: 23
-			},
-			vsTrend: "-3 *",
-			vsNorm: "-18 *",
-			vsHighPerformers: "-29 *"
+			}
 		},
 		'71': {
 			N: 14191,
@@ -3898,10 +3717,7 @@ if (data.ItemsNew == null) {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "1",
-			vsNorm: "-19 *",
-			vsHighPerformers: "-33 *"
+			}
 		},
 		'41': {
 			N: 12922,
@@ -3909,10 +3725,7 @@ if (data.ItemsNew == null) {
 				Fav: 60,
 				Neu: 30,
 				Unfav: 10
-			},
-			vsTrend: "5 *",
-			vsNorm: "-20 *",
-			vsHighPerformers: "-22 *"
+			}
 		},
 		'66': {
 			N: 12845,
@@ -3920,10 +3733,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-21 *",
-			vsHighPerformers: "-30 *"
+			}
 		},
 		'76': {
 			N: 13042,
@@ -3931,10 +3741,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 41
-			},
-			vsTrend: "1",
-			vsNorm: "-21 *",
-			vsHighPerformers: "-31 *"
+			}
 		},
 		'61': {
 			N: 12872,
@@ -3942,10 +3749,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "1",
-			vsNorm: "-22 *",
-			vsHighPerformers: "-30 *"
+			}
 		},
 		'86': {
 			N: 12991,
@@ -3953,10 +3757,7 @@ if (data.ItemsNew == null) {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "1",
-			vsNorm: "-22 *",
-			vsHighPerformers: "-28 *"
+			}
 		},
 		'59': {
 			N: 13000,
@@ -3964,10 +3765,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-23 *",
-			vsHighPerformers: "-29 *"
+			}
 		},
 		'78': {
 			N: 13024,
@@ -3975,10 +3773,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-23 *",
-			vsHighPerformers: "-33 *"
+			}
 		},
 		'60': {
 			N: 12877,
@@ -3986,10 +3781,7 @@ if (data.ItemsNew == null) {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 41
-			},
-			vsTrend: "0",
-			vsNorm: "-25 *",
-			vsHighPerformers: "-35 *"
+			}
 		},
 		'85': {
 			N: 13014,
@@ -3997,10 +3789,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-26 *",
-			vsHighPerformers: "-33 *"
+			}
 		},
 		'53': {
 			N: 12949,
@@ -4008,10 +3797,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "-1",
-			vsNorm: "-28 *",
-			vsHighPerformers: "-34 *"
+			}
 		},
 		'80': {
 			N: 12481,
@@ -4019,10 +3805,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "1",
-			vsNorm: "-31 *",
-			vsHighPerformers: "-40 *"
+			}
 		},
 		'62': {
 			N: 12926,
@@ -4030,10 +3813,7 @@ if (data.ItemsNew == null) {
 				Fav: 25,
 				Neu: 25,
 				Unfav: 50
-			},
-			vsTrend: "0",
-			vsNorm: "-32 *",
-			vsHighPerformers: "-40 *"
+			}
 		},
 		'82': {
 			N: 13012,
@@ -4041,10 +3821,7 @@ if (data.ItemsNew == null) {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "-1",
-			vsNorm: "-33 *",
-			vsHighPerformers: "-41 *"
+			}
 		},
 		'83': {
 			N: 12901,
@@ -4052,10 +3829,7 @@ if (data.ItemsNew == null) {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 41
-			},
-			vsTrend: "0",
-			vsNorm: "-33 *",
-			vsHighPerformers: "-39 *"
+			}
 		},
 		'52': {
 			N: 13010,
@@ -4063,10 +3837,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "-1",
-			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *"
+			}
 		},
 		'57': {
 			N: 13045,
@@ -4074,10 +3845,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *"
+			}
 		},
 		'55': {
 			N: 12941,
@@ -4085,10 +3853,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-36 *",
-			vsHighPerformers: "-41 *"
+			}
 		},
 		'65': {
 			N: 12963,
@@ -4096,10 +3861,7 @@ if (data.ItemsNew == null) {
 				Fav: 41,
 				Neu: 21,
 				Unfav: 39
-			},
-			vsTrend: "1",
-			vsNorm: "-36 *",
-			vsHighPerformers: "-40 *"
+			}
 		},
 		'51': {
 			N: 13004,
@@ -4107,10 +3869,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-37 *",
-			vsHighPerformers: "-46 *"
+			}
 		},
 		'56': {
 			N: 13028,
@@ -4118,10 +3877,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "0",
-			vsNorm: "-37 *",
-			vsHighPerformers: "-44 *"
+			}
 		},
 		'67': {
 			N: 12939,
@@ -4129,10 +3885,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 19,
 				Unfav: 40
-			},
-			vsTrend: "-1",
-			vsNorm: "-39 *",
-			vsHighPerformers: "-47 *"
+			}
 		},
 		'68': {
 			N: 12958,
@@ -4140,10 +3893,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-39 *",
-			vsHighPerformers: "-46 *"
+			}
 		},
 		'79': {
 			N: 12971,
@@ -4151,10 +3901,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-40 *",
-			vsHighPerformers: "-48 *"
+			}
 		},
 		'54': {
 			N: 12918,
@@ -4162,10 +3909,7 @@ if (data.ItemsNew == null) {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
-			},
-			vsTrend: "1",
-			vsNorm: "-42 *",
-			vsHighPerformers: "-47 *"
+			}
 		},
 		'81': {
 			N: 13001,
@@ -4173,10 +3917,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-43 *",
-			vsHighPerformers: "-48 *"
+			}
 		},
 		'72': {
 			N: 12901,
@@ -4184,10 +3925,7 @@ if (data.ItemsNew == null) {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "0",
-			vsNorm: "-45 *",
-			vsHighPerformers: "-49 *"
+			}
 		},
 		'84': {
 			N: 13857,
@@ -4195,10 +3933,7 @@ if (data.ItemsNew == null) {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
-			},
-			vsTrend: "-1",
-			vsNorm: "-45 *",
-			vsHighPerformers: "-48 *"
+			}
 		},
 		'95': {
 			N: 13857,
@@ -4206,12 +3941,8 @@ if (data.ItemsNew == null) {
 				Fav: 35,
 				Neu: 26,
 				Unfav: 39
-			},
-			vsTrend: "-1",
-			vsNorm: "-",
-			vsHighPerformers: "-"
-		},
-
+			}
+		}
 	};
 
 	data.ItemsNew = itemsNew;
@@ -4320,5 +4051,4 @@ if(data.Questions == null) {
 	}
 
 	data.Questions = questionsData;
-	//data.Questions.IsTestData = true;
 }
