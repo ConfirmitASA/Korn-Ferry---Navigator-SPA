@@ -51,7 +51,7 @@ function ParamValues_Items() {
 	return param_values;
 }
 
-function ParamValues_InternalBenchmarkingTool_Metric() {
+function ParamValues_DemographicHeatmap_Metric() {
 	var param_values = [];
 
 	param_values.push ( {Code: 'PercentFavorable', Label: meta.Labels.drop_downs["PercentFavorable"].Label} );
@@ -60,7 +60,7 @@ function ParamValues_InternalBenchmarkingTool_Metric() {
 	return param_values;
 }
 
-function ParamValues_InternalBenchmarkingTool_Comparators() {
+function ParamValues_DemographicHeatmap_Comparators() {
 	var param_values = [];
 
 	param_values.push ( {Code: 'AbsoluteValue', Label: meta.Labels.drop_downs["AbsoluteValue"].Label} );

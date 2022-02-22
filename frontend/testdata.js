@@ -215,7 +215,7 @@ if ( meta == null ) {
 						{Code: 'AllItems', Label: 'All Items'},
 						{Code: 'ItemDetails', Label: 'Item Details' },
 						{Code: 'ResponseRates', Label: 'Response Rates'},
-						{Code: 'BenchmarkingTool', Label: 'Demographic Heatmap'},
+						{Code: 'DemographicHeatmap', Label: 'Demographic Heatmap'},
 						{Code: 'DemographicHighlighter', Label: 'Demographic Highlighter'},
 						{Code: 'NonStandardQuestions', Label: 'Non-standard Questions'}
 					]
@@ -615,7 +615,9 @@ if ( meta == null ) {
 				"ExploreSurveyDimensions": { "Label": "Survey Dimensions" },
 				"DimDetails": { "Label": "Dimension Details" },
 				"GeneratingPssTable": { "Label": "Generating PSS Table..." },
-				"InternalBenchmarkTool": { "Label": "Internal Benchmark Tool" },
+				"DemographicHeatmap": {
+					"Label": "Heatmap",
+					"Title": "<p>Use the Heatmap to identify differences across demographic and organisational groups, and quickly understand which groups show best practice or require most focus.</p><p>First, select whether you want to review all dimensions, all questions or all questions within dimensions. Select a demographic or organisational group to compare against your base population.</p><p>Results will show percent favourable scores for the base group and you can toggle to show favourable scores or percentage-point differences in favourability for the comparison groups. Statistically significant differences are highlighted to help you understand whether differences are meaningful.</p>"},
 				"LocalQuestions": { "Label": "Local Questions" },
 				"Nps": { "Label": "ENPS" },
 				"NpsDetails": { "Label": "ENPS Details" },

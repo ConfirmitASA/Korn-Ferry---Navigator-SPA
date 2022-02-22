@@ -1,24 +1,24 @@
 // Demographic Highlighter
 
-function BenchmarkingTool_Page() {
+function DemographicHeatmap_Page() {
     return {
-        Label: 'Demographic Heatmap',
+        Label: meta.Labels.pages.DemographicHeatmap.Label,
 
-        LeftPane: meta.Labels.demographic_highlighter.Label,
+        LeftPane: meta.Labels.pages.DemographicHeatmap.Title,
 
         RightPane: `
-        <div id="internal-benchmarking-tool-details">
+        <div id="Demographic-Heatmap-details">
             ${Utils_LoremIpsum()}
         </div>
         `,
 
-        ClassName: 'internal-benchmarking-tool-container',
+        ClassName: 'Demographic-Heatmap-container',
         Style: null,
         ShowFilterSummary: true
     };
 }
 
-function BenchmarkingTool_Render() {
+function DemographicHeatmap_Render() {
     var o = [];
 
     o.push(Component_TestDataIndicator(data.isTestData));
@@ -26,7 +26,7 @@ function BenchmarkingTool_Render() {
     var dimensionsQuestions_dropdown = Component_Dropdown(
         'dimensions_questions',
         meta.Labels.labels.show.Label,
-        'internal-benchmarking-tool-dimensions-questions-dropdown',
+        'Demographic-Heatmap-dimensions-questions-dropdown',
         '',
         ParamValues_ItemGroups()
     );
@@ -34,7 +34,7 @@ function BenchmarkingTool_Render() {
     var breakby_dropdown = Component_Dropdown(
         'breakby',
         meta.Labels.labels.BreakBy.Label,
-        'internal-benchmarking-tool-breakby-dropdown',
+        'Demographic-Heatmap-breakby-dropdown',
         '',
         ParamValues_BreakBy()
     );
@@ -42,15 +42,15 @@ function BenchmarkingTool_Render() {
     var metric_switchComponent = Component_TwoOptionSwitch(
         'metric',
         meta.Labels.labels.metric.Label,
-        'internal-benchmarking-tool',
-        ParamValues_InternalBenchmarkingTool_Metric()
+        'Demographic-Heatmap',
+        ParamValues_DemographicHeatmap_Metric()
     );
 
     var comparators_switchComponent = Component_TwoOptionSwitch(
         'display_comparators',
         meta.Labels['plot_your_results.Displaycomparatorsas'].Label,
-        'internal-benchmarking-tool',
-        ParamValues_InternalBenchmarkingTool_Comparators()
+        'Demographic-Heatmap',
+        ParamValues_DemographicHeatmap_Comparators()
     );
 
     o.push(`
@@ -64,14 +64,14 @@ function BenchmarkingTool_Render() {
 
 
     o.push(`
-        <h3 id="internal-benchmarking-tool-table-title"></h3>
+        <h3 id="Demographic-Heatmap-table-title"></h3>
     `);
 
-    var dt = BenchmarkingTool_GetItemsTable();
+    var dt = DemographicHeatmap_GetItemsTable();
 
     o.push(dt.Html);
 
-    $('#internal-benchmarking-tool-details').html(
+    $('#Demographic-Heatmap-details').html(
         o.join('')
     );
 
@@ -79,75 +79,75 @@ function BenchmarkingTool_Render() {
         eval(dt.ScriptCode);
     }
 
-    BenchmarkingTool_UpdateTableTitle();
+    DemographicHeatmap_UpdateTableTitle();
 
-    var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
-    BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
+    var dataTable = $('#items-table-Demographic-Heatmap').DataTable();
+    DemographicHeatmap_SortTable(dataTable, State_Get('dimensions_questions'));
 
     // Change Handler: Dimension/Question Dropdown Selection
-    $('#internal-benchmarking-tool-dimensions-questions-dropdown').change(function () {
+    $('#Demographic-Heatmap-dimensions-questions-dropdown').change(function () {
         var dimensionQuestionElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: dimensionQuestionElementValue,
             parameterName: 'dimensions_questions'
         }
-        BenchmarkingTool_HandleSelectorChange(selectorObj);
+        DemographicHeatmap_HandleSelectorChange(selectorObj);
     });
 
     // Change Handler: Demographic Dropdown Selection
-    $('#internal-benchmarking-tool-breakby-dropdown').change(function () {
+    $('#Demographic-Heatmap-breakby-dropdown').change(function () {
         var breakbyElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: breakbyElementValue,
             parameterName: 'breakby'
         }
-        BenchmarkingTool_HandleSelectorChange(selectorObj);
+        DemographicHeatmap_HandleSelectorChange(selectorObj);
     });
 
-    $('#internal-benchmarking-tool-metric-left').click(function () {
+    $('#Demographic-Heatmap-metric-left').click(function () {
         var metricElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: metricElementValue,
             parameterName: 'metric',
-            parameterElementId: 'internal-benchmarking-tool-metric-left'
+            parameterElementId: 'Demographic-Heatmap-metric-left'
         }
 
-        BenchmarkingTool_HandleSwitchClick(selectorObj);
+        DemographicHeatmap_HandleSwitchClick(selectorObj);
     });
 
-    $('#internal-benchmarking-tool-metric-right').click(function () {
+    $('#Demographic-Heatmap-metric-right').click(function () {
         var metricElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: metricElementValue,
             parameterName: 'metric',
-            parameterElementId: 'internal-benchmarking-tool-metric-right'
+            parameterElementId: 'Demographic-Heatmap-metric-right'
         }
 
-        BenchmarkingTool_HandleSwitchClick(selectorObj);
+        DemographicHeatmap_HandleSwitchClick(selectorObj);
     });
 
-    $('#internal-benchmarking-tool-display_comparators-left').click(function () {
+    $('#Demographic-Heatmap-display_comparators-left').click(function () {
         var comparatorsElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: comparatorsElementValue,
             parameterName: 'display_comparators',
-            parameterElementId: 'internal-benchmarking-tool-display_comparators-left'
+            parameterElementId: 'Demographic-Heatmap-display_comparators-left'
         }
-        BenchmarkingTool_HandleSwitchClick(selectorObj);
+        DemographicHeatmap_HandleSwitchClick(selectorObj);
     });
 
-    $('#internal-benchmarking-tool-display_comparators-right').click(function () {
+    $('#Demographic-Heatmap-display_comparators-right').click(function () {
         var comparatorsElementValue = $(this).val();
         var selectorObj = {
             selectorElementValue: comparatorsElementValue,
             parameterName: 'display_comparators',
-            parameterElementId: 'internal-benchmarking-tool-display_comparators-right'
+            parameterElementId: 'Demographic-Heatmap-display_comparators-right'
         }
-        BenchmarkingTool_HandleSwitchClick(selectorObj);
+        DemographicHeatmap_HandleSwitchClick(selectorObj);
     });
 }
 
-function BenchmarkingTool_HandleSwitchClick(selectorObj) {
+function DemographicHeatmap_HandleSwitchClick(selectorObj) {
     var currentMetricVal = State_Get(selectorObj.parameterName);
 
     if (currentMetricVal != selectorObj.selectorElementValue) {
@@ -159,29 +159,29 @@ function BenchmarkingTool_HandleSwitchClick(selectorObj) {
                 $(labelsForInput[i]).toggleClass('label-checked');
             }
 
-            var dt = BenchmarkingTool_GetItemsTable();
+            var dt = DemographicHeatmap_GetItemsTable();
 
-            $('#items-table-internalBenchmarkingTool_wrapper').html(dt.Html);
+            $('#items-table-Demographic-Heatmap_wrapper').html(dt.Html);
 
             if (!!dt.ScriptCode) {
                 eval(dt.ScriptCode);
             }
 
-            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
-            BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
+            var dataTable = $('#items-table-Demographic-Heatmap').DataTable();
+            DemographicHeatmap_SortTable(dataTable, State_Get('dimensions_questions'));
         }
     }
 }
 
-function BenchmarkingTool_HandleSelectorChange(selectorObj) {
+function DemographicHeatmap_HandleSelectorChange(selectorObj) {
     // Save Selection
     State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
 
-    BenchmarkingTool_UpdateTableTitle();
+    DemographicHeatmap_UpdateTableTitle();
 
     if (selectorObj.parameterName == 'breakby') {
         var query = {
-            InternalBenchmarkingTool: {
+            DemographicHeatmap: {
                 DimensionsQuestions: State_Get('dimensions_questions'),
                 Demo: State_Get('breakby'),
                 Metric: State_Get('metric'),
@@ -194,24 +194,24 @@ function BenchmarkingTool_HandleSelectorChange(selectorObj) {
     } else {
         if (selectorObj.parameterName === 'dimensions_questions') {
             //redraw rows
-            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
-            BenchmarkingTool_SortTable(dataTable, selectorObj.selectorElementValue);
+            var dataTable = $('#items-table-Demographic-Heatmap').DataTable();
+            DemographicHeatmap_SortTable(dataTable, selectorObj.selectorElementValue);
         } else {
-            var dt = BenchmarkingTool_GetItemsTable();
+            var dt = DemographicHeatmap_GetItemsTable();
 
-            $('#items-table-internalBenchmarkingTool_wrapper').html(dt.Html);
+            $('#items-table-Demographic-Heatmap_wrapper').html(dt.Html);
 
             if (!!dt.ScriptCode) {
                 eval(dt.ScriptCode);
             }
 
-            var dataTable = $('#items-table-internalBenchmarkingTool').DataTable();
-            BenchmarkingTool_SortTable(dataTable, State_Get('dimensions_questions'));
+            var dataTable = $('#items-table-Demographic-Heatmap').DataTable();
+            DemographicHeatmap_SortTable(dataTable, State_Get('dimensions_questions'));
         }
     }
 }
 
-function BenchmarkingTool_UpdateTableTitle() {
+function DemographicHeatmap_UpdateTableTitle() {
     var rowVar = State_Get('dimensions_questions');
     var breakbyVar = State_Get('breakby');
     var metricVar = State_Get('metric');
@@ -237,34 +237,34 @@ function BenchmarkingTool_UpdateTableTitle() {
 
     var newTitle = `${rowText} for ${meta.Labels.drop_downs[metricVar].Label} (${meta.Labels.drop_downs[comparatorsVar].Label}) by ${meta.Labels.BreakBy[breakbyVar].Label}`;
 
-    $('#internal-benchmarking-tool-table-title').html(newTitle);
+    $('#Demographic-Heatmap-table-title').html(newTitle);
 }
 
 //only show items/dimensions based on the selector
 //predefined order is also dynamic so all items and all dimensions could be sorted independently
 //for all questions ordered by dimension keep dimension->item sorting
-function BenchmarkingTool_SortTable(dataTable, showOption) {
+function DemographicHeatmap_SortTable(dataTable, showOption) {
     if (showOption === 'AllDimensions') {
-        BenchmarkingTool_ResetTable(dataTable);
+        DemographicHeatmap_ResetTable(dataTable);
         dataTable.order.fixed({pre: [1, "asc"]});
         dataTable.columns(1).search('1').draw();
 
     } else {
         if (showOption === 'AllQuestions') {
-            BenchmarkingTool_ResetTable(dataTable);
+            DemographicHeatmap_ResetTable(dataTable);
             dataTable.order.fixed({pre: [1, 'asc']});
             dataTable.order([4, 'asc']);
             dataTable.columns(3).search('1');
             dataTable.columns(1).search('0').draw();
         } else {
             if (showOption === 'AllQuestionsOrdByDimension') {
-                BenchmarkingTool_ResetTable(dataTable);
+                DemographicHeatmap_ResetTable(dataTable);
             } else {
                 if (showOption.indexOf('dimensions') >= 0) {
-                    BenchmarkingTool_ResetTable(dataTable);
+                    DemographicHeatmap_ResetTable(dataTable);
                     dataTable.columns(2).search(showOption.split('.')[1]).draw();
                 } else {
-                    BenchmarkingTool_ResetTable(dataTable);
+                    DemographicHeatmap_ResetTable(dataTable);
                 }
             }
         }
@@ -272,7 +272,7 @@ function BenchmarkingTool_SortTable(dataTable, showOption) {
 }
 
 //remove any searches or sortings from the table
-function BenchmarkingTool_ResetTable(dataTable) {
+function DemographicHeatmap_ResetTable(dataTable) {
     dataTable.search('');
     dataTable.columns(1).search('');
     dataTable.columns(2).search('');
@@ -282,7 +282,7 @@ function BenchmarkingTool_ResetTable(dataTable) {
     dataTable.draw();
 }
 
-function BenchmarkingTool_GetItemsTable() {
+function DemographicHeatmap_GetItemsTable() {
     var o = [];
 
     var rowVar = State_Get('dimensions_questions');
@@ -305,13 +305,8 @@ function BenchmarkingTool_GetItemsTable() {
             {Label: 'isExclusive', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
             {Label: "#", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 3},
             {Label: 'Question', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: `${data.Report.ReportBase}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
-            {
-                Label: `${meta.Labels.BreakBy[breakbyVar].Label}`,
-                ClassName: 'numeric-cell',
-                ColSpan: breakByAnswerIds.length,
-                RowSpan: 1
-            }
+            {Label: `${meta.Labels.BreakBy.Hierarchy.Title}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
+            {Label: `${meta.Labels.BreakBy[breakbyVar].Label}`, ClassName: 'numeric-cell', ColSpan: breakByAnswerIds.length, RowSpan: 1}
         ]
     ];
 
@@ -346,12 +341,12 @@ function BenchmarkingTool_GetItemsTable() {
     var addedItems = [];
 
     for (var i in dimensionOptions) {
-        table_data.push(BenchmarkingTool_GetDimensionRowData(i, dimensionOptions[i], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar));
+        table_data.push(DemographicHeatmap_GetDimensionRowData(i, dimensionOptions[i], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar));
 
         var itemOptions = data.Dimensions[dimensionOptions[i]].Items;
 
         for (var j in itemOptions) {
-            table_data.push(BenchmarkingTool_GetItemRowData(i, dimensionOptions[i], itemOptions[j], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems));
+            table_data.push(DemographicHeatmap_GetItemRowData(i, dimensionOptions[i], itemOptions[j], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems));
             addedItems.push(itemOptions[j]);
         }
     }
@@ -365,7 +360,7 @@ function BenchmarkingTool_GetItemsTable() {
 		`;
 
     var dt = Component_DataTable(
-        'items-table-internalBenchmarkingTool',
+        'items-table-Demographic-Heatmap',
         'items-table',
         headers,
         table_data,
@@ -378,7 +373,7 @@ function BenchmarkingTool_GetItemsTable() {
     return dt;
 }
 
-function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar) {
+function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar) {
     var totalColumnRowValue;
 
     if (metricVar == 'PercentFavorable') {
@@ -424,7 +419,7 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, breakbyVa
     return row_data;
 }
 
-function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
+function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
     var totalColumnRowValue;
 
     if (metricVar == 'PercentFavorable') {

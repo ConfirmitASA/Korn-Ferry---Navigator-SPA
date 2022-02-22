@@ -1,20 +1,20 @@
-#items-table-internalBenchmarkingTool_filter {
+#items-table-Demographic-Heatmap_filter {
     display: none;
 }
 
-#items-table-internalBenchmarkingTool .dimension-row-cell {
+#items-table-Demographic-Heatmap .dimension-row-cell {
     font-weight: bold;
 }
 
-#items-table-internalBenchmarkingTool .text-cell {
+#items-table-Demographic-Heatmap .text-cell {
     width: 350px;
 }
 
-#items-table-internalBenchmarkingTool .items-table-td {
+#items-table-Demographic-Heatmap .items-table-td {
     white-space: normal;
     text-align: center;
 }
 
-#internal-benchmarking-tool-table-title {
+#Demographic-Heatmap-table-title {
     margin-bottom: 20px;
 }
