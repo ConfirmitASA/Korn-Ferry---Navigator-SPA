@@ -43,12 +43,10 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 
 	if(!!innerDimensionSortingSettings && innerDimensionSortingSettings.isApplied) {
 		orderStr = `
-			'order': [],			
-			'orderFixed': ${innerDimensionSortingSettings.orderFixed},
 			'columnDefs': [
 				{ targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}], visible: false },
 				${innerDimensionSortingSettings.columnsWidth}
-				{ targets: [3], type: "natural" }
+				{ targets: [4], type: "natural" }
 			]
 		`;
 	}

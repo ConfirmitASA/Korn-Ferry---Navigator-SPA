@@ -25,23 +25,23 @@ function BenchmarkingTool_Render() {
 
     var dimensionsQuestions_dropdown = Component_Dropdown (
         'dimensions_questions',
-        meta.Labels['labels.show'].Label,
+        meta.Labels.labels.show.Label,
         'internal-benchmarking-tool-dimensions-questions-dropdown',
         '',
-        ParamValues_InternalBenchmarkingTool_Dimensions_Questions()
+        ParamValues_ItemGroups()
     );
 
     var breakby_dropdown = Component_Dropdown (
         'breakby',
-        meta.Labels['labels.BreakBy'].Label,
+        meta.Labels.labels.BreakBy.Label,
         'internal-benchmarking-tool-breakby-dropdown',
         '',
-        ParamValues_Demo()
+        ParamValues_BreakBy()
     );
 
     var metric_switchComponent = Component_TwoOptionSwitch (
         'metric',
-        meta.Labels['labels.metric'].Label,
+        meta.Labels.labels.metric.Label,
         'internal-benchmarking-tool',
         ParamValues_InternalBenchmarkingTool_Metric()
     );
@@ -181,13 +181,13 @@ function BenchmarkingTool_HandleSelectorChange(selectorObj) {
 
     if(selectorObj.parameterName == 'breakby') {
         var query = {
-            Filters: State_Get('filter'),
             InternalBenchmarkingTool: {
                 DimensionsQuestions: State_Get('dimensions_questions'),
                 Demo: State_Get('breakby'),
                 Metric: State_Get('metric'),
                 DisplayComparators: State_Get('display_comparators')
-            }
+            },
+            parameter: 'breakby'
         };
 
         Main_SubmitQuery(query);
@@ -220,22 +220,22 @@ function BenchmarkingTool_UpdateTableTitle() {
     var rowText = '';
 
     if(rowVar === 'AllDimensions') {
-        rowText = meta.Labels["drop_downs.AllDimensions"].Label;
+        rowText = meta.Labels.drop_downs.AllDimensions.Label;
     } else {
         if(rowVar === 'AllQuestions') {
-            rowText = meta.Labels["drop_downs.AllQuestions"].Label;
+            rowText = meta.Labels.drop_downs.AllQuestions.Label;
         } else {
             if(rowVar === 'AllQuestionsOrdByDimension') {
-                rowText = meta.Labels["drop_downs.AllQuestionsOrdByDimension"].Label;
+                rowText = meta.Labels.drop_downs.AllQuestionsOrdByDimension.Label;
             } else {
                 if(rowVar.indexOf('dimensions') >= 0) {
-                    rowText = meta.Labels["drop_downs.DIMENSION"].Label + ' ' + meta.Labels[rowVar].Label;
+                    rowText = meta.Labels.drop_downs.DIMENSION.Label + ' ' + meta.Labels.Dimensions[rowVar.split('.')[1]].Label;
                 }
             }
         }
     }
 
-    var newTitle = `${rowText} for ${meta.Labels["drop_downs." + metricVar].Label} (${meta.Labels["drop_downs." + comparatorsVar].Label}) by ${meta.Labels["questions." + breakbyVar].Label}`;
+    var newTitle = `${rowText} for ${meta.Labels.drop_downs[metricVar].Label} (${meta.Labels.drop_downs[comparatorsVar].Label}) by ${meta.Labels.BreakBy[breakbyVar].Label}`;
 
     $('#internal-benchmarking-tool-table-title').html(newTitle);
 }
@@ -253,7 +253,8 @@ function BenchmarkingTool_SortTable(dataTable, showOption) {
         if (showOption === 'AllQuestions') {
             BenchmarkingTool_ResetTable(dataTable);
             dataTable.order.fixed( { pre: [ 1, 'asc' ] } );
-            dataTable.order( [ 3, 'asc' ] );
+            dataTable.order( [ 4, 'asc' ] );
+            dataTable.columns(3).search('1');
             dataTable.columns(1).search('0').draw();
         } else {
             if(showOption === 'AllQuestionsOrdByDimension') {
@@ -261,7 +262,7 @@ function BenchmarkingTool_SortTable(dataTable, showOption) {
             } else {
                 if (showOption.indexOf('dimensions') >= 0) {
                     BenchmarkingTool_ResetTable(dataTable);
-                    dataTable.columns(2).search(showOption).draw();
+                    dataTable.columns(2).search(showOption.split('.')[1]).draw();
                 } else {
                     BenchmarkingTool_ResetTable(dataTable);
                 }
@@ -275,6 +276,7 @@ function BenchmarkingTool_ResetTable(dataTable) {
     dataTable.search('');
     dataTable.columns(1).search('');
     dataTable.columns(2).search('');
+    dataTable.columns(3).search('');
     dataTable.order([]);
     dataTable.order.fixed( { pre: [[ 0, "asc" ], [ 1, "desc" ]] } );
     dataTable.draw();
@@ -293,17 +295,18 @@ function BenchmarkingTool_GetItemsTable() {
     var metricVar = State_Get('metric');
     var comparatorsVar = State_Get('display_comparators');
 
-    var breakByAnswerIds = Object.keys(meta.Labels['questions.' + breakbyVar].Answers);
+    var breakByAnswerIds = Object.keys(meta.Labels.BreakBy[breakbyVar].Options);
 
     var headers = [
         [
             {Label: 'dimensionN', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
             {Label: 'dimensionFlag', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
             {Label: 'dimensionId', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
+            {Label: 'isExclusive', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
             {Label: "#", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 3},
             {Label: 'Question', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
             {Label: `${data.Report.ReportBase}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
-            {Label: `${meta.Labels['questions.' + breakbyVar].Label}`, ClassName: 'numeric-cell', ColSpan: breakByAnswerIds.length, RowSpan: 1}
+            {Label: `${meta.Labels.BreakBy[breakbyVar].Label}`, ClassName: 'numeric-cell', ColSpan: breakByAnswerIds.length, RowSpan: 1}
         ]
     ];
 
@@ -311,11 +314,11 @@ function BenchmarkingTool_GetItemsTable() {
     var headerRow1 = [];
     var headerRow2 = [];
 
-    headerRow1.push({Label: `N=${data.Questions['questions.' + breakbyVar].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},);
+    headerRow1.push({Label: `N=${data.Questions[breakbyVar].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},);
 
     for(var i = 0; i < breakByAnswerIds.length; i++) {
-        headerRow1.push({Label: `${meta.Labels['questions.' + breakbyVar].Answers[breakByAnswerIds[i]].Label}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1})
-        headerRow2.push({Label: `N=${data.Questions['questions.' + breakbyVar].Answers[breakByAnswerIds[i]].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1})
+        headerRow1.push({Label: `${meta.Labels.BreakBy[breakbyVar].Options[breakByAnswerIds[i]].Label}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1})
+        headerRow2.push({Label: `N=${data.Questions[breakbyVar].Options[breakByAnswerIds[i]].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1})
     }
 
     headers.push(headerRow1);
@@ -325,21 +328,23 @@ function BenchmarkingTool_GetItemsTable() {
 
     var dimensionOptions = Object.keys(data.Dimensions);
 
+    var addedItems = [];
+
     for(var i in dimensionOptions) {
         table_data.push(BenchmarkingTool_GetDimensionRowData(i, dimensionOptions[i], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar));
 
         var itemOptions = data.Dimensions[dimensionOptions[i]].Items;
 
         for (var j in itemOptions) {
-            table_data.push(BenchmarkingTool_GetItemRowData(i, dimensionOptions[i], 'items.' + itemOptions[j], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar));
+            table_data.push(BenchmarkingTool_GetItemRowData(i, dimensionOptions[i], itemOptions[j], breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems));
+            addedItems.push(itemOptions[j]);
         }
     }
 
     var innerDimensionSortingSettings = {
         isApplied: true,
-        hiddenColumns: [0, 1, 2],
-        orderFixed: '{ pre: [[ 0, "asc" ], [ 1, "desc" ]] }',
-        columnsWidth: '{ targets: [4], width: 200 },'
+        hiddenColumns: [0, 1, 2, 3],
+        columnsWidth: '{ targets: [5], width: 200 },'
     }
 
     var dt = Component_DataTable (
@@ -373,8 +378,9 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, breakbyVa
         {Label: dimensionN, ClassName: 'numeric-cell dimension-row-cell'},
         {Label: '1', ClassName: 'text-cell dimension-row-cell'},
         {Label: dimensionId, ClassName: 'text-cell dimension-row-cell'},
+        {Label: '1', ClassName: 'text-cell dimension-row-cell'},
         {Label: '&#9674;', ClassName: 'numeric-cell dimension-row-cell'},
-        {Label: meta.Labels[dimensionId].Label, ClassName: 'text-cell dimension-row-cell'},
+        {Label: meta.Labels.Dimensions[dimensionId].Label, ClassName: 'text-cell dimension-row-cell'},
         {Label: totalColumnRowValue, ClassName: 'numeric-cell dimension-row-cell'}
     ];
 
@@ -401,7 +407,7 @@ function BenchmarkingTool_GetDimensionRowData(dimensionN, dimensionId, breakbyVa
     return row_data;
 }
 
-function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar) {
+function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, breakbyVar, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
     var totalColumnRowValue;
 
     if (metricVar == 'PercentFavorable') {
@@ -414,12 +420,17 @@ function BenchmarkingTool_GetItemRowData(dimensionN, dimensionId, itemId, breakb
         }
     }
 
+    var isExclusiveItem = addedItems.filter(function (element) {
+        return element === itemId;
+    });
+
     var row_data = [
         {Label: dimensionN, ClassName: 'text-cell item-row-cell'},
         {Label: '0', ClassName: 'text-cell item-row-cell'},
         {Label: dimensionId, ClassName: 'text-cell item-row-cell'},
-        {Label: itemId.split('.')[1], ClassName: 'numeric-cell item-row-cell'},
-        {Label: meta.Labels[itemId].Label, ClassName: 'text-cell item-row-cell'},
+        {Label: isExclusiveItem.length > 0 ? '0' : '1', ClassName: 'text-cell item-row-cell'},
+        {Label: itemId, ClassName: 'numeric-cell item-row-cell'},
+        {Label: meta.Labels.Items[itemId].Label, ClassName: 'text-cell item-row-cell'},
         {Label: totalColumnRowValue, ClassName: 'numeric-cell item-row-cell'}
     ];
 

@@ -49,7 +49,7 @@ function Main_Menitem_Click() {
 
 		case 'Home':
 		case 'Slideshow':
-			// Re-render this page		
+			// Re-render this page
 			var codeblock = "$('#page-" + id + "').html (" + id + "_Render());";
 			Main_IncrementClickCount ( id );
 
@@ -153,7 +153,7 @@ function Main_Submenuitem_Click() {
 	$('.submenuitem.active-item').removeClass('active-item');
 	$(this).addClass('active-item');
 
-	// Hide All Tabs on this page		
+	// Hide All Tabs on this page
 	var page = $('#' + page_id);
 
 	var sections = page.find('.section');
@@ -221,13 +221,19 @@ function Main_ItemMap() {
 
 function Main_SubmitQuery ( query ) {
 
+	query.BreakBy = State_Get('breakby');
+	query.Comparators = State_Get('comparators');
+	query.Filters = State_Get('filter');
+
 	try {
 		Query( query );
 		mySubmit();
+		data.isTestData = false;
 	}
 	catch (e) {
 		Main_TestQuery ( query );
-		WaitMessage();
+		//WaitMessage();
+		data.isTestData = true;
 	}
 
 }
@@ -281,7 +287,7 @@ function Main_RenderPage( item, section_id ) {
 			p.ShowFilterSummary
 		);
 
-		// Add Click Handler for Submenuitem 
+		// Add Click Handler for Submenuitem
 		// This will trigger a call to _Render()
 		var codeblock = `
 			$('#${section_id.split('section').join('submenuitem')}').click(function(){
@@ -420,22 +426,19 @@ function Main_Section(id, title, text, html_content, class_name, style, show_fil
 
 function Main_TestQuery( query ) {
 
-	var newdata = {};
-	var newdata = {};
 	if ( query.EffectivenessByDemo ) {
 
 		var demo = query.EffectivenessByDemo.Demo;
 		data.EffectivenessByDemo = TestData_EffectivenessByDemo( demo );
 
 	}
-
-	if(query.InternalBenchmarkingTool) {
-		//Set test data for IBT here?
-		var breakByVariable = query.InternalBenchmarkingTool.Demo;
-		//console.log('breakByVariable ' + breakByVariable);
-		TestData_fillBreakByData(breakByVariable);
+	if (query.parameter=='breakby') {
+		TestData_fillBreakByData();
+		TestData_fillComparatorsData();
 	}
-
+	if (query.page=='Modal') {
+		TestData_fillComparatorsData();
+	}
 	Main_RefreshCurrentPage();
 }
 

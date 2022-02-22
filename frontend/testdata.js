@@ -46,7 +46,7 @@ function Data_getDimensionLabelsFromMeta() {
 	var dimensionLabels = [];
 
 	for(var i = 0; i < dimensionIds.length; i++) {
-		var currentDimensionLabel = meta.Labels[dimensionIds[i]].Label;
+		var currentDimensionLabel = meta.Labels.Dimensions[dimensionIds[i]].Label;
 
 		if(!!currentDimensionLabel) {
 			dimensionLabels.push(currentDimensionLabel)
@@ -64,7 +64,7 @@ function Data_getItemLabelsFromMeta() {
 	var itemLabels = [];
 
 	for(var i = 0; i < itemIds.length; i++) {
-		var currentItemLabel = meta.Labels[itemIds[i]].Label;
+		var currentItemLabel = meta.Labels.Items[itemIds[i]].Label;
 
 		if(!!currentItemLabel) {
 			itemLabels.push(currentItemLabel)
@@ -78,7 +78,7 @@ function Data_getItemLabelsFromMetaByDimensionId(dimensionId) {
 	var itemLabels = [];
 
 	for(var i = 0; i < itemIds.length; i++) {
-		var currentItemLabel = meta.Labels['items.' + itemIds[i]].Label;
+		var currentItemLabel = meta.Labels.Items[itemIds[i]].Label;
 
 		if(!!currentItemLabel) {
 			itemLabels.push(currentItemLabel)
@@ -93,7 +93,7 @@ function TestData_getBreakByData(breakByVariable) {
 	breakByData.Variable = breakByVariable;
 	breakByData.Options = {};
 
-	var breakByOptions = meta.Labels['questions.' + breakByVariable].Answers;
+	var breakByOptions = meta.Labels.BreakBy[breakByVariable].Options;
 
 	for (var i in breakByOptions) {
 		var rnd = Math.floor(Math.random() * 10);
@@ -116,17 +116,59 @@ function TestData_getBreakByData(breakByVariable) {
 
 function TestData_fillBreakByData() {
 	var breakByVariable = State_Get('breakby');
-	if (!breakByVariable) breakByVariable = ParamValues_Demo()[0].Code; // ???????????
+
+	if (!breakByVariable) {
+		breakByVariable = ParamValues_BreakBy()[0].Code;
+	}
 
 	var testBreakByData = TestData_getBreakByData(breakByVariable);
 
 	var itemsLabels = Object.keys(data.ItemsNew);
+
 	for (var i in itemsLabels) {
 		data.ItemsNew[itemsLabels[i]].BreakBy = testBreakByData;
 	}
 	var dimensionsLabels = Object.keys(data.Dimensions);
+
 	for (var j in dimensionsLabels) {
 		data.Dimensions[dimensionsLabels[j]].BreakBy = testBreakByData;
+	}
+}
+
+function TestData_getComparatorsData(comparators) {
+	var comparatorsData = {};
+
+	for (var i = 0; i < comparators.length; i++) {
+		var rnd = Math.floor(Math.random() * 10);
+		var rnd2 = Math.floor(Math.random() * 2);
+		var rnd3 = Math.floor(Math.random() * 2);
+		var tmpComparatorsData = {
+			Label: meta.Labels.Comparators[comparators[i]].Label,
+			Value: (rnd2 ? '' : '-') + (25+rnd) + (rnd3 ? '' : ' *')
+		}
+		comparatorsData[comparators[i]] = tmpComparatorsData;
+	}
+
+	return comparatorsData;
+}
+
+function TestData_fillComparatorsData() {
+	var comparators = State_Get('comparators');
+	if (!comparators) return;
+
+	for (var i in data.ItemsNew) {
+		var testComparatorsData = TestData_getComparatorsData(comparators);
+		data.ItemsNew[i].Comparators = testComparatorsData;
+		for (var j in data.ItemsNew[i].BreakBy.Options) {
+			data.ItemsNew[i].BreakBy.Options[j].Comparators = testComparatorsData;
+		}
+	}
+	for (var i in data.Dimensions) {
+		var testComparatorsData = TestData_getComparatorsData(comparators);
+		data.Dimensions[i].Comparators = testComparatorsData;
+		for (var j in data.Dimensions[i].BreakBy.Options) {
+			data.Dimensions[i].BreakBy.Options[j].Comparators = testComparatorsData;
+		}
 	}
 }
 
@@ -171,7 +213,7 @@ if ( meta == null ) {
 			{Code: 'Explore', Label: 'Explore', Submenu:
 					[
 						{Code: 'AllItems', Label: 'All Items'},
-						{Code: 'SurveyDimensions', Label: 'Survey Dimensions'},
+						{Code: 'ItemDetails', Label: 'Item Details' },
 						{Code: 'ResponseRates', Label: 'Response Rates'},
 						{Code: 'BenchmarkingTool', Label: 'Demographic Heatmap'},
 						{Code: 'DemographicHighlighter', Label: 'Demographic Highlighter'},
@@ -244,6 +286,7 @@ if ( meta == null ) {
 				Sub: "However, 41 percent consider this a very important factor to job satisfaction, so companies should pay close attention to making sure employees feel they can advance in their careers without leaving the company."
 			}
 		],
+
 		Styles: {
 			DistributionChart: {
 				bgcolors: ['#77bc1f', '#e0e0e0', '#d30f1d'],
@@ -252,1287 +295,514 @@ if ( meta == null ) {
 				style: 'text-align:center; font-size: smaller',
 			},
 		},
+
 		Labels: {
-			"items.32": {
-				"Label": "I believe I am paid fairly for the work I do."
-			},
-			"items.10": {
-				"Label": "There are enough people to do the work in my work group."
-			},
-			"items.42": {
-				"Label": "I believe my pay is fair considering the pay of people doing similar work in other companies."
-			},
-			"items.7": {
-				"Label": "I have opportunities to achieve my career goals at the company."
-			},
-			"items.11": {
-				"Label": "My job leaves adequate time to take advantage of job-related training opportunities."
-			},
-			"items.4": {
-				"Label": "My work group receives high quality support from other parts of the company we depend on."
-			},
-			"items.22": {
-				"Label": "The company provides training so that I can perform my present job well."
-			},
-			"items.40": {
-				"Label": "I have good opportunities for learning and development at the company."
-			},
-			"items.31": {
-				"Label": "The company is open and honest in communications with employees."
-			},
-			"items.15": {
-				"Label": "The company motivates me to do more than is required."
-			},
-			"items.24": {
-				"Label": "I have opportunities to have my ideas adopted and put into use."
-			},
-			"items.34": {
-				"Label": "The work is well organized in my work group."
-			},
-			"items.48": {
-				"Label": "The company provides a high quality customer experience."
-			},
-			"items.8": {
-				"Label": "The company is effectively managed and well-run."
-			},
-			"items.6": {
-				"Label": "I receive clear and regular feedback on how well I do my work."
-			},
-			"items.19": {
-				"Label": "I have trust and confidence in the company's senior leadership team."
-			},
-			"items.36": {
-				"Label": "There are no significant barriers at work to doing my job well."
-			},
-			"items.49": {
-				"Label": "I would recommend the company as a good place to work."
-			},
-			"items.46": {
-				"Label": "The company provides employee benefits that meet my needs."
-			},
-			"items.1": {
-				"Label": "I have the resources I need to do my job effectively."
-			},
-			"items.44": {
-				"Label": "I have the information I need to do my job well."
-			},
-			"items.47": {
-				"Label": "There is effective sharing of ideas and resources across the company."
-			},
-			"items.2": {
-				"Label": "I have enough authority to do my job well."
-			},
-			"items.3": {
-				"Label": "I receive recognition when I do a good job."
-			},
-			"items.35": {
-				"Label": "I am encouraged to come up with new or better ways of doing things."
-			},
-			"items.30": {
-				"Label": "There is a clear link between my performance and my compensation."
-			},
-			"items.13": {
-				"Label": "I believe that the company has the right strategic priorities and goals."
-			},
-			"items.29": {
-				"Label": "The company is innovative in how work is done (using new technologies or creative approaches to continuously improve)."
-			},
-			"items.64": {
-				"Label": "In the company, decisions are generally made at the lowest level appropriate."
-			},
-			"items.12": {
-				"Label": "The company expects a high level of performance from its employees."
-			},
-			"items.38": {
-				"Label": "My immediate manager supports me in my learning and development."
-			},
-			"items.5": {
-				"Label": "The company is customer focused (always seeking to understand and meet customer needs)."
-			},
-			"items.50": {
-				"Label": "New employees receive the training they need to do their jobs well."
-			},
-			"items.70": {
-				"Label": "There is good communication between departments in the company."
-			},
-			"items.63": {
-				"Label": "In the company, decisions are generally made in a timely manner."
-			},
-			"items.77": {
-				"Label": "Poor performance is addressed effectively in the company."
-			},
-			"items.14": {
-				"Label": "I understand the results expected of me in my job."
-			},
-			"items.73": {
-				"Label": "I have opportunities for advancement at the company."
-			},
-			"items.69": {
-				"Label": "There is good cooperation between departments in the company."
-			},
-			"items.58": {
-				"Label": "The company is effectively organized and structured."
-			},
-			"items.75": {
-				"Label": "Employee benefits provided by the company are competitive with benefits offered by other companies in our industry."
-			},
-			"items.28": {
-				"Label": "I am treated with respect as an individual."
-			},
-			"items.74": {
-				"Label": "I have a good idea of the possible career paths available to me."
-			},
-			"items.87": {
-				"Label": "When changes are made where I work, communications are handled well."
-			},
-			"items.16": {
-				"Label": "The people in my work group are committed to delivering high quality products and services."
-			},
-			"items.26": {
-				"Label": "I believe that the company will be successful over the next 2-3 years."
-			},
-			"items.71": {
-				"Label": "The company is responding effectively to changes in the business environment."
-			},
-			"items.41": {
-				"Label": "There is good cooperation and teamwork within my work group."
-			},
-			"items.66": {
-				"Label": "The information from this survey will be used constructively by the company."
-			},
-			"items.76": {
-				"Label": "I have a good understanding of compensation policies and practices that affect me."
-			},
-			"items.61": {
-				"Label": "Conditions in my job allow me to be about as productive as I can be."
-			},
-			"items.86": {
-				"Label": "The amount of work expected of me is reasonable."
-			},
-			"items.59": {
-				"Label": "The company supports me in achieving a reasonable balance between my work life and my personal life."
-			},
-			"items.78": {
-				"Label": "The feedback I receive during the year helps me develop and improve."
-			},
-			"items.60": {
-				"Label": "The company shows care and concern for its employees."
-			},
-			"items.85": {
-				"Label": "My immediate manager coaches me to help improve my performance."
-			},
-			"items.53": {
-				"Label": "I feel motivated to do more than is required of me."
-			},
-			"items.80": {
-				"Label": "We resolve customer problems quickly and effectively."
-			},
-			"items.62": {
-				"Label": "Given your choice, how long would you plan to continue working for the company?"
-			},
-			"items.82": {
-				"Label": "Physical working conditions where I work are good."
-			},
-			"items.83": {
-				"Label": "The company values and promotes employee diversity."
-			},
-			"items.52": {
-				"Label": "My job provides opportunities to do challenging and interesting work."
-			},
-			"items.57": {
-				"Label": "My job makes good use of my skills and abilities."
-			},
-			"items.55": {
-				"Label": "I have a good understanding of the company's strategic priorities and goals."
-			},
-			"items.65": {
-				"Label": "I have trust and confidence in my immediate manager."
-			},
-			"items.51": {
-				"Label": "The company provides high quality products and services."
-			},
-			"items.56": {
-				"Label": "I feel proud to work for the company."
-			},
-			"items.67": {
-				"Label": "The company operates in an ethical manner."
-			},
-			"items.68": {
-				"Label": "The company is socially responsible."
-			},
-			"items.79": {
-				"Label": "I would recommend the company's products or services to a friend."
-			},
-			"items.54": {
-				"Label": "I understand how my job contributes to the company's strategic priorities and goals."
-			},
-			"items.81": {
-				"Label": "My immediate manager is accessible when needed."
-			},
-			"items.72": {
-				"Label": "I have a good understanding of my work group's goals and objectives."
-			},
-			"items.84": {
-				"Label": "My work area is safe."
-			},
-			"items.95": {
-				"Label": "Given your choice, how long would you plan to continue working for the company?"
-			},
-			"dimensions": {
-				"Id": "dimensions",
-				"Title": "",
-				"Label": ""
-			},
-			"dimensions.DIM_ENG": {
-				"Label": "Employee Engagement"
-			},
-			"dimensions.DIM_ENA": {
-				"Label": "Employee Enablement"
-			},
-			"dimensions.DIM_N64": {
-				"Label": "Resources"
-			},
-			"dimensions.DIM_N50": {
-				"Label": "Authority & Empowerment"
-			},
-			"dimensions.DIM_N65": {
-				"Label": "Respect & Recognition"
-			},
-			"dimensions.DIM_N52": {
-				"Label": "Collaboration"
-			},
-			"dimensions.DIM_N63": {
-				"Label": "Quality & Customer Focus"
-			},
-			"dimensions.DIM_N61": {
-				"Label": "Performance Management"
-			},
-			"dimensions.DIM_N54": {
-				"Label": "Development Opportunities"
-			},
-			"dimensions.DIM_N53": {
-				"Label": "Confidence in Leaders"
-			},
-			"dimensions.DIM_N66": {
-				"Label": "Training"
-			},
-			"dimensions.DIM_N51": {
-				"Label": "Clear & Promising Direction"
-			},
-			"dimensions.DIM_N67": {
-				"Label": "Work, Structure, & Process"
-			},
-			"dimensions.DIM_N60": {
-				"Label": "Pay & Benefits"
-			},
-			"dimensions.DIM_C15": {
-				"Label": "Local questions"
-			},
-			"dimensions.DIM_NPS": {
-				"Label": "Employee Net Promoter Score (ENPS)"
-			},
-			"ui": {
-				"Id": "ui",
-				"Title": "",
-				"Label": ""
-			},
-			"ui.print": {
-				"Label": "Print"
-			},
-			"ui.export": {
-				"Label": "Export"
-			},
-			"ui.logoff": {
-				"Label": "Log Off"
-			},
-			"ui.breakby": {
-				"Label": "Break By:"
-			},
-			"ui.respondentcount": {
-				"Label": "Number of Respondents"
-			},
-			"ui.preferences": {
-				"Label": "Preferences"
-			},
-			"ui.breadcrumb": {
-				"Label": "You are here:"
-			},
-			"ui.setreportbase": {
-				"Label": "Set Report Base"
-			},
-			"ui.reenterreport": {
-				"Label": "Re-enter Report"
-			},
-			"ui.changereport": {
-				"Label": "Report List"
-			},
-			"labels": {
-				"Id": "labels",
-				"Title": "",
-				"Label": ""
-			},
-			"labels.ResponseRate": {
-				"Label": "Response Rate"
-			},
-			"labels.Passives": {
-				"Label": "Passives"
-			},
-			"labels.Promoters": {
-				"Label": "Promoters"
-			},
-			"labels.Detractors": {
-				"Label": "Detractors"
-			},
-			"labels.PercentDistribution": {
-				"Label": "% Distribution"
-			},
-			"labels.ValidN": {
-				"Label": "Valid N"
-			},
-			"labels.Favorable": {
-				"Label": "Fav"
-			},
-			"labels.PercentFav": {
-				"Label": "% Fav"
-			},
-			"labels.PercentNeu": {
-				"Label": "% Neu"
-			},
-			"labels.PercentUnfav": {
-				"Label": "% Unfav"
-			},
-			"labels.Distribution": {
-				"Label": "Distribution"
-			},
-			"labels.PriorResults": {
-				"Label": "Trend 2015"
-			},
-			"labels.PriorResults2": {
-				"Label": "Trend 2014"
-			},
-			"labels.PriorResults3": {
-				"Label": "Trend 2013"
-			},
-			"labels.FavvsComparator": {
-				"Label": "% Fav vs Comparator"
-			},
-			"labels.ImpactonEngagement": {
-				"Label": "Impact on Engagement"
-			},
-			"labels.ImpactonEnablement": {
-				"Label": "Impact on Enablement"
-			},
-			"labels.YourCurrentResults": {
-				"Label": "Your Current Results"
-			},
-			"labels.PercentFavorable": {
-				"Label": "% Favorable"
-			},
-			"labels.PercentEffective": {
-				"Label": "% Effective"
-			},
-			"labels.PercentFrustrated": {
-				"Label": "% Frustrated"
-			},
-			"labels.PercentDetached": {
-				"Label": "% Detached"
-			},
-			"labels.PercentIneffective": {
-				"Label": "% Ineffective"
-			},
-			"labels.Potential": {
-				"Label": "(Potential)"
-			},
-			"labels.AND": {
-				"Label": "AND"
-			},
-			"labels.ENPS": {
-				"Label": "ENPS"
-			},
-			"labels.AddtoPlan": {
-				"Label": "Add to Plan"
-			},
-			"labels.BuildYourPlan": {
-				"Label": "Build Your Plan"
-			},
-			"labels.Item": {
-				"Label": "Item"
-			},
-			"labels.Rank": {
-				"Label": "Rank"
-			},
-			"labels.ShowAll": {
-				"Label": "(Show All)"
-			},
-			"labels.ByStatus": {
-				"Label": "By Status"
-			},
-			"labels.filtererror": {
-				"Label": "Error: Max [ERROR] comparators allowed"
-			},
-			"labels.SelectQuestion": {
-				"Label": "Select Question:"
-			},
-			"labels.SelectOpinionQuestion": {
-				"Label": "Select Opinion Question:"
-			},
-			"labels.Question": {
-				"Label": "Question:"
-			},
-			"labels.BreakBy": {
-				"Label": "Break By:"
-			},
-			"labels.FullDistribution": {
-				"Label": "Full Distribution:"
-			},
-			"labels.none": {
-				"Label": "(None)"
-			},
-			"labels.DIMENSION": {
-				"Label": "Dimension:"
-			},
-			"labels.norm": {
-				"Label": "(Norm)"
-			},
-			"labels.QNo": {
-				"Label": "Q #"
-			},
-			"labels.SelectTheme": {
-				"Label": "Select Theme:"
-			},
-			"labels.show": {
-				"Label": "Show:"
-			},
-			"labels.metric": {
-				"Label": "Metric:"
-			},
-			"labels.INTERNAL": {
-				"Label": "INTERNAL:"
-			},
-			"labels.EXTERNAL": {
-				"Label": "EXTERNAL:"
-			},
-			"labels.DimensionLabel": {
-				"Label": "Dimension"
-			},
-			"labels.Chart": {
-				"Label": "Chart"
-			},
-			"labels.InternalComp1": {
-				"Label": "Total Company"
-			},
-			"labels.InternalComp2": {
-				"Label": "Parent"
-			},
-			"labels.InternalComp3": {
-				"Label": "Level 2"
-			},
-			"labels.InternalComp4": {
-				"Label": "Custom 1"
-			},
-			"labels.InternalComp5": {
-				"Label": "Custom 2"
-			},
-			"labels.VirtualUnits": {
-				"Label": "Virtual Units"
-			},
-			"labels.NewVU": {
-				"Label": "(New)"
-			},
-			"labels.DefaultVUName": {
-				"Label": "(Virtual Unit)"
-			},
-			"labels.APHomeItem": {
-				"Label": "Item"
-			},
-			"labels.Max5CompsAllowed": {
-				"Label": "No more than [MAXALLOWED] comparators can be selected at the same time."
-			},
-			"labels.NoDataToDisplay": {
-				"Label": "No data to display"
-			},
-			"drop_downs": {
-				"Id": "drop_downs",
-				"Title": "",
-				"Label": ""
-			},
-			"drop_downs.Passives": {
-				"Label": "Passives"
-			},
-			"drop_downs.Detractors": {
-				"Label": "Detractors"
-			},
-			"drop_downs.PriorResults": {
-				"Label": "Trend 2015"
-			},
-			"drop_downs.PriorResults2": {
-				"Label": "Trend 2014"
-			},
-			"drop_downs.PriorResults3": {
-				"Label": "Trend 2013"
-			},
-			"drop_downs.Overall": {
-				"Label": "Overall"
-			},
-			"drop_downs.fulldetails": {
-				"Label": "(full details)"
-			},
-			"drop_downs.PercentFavorable": {
-				"Label": "% Favorable"
-			},
-			"drop_downs.PercentNeutral": {
-				"Label": "% Neutral"
-			},
-			"drop_downs.PercentUnfavorable": {
-				"Label": "% Unfavorable"
-			},
-			"drop_downs.NoSorting": {
-				"Label": "No Sorting"
-			},
-			"drop_downs.AbsoluteValue": {
-				"Label": "Absolute Value"
-			},
-			"drop_downs.DifferencetoTotal": {
-				"Label": "Difference to Total"
-			},
-			"drop_downs.AllDimensions": {
-				"Label": "All Dimensions"
-			},
-			"drop_downs.Top10Questions": {
-				"Label": "Top 10 Questions"
-			},
-			"drop_downs.AllQuestions": {
-				"Label": "All Questions"
-			},
-			"drop_downs.ReportTotal": {
-				"Label": "Report Total"
-			},
-			"drop_downs.DemographicTotal": {
-				"Label": "Demographic Total"
-			},
-			"drop_downs.Exclude": {
-				"Label": "Exclude"
-			},
-			"drop_downs.Include": {
-				"Label": "Include"
-			},
-			"drop_downs.compact": {
-				"Label": "(compact)"
-			},
-			"drop_downs.none": {
-				"Label": "(None)"
-			},
-			"drop_downs.DIMENSION": {
-				"Label": "Dimension:"
-			},
-			"drop_downs.norm": {
-				"Label": "(Norm)"
-			},
-			"drop_downs.all": {
-				"Label": "(All)"
-			},
-			"drop_downs.AllQuestionsOrdByDimension": {
-				"Label": "All Questions ordered by dimension"
-			},
-			"rst_drop_down": {
-				"Id": "rst_drop_down",
-				"Title": "",
-				"Label": ""
-			},
-			"rst_drop_down.Strengths": {
-				"Label": "Strengths"
-			},
-			"rst_drop_down.Opportunities": {
-				"Label": "Opportunities"
-			},
-			"rst_drop_down.KeyDriversofEngagement": {
-				"Label": "Key Drivers of Engagement"
-			},
-			"rst_drop_down.KeyDriversofEnablement": {
-				"Label": "Key Drivers of Enablement"
-			},
-			"rst_drop_down.QuestionTrend": {
-				"Label": "Question Trend 2015"
-			},
-			"rst_drop_down.QuestionTrend2": {
-				"Label": "Question Trend 2014"
-			},
-			"rst_drop_down.QuestionTrend3": {
-				"Label": "Question Trend 2013"
-			},
-			"rst_drop_down.InternalComparison": {
-				"Label": "Internal Comparison"
-			},
-			"rst_drop_down.ExternalComparison": {
-				"Label": "External Comparison ([NORM])"
-			},
-			"rst_drop_down.Top10MostFavorable": {
-				"Label": "Top [N] Most Favorable"
-			},
-			"rst_drop_down.Top10LeastFavorable": {
-				"Label": "Top [N] Least Favorable"
-			},
-			"rst_drop_down.Top10MostUnfavorable": {
-				"Label": "Top [N] Most Unfavorable"
-			},
-			"rst_drop_down.Top10LeastUnfavorable": {
-				"Label": "Top [N] Least Unfavorable"
-			},
-			"rst_drop_down.Top10Neutral": {
-				"Label": "Top [N] Neutral"
-			},
-			"rst_drop_down.Top10Improved": {
-				"Label": "Top [N] Improved"
-			},
-			"rst_drop_down.Top10Declined": {
-				"Label": "Top [N] Declined"
-			},
-			"rst_drop_down.Top10AboveNORM": {
-				"Label": "Top [N] Above [NORM] (Norm)"
-			},
-			"rst_drop_down.Top10BelowNORM": {
-				"Label": "Top [N] Below [NORM] (Norm)"
-			},
-			"rst_drop_down.Top10Above": {
-				"Label": "Top [N] Above"
-			},
-			"rst_drop_down.Top10Below": {
-				"Label": "Top [N] Below"
-			},
-			"rst_drop_down.FullQFav": {
-				"Label": "% Favorable"
-			},
-			"rst_drop_down.FullQNeutral": {
-				"Label": "% Neutral"
-			},
-			"rst_drop_down.FullQUnfav": {
-				"Label": "% Unfavorable"
-			},
-			"pages": {
-				"Id": "pages",
-				"Title": "",
-				"Label": ""
-			},
-			"pages.Action": {
-				"Label": "Take Action"
-			},
-			"pages.ActionAll": {
-				"Label": "Review All Plans"
-			},
-			"pages.ActionBestPractice": {
-				"Label": "Shared Plans"
-			},
-			"pages.ActionCreate": {
-				"Label": "Create Plan"
-			},
-			"pages.ActionHome": {
-				"Label": "Home"
-			},
-			"pages.ActionOwn": {
-				"Label": "Review Own Plans"
-			},
-			"pages.ActionStatistics": {
-				"Label": "Statistics"
-			},
-			"pages.Comments": {
-				"Label": "Comments"
-			},
-			"pages.Dashboard": {
-				"Label": "Dashboard"
-			},
-			"pages.DemographicHighlighter": {
-				"Label": "Demographic Highlighter"
-			},
-			"pages.EE": {
-				"Label": "Engagement and Enablement"
-			},
-			"pages.EEDetails": {
-				"Label": "Engagement and Enablement Details"
-			},
-			"pages.EEDrivers": {
-				"Label": "Engagement and Enablement Drivers"
-			},
-			"pages.EEOverview": {
-				"Label": "Engagement and Enablement Overview"
-			},
-			"pages.EProfile": {
-				"Label": "Effectiveness Profile"
-			},
-			"pages.EProfileDetails": {
-				"Label": "Effectiveness Profile Details"
-			},
-			"pages.EProfileGap": {
-				"Label": "Effectiveness Profile Gap"
-			},
-			"pages.EProfileTrend": {
-				"Label": "Effectiveness Profile Trend"
-			},
-			"pages.ExploreResults": {
-				"Label": "Explore Results"
-			},
-			"pages.ExploreSurveyDimensions": {
-				"Label": "Survey Dimensions"
-			},
-			"pages.DimDetails": {
-				"Label": "Dimension Details"
-			},
-			"pages.GeneratingPssTable": {
-				"Label": "Generating PSS Table..."
-			},
-			"pages.InternalBenchmarkTool": {
-				"Label": "Internal Benchmark Tool"
-			},
-			"pages.LocalQuestions": {
-				"Label": "Local Questions"
-			},
-			"pages.Nps": {
-				"Label": "ENPS"
-			},
-			"pages.NpsDetails": {
-				"Label": "ENPS Details"
-			},
-			"pages.NpsGap": {
-				"Label": "ENPS Gap"
-			},
-			"pages.NpsScale": {
-				"Label": "ENPS Scale"
-			},
-			"pages.NSQ": {
-				"Label": "Non-Standard Questions"
-			},
-			"pages.NSQ_COMPARATOR": {
-				"Label": "NSQ Comparator page"
-			},
-			"pages.NSQ_IBT": {
-				"Label": "NSQ Benchmark Tool"
-			},
-			"pages.RankingQuestions": {
-				"Label": "Ranking Questions"
-			},
-			"pages.PlotYourResults": {
-				"Label": "Plot Your Results"
-			},
-			"pages.PssTableComplete": {
-				"Label": "PSS Table Complete"
-			},
-			"pages.PssTableGenerator": {
-				"Label": "PSS Table Generator"
-			},
-			"pages.QuestionDetails": {
-				"Label": "Question Details"
-			},
-			"pages.QuestionsByDimension": {
-				"Label": "Questions By Dimension"
-			},
-			"pages.QuestionsSummary": {
-				"Label": "Questions Summary"
-			},
-			"pages.Respondents": {
-				"Label": "Respondents"
-			},
-			"pages.RespondentsTrend": {
-				"Label": "Respondents - Trend"
-			},
-			"pages.ResponsesByGroup": {
-				"Label": "Responses By Group"
-			},
-			"pages.ResponsesBySegment": {
-				"Label": "Responses By Segment"
-			},
-			"pages.ResponseRate": {
-				"Label": "Response Rate"
-			},
-			"pages.ResponseRateDetails": {
-				"Label": "Response Rate Details"
-			},
-			"pages.ResultsSortingTool": {
-				"Label": "Results Sorting Tool"
-			},
-			"pages.Summary": {
-				"Label": "Summary"
-			},
-			"pages.Welcome": {
-				"Label": "Welcome"
-			},
-			"pages.AlgorithmSO": {
-				"Label": "Algorithm: Strengths and Opportunities"
-			},
-			"pages.NPSGapTool": {
-				"Label": "ENPS - Gap Analysis Tool"
-			},
-			"pages.FiltersandComparators": {
-				"Label": "Filters and Comparators"
-			},
-			"pages.ChangeRole": {
-				"Label": "Change Role"
-			},
-			"pages.UserGuide": {
-				"Label": "User Guide"
-			},
-			"pages.ComparatorGuide": {
-				"Label": "Guide"
-			},
-			"pages.PSS": {
-				"Label": "PSS"
-			},
-			"pages.ExportWelcome": {
-				"Label": "Export Welcome"
-			},
-			"pages.ExportCover": {
-				"Label": "Export Cover"
-			},
-			"pages.VirtualUnitsEditor": {
-				"Label": "Virtual Unit Editor"
-			},
-			"pages.VirtualUnitsEnterCodes": {
-				"Label": "Virtual Unit Editor - Enter Codes"
-			},
-			"buttons": {
-				"Id": "buttons",
-				"Title": "",
-				"Label": ""
-			},
-			"buttons.Back": {
-				"Label": "Back"
-			},
-			"buttons.vu_update": {
-				"Label": "Update This Virtual Unit"
-			},
-			"buttons.vu_delete": {
-				"Label": "Delete This Virtual Unit"
-			},
-			"buttons.vu_create": {
-				"Label": "Create New Virtual Unit"
-			},
-			"buttons.vu_previous_page": {
-				"Label": "Previous Page"
-			},
-			"buttons.vu_activate": {
-				"Label": "Activate This Virtual Unit"
-			},
-			"buttons.vu_enter_codes": {
-				"Label": "Enter Codes"
-			},
-			"buttons.vu_hierarchy_list": {
-				"Label": "Hierarchy Selector"
-			},
-			"buttons.ByGroup": {
-				"Label": "By Group"
-			},
-			"buttons.BySegment": {
-				"Label": "By Segment"
-			},
-			"buttons.Comments": {
-				"Label": "Comments"
-			},
-			"buttons.CreatePlan": {
-				"Label": "Create Plan"
-			},
-			"buttons.Dashboard": {
-				"Label": "Dashboard"
-			},
-			"buttons.DemoHighlighter": {
-				"Label": "Demographic Highlighter"
-			},
-			"buttons.Details": {
-				"Label": "Details"
-			},
-			"buttons.EEDrivers": {
-				"Label": "Engagement and Enablement Drivers"
-			},
-			"buttons.EEOverview": {
-				"Label": "Overview"
-			},
-			"buttons.EffectivenessProfile": {
-				"Label": "Effectiveness Profile"
-			},
-			"buttons.FurtherDetails": {
-				"Label": "Further Details"
-			},
-			"buttons.GapAnalysis": {
-				"Label": "Gap Analysis Tool"
-			},
-			"buttons.Home": {
-				"Label": "Home"
-			},
-			"buttons.InternalBM": {
-				"Label": "Internal Benchmark Tool"
-			},
-			"buttons.NavByDimension": {
-				"Label": "Questions by Dimension"
-			},
-			"buttons.NavDetails": {
-				"Label": "Details"
-			},
-			"buttons.NavMain": {
-				"Label": "Dimensions"
-			},
-			"buttons.NavMainAll": {
-				"Label": "All Dimensions"
-			},
-			"buttons.NavNPS": {
-				"Label": "ENPS"
-			},
-			"buttons.NavProfile": {
-				"Label": "Effectiveness Profile"
-			},
-			"buttons.NavQuestionDetails": {
-				"Label": "Question Details"
-			},
-			"buttons.Next": {
-				"Label": "Next"
-			},
-			"buttons.NPS": {
-				"Label": "ENPS"
-			},
-			"buttons.NPSScale": {
-				"Label": "ENPS Scale"
-			},
-			"buttons.NSQ": {
-				"Label": "Non-Standard Questions"
-			},
-			"buttons.Overall": {
-				"Label": "Overall"
-			},
-			"buttons.PlotYourResults": {
-				"Label": "Plot Your Results"
-			},
-			"buttons.QuestionSummary": {
-				"Label": "Questions Summary"
-			},
-			"buttons.RST": {
-				"Label": "Results Sorting Tool"
-			},
-			"buttons.ScaleFilter": {
-				"Label": "Apply Scale Filter"
-			},
-			"buttons.SharedPlans": {
-				"Label": "Shared Plans"
-			},
-			"buttons.Statistics": {
-				"Label": "Statistics"
-			},
-			"buttons.Summary": {
-				"Label": "Summary"
-			},
-			"buttons.SurveyDimensions": {
-				"Label": "Survey Dimensions"
-			},
-			"buttons.NavDimDetails": {
-				"Label": "Dimension Details"
-			},
-			"buttons.Trend": {
-				"Label": "Trend"
-			},
-			"buttons.Update": {
-				"Label": "Update"
-			},
-			"buttons.UserGuide": {
-				"Label": "User Guide"
-			},
-			"buttons.ViewAllPlans": {
-				"Label": "Review All Plans"
-			},
-			"buttons.ViewOwnPlan": {
-				"Label": "Review Own Plans"
-			},
-			"buttons.Nextiteration": {
-				"Label": "Next iteration"
-			},
-			"buttons.Gap": {
-				"Label": "ENPS Gap Analysis"
-			},
-			"buttons.FiltersComparators": {
-				"Label": "Filters / Comparators"
-			},
-			"buttons.ClearFilters": {
-				"Label": "Clear Filters"
-			},
-			"buttons.ComparatorGuide": {
-				"Label": "Guide"
-			},
-			"buttons.SaveandReturn": {
-				"Label": "Save and Return"
-			},
-			"buttons.Previous": {
-				"Label": "Previous"
-			},
-			"buttons.More": {
-				"Label": "More"
-			},
-			"buttons.EGapAnalysis": {
-				"Label": "Gap Analysis"
-			},
-			"buttons.Edit": {
-				"Label": "Edit"
-			},
-			"buttons.ENPSDetail": {
-				"Label": "ENPS Details"
-			},
-			"buttons.ClearVirtualUnit": {
-				"Label": "Clear Virtual Unit"
-			},
-			"buttons.EditVirtualUnit": {
-				"Label": "Edit Virtual Unit"
-			},
-			"buttons.AddNew": {
-				"Label": "Add"
-			},
-			"buttons.Delete": {
-				"Label": "Delete"
-			},
-			"buttons.Save": {
-				"Label": "Save"
-			},
-			"buttons.EnterCodes": {
-				"Label": "Enter Codes"
-			},
-			"buttons.LocalQuestions": {
-				"Label": "Local Questions"
-			},
-			"buttons.NSQComp": {
-				"Label": "NSQ Comparator page"
-			},
-			"buttons.NSQ_IBT": {
-				"Label": "NSQ Benchmark Tool"
-			},
-			"buttons.Respondents": {
-				"Label": "Respondents"
-			},
-			"exports": {
-				"Id": "exports",
-				"Title": "",
-				"Label": ""
-			},
-			"exports.ResponseRate": {
-				"Label": "Response rate preamble text"
-			},
-			"exports.EffectivenessProfile": {
-				"Label": "The Effectiveness Profile arranges people into four different groups based on levels of Engagement and Enablement and compares the size of these groups to Korn Ferry benchmarks."
-			},
-			"exports.EngAndEna": {
-				"Label": "Below are your Engagement and Enablement results compared to benchmarks. <ul><li><b>Engagement</b> represents the % of employees committed to the organization and willing to apply discretionary effort in their work. </li><li><b>Enablement</b> represents the % employees well matched to their role and who experience job conditions that support them perform to their full potential.</li></ul>"
-			},
-			"exports.TopDimensions": {
-				"Label": "Survey Dimensions show the average score for a set of questions relating to a common theme.<br>The Top Dimensions chart shows the three most favorably scoring themes and represents the areas where people feel most positive, regardless of benchmarks."
-			},
-			"exports.QuestionTrend": {
-				"Label": "Question Trends show the change in opinion, across all comparable questions since the prior survey.<br>The chart shows the number of questions where the % favorable score either improved or declined significantly."
-			},
-			"exports.InternalComparison": {
-				"Label": "The Internal Comparison shows how results compare to the rest of the organization across all questions.  The chart shows the number of questions where the percent favorable score is significantly above or below the wider organization."
-			},
-			"exports.ExternalComparison": {
-				"Label": "The External Comparison shows how results compare to Korn Ferry external benchmarks.  The chart shows the number of questions where the percent favorable score is significantly above or below external benchmarks."
-			},
-			"exports.KeyDrivers": {
-				"Label": "Key Drivers are Dimensions and individual questions which have the strongest influence on how engaged and enabled people are."
-			},
-			"exports.TopComments": {
-				"Label": "People were asked the following open-ended question: [INSERT QUESTION TEXT].   Their written feedback is grouped into themes.<br>The chart shows the three most frequently mentioned themes."
-			},
-			"exports.Strengths": {
-				"Label": "Strengths were selected by analyzing which questions compare most positively to the wider organization, Korn Ferry benchmarks and in absolute terms."
-			},
-			"exports.Opportunities": {
-				"Label": "Opportunities were selected by analyzing which questions compare least positively to the wider organization, Korn Ferry benchmarks and in absolute terms."
-			},
-			"exports.ENPS": {
-				"Label": "The Employee Net Promoter Score (ENPS) is based on the question: How likely is it that you would recommend our products / services to a friend or colleague?<br>ENPS measures the percentage of people willing to actively promote the organization's products and services and compares this to those that are less likely or unwilling to."
-			},
-			"exports.ENPSTrend": {
-				"Label": "The Employee Net Promoter Score (ENPS) is based on the question: How likely is it that you would recommend our products / services to a friend or colleague?<br>ENPS measures the percentage of people willing to actively promote the organization's products and services and compares this to those that are less likely or unwilling to."
-			},
-			"exports.ReportFor": {
-				"Label": "Report For:"
-			},
-			"exports.InfoIntro_1": {
-				"Label": "Output text > summary/abstract title element on the first export page."
-			},
-			"exports.InfoIntro_2": {
-				"Label": "Output text > summary/abstract title element on the second export page."
-			},
-			"exports.InfoIntro_3": {
-				"Label": "Output text > summary/abstract title element on the third export page."
-			},
-			"exports.InfoSummary_1": {
-				"Label": "This is the output text of the free text summary/abstract second output element on the first export page. This element is optional. If left blank the element will beremoved from the export output."
-			},
-			"exports.InfoSummary_2": {
-				"Label": "This is the output text of the free text summary/abstract second output element on the second export page. This element is optional. If left blank the element will beremoved from the export output."
-			},
-			"exports.InfoSummary_3": {
-				"Label": "This is the output text of the free text summary/abstract second output element on the third export page. This element is optional. If left blank the element will beremoved from the export output."
-			},
-			"exports.InfoBody_1": {
-				"Label": "This is the body text of the free text body element on the first export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output."
-			},
-			"exports.InfoBody_2": {
-				"Label": "This is the body text of the free text body element on the second export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output."
-			},
-			"exports.InfoBody_3": {
-				"Label": "This is the body text of the free text body element on the third export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output."
-			},
-			"exports.Continued": {
-				"Label": "cont'd"
-			},
-			"exports.Tier1SlidePreAmble": {
-				"Label": "Tier1 widget slide pre-amble (configurable)"
-			},
-			"comparator_guide": {
-				"Id": "comparator_guide",
-				"Title": "Comparator: Description",
-				"Label": ""
-			},
-			"comparator_guide.Trend1": {
-				"Label": "Difference from the previous year's result (i.e., current % favorable minus previous % favorable)."
-			},
-			"comparator_guide.Trend2": {
-				"Label": "Description of Trend2"
-			},
-			"comparator_guide.Trend3": {
-				"Label": "Description of Trend3"
-			},
-			"comparator_guide.Internal1": {
-				"Label": "Difference from the overall results for ABC Corporation (i.e., Your group's % favorable minus Overall ABC Corporation's % favorable)."
-			},
-			"comparator_guide.Internal2": {
-				"Label": "Difference from one level up in the hierarchy (i.e., Your group's % favorable minus the level above's % favorable)."
-			},
-			"comparator_guide.Internal3": {
-				"Label": "Description for third internal comparator."
-			},
-			"comparator_guide.Internal4": {
-				"Label": "Description for fourth internal comparator."
-			},
-			"comparator_guide.Internal5": {
-				"Label": "Description for fifth internal comparator."
-			},
-			"comparator_guide.Norm1": {
-				"Label": "This benchmark is based on data collected from over 5.7 million employees in 400 organizations around the world in a wide variety of industries."
-			},
-			"comparator_guide.Norm2": {
-				"Label": "This benchmark is a stretch target and shows the average survey scores from over 750,000 employees in 30 high performing organizations. Organizations are eligible for inclusion in the high performance benchmark if they exceed their industry peer group on the majority of financial Key Performance Indicators and meet a minimum threshold on employee engagement and enablement."
-			},
-			"comparator_guide.Norm3": {
-				"Label": "Difference from companies operating in the financial services industry, who have surveyed with the same question(s) within the previous five years."
-			},
-			"comparator_guide.Norm4": {
-				"Label": "Difference from companies located in Europe, across multiple industries, who have surveyed with the same question(s) within the previous five years."
-			},
-			"comparator_guide.Norm5": {
-				"Label": "Difference from companies located in the United Kingdom, across multiple industries, who have surveyed with the same question(s) within the previous five years."
-			},
-			"ug_headers_desciptions": {
-				"Id": "ug_headers_desciptions",
-				"Title": "",
-				"Label": ""
-			},
-			"ug_headers_desciptions.highlights": {
-				"Label": "Results highlights"
-			},
-			"ug_headers_desciptions.explore": {
-				"Label": "Explore results in detail"
-			},
-			"ug_headers_desciptions.actionplanning": {
-				"Label": "Action planning resources"
-			},
-			"ug_headers_desciptions.linkheader1": {
-				"Label": "The links below take you to pages that provide highlights from your results"
-			},
-			"ug_headers_desciptions.linkheader2": {
-				"Label": "The links below take you to pages where you can explore results in detail and conduct your own data mining"
-			},
-			"ug_headers_desciptions.linkheader3": {
-				"Label": "This area of the site includes various resources to support action planning and communication"
-			},
-			"ug_headers_desciptions.Welcome_Des": {
-				"Label": "An introduction to the site"
-			},
-			"ug_headers_desciptions.Summary_Des": {
-				"Label": "A one page summary showing key themes from the survey"
-			},
-			"ug_headers_desciptions.Dashboard_Des": {
-				"Label": "A selection of active widgets showing snapshots of your results. Click on a widget to explore further"
-			},
-			"ug_headers_desciptions.EEOverview_Des": {
-				"Label": "Engagement and Enablement results compared to various benchmarks"
-			},
-			"ug_headers_desciptions.EEDrivers_Des": {
-				"Label": "The Dimensions and questions in the survey that have the strongest influence on Engagement and Enablement"
-			},
-			"ug_headers_desciptions.EProfile_Des": {
-				"Label": "A segmentation analysis showing how effective people are at work, and including a tool to understand the differences in opinion between each segment"
-			},
-			"ug_headers_desciptions.area": {
-				"Label": "Area"
-			},
-			"ug_headers_desciptions.subarea": {
-				"Label": "Sub Area"
-			},
-			"ug_headers_desciptions.description": {
-				"Label": "Description"
-			},
-			"ug_headers_desciptions.QuestionsSummary_Des": {
-				"Label": "All of the survey questions grouped into Dimensions and compared to benchmarks"
-			},
-			"ug_headers_desciptions.ExploreSurveyDimensions_Des": {
-				"Label": "Data mine the survey Dimension and questions and explore demographic differences"
-			},
-			"ug_headers_desciptions.ResultsSortingTool_Des": {
-				"Label": "Sort, rank and filter Dimensions and questions compared to benchmarks"
-			},
-			"ug_headers_desciptions.InternalBenchmarkTool_Des": {
-				"Label": "Explore demographical results side by side to pin point significant differences"
-			},
-			"ug_headers_desciptions.PlotYourResults_Des": {
-				"Label": "Select two questions of your choice and plot the results for any demographic on a grid"
-			},
-			"ug_headers_desciptions.DemographicHighlighter_Des": {
-				"Label": "Choose a Dimension or question and pin point all the demographic groups that are significantly above or below average"
-			},
-			"ug_headers_desciptions.NSQ_Des": {
-				"Label": "An area for any questions with a non-standard response scale (e.g. multiple choice scale, ranking scale)"
-			},
-			"ug_headers_desciptions.step": {
-				"Label": "Step"
-			},
-			"ug_headers_desciptions.ActionHome_Des": {
-				"Label": "Introduction to taking action and Engagement resources hub"
-			},
-			"ug_headers_desciptions.ActionCreate_Des": {
-				"Label": "Design and schedule your plan, access recommended actions"
-			},
-			"ug_headers_desciptions.ActionOwn_Des": {
-				"Label": "Record the progress of your plan and measure your success"
-			},
-			"ug_headers_desciptions.ActionAll_Des": {
-				"Label": "An overview of all plans for your part of the hierarchy"
-			},
-			"ug_headers_desciptions.ActionBestPractice_Des": {
-				"Label": "Take inspiration from successful plans other managers chose to share"
-			},
-			"ug_headers_desciptions.ActionStatistics_Des": {
-				"Label": "View quantified user activity to explore action planning trends"
-			},
-			"ug_headers_desciptions.LocalQuestions_Des": {
-				"Label": "Offers functionality similar to the Question Summary page but allows you to show/hide individual dimensions based on hierarchy units"
-			},
-			"ug_headers_desciptions.NSQ_COMPARATOR_Des": {
-				"Label": "NSQ (Non-standard question) Comparator page displays percentages of selected answers for non-standard questions next to internal or external comparators"
-			},
-			"ug_headers_desciptions.NSQ_IBT_Des": {
-				"Label": "NSQ (Non-standard question) Benchmark Tool page displays percentages of selected answers for non-standard questions  next to results of individual cuts belonging to a selected demographic group"
-			},
-			"ug_headers_desciptions.Comments_Des": {
-				"Label": "See individual responses to comment questions in the survey and explore them in more detail using various filtering options"
-			},
-			"ug_headers_desciptions.Nps_Des": {
-				"Label": "ENPS (Employee Net Promoter Score) page displays percentages of respondents willing to actively promote the organization's products and services against those that are less likely or unwilling to"
-			},
-			"ug_headers_desciptions.Respondents_Des": {
-				"Label": "See the response rate for your unit and units directly below as well as the group sizes of demographic breakdowns on your level"
-			},
+			Items: {
+				"32": { "Label": "I believe I am paid fairly for the work I do." },
+				"10": { "Label": "There are enough people to do the work in my work group." },
+				"42": { "Label": "I believe my pay is fair considering the pay of people doing similar work in other companies." },
+				"7": { "Label": "I have opportunities to achieve my career goals at the company." },
+				"11": { "Label": "My job leaves adequate time to take advantage of job-related training opportunities." },
+				"4": { "Label": "My work group receives high quality support from other parts of the company we depend on." },
+				"22": { "Label": "The company provides training so that I can perform my present job well." },
+				"40": { "Label": "I have good opportunities for learning and development at the company." },
+				"31": { "Label": "The company is open and honest in communications with employees." },
+				"15": { "Label": "The company motivates me to do more than is required." },
+				"24": { "Label": "I have opportunities to have my ideas adopted and put into use." },
+				"34": { "Label": "The work is well organized in my work group." },
+				"48": { "Label": "The company provides a high quality customer experience." },
+				"8": { "Label": "The company is effectively managed and well-run." },
+				"6": { "Label": "I receive clear and regular feedback on how well I do my work." },
+				"19": { "Label": "I have trust and confidence in the company's senior leadership team." },
+				"36": { "Label": "There are no significant barriers at work to doing my job well." },
+				"49": { "Label": "I would recommend the company as a good place to work." },
+				"46": { "Label": "The company provides employee benefits that meet my needs." },
+				"1": { "Label": "I have the resources I need to do my job effectively." },
+				"44": { "Label": "I have the information I need to do my job well." },
+				"47": { "Label": "There is effective sharing of ideas and resources across the company." },
+				"2": { "Label": "I have enough authority to do my job well." },
+				"3": { "Label": "I receive recognition when I do a good job." },
+				"35": { "Label": "I am encouraged to come up with new or better ways of doing things." },
+				"30": { "Label": "There is a clear link between my performance and my compensation." },
+				"13": { "Label": "I believe that the company has the right strategic priorities and goals." },
+				"29": { "Label": "The company is innovative in how work is done (using new technologies or creative approaches to continuously improve)." },
+				"64": { "Label": "In the company, decisions are generally made at the lowest level appropriate." },
+				"12": { "Label": "The company expects a high level of performance from its employees." },
+				"38": { "Label": "My immediate manager supports me in my learning and development." },
+				"5": { "Label": "The company is customer focused (always seeking to understand and meet customer needs)." },
+				"50": { "Label": "New employees receive the training they need to do their jobs well." },
+				"70": { "Label": "There is good communication between departments in the company." },
+				"63": { "Label": "In the company, decisions are generally made in a timely manner." },
+				"77": { "Label": "Poor performance is addressed effectively in the company." },
+				"14": { "Label": "I understand the results expected of me in my job." },
+				"73": { "Label": "I have opportunities for advancement at the company." },
+				"69": { "Label": "There is good cooperation between departments in the company." },
+				"58": { "Label": "The company is effectively organized and structured." },
+				"75": { "Label": "Employee benefits provided by the company are competitive with benefits offered by other companies in our industry." },
+				"28": { "Label": "I am treated with respect as an individual." },
+				"74": { "Label": "I have a good idea of the possible career paths available to me." },
+				"87": { "Label": "When changes are made where I work, communications are handled well." },
+				"16": { "Label": "The people in my work group are committed to delivering high quality products and services." },
+				"26": { "Label": "I believe that the company will be successful over the next 2-3 years." },
+				"71": { "Label": "The company is responding effectively to changes in the business environment." },
+				"41": { "Label": "There is good cooperation and teamwork within my work group." },
+				"66": { "Label": "The information from this survey will be used constructively by the company." },
+				"76": { "Label": "I have a good understanding of compensation policies and practices that affect me." },
+				"61": { "Label": "Conditions in my job allow me to be about as productive as I can be." },
+				"86": { "Label": "The amount of work expected of me is reasonable." },
+				"59": { "Label": "The company supports me in achieving a reasonable balance between my work life and my personal life." },
+				"78": { "Label": "The feedback I receive during the year helps me develop and improve." },
+				"60": { "Label": "The company shows care and concern for its employees." },
+				"85": { "Label": "My immediate manager coaches me to help improve my performance." },
+				"53": { "Label": "I feel motivated to do more than is required of me." },
+				"80": { "Label": "We resolve customer problems quickly and effectively." },
+				"62": { "Label": "Given your choice, how long would you plan to continue working for the company?" },
+				"82": { "Label": "Physical working conditions where I work are good." },
+				"83": { "Label": "The company values and promotes employee diversity." },
+				"52": { "Label": "My job provides opportunities to do challenging and interesting work." },
+				"57": { "Label": "My job makes good use of my skills and abilities." },
+				"55": { "Label": "I have a good understanding of the company's strategic priorities and goals." },
+				"65": { "Label": "I have trust and confidence in my immediate manager." },
+				"51": { "Label": "The company provides high quality products and services." },
+				"56": { "Label": "I feel proud to work for the company." },
+				"67": { "Label": "The company operates in an ethical manner." },
+				"68": { "Label": "The company is socially responsible." },
+				"79": { "Label": "I would recommend the company's products or services to a friend." },
+				"54": { "Label": "I understand how my job contributes to the company's strategic priorities and goals." },
+				"81": { "Label": "My immediate manager is accessible when needed." },
+				"72": { "Label": "I have a good understanding of my work group's goals and objectives." },
+				"84": { "Label": "My work area is safe." },
+				"95": { "Label": "Given your choice, how long would you plan to continue working for the company?" },
+			},
+			Dimensions: {
+				"DIM_ENG": { "Label": "Employee Engagement" },
+				"DIM_ENA": { "Label": "Employee Enablement" },
+				"DIM_N64": { "Label": "Resources" },
+				"DIM_N50": { "Label": "Authority & Empowerment" },
+				"DIM_N65": { "Label": "Respect & Recognition" },
+				"DIM_N52": { "Label": "Collaboration" },
+				"DIM_N63": { "Label": "Quality & Customer Focus" },
+				"DIM_N61": { "Label": "Performance Management" },
+				"DIM_N54": { "Label": "Development Opportunities" },
+				"DIM_N53": { "Label": "Confidence in Leaders" },
+				"DIM_N66": { "Label": "Training" },
+				"DIM_N51": { "Label": "Clear & Promising Direction" },
+				"DIM_N67": { "Label": "Work, Structure, & Process" },
+				"DIM_N60": { "Label": "Pay & Benefits" },
+				"DIM_C15": { "Label": "Local questions" },
+				"DIM_NPS": { "Label": "Employee Net Promoter Score (ENPS)" },
+			},
+			BreakBy: {
+				"Hierarchy": {
+					"Label": "One Level Down",
+					"Title": "Company Overall",
+					"Options": {
+						"1a": { "Label": "Group A" },
+						"1b": { "Label": "Group B" },
+						"1c": { "Label": "Group C" }
+					}
+				},
+				"Gender": {
+					"Label": "Gender",
+					"Options": {
+						"410": { "Label": "Male" },
+						"420": { "Label": "Female" },
+						"430": { "Label": "Other/non-binary" },
+						"440": { "Label": "Prefer not to say" }
+					}
+				},
+				"Age": {
+					"Label": "Age",
+					"Options": {
+						"651": { "Label": "Under 20" },
+						"652": { "Label": "20 to 29" },
+						"653": { "Label": "30 to 39" },
+						"654": { "Label": "40 to 49" },
+						"655": { "Label": "50 to 59" },
+						"656": { "Label": "Over 59" }
+					}
+				},
+				"Tenure": {
+					"Label": "Tenure",
+					"Options": {
+						"701": { "Label": "Less than 1 year" },
+						"702": { "Label": "1 year to less than 2 years" },
+						"703": { "Label": "2 years to less than 5 years" },
+						"704": { "Label": "5 years to less than 10 years" },
+						"705": { "Label": "10 years or more" }
+					}
+				},
+				"UnionNon": {
+					"Label": "Union/Non-Union",
+					"Options": {
+						"631": { "Label": "Union" },
+						"632": { "Label": "Non-Union" }
+					}
+				},
+				"Wage_Status": {
+					"Label": "Wage_Status",
+					"Options": {
+						"641": { "Label": "Hourly" },
+						"642": { "Label": "Salaried" }
+					}
+				}
+			},
+			Comparators: {
+				"Internal.trend2020": { Label: "Trend 2020" },
+				"Internal.trend2019": { Label: "Trend 2019" },
+				"Internal.trend2018": { Label: "Trend 2018" },
+				"Internal.parent": { Label: "Parent" },
+				"Internal.total": { Label: "Total Company" },
+				"External.IndustryBenchmark": { Label: "Industry Benchmark" },
+				"External.HighPerformers": { Label: "High Performers" },
+			},
+
+			ui: {
+				"print": { "Label": "Print" },
+				"export": { "Label": "Export" },
+				"logoff": { "Label": "Log Off" },
+				"breakby": { "Label": "Break By:" },
+				"respondentcount": { "Label": "Number of Respondents" },
+				"preferences": { "Label": "Preferences" },
+				"breadcrumb": { "Label": "You are here:" },
+				"setreportbase": { "Label": "Set Report Base" },
+				"reenterreport": { "Label": "Re-enter Report" },
+				"changereport": { "Label": "Report List" },
+			},
+			labels: {
+				"ResponseRate": { "Label": "Response Rate" },
+				"Passives": { "Label": "Passives" },
+				"Promoters": { "Label": "Promoters" },
+				"Detractors": { "Label": "Detractors" },
+				"PercentDistribution": { "Label": "% Distribution" },
+				"ValidN": { "Label": "Valid N" },
+				"Favorable": { "Label": "Fav" },
+				"PercentFav": { "Label": "% Fav" },
+				"PercentNeu": { "Label": "% Neu" },
+				"PercentUnfav": { "Label": "% Unfav" },
+				"Distribution": { "Label": "Distribution" },
+				"PriorResults": { "Label": "Trend 2015" },
+				"PriorResults2": { "Label": "Trend 2014" },
+				"PriorResults3": { "Label": "Trend 2013" },
+				"FavvsComparator": { "Label": "% Fav vs Comparator" },
+				"ImpactonEngagement": { "Label": "Impact on Engagement" },
+				"ImpactonEnablement": { "Label": "Impact on Enablement" },
+				"YourCurrentResults": { "Label": "Your Current Results" },
+				"PercentFavorable": { "Label": "% Favorable" },
+				"PercentEffective": { "Label": "% Effective" },
+				"PercentFrustrated": { "Label": "% Frustrated" },
+				"PercentDetached": { "Label": "% Detached" },
+				"PercentIneffective": { "Label": "% Ineffective" },
+				"Potential": { "Label": "(Potential)" },
+				"AND": { "Label": "AND" },
+				"ENPS": { "Label": "ENPS" },
+				"AddtoPlan": { "Label": "Add to Plan" },
+				"BuildYourPlan": { "Label": "Build Your Plan" },
+				"Item": { "Label": "Item" },
+				"Rank": { "Label": "Rank" },
+				"ShowAll": { "Label": "(Show All)" },
+				"ByStatus": { "Label": "By Status" },
+				"filtererror": { "Label": "Error: Max [ERROR] comparators allowed" },
+				"SelectQuestion": { "Label": "Select Question:" },
+				"SelectOpinionQuestion": { "Label": "Select Opinion Question:" },
+				"Question": { "Label": "Question:" },
+				"BreakBy": { "Label": "Break By:" },
+				"FullDistribution": { "Label": "Full Distribution:" },
+				"none": { "Label": "(None)" },
+				"DIMENSION": { "Label": "Dimension:" },
+				"norm": { "Label": "(Norm)" },
+				"QNo": { "Label": "Q #" },
+				"SelectTheme": { "Label": "Select Theme:" },
+				"show": { "Label": "Show:" },
+				"metric": { "Label": "Metric:" },
+				"INTERNAL": { "Label": "INTERNAL:" },
+				"EXTERNAL": { "Label": "EXTERNAL:" },
+				"DimensionLabel": { "Label": "Dimension" },
+				"Chart": { "Label": "Chart" },
+				"InternalComp1": { "Label": "Total Company" },
+				"InternalComp2": { "Label": "Parent" },
+				"InternalComp3": { "Label": "Level 2" },
+				"InternalComp4": { "Label": "Custom 1" },
+				"InternalComp5": { "Label": "Custom 2" },
+				"VirtualUnits": { "Label": "Virtual Units" },
+				"NewVU": { "Label": "(New)" },
+				"DefaultVUName": { "Label": "(Virtual Unit)" },
+				"APHomeItem": { "Label": "Item" },
+				"Max5CompsAllowed": { "Label": "No more than [MAXALLOWED] comparators can be selected at the same time." },
+				"NoDataToDisplay": { "Label": "No data to display" },
+			},
+			drop_downs: {
+				"Passives": { "Label": "Passives" },
+				"Detractors": { "Label": "Detractors" },
+				"PriorResults": { "Label": "Trend 2015" },
+				"PriorResults2": { "Label": "Trend 2014" },
+				"PriorResults3": { "Label": "Trend 2013" },
+				"Overall": { "Label": "Overall" },
+				"fulldetails": { "Label": "(full details)" },
+				"PercentFavorable": { "Label": "% Favorable" },
+				"PercentNeutral": { "Label": "% Neutral" },
+				"PercentUnfavorable": { "Label": "% Unfavorable" },
+				"NoSorting": { "Label": "No Sorting" },
+				"AbsoluteValue": { "Label": "Absolute Value" },
+				"DifferencetoTotal": { "Label": "Difference to Total" },
+				"AllDimensions": { "Label": "All Dimensions" },
+				"Top10Questions": { "Label": "Top 10 Questions" },
+				"AllQuestions": { "Label": "All Questions" },
+				"ReportTotal": { "Label": "Report Total" },
+				"DemographicTotal": { "Label": "Demographic Total" },
+				"Exclude": { "Label": "Exclude" },
+				"Include": { "Label": "Include" },
+				"compact": { "Label": "(compact)" },
+				"none": { "Label": "(None)" },
+				"DIMENSION": { "Label": "Dimension:" },
+				"norm": { "Label": "(Norm)" },
+				"all": { "Label": "(All)" },
+				"AllQuestionsOrdByDimension": { "Label": "All Questions ordered by dimension" },
+			},
+			rst_drop_down: {
+				"Strengths": { "Label": "Strengths" },
+				"Opportunities": { "Label": "Opportunities" },
+				"KeyDriversofEngagement": { "Label": "Key Drivers of Engagement" },
+				"KeyDriversofEnablement": { "Label": "Key Drivers of Enablement" },
+				"QuestionTrend": { "Label": "Question Trend 2015" },
+				"QuestionTrend2": { "Label": "Question Trend 2014" },
+				"QuestionTrend3": { "Label": "Question Trend 2013" },
+				"InternalComparison": { "Label": "Internal Comparison" },
+				"ExternalComparison": { "Label": "External Comparison ([NORM])" },
+				"Top10MostFavorable": { "Label": "Top [N] Most Favorable" },
+				"Top10LeastFavorable": { "Label": "Top [N] Least Favorable" },
+				"Top10MostUnfavorable": { "Label": "Top [N] Most Unfavorable" },
+				"Top10LeastUnfavorable": { "Label": "Top [N] Least Unfavorable" },
+				"Top10Neutral": { "Label": "Top [N] Neutral" },
+				"Top10Improved": { "Label": "Top [N] Improved" },
+				"Top10Declined": { "Label": "Top [N] Declined" },
+				"Top10AboveNORM": { "Label": "Top [N] Above [NORM] (Norm)" },
+				"Top10BelowNORM": { "Label": "Top [N] Below [NORM] (Norm)" },
+				"Top10Above": { "Label": "Top [N] Above" },
+				"Top10Below": { "Label": "Top [N] Below" },
+				"FullQFav": { "Label": "% Favorable" },
+				"FullQNeutral": { "Label": "% Neutral" },
+				"FullQUnfav": { "Label": "% Unfavorable" },
+			},
+			pages: {
+				"AllItems": {
+					"Title": "All Items",
+					"Label": "The results for all survey dimensions and questions are shown below."
+				},
+				"ItemDetails": {
+					"Title": "Item Details",
+					"Label": "In this area you can explore survey dimensions in detail, zoom into questions within a dimension and apply demographic filters."
+				},
+				"Action": { "Label": "Take Action" },
+				"ActionAll": { "Label": "Review All Plans" },
+				"ActionBestPractice": { "Label": "Shared Plans" },
+				"ActionCreate": { "Label": "Create Plan" },
+				"ActionHome": { "Label": "Home" },
+				"ActionOwn": { "Label": "Review Own Plans" },
+				"ActionStatistics": { "Label": "Statistics" },
+				"Comments": { "Label": "Comments" },
+				"Dashboard": { "Label": "Dashboard" },
+				"DemographicHighlighter": { "Label": "Demographic Highlighter" },
+				"EE": { "Label": "Engagement and Enablement" },
+				"EEDetails": { "Label": "Engagement and Enablement Details" },
+				"EEDrivers": { "Label": "Engagement and Enablement Drivers" },
+				"EEOverview": { "Label": "Engagement and Enablement Overview" },
+				"EProfile": { "Label": "Effectiveness Profile" },
+				"EProfileDetails": { "Label": "Effectiveness Profile Details" },
+				"EProfileGap": { "Label": "Effectiveness Profile Gap" },
+				"EProfileTrend": { "Label": "Effectiveness Profile Trend" },
+				"ExploreResults": { "Label": "Explore Results" },
+				"ExploreSurveyDimensions": { "Label": "Survey Dimensions" },
+				"DimDetails": { "Label": "Dimension Details" },
+				"GeneratingPssTable": { "Label": "Generating PSS Table..." },
+				"InternalBenchmarkTool": { "Label": "Internal Benchmark Tool" },
+				"LocalQuestions": { "Label": "Local Questions" },
+				"Nps": { "Label": "ENPS" },
+				"NpsDetails": { "Label": "ENPS Details" },
+				"NpsGap": { "Label": "ENPS Gap" },
+				"NpsScale": { "Label": "ENPS Scale" },
+				"NSQ": { "Label": "Non-Standard Questions" },
+				"NSQ_COMPARATOR": { "Label": "NSQ Comparator page" },
+				"NSQ_IBT": { "Label": "NSQ Benchmark Tool" },
+				"RankingQuestions": { "Label": "Ranking Questions" },
+				"PlotYourResults": { "Label": "Plot Your Results" },
+				"PssTableComplete": { "Label": "PSS Table Complete" },
+				"PssTableGenerator": { "Label": "PSS Table Generator" },
+				"QuestionDetails": { "Label": "Question Details" },
+				"QuestionsByDimension": { "Label": "Questions By Dimension" },
+				"QuestionsSummary": { "Label": "Questions Summary" },
+				"Respondents": { "Label": "Respondents" },
+				"RespondentsTrend": { "Label": "Respondents - Trend" },
+				"ResponsesByGroup": { "Label": "Responses By Group" },
+				"ResponsesBySegment": { "Label": "Responses By Segment" },
+				"ResponseRate": { "Label": "Response Rate" },
+				"ResponseRateDetails": { "Label": "Response Rate Details" },
+				"ResultsSortingTool": { "Label": "Results Sorting Tool" },
+				"Summary": { "Label": "Summary" },
+				"Welcome": { "Label": "Welcome" },
+				"AlgorithmSO": { "Label": "Algorithm: Strengths and Opportunities" },
+				"NPSGapTool": { "Label": "ENPS - Gap Analysis Tool" },
+				"FiltersandComparators": { "Label": "Filters and Comparators" },
+				"ChangeRole": { "Label": "Change Role" },
+				"UserGuide": { "Label": "User Guide" },
+				"ComparatorGuide": { "Label": "Guide" },
+				"PSS": { "Label": "PSS" },
+				"ExportWelcome": { "Label": "Export Welcome" },
+				"ExportCover": { "Label": "Export Cover" },
+				"VirtualUnitsEditor": { "Label": "Virtual Unit Editor" },
+				"VirtualUnitsEnterCodes": { "Label": "Virtual Unit Editor - Enter Codes" },
+			},
+			buttons: {
+				"Back": { "Label": "Back" },
+				"vu_update": { "Label": "Update This Virtual Unit" },
+				"vu_delete": { "Label": "Delete This Virtual Unit" },
+				"vu_create": { "Label": "Create New Virtual Unit" },
+				"vu_previous_page": { "Label": "Previous Page" },
+				"vu_activate": { "Label": "Activate This Virtual Unit" },
+				"vu_enter_codes": { "Label": "Enter Codes" },
+				"vu_hierarchy_list": { "Label": "Hierarchy Selector" },
+				"ByGroup": { "Label": "By Group" },
+				"BySegment": { "Label": "By Segment" },
+				"Comments": { "Label": "Comments" },
+				"CreatePlan": { "Label": "Create Plan" },
+				"Dashboard": { "Label": "Dashboard" },
+				"DemoHighlighter": { "Label": "Demographic Highlighter" },
+				"Details": { "Label": "Details" },
+				"EEDrivers": { "Label": "Engagement and Enablement Drivers" },
+				"EEOverview": { "Label": "Overview" },
+				"EffectivenessProfile": { "Label": "Effectiveness Profile" },
+				"FurtherDetails": { "Label": "Further Details" },
+				"GapAnalysis": { "Label": "Gap Analysis Tool" },
+				"Home": { "Label": "Home" },
+				"InternalBM": { "Label": "Internal Benchmark Tool" },
+				"NavByDimension": { "Label": "Questions by Dimension" },
+				"NavDetails": { "Label": "Details" },
+				"NavMain": { "Label": "Dimensions" },
+				"NavMainAll": { "Label": "All Dimensions" },
+				"NavNPS": { "Label": "ENPS" },
+				"NavProfile": { "Label": "Effectiveness Profile" },
+				"NavQuestionDetails": { "Label": "Question Details" },
+				"Next": { "Label": "Next" },
+				"NPS": { "Label": "ENPS" },
+				"NPSScale": { "Label": "ENPS Scale" },
+				"NSQ": { "Label": "Non-Standard Questions" },
+				"Overall": { "Label": "Overall" },
+				"PlotYourResults": { "Label": "Plot Your Results" },
+				"QuestionSummary": { "Label": "Questions Summary" },
+				"RST": { "Label": "Results Sorting Tool" },
+				"ScaleFilter": { "Label": "Apply Scale Filter" },
+				"SharedPlans": { "Label": "Shared Plans" },
+				"Statistics": { "Label": "Statistics" },
+				"Summary": { "Label": "Summary" },
+				"SurveyDimensions": { "Label": "Survey Dimensions" },
+				"NavDimDetails": { "Label": "Dimension Details" },
+				"Trend": { "Label": "Trend" },
+				"Update": { "Label": "Update" },
+				"UserGuide": { "Label": "User Guide" },
+				"ViewAllPlans": { "Label": "Review All Plans" },
+				"ViewOwnPlan": { "Label": "Review Own Plans" },
+				"Nextiteration": { "Label": "Next iteration" },
+				"Gap": { "Label": "ENPS Gap Analysis" },
+				"FiltersComparators": { "Label": "Filters / Comparators" },
+				"ClearFilters": { "Label": "Clear Filters" },
+				"ComparatorGuide": { "Label": "Guide" },
+				"SaveandReturn": { "Label": "Save and Return" },
+				"Previous": { "Label": "Previous" },
+				"More": { "Label": "More" },
+				"EGapAnalysis": { "Label": "Gap Analysis" },
+				"Edit": { "Label": "Edit" },
+				"ENPSDetail": { "Label": "ENPS Details" },
+				"ClearVirtualUnit": { "Label": "Clear Virtual Unit" },
+				"EditVirtualUnit": { "Label": "Edit Virtual Unit" },
+				"AddNew": { "Label": "Add" },
+				"Delete": { "Label": "Delete" },
+				"Save": { "Label": "Save" },
+				"EnterCodes": { "Label": "Enter Codes" },
+				"LocalQuestions": { "Label": "Local Questions" },
+				"NSQComp": { "Label": "NSQ Comparator page" },
+				"NSQ_IBT": { "Label": "NSQ Benchmark Tool" },
+				"Respondents": { "Label": "Respondents" },
+			},
+			exports: {
+				"ResponseRate": { "Label": "Response rate preamble text" },
+				"EffectivenessProfile": { "Label": "The Effectiveness Profile arranges people into four different groups based on levels of Engagement and Enablement and compares the size of these groups to Korn Ferry benchmarks." },
+				"EngAndEna": { "Label": "Below are your Engagement and Enablement results compared to benchmarks. <ul><li><b>Engagement</b> represents the % of employees committed to the organization and willing to apply discretionary effort in their work. </li><li><b>Enablement</b> represents the % employees well matched to their role and who experience job conditions that support them perform to their full potential.</li></ul>" },
+				"TopDimensions": { "Label": "Survey Dimensions show the average score for a set of questions relating to a common theme.<br>The Top Dimensions chart shows the three most favorably scoring themes and represents the areas where people feel most positive, regardless of benchmarks." },
+				"QuestionTrend": { "Label": "Question Trends show the change in opinion, across all comparable questions since the prior survey.<br>The chart shows the number of questions where the % favorable score either improved or declined significantly." },
+				"InternalComparison": { "Label": "The Internal Comparison shows how results compare to the rest of the organization across all questions.  The chart shows the number of questions where the percent favorable score is significantly above or below the wider organization." },
+				"ExternalComparison": { "Label": "The External Comparison shows how results compare to Korn Ferry external benchmarks.  The chart shows the number of questions where the percent favorable score is significantly above or below external benchmarks." },
+				"KeyDrivers": { "Label": "Key Drivers are Dimensions and individual questions which have the strongest influence on how engaged and enabled people are." },
+				"TopComments": { "Label": "People were asked the following open-ended question: [INSERT QUESTION TEXT].   Their written feedback is grouped into themes.<br>The chart shows the three most frequently mentioned themes." },
+				"Strengths": { "Label": "Strengths were selected by analyzing which questions compare most positively to the wider organization, Korn Ferry benchmarks and in absolute terms." },
+				"Opportunities": { "Label": "Opportunities were selected by analyzing which questions compare least positively to the wider organization, Korn Ferry benchmarks and in absolute terms." },
+				"ENPS": { "Label": "The Employee Net Promoter Score (ENPS) is based on the question: How likely is it that you would recommend our products / services to a friend or colleague?<br>ENPS measures the percentage of people willing to actively promote the organization's products and services and compares this to those that are less likely or unwilling to." },
+				"ENPSTrend": { "Label": "The Employee Net Promoter Score (ENPS) is based on the question: How likely is it that you would recommend our products / services to a friend or colleague?<br>ENPS measures the percentage of people willing to actively promote the organization's products and services and compares this to those that are less likely or unwilling to." },
+				"ReportFor": { "Label": "Report For:" },
+				"InfoIntro_1": { "Label": "Output text > summary/abstract title element on the first export page." },
+				"InfoIntro_2": { "Label": "Output text > summary/abstract title element on the second export page." },
+				"InfoIntro_3": { "Label": "Output text > summary/abstract title element on the third export page." },
+				"InfoSummary_1": { "Label": "This is the output text of the free text summary/abstract second output element on the first export page. This element is optional. If left blank the element will beremoved from the export output." },
+				"InfoSummary_2": { "Label": "This is the output text of the free text summary/abstract second output element on the second export page. This element is optional. If left blank the element will beremoved from the export output." },
+				"InfoSummary_3": { "Label": "This is the output text of the free text summary/abstract second output element on the third export page. This element is optional. If left blank the element will beremoved from the export output." },
+				"InfoBody_1": { "Label": "This is the body text of the free text body element on the first export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output." },
+				"InfoBody_2": { "Label": "This is the body text of the free text body element on the second export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output." },
+				"InfoBody_3": { "Label": "This is the body text of the free text body element on the third export page. Update this text to either some sort of pertinent verbiage or delete completely to have this element removed from the export output." },
+				"Continued": { "Label": "cont'd" },
+				"Tier1SlidePreAmble": { "Label": "Tier1 widget slide pre-amble (configurable)" },
+			},
+			comparator_guide: {
+				"Trend1": { "Label": "Difference from the previous year's result (i.e., current % favorable minus previous % favorable)." },
+				"Trend2": { "Label": "Description of Trend2" },
+				"Trend3": { "Label": "Description of Trend3" },
+				"Internal1": { "Label": "Difference from the overall results for ABC Corporation (i.e., Your group's % favorable minus Overall ABC Corporation's % favorable)." },
+				"Internal2": { "Label": "Difference from one level up in the hierarchy (i.e., Your group's % favorable minus the level above's % favorable)." },
+				"Internal3": { "Label": "Description for third internal comparator." },
+				"Internal4": { "Label": "Description for fourth internal comparator." },
+				"Internal5": { "Label": "Description for fifth internal comparator." },
+				"Norm1": { "Label": "This benchmark is based on data collected from over 5.7 million employees in 400 organizations around the world in a wide variety of industries." },
+				"Norm2": { "Label": "This benchmark is a stretch target and shows the average survey scores from over 750,000 employees in 30 high performing organizations. Organizations are eligible for inclusion in the high performance benchmark if they exceed their industry peer group on the majority of financial Key Performance Indicators and meet a minimum threshold on employee engagement and enablement." },
+				"Norm3": { "Label": "Difference from companies operating in the financial services industry, who have surveyed with the same question(s) within the previous five years." },
+				"Norm4": { "Label": "Difference from companies located in Europe, across multiple industries, who have surveyed with the same question(s) within the previous five years." },
+				"Norm5": { "Label": "Difference from companies located in the United Kingdom, across multiple industries, who have surveyed with the same question(s) within the previous five years." },
+			},
+			ug_headers_desciptions: {
+				"highlights": { "Label": "Results highlights" },
+				"explore": { "Label": "Explore results in detail" },
+				"actionplanning": { "Label": "Action planning resources" },
+				"linkheader1": { "Label": "The links below take you to pages that provide highlights from your results" },
+				"linkheader2": { "Label": "The links below take you to pages where you can explore results in detail and conduct your own data mining" },
+				"linkheader3": { "Label": "This area of the site includes various resources to support action planning and communication" },
+				"Welcome_Des": { "Label": "An introduction to the site" },
+				"Summary_Des": { "Label": "A one page summary showing key themes from the survey" },
+				"Dashboard_Des": { "Label": "A selection of active widgets showing snapshots of your results. Click on a widget to explore further" },
+				"EEOverview_Des": { "Label": "Engagement and Enablement results compared to various benchmarks" },
+				"EEDrivers_Des": { "Label": "The Dimensions and questions in the survey that have the strongest influence on Engagement and Enablement" },
+				"EProfile_Des": { "Label": "A segmentation analysis showing how effective people are at work, and including a tool to understand the differences in opinion between each segment" },
+				"area": { "Label": "Area" },
+				"subarea": { "Label": "Sub Area" },
+				"description": { "Label": "Description" },
+				"QuestionsSummary_Des": { "Label": "All of the survey questions grouped into Dimensions and compared to benchmarks" },
+				"ExploreSurveyDimensions_Des": { "Label": "Data mine the survey Dimension and questions and explore demographic differences" },
+				"ResultsSortingTool_Des": { "Label": "Sort, rank and filter Dimensions and questions compared to benchmarks" },
+				"InternalBenchmarkTool_Des": { "Label": "Explore demographical results side by side to pin point significant differences" },
+				"PlotYourResults_Des": { "Label": "Select two questions of your choice and plot the results for any demographic on a grid" },
+				"DemographicHighlighter_Des": { "Label": "Choose a Dimension or question and pin point all the demographic groups that are significantly above or below average" },
+				"NSQ_Des": { "Label": "An area for any questions with a non-standard response scale (e.g. multiple choice scale, ranking scale)" },
+				"step": { "Label": "Step" },
+				"ActionHome_Des": { "Label": "Introduction to taking action and Engagement resources hub" },
+				"ActionCreate_Des": { "Label": "Design and schedule your plan, access recommended actions" },
+				"ActionOwn_Des": { "Label": "Record the progress of your plan and measure your success" },
+				"ActionAll_Des": { "Label": "An overview of all plans for your part of the hierarchy" },
+				"ActionBestPractice_Des": { "Label": "Take inspiration from successful plans other managers chose to share" },
+				"ActionStatistics_Des": { "Label": "View quantified user activity to explore action planning trends" },
+				"LocalQuestions_Des": { "Label": "Offers functionality similar to the Question Summary page but allows you to show/hide individual dimensions based on hierarchy units" },
+				"NSQ_COMPARATOR_Des": { "Label": "NSQ (Non-standard question) Comparator page displays percentages of selected answers for non-standard questions next to internal or external comparators" },
+				"NSQ_IBT_Des": { "Label": "NSQ (Non-standard question) Benchmark Tool page displays percentages of selected answers for non-standard questions  next to results of individual cuts belonging to a selected demographic group" },
+				"Comments_Des": { "Label": "See individual responses to comment questions in the survey and explore them in more detail using various filtering options" },
+				"Nps_Des": { "Label": "ENPS (Employee Net Promoter Score) page displays percentages of respondents willing to actively promote the organization's products and services against those that are less likely or unwilling to" },
+				"Respondents_Des": { "Label": "See the response rate for your unit and units directly below as well as the group sizes of demographic breakdowns on your level" },
+			},
+
 			"welcome": {
 				"Id": "welcome",
 				"Title": "welcome",
@@ -2486,7 +1756,7 @@ if ( meta == null ) {
 			"ap_review_own": {
 				"Id": "ap_review_own",
 				"Title": "In this area you can view and edit all of your own plans. Use the Edit function to update the status of your plan and record lessons learnt.",
-				"Label": "In this area you can view and edit all of your own plans. Use the Edit function to update the status of your plan and record lessons learnt."
+				"Label": "In this area you can view and edit all of your own plans. Use the <span spellcheck=\"-1\" style=\"font-style: italic;\">Edit</span> function to update the status of your plan and record lessons learnt."
 			},
 			"ap_review_own.Plandetails": {
 				"Label": "Plan details"
@@ -2633,7 +1903,7 @@ if ( meta == null ) {
 			"matrix": {
 				"Id": "matrix",
 				"Title": "Click on the 'Question Mark' in the top right hand corner for details on how the Matrix is created.",
-				"Label": "Click on the 'Question Mark' in the top right hand corner for details on how the Matrix is created."
+				"Label": "Click on the 'Question Mark' in the top right hand corner for details on how the Matrix is created.<br spellcheck=\"-1\"/>"
 			},
 			"matrix.dummy": {
 				"Label": "Dummy Text"
@@ -2641,7 +1911,7 @@ if ( meta == null ) {
 			"exportsppt": {
 				"Id": "exportsppt",
 				"Title": "Click on the 'Question Mark' in the top right hand corner for details on PPT/PDF/Excel exports.",
-				"Label": "Click on the 'Question Mark' in the top right hand corner for details on PPT/PDF/Excel exports."
+				"Label": "Click on the 'Question Mark' in the top right hand corner for details on PPT/PDF/Excel exports.<br spellcheck=\"-1\"/>"
 			},
 			"exportsppt.dummy": {
 				"Label": "Dummy Text"
@@ -2649,54 +1919,10 @@ if ( meta == null ) {
 			"standard": {
 				"Id": "standard",
 				"Title": "Click on the 'Question Mark' in the top right hand corner for details on what is Standard vs Non-Standard",
-				"Label": "Click on the 'Question Mark' in the top right hand corner for details on what is Standard vs Non-Standard"
+				"Label": "Click on the 'Question Mark' in the top right hand corner for details on what is Standard vs Non-Standard<br spellcheck=\"-1\"/>"
 			},
 			"standard.dummy": {
 				"Label": "Dummy Text"
-			},
-			"questions.Gender": {
-				"Label": "Gender",
-				"Answers": {
-					"410": {"Label": "Male" },
-					"420": {"Label": "Female" },
-					"430": {"Label": "Other/non-binary" },
-					"440": {"Label": "Prefer not to say" }
-				}
-			},
-			"questions.Age": {
-				"Label": "Age",
-				"Answers":{
-					"651": {"Label": "Under 20" },
-					"652": {"Label": "20 to 29" },
-					"653": {"Label": "30 to 39" },
-					"654": {"Label": "40 to 49" },
-					"655": {"Label": "50 to 59" },
-					"656": {"Label": "Over 59" }
-				}
-			},
-			"questions.Tenure": {
-				"Label": "Tenure",
-				"Answers": {
-					"701": {"Label": "Less than 1 year" },
-					"702": {"Label": "1 year to less than 2 years" },
-					"703": {"Label": "2 years to less than 5 years" },
-					"704": {"Label": "5 years to less than 10 years" },
-					"705": {"Label": "10 years or more" }
-				}
-			},
-			"questions.UnionNon": {
-				"Label": "Union/Non-Union",
-				"Answers": {
-					"631": {"Label": "Union" },
-					"632": {"Label": "Non-Union" }
-				}
-			},
-			"questions.Wage_Status": {
-				"Label": "Wage_Status",
-				"Answers": {
-					"641": {"Label": "Hourly" },
-					"642": {"Label": "Salaried" }
-				}
 			}
 		}
 	};
@@ -3953,7 +3179,7 @@ if ( data.EffectivenessProfile == null ) {
 if (data.Dimensions == null) {
 
 	var dimensions = {
-		'dimensions.DIM_ENG': {
+		'DIM_ENG': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -3961,13 +3187,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [15, 49, 53, 56, 62],
+			Items: ['15', '49', '53', '56', '62'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_ENA': {
+		'DIM_ENA': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -3975,13 +3200,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [36, 52, 57, 61],
+			Items: ['36', '52', '57', '61'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N64': {
+		'DIM_N64': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -3989,13 +3213,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [1, 10, 44, 81, 82],
+			Items: ['1', '10', '44', '81', '82'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N50': {
+		'DIM_N50': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4003,13 +3226,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [2, 24, 35, 64],
+			Items: ['2', '24', '35', '64'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N65': {
+		'DIM_N65': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4017,13 +3239,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [3, 28, 59, 60, 83, 84],
+			Items: ['3', '28', '59', '60', '83', '84'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N52': {
+		'DIM_N52': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4031,13 +3252,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [4, 41, 47, 69, 70],
+			Items: ['4', '41', '47', '69', '70'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N63': {
+		'DIM_N63': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4045,13 +3265,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [5, 16, 48, 51, 79, 80],
+			Items: ['5', '16', '48', '51', '79', '80'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N61': {
+		'DIM_N61': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4059,13 +3278,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [6, 12, 14, 30, 77, 78],
+			Items: ['6', '12', '14', '30', '77', '78'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N54': {
+		'DIM_N54': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4073,13 +3291,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [7, 38, 40, 73, 74],
+			Items: ['7', '38', '40', '73', '74'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N53': {
+		'DIM_N53': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4087,13 +3304,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [8, 19, 31, 65, 66, 67, 68],
+			Items: ['8', '19', '31', '65', '66', '67', '68'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N66': {
+		'DIM_N66': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4101,13 +3317,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [11, 22, 50, 85],
+			Items: ['11', '22', '50', '85'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N51': {
+		'DIM_N51': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4115,13 +3330,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [13, 26, 54, 55, 71, 72],
+			Items: ['13', '26', '54', '55', '71', '72'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N67': {
+		'DIM_N67': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4129,13 +3343,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [29, 34, 58, 63, 86, 87],
+			Items: ['29', '34', '58', '63', '86', '87'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_N60': {
+		'DIM_N60': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4143,13 +3356,12 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [32, 42, 46, 75, 76],
+			Items: ['32', '42', '46', '75', '76'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
-		'dimensions.DIM_NPS': {
+		'DIM_NPS': {
 			N: 15792,
 			Score: 85,
 			Distribution: {
@@ -4157,10 +3369,9 @@ if (data.Dimensions == null) {
 				Neu: 10,
 				Unfav: 5
 			},
-			Items: [95],
+			Items: ['95'],
 			vsHighPerformers: "33 *",
 			vsNorm: "38 *",
-
 			vsTrend: "0"
 		},
 
@@ -4173,902 +3384,827 @@ if (data.ItemsNew == null) {
 
 	var itemsNew = {
 
-		'items.32': {
+		'32': {
 			N: 15792,
 			Distribution: {
 				Fav: 87,
 				Neu: 10,
 				Unfav: 2
 			},
-
 			vsTrend: "0",
 			vsNorm: "38 *",
 			vsHighPerformers: "33 *"
 		},
-		'items.10': {
+		'10': {
 			N: 15713,
 			Distribution: {
 				Fav: 83,
 				Neu: 9,
 				Unfav: 8
 			},
-
 			vsTrend: "-2 *",
 			vsNorm: "35 *",
 			vsHighPerformers: "31 *"
 		},
-		'items.42': {
+		'42': {
 			N: 15794,
 			Distribution: {
 				Fav: 74,
 				Neu: 17,
 				Unfav: 9
 			},
-
 			vsTrend: "-1",
 			vsNorm: "31 *",
 			vsHighPerformers: "26 *"
 		},
-		'items.7': {
+		'7': {
 			N: 15795,
 			Distribution: {
 				Fav: 87,
 				Neu: 7,
 				Unfav: 6
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "31 *",
 			vsHighPerformers: "24 *"
 		},
-		'items.11': {
+		'11': {
 			N: 15789,
 			Distribution: {
 				Fav: 79,
 				Neu: 13,
 				Unfav: 8
 			},
-
 			vsTrend: "0",
 			vsNorm: "29 *",
 			vsHighPerformers: "25 *"
 		},
-		'items.4': {
+		'4': {
 			N: 15776,
 			Distribution: {
 				Fav: 80,
 				Neu: 11,
 				Unfav: 9
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "28 *",
 			vsHighPerformers: "20 *"
 		},
-		'items.22': {
+		'22': {
 			N: 15489,
 			Distribution: {
 				Fav: 85,
 				Neu: 10,
 				Unfav: 5
 			},
-
 			vsTrend: "0",
 			vsNorm: "25 *",
 			vsHighPerformers: "17 *"
 		},
-		'items.40': {
+		'40': {
 			N: 15601,
 			Distribution: {
 				Fav: 85,
 				Neu: 13,
 				Unfav: 2
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "22 *",
 			vsHighPerformers: "15 *"
 		},
-		'items.31': {
+		'31': {
 			N: 15561,
 			Distribution: {
 				Fav: 78,
 				Neu: 14,
 				Unfav: 8
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "21 *",
 			vsHighPerformers: "11 *"
 		},
-		'items.15': {
+		'15': {
 			N: 15767,
 			Distribution: {
 				Fav: 77,
 				Neu: 14,
 				Unfav: 9
 			},
-
 			vsTrend: "-2 *",
 			vsNorm: "20 *",
 			vsHighPerformers: "12 *"
 		},
-		'items.24': {
+		'24': {
 			N: 15794,
 			Distribution: {
 				Fav: 86,
 				Neu: 11,
 				Unfav: 4
 			},
-
 			vsTrend: "1 *",
 			vsNorm: "20 *",
 			vsHighPerformers: "15 *"
 		},
-		'items.34': {
+		'34': {
 			N: 15618,
 			Distribution: {
 				Fav: 84,
 				Neu: 10,
 				Unfav: 6
 			},
-
 			vsTrend: "1 *",
 			vsNorm: "19 *",
 			vsHighPerformers: "13 *"
 		},
-		'items.48': {
+		'48': {
 			N: 15799,
 			Distribution: {
 				Fav: 86,
 				Neu: 11,
 				Unfav: 4
 			},
-
 			vsTrend: "-",
 			vsNorm: "17 *",
 			vsHighPerformers: "6 *"
 		},
-		'items.8': {
+		'8': {
 			N: 15801,
 			Distribution: {
 				Fav: 73,
 				Neu: 14,
 				Unfav: 13
 			},
-
 			vsTrend: "0",
 			vsNorm: "16 *",
 			vsHighPerformers: "4 *"
 		},
-		'items.6': {
+		'6': {
 			N: 15759,
 			Distribution: {
 				Fav: 74,
 				Neu: 15,
 				Unfav: 11
 			},
-
 			vsTrend: "-1",
 			vsNorm: "15 *",
 			vsHighPerformers: "7 *"
 		},
-		'items.19': {
+		'19': {
 			N: 15613,
 			Distribution: {
 				Fav: 77,
 				Neu: 13,
 				Unfav: 10
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "14 *",
 			vsHighPerformers: "3 *"
 		},
-		'items.36': {
+		'36': {
 			N: 15417,
 			Distribution: {
 				Fav: 72,
 				Neu: 18,
 				Unfav: 10
 			},
-
 			vsTrend: "0",
 			vsNorm: "14 *",
 			vsHighPerformers: "7 *"
 		},
-		'items.49': {
+		'49': {
 			N: 15758,
 			Distribution: {
 				Fav: 83,
 				Neu: 12,
 				Unfav: 5
 			},
-
 			vsTrend: "-",
 			vsNorm: "14 *",
 			vsHighPerformers: "5 *"
 		},
-		'items.46': {
+		'46': {
 			N: 15805,
 			Distribution: {
 				Fav: 77,
 				Neu: 15,
 				Unfav: 8
 			},
-
 			vsTrend: "-3 *",
 			vsNorm: "13 *",
 			vsHighPerformers: "6 *"
 		},
-		'items.1': {
+		'1': {
 			N: 15792,
 			Distribution: {
 				Fav: 81,
 				Neu: 11,
 				Unfav: 9
 			},
-
 			vsTrend: "0",
 			vsNorm: "12 *",
 			vsHighPerformers: "6 *"
 		},
-		'items.44': {
+		'44': {
 			N: 15795,
 			Distribution: {
 				Fav: 83,
 				Neu: 14,
 				Unfav: 4
 			},
-
 			vsTrend: "0",
 			vsNorm: "11 *",
 			vsHighPerformers: "5 *"
 		},
-		'items.47': {
+		'47': {
 			N: 15804,
 			Distribution: {
 				Fav: 65,
 				Neu: 17,
 				Unfav: 18
 			},
-
 			vsTrend: "-4 *",
 			vsNorm: "11 *",
 			vsHighPerformers: "2 *"
 		},
-		'items.2': {
+		'2': {
 			N: 15785,
 			Distribution: {
 				Fav: 82,
 				Neu: 9,
 				Unfav: 9
 			},
-
 			vsTrend: "-2 *",
 			vsNorm: "9 *",
 			vsHighPerformers: "4 *"
 		},
-		'items.3': {
+		'3': {
 			N: 15399,
 			Distribution: {
 				Fav: 72,
 				Neu: 15,
 				Unfav: 12
 			},
-
 			vsTrend: "0",
 			vsNorm: "9 *",
 			vsHighPerformers: "3 *"
 		},
-		'items.35': {
+		'35': {
 			N: 15608,
 			Distribution: {
 				Fav: 79,
 				Neu: 17,
 				Unfav: 4
 			},
-
 			vsTrend: "0",
 			vsNorm: "9 *",
 			vsHighPerformers: "4 *"
 		},
-		'items.30': {
+		'30': {
 			N: 15780,
 			Distribution: {
 				Fav: 53,
 				Neu: 22,
 				Unfav: 24
 			},
-
 			vsTrend: "-2 *",
 			vsNorm: "8 *",
 			vsHighPerformers: "-1 *"
 		},
-		'items.13': {
+		'13': {
 			N: 15721,
 			Distribution: {
 				Fav: 73,
 				Neu: 14,
 				Unfav: 13
 			},
-
 			vsTrend: "-1",
 			vsNorm: "6 *",
 			vsHighPerformers: "-5 *"
 		},
-		'items.29': {
+		'29': {
 			N: 12893,
 			Distribution: {
 				Fav: 63,
 				Neu: 21,
 				Unfav: 16
 			},
-
 			vsTrend: "2 *",
 			vsNorm: "5 *",
 			vsHighPerformers: "-5 *"
 		},
-		'items.64': {
+		'64': {
 			N: 15685,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "2 *",
 			vsHighPerformers: "-14 *"
 		},
-		'items.12': {
+		'12': {
 			N: 15786,
 			Distribution: {
 				Fav: 85,
 				Neu: 9,
 				Unfav: 6
 			},
-
 			vsTrend: "0",
 			vsNorm: "-2 *",
 			vsHighPerformers: "-6 *"
 		},
-		'items.38': {
+		'38': {
 			N: 15801,
 			Distribution: {
 				Fav: 68,
 				Neu: 20,
 				Unfav: 12
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-2 *",
 			vsHighPerformers: "-7 *"
 		},
-		'items.5': {
+		'5': {
 			N: 15784,
 			Distribution: {
 				Fav: 74,
 				Neu: 15,
 				Unfav: 11
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-2 *",
 			vsHighPerformers: "-9 *"
 		},
-		'items.50': {
+		'50': {
 			N: 12944,
 			Distribution: {
 				Fav: 54,
 				Neu: 24,
 				Unfav: 22
 			},
-
 			vsTrend: "-7 *",
 			vsNorm: "-4 *",
 			vsHighPerformers: "-13 *"
 		},
-		'items.70': {
+		'70': {
 			N: 12989,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 41
 			},
-
 			vsTrend: "0",
 			vsNorm: "-5 *",
 			vsHighPerformers: "-17 *"
 		},
-		'items.63': {
+		'63': {
 			N: 12931,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-6 *",
 			vsHighPerformers: "-19 *"
 		},
-		'items.77': {
+		'77': {
 			N: 15721,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-7 *",
 			vsHighPerformers: "-17 *"
 		},
-		'items.14': {
+		'14': {
 			N: 13036,
 			Distribution: {
 				Fav: 78,
 				Neu: 14,
 				Unfav: 8
 			},
-
 			vsTrend: "-1 *",
 			vsNorm: "-9 *",
 			vsHighPerformers: "-13 *"
 		},
-		'items.73': {
+		'73': {
 			N: 12997,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "0",
 			vsNorm: "-11 *",
 			vsHighPerformers: "-19 *"
 		},
-		'items.69': {
+		'69': {
 			N: 13015,
 			Distribution: {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 39
 			},
-
 			vsTrend: "0",
 			vsNorm: "-12 *",
 			vsHighPerformers: "-24 *"
 		},
-		'items.58': {
+		'58': {
 			N: 12933,
 			Distribution: {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-13 *",
 			vsHighPerformers: "-26 *"
 		},
-		'items.75': {
+		'75': {
 			N: 15755,
 			Distribution: {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "1",
 			vsNorm: "-13 *",
 			vsHighPerformers: "-23 *"
 		},
-		'items.28': {
+		'28': {
 			N: 12968,
 			Distribution: {
 				Fav: 65,
 				Neu: 19,
 				Unfav: 16
 			},
-
 			vsTrend: "-3 *",
 			vsNorm: "-14 *",
 			vsHighPerformers: "-19 *"
 		},
-		'items.74': {
+		'74': {
 			N: 12969,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-15 *",
 			vsHighPerformers: "-21 *"
 		},
-		'items.87': {
+		'87': {
 			N: 15712,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-15 *",
 			vsHighPerformers: "-26 *"
 		},
-		'items.16': {
+		'16': {
 			N: 15492,
 			Distribution: {
 				Fav: 66,
 				Neu: 21,
 				Unfav: 13
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-16 *",
 			vsHighPerformers: "-20 *"
 		},
-		'items.26': {
+		'26': {
 			N: 13002,
 			Distribution: {
 				Fav: 54,
 				Neu: 23,
 				Unfav: 23
 			},
-
 			vsTrend: "-3 *",
 			vsNorm: "-18 *",
 			vsHighPerformers: "-29 *"
 		},
-		'items.71': {
+		'71': {
 			N: 14191,
 			Distribution: {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "1",
 			vsNorm: "-19 *",
 			vsHighPerformers: "-33 *"
 		},
-		'items.41': {
+		'41': {
 			N: 12922,
 			Distribution: {
 				Fav: 60,
 				Neu: 30,
 				Unfav: 10
 			},
-
 			vsTrend: "5 *",
 			vsNorm: "-20 *",
 			vsHighPerformers: "-22 *"
 		},
-		'items.66': {
+		'66': {
 			N: 12845,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-21 *",
 			vsHighPerformers: "-30 *"
 		},
-		'items.76': {
+		'76': {
 			N: 13042,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 41
 			},
-
 			vsTrend: "1",
 			vsNorm: "-21 *",
 			vsHighPerformers: "-31 *"
 		},
-		'items.61': {
+		'61': {
 			N: 12872,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "1",
 			vsNorm: "-22 *",
 			vsHighPerformers: "-30 *"
 		},
-		'items.86': {
+		'86': {
 			N: 12991,
 			Distribution: {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "1",
 			vsNorm: "-22 *",
 			vsHighPerformers: "-28 *"
 		},
-		'items.59': {
+		'59': {
 			N: 13000,
 			Distribution: {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-23 *",
 			vsHighPerformers: "-29 *"
 		},
-		'items.78': {
+		'78': {
 			N: 13024,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-23 *",
 			vsHighPerformers: "-33 *"
 		},
-		'items.60': {
+		'60': {
 			N: 12877,
 			Distribution: {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 41
 			},
-
 			vsTrend: "0",
 			vsNorm: "-25 *",
 			vsHighPerformers: "-35 *"
 		},
-		'items.85': {
+		'85': {
 			N: 13014,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-26 *",
 			vsHighPerformers: "-33 *"
 		},
-		'items.53': {
+		'53': {
 			N: 12949,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-28 *",
 			vsHighPerformers: "-34 *"
 		},
-		'items.80': {
+		'80': {
 			N: 12481,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "1",
 			vsNorm: "-31 *",
 			vsHighPerformers: "-40 *"
 		},
-		'items.62': {
+		'62': {
 			N: 12926,
 			Distribution: {
 				Fav: 25,
 				Neu: 25,
 				Unfav: 50
 			},
-
 			vsTrend: "0",
 			vsNorm: "-32 *",
 			vsHighPerformers: "-40 *"
 		},
-		'items.82': {
+		'82': {
 			N: 13012,
 			Distribution: {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-33 *",
 			vsHighPerformers: "-41 *"
 		},
-		'items.83': {
+		'83': {
 			N: 12901,
 			Distribution: {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 41
 			},
-
 			vsTrend: "0",
 			vsNorm: "-33 *",
 			vsHighPerformers: "-39 *"
 		},
-		'items.52': {
+		'52': {
 			N: 13010,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-34 *",
 			vsHighPerformers: "-38 *"
 		},
-		'items.57': {
+		'57': {
 			N: 13045,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-34 *",
 			vsHighPerformers: "-38 *"
 		},
-		'items.55': {
+		'55': {
 			N: 12941,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-36 *",
 			vsHighPerformers: "-41 *"
 		},
-		'items.65': {
+		'65': {
 			N: 12963,
 			Distribution: {
 				Fav: 41,
 				Neu: 21,
 				Unfav: 39
 			},
-
 			vsTrend: "1",
 			vsNorm: "-36 *",
 			vsHighPerformers: "-40 *"
 		},
-		'items.51': {
+		'51': {
 			N: 13004,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-37 *",
 			vsHighPerformers: "-46 *"
 		},
-		'items.56': {
+		'56': {
 			N: 13028,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "0",
 			vsNorm: "-37 *",
 			vsHighPerformers: "-44 *"
 		},
-		'items.67': {
+		'67': {
 			N: 12939,
 			Distribution: {
 				Fav: 40,
 				Neu: 19,
 				Unfav: 40
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-39 *",
 			vsHighPerformers: "-47 *"
 		},
-		'items.68': {
+		'68': {
 			N: 12958,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-39 *",
 			vsHighPerformers: "-46 *"
 		},
-		'items.79': {
+		'79': {
 			N: 12971,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-40 *",
 			vsHighPerformers: "-48 *"
 		},
-		'items.54': {
+		'54': {
 			N: 12918,
 			Distribution: {
 				Fav: 41,
 				Neu: 20,
 				Unfav: 39
 			},
-
 			vsTrend: "1",
 			vsNorm: "-42 *",
 			vsHighPerformers: "-47 *"
 		},
-		'items.81': {
+		'81': {
 			N: 13001,
 			Distribution: {
 				Fav: 40,
 				Neu: 21,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-43 *",
 			vsHighPerformers: "-48 *"
 		},
-		'items.72': {
+		'72': {
 			N: 12901,
 			Distribution: {
 				Fav: 40,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "0",
 			vsNorm: "-45 *",
 			vsHighPerformers: "-49 *"
 		},
-		'items.84': {
+		'84': {
 			N: 13857,
 			Distribution: {
 				Fav: 39,
 				Neu: 20,
 				Unfav: 40
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-45 *",
 			vsHighPerformers: "-48 *"
 		},
-		'items.95': {
+		'95': {
 			N: 13857,
 			Distribution: {
 				Fav: 35,
 				Neu: 26,
 				Unfav: 39
 			},
-
 			vsTrend: "-1",
 			vsNorm: "-",
 			vsHighPerformers: "-"
@@ -5083,9 +4219,23 @@ TestData_fillBreakByData();
 
 if(data.Questions == null) {
 	var questionsData = {
-		'questions.Gender': {
+		'Hierarchy': {
 			N: 12345,
-			Answers: {
+			Options: {
+				'1a': {
+					N: 551
+				},
+				'1b': {
+					N: 552
+				},
+				'1c': {
+					N: 553
+				}
+			}
+		},
+		'Gender': {
+			N: 12345,
+			Options: {
 				'410': {
 					N: 555
 				},
@@ -5100,9 +4250,9 @@ if(data.Questions == null) {
 				}
 			}
 		},
-		'questions.Age': {
+		'Age': {
 			N: 12345,
-			Answers: {
+			Options: {
 				'651': {
 					N: 555
 				},
@@ -5123,9 +4273,9 @@ if(data.Questions == null) {
 				}
 			}
 		},
-		'questions.Tenure': {
+		'Tenure': {
 			N: 12345,
-			Answers: {
+			Options: {
 				'701': {
 					N: 555
 				},
@@ -5143,9 +4293,9 @@ if(data.Questions == null) {
 				}
 			}
 		},
-		'questions.UnionNon': {
+		'UnionNon': {
 			N: 12345,
-			Answers: {
+			Options: {
 				'631': {
 					N: 555
 				},
@@ -5154,9 +4304,9 @@ if(data.Questions == null) {
 				}
 			}
 		},
-		'questions.Wage_Status': {
+		'Wage_Status': {
 			N: 12345,
-			Answers: {
+			Options: {
 				'641': {
 					N: 555
 				},

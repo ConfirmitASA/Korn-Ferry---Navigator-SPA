@@ -1098,7 +1098,9 @@ option {
     display: flex;
     flex-direction: row;
 }
-
+.selector-row {
+    margin-bottom: 20px;
+}
 .switch-row {
     align-items: center;
     margin-bottom: 15px;

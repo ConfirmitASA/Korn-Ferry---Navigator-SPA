@@ -1,84 +1,92 @@
-	// Modal
+// Modal
 
-	var modal_filter_variables = {};
+var modal_filter_variables = {};
 
 
-	function ClearFilters() {
-		$("#master-page-modal-filter option:selected").each ( function () {
+function ClearFilters() {
+	$("#master-page-modal-filter option:selected").each(function () {
+		$(this).prop('selected', false);
+	});
+
+	$('#filter-apply-button').click();
+}
+
+function ClearFiltersIndividualDemographic(demo) {
+
+	$("#master-page-modal-filter option:selected").each(function () {
+		if ($(this).attr('value').split('.')[0] == demo)
 			$(this).prop('selected', false);
-		});
-		
-		$('#filter-apply-button').click();
-	}
-			
-	function ClearFiltersIndividualDemographic( demo ) {
-	
-		$("#master-page-modal-filter option:selected").each ( function () {
-			if ($(this).attr('value').split('.')[0] == demo)
-				$(this).prop('selected', false);
-		});
-	
-		$('#filter-apply-button').click();
-	
-	}
-	
-	function ModalGetFilters() {
-		var codes = [];
-		$('.demoanswers').each( function() {
+	});
+
+	$('#filter-apply-button').click();
+
+}
+
+function ModalGetFilters() {
+	var codes = [];
+	$('.demoanswers').each(function () {
 		var options = $(this)[0].selectedOptions;
-		for (var i=0; i<options.length; ++i)
-			codes.push ( options[i].value);
-		});
-		
-		return codes;
-	}
+		for (var i = 0; i < options.length; ++i)
+			codes.push(options[i].value);
+	});
 
-	function ModalOpen() {
-		$('#master-page-modal-filter-container').fadeIn();
+	return codes;
+}
+
+function ModalGetComparators() {
+	var codes = [];
+	$('.democheckbox').each(function () {
+		if ($(this)[0].checked) codes.push($(this)[0].value);
+	});
+
+	return codes;
+}
+
+function ModalOpen() {
+	$('#master-page-modal-filter-container').fadeIn();
+}
+
+function ModalFilterRenderComparators(comparators) {
+	var o = [];
+	for(var i of comparators) {
+		o.push('<div class=demoitem><input class=democheckbox type="checkbox" value="' + i + '">' + '<span class=answerlabel>' + meta.Labels.Comparators[i].Label + '</span></input></div>');
 	}
-		
-	function ModalFilterRenderComparators( comps ) {
+	return o.join('');
+}
+
+function ModalFilterInternalComparators() {
+	var comparators = Object.keys(meta.Labels.Comparators).filter(function (key) { return key.indexOf('Internal.') == 0; });
+	return ModalFilterRenderComparators(comparators);
+}
+
+function ModalFilterExternalComparators() {
+	var comparators = Object.keys(meta.Labels.Comparators).filter(function (key) { return key.indexOf('External.') == 0; });
+	return ModalFilterRenderComparators(comparators);
+}
+
+$(document).ready(
+	function () {
 		var o = [];
-		for (var i=0; i<comps.length; ++i) {
-			o.push ( '<div class=demoitem><input class=democheckbox type="checkbox">' + '<span class=answerlabel>' + comps[i] + '</span></input></div>' );
-		}
-		return o.join('');
-	}
 
-	function ModalFilterInternalComparators() {
-		var comps = ['Trend 2020', 'Trend 2019', 'Trend 2018', 'Parent', 'Total Company'];
-		return ModalFilterRenderComparators ( comps );
-	}
+		for (var qid in data.Filters.Items) {
 
-	function ModalFilterExternalComparators() {
-		var comps = ['Industry Benchmark', 'High Performers'];
-		return ModalFilterRenderComparators ( comps );
-	}
+			var item = data.Filters.Items[qid];
 
-	$(document).ready (
-		function() 
-		{
-			var o = [];
-			
-			for (var qid in data.Filters.Items) {
-					
-				var item = data.Filters.Items[qid];
+			var tmp = [];
+			for (var i = 0; i < item.Answers.length; ++i) {
+				var answer = item.Answers[i];
+				tmp.push(`<option value="${qid}.${answer.Code}">${answer.Label}</option>`);
+			}
 
-				var tmp = [];
-				for (var i=0; i<item.Answers.length; ++i) {
-					var answer = item.Answers[i];
-					tmp.push ( `<option value="${qid}.${answer.Code}">${answer.Label}</option>`);
-				}
-				
-				o.push (`
+			o.push(`
 					<div class=filterbox>
 						<div class=filterheading>${item.Label}</div>
 						<select size=4 multiple=multiple class=demoanswers>${tmp.join('')}</select>
 					</div>
 				`);
-			}
-			
-			$('#master-page-modal-filter').html (`
+		}
+
+		$('#master-page-modal-filter').html(`
 				<div class=inner_filter_container>
 					<div class=sectionheading>${'Data Filters'}</div>
 					<div style="display: flex; flex-wrap: wrap; max-width: 800px;">
@@ -110,54 +118,70 @@
 				</div>
 			`);
 
-			// Click Handler: Filter Option
-			$('.answerlabel').click( function() {
-				$(this).parent().find('.democheckbox').click();
-			});
-			
+		// Click Handler: Filter Option
+		$('.answerlabel').click(function () {
+			$(this).parent().find('.democheckbox').click();
+		});
 
-			// Click Handler: Cancel Button
-			$('#filter-cancel-button').click( function() {
+		// Click Handler: Cancel Button
+		$('#filter-cancel-button').click(function () {
 
-				// Clear Filters
-				$("#master-page-modal-filter option:selected").each ( function () {
-					$(this).prop('selected', false);
-				});
-
-				// Restore Filters
-				var filters = State_Get('filter');
-				if (filters == null) filters = []; // no filters have ever been set
-
-				for (var i=0; i<filters.length; ++i) {
-					// Check Filter
-					$("#master-page-modal-filter option[value='" + filters[i] + "']").prop('selected', true);
-				}
-
-				// Fade Out Modal
-				$('#master-page-modal-filter-container').fadeOut();		
-									
-			});
-		
-
-			// Click Handler: Apply Button
-			$('#filter-apply-button').click( function() {
-
-					// Save Filters
-					State_Set( 'filter', ModalGetFilters() );
-
-					// Fade Out Modal
-					$('#master-page-modal-filter-container').fadeOut();		
-					
-					var query = {
-						Filters: ModalGetFilters(),
-						EffectivenessByDemo: { Demo: State_Get('demo') },
-						Tables: ['items']
-					};
-					
-					Main_SubmitQuery ( query );
-										
+			// Clear Filters
+			$("#master-page-modal-filter option:selected").each(function () {
+				$(this).prop('selected', false);
 			});
 
-		}
+			// Restore Filters
+			var filters = State_Get('filter');
+			if (filters == null) filters = []; // no filters have ever been set
 
-	);
+			for (var i = 0; i < filters.length; ++i) {
+				// Check Filter
+				$("#master-page-modal-filter option[value='" + filters[i] + "']").prop('selected', true);
+			}
+
+			// Clear Comparators
+			$("#master-page-modal-filter input:checked").each(function () {
+				$(this).prop('checked', false);
+			});
+
+			// Restore Comparators
+			var comparators = State_Get('comparators');
+			if (comparators == null) comparators = []; // no comparators have ever been set
+
+			for (var i = 0; i < comparators.length; ++i) {
+				// Check Comparator
+				$("#master-page-modal-filter input[value='" + comparators[i] + "']").prop('checked', true);
+			}
+
+			// Fade Out Modal
+			$('#master-page-modal-filter-container').fadeOut();
+
+		});
+
+
+		// Click Handler: Apply Button
+		$('#filter-apply-button').click(function () {
+
+			// Save Filters
+			State_Set('filter', ModalGetFilters());
+			// Save Comparators
+			State_Set('comparators', ModalGetComparators());
+
+			// Fade Out Modal
+			$('#master-page-modal-filter-container').fadeOut();
+
+			var query = {
+				page: 'Modal',
+				Filters: ModalGetFilters(),
+				EffectivenessByDemo: { Demo: State_Get('demo') },
+				Tables: ['items']
+			};
+
+			Main_SubmitQuery(query);
+
+		});
+
+	}
+
+);
