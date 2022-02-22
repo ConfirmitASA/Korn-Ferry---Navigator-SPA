@@ -1,4 +1,4 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, innerDimensionSortingSettings, isSearchable) {
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, columnSettings, isSearchable) {
 	var o = [];
 
 	o.push(`<table id="${table_id}" class="${class_name}">`);
@@ -39,18 +39,6 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 	o.push('</table>');
 
 	// Script Code to Initialize DataTable
-	var orderStr;
-
-	if(!!innerDimensionSortingSettings && innerDimensionSortingSettings.isApplied) {
-		orderStr = `
-			'columnDefs': [
-				{ targets: [${innerDimensionSortingSettings.hiddenColumns.join(',')}], visible: false },
-				${innerDimensionSortingSettings.columnsWidth}
-				{ targets: [4], type: "natural" }
-			]
-		`;
-	}
-
 
 	var script_code = `
 		var tbl = $('#${table_id}');
@@ -60,7 +48,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'sorting': ${isSortable},
 			'paging': false,
 			'info': false,
-			${orderStr},
+			${columnSettings},
 			'autoWidth': false,
 			dom: 'Bfrtip',
 			buttons: ${showButtons ? "['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']" : "[]"}
