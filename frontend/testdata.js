@@ -229,12 +229,12 @@ if ( meta == null ) {
 		Pages: {
 			StrengthsAndOpportunities: {
 				Strengths: {
-					Title: {'9': 'Things to Celebrate (strengths)'},
-					Text: {'9': 'Keep doing these things well.'}
+					Title: 'Things to Celebrate (strengths)',
+					Text:'Keep doing these things well.'
 				},
 				Opportunities: {
-					Title: {'9': 'Things to Work on (opportunities)'},
-					Text: {'9': 'Try improving on the following.'}
+					Title: 'Things to Work on (opportunities)',
+					Text: 'Try improving on the following.'
 				}
 			}
 		},
@@ -2065,13 +2065,11 @@ if ( data.Strengths == null ) {
 	var opportunities = [19, 72, 61, 62, 54, 79, 68, 67, 51, 55];
 
 	data.Strengths = {
-		Items: strengths,
-		IsTestData: true
+		Items: strengths
 	};
 
 	data.Opportunities = {
-		Items: opportunities,
-		IsTestData: true
+		Items: opportunities
 	};
 
 }
@@ -2985,199 +2983,9 @@ if (data.Items == null) {
 }
 
 // Metrics
-if ( data.Metrics == null ) {
 
-	var metrics = [{
-		Id: 'engagementindicator',
-		Label: "Engagement",
-		Class: "engagementindicator",
-		Score: 4.32,
-		Icon: Resources_EngagementIcon(),
-
-		KeyMetric: {
-			Label: "Favorable",
-			Value: "53%"
-		},
-
-		VsBenchmark: 0.32,
-		VsHistory: 0.00,
-		Comparators: [{
-			Label: "Industry Norm",
-			Value: "66%"
-		},
-			{
-				Label: "High Performers",
-				Value: "73%"
-			},
-		],
-
-		Color: '#d30f1d', // red
-		xBgColor: '#F0FFF0',
-		BgColor: '#FFF',
-		Description: "Engagement represents employees committed to the organisation and willing to apply discretionary effort in their work.<P>The Engagement score is a composite score calculated from five separate questions.",
-
-		Drivers: [{
-			Label: "I have opportunities to achieve my career goals at the company.",
-			Score: '87%',
-			Dimension: 'Development Opportunities'
-		}, {
-			Label: "I have a good understanding of the company's strategic priorities and goals.",
-			Score: '40%',
-			Dimension: 'Clear & Promising Direction'
-		}],
-
-		Items: [{
-			Label: "The company motivates me to do more than is required.",
-			Distribution: [77, 14, 9],
-			Score: '77%'
-		}, {
-			Label: "I would recommend the company as a good place to work.",
-			Distribution: [83, 12, 5],
-			Score: '83%'
-		},
-
-			{
-				Label: "I feel motivated to do more than is required of me.",
-				Distribution: [40, 20, 40],
-				Score: "40%"
-			}, {
-				Label: "I feel proud to work for the company.",
-				Distribution: [40, 20, 39],
-				Score: "40%"
-			}, {
-				Label: "Given your choice, how long would you plan to continue working for the company?",
-				Distribution: [25, 25, 50],
-				Score: "25%"
-			}
-
-		]
-	},
-		{
-			Id: 'enablement',
-			Label: "Enablement",
-			Class: "enablement",
-			Icon: Resources_EnablementIcon(),
-			Color: '#d30f1d', // red
-
-			xBgColor: '#FFF0F0',
-			BgColor: '#FFF',
-			Score: 3.8,
-
-			KeyMetric: {
-				Label: "Favorable",
-				Value: "48%"
-			},
-
-
-			VsBenchmark: -0.11,
-			VsHistory: -0.12,
-
-			Comparators: [{
-				Label: "Industry Norm",
-				Value: "66%"
-			},
-				{
-					Label: "High Performers",
-					Value: "73%"
-				},
-			],
-
-			Description: "Enablement represents employees well matched to their role and who experience job conditions that support them to perform to their full potential.<P>The Enablement score is a composite score calculated from four separate questions.",
-
-			Drivers: [{
-				Label: "I have opportunities to achieve my career goals at the company.",
-				Score: '87%',
-				Dimension: 'Development Opportunities'
-			}, {
-				Label: "I have enough authority to do my job well.",
-				Score: '82%',
-				Dimension: 'Authority & Empowerment'
-			}],
-
-			Items: [{
-				Label: "There are no significant barriers at work to doing my job well.",
-				Distribution: [72, 18, 10],
-				Score: "72%"
-			},
-				{
-					Label: "My job provides opportunities to do challenging and interesting work.",
-					Distribution: [40, 20, 39],
-					Score: "40%"
-				},
-				{
-					Label: "My job makes good use of my skills and abilities.",
-					Distribution: [40, 20, 40],
-					Score: "40%"
-				},
-				{
-					Label: "Conditions in my job allow me to be about as productive as I can be.",
-					Distribution: [40, 20, 40],
-					Score: "40%"
-				}
-
-			]
-		},
-		{
-			Id: 'effectiveness',
-			Label: "Effectiveness",
-			Class: "effectiveness",
-			Icon: Resources_EffectivenessIcon(),
-
-			Description: "The Effectiveness Profile arranges people into four different groups based on levels of Engagement and Enablement and compares the size of these groups to Korn Ferry benchmarks.<p>People are Most Effective when they are highly engaged and enabled. Most Effective people are likely to be more productive, able to deliver superior levels of service and are more inclined to speak positively about the organisation to others.",
-			Color: '#77bc1f', //'#ff9300',
-			BgColor: '#FFF',
-			Score: 4.11,
-
-			KeyMetric: {
-				Label: "Most Effective",
-				Value: "55%"
-			},
-
-			VsBenchmark: -0.08,
-			VsHistory: 0.10,
-
-			Comparators: [{
-				Label: "Industry Norm",
-				Value: "46%"
-			},
-				{
-					Label: "High Performers",
-					Value: "55%"
-				},
-			],
-			Drivers: [],
-
-			Items: [{
-				Id: 'MostEffective',
-				Label: "Most Effective",
-				Score: '55%'
-			},
-				{
-					Id: 'Detached',
-					Label: "Detached",
-					Score: '9%'
-				},
-				{
-					Id: 'Frustrated',
-					Label: "Frustrated",
-					Score: '12%'
-				},
-				{
-					Id: 'LeastEffective',
-					Label: "Least Effective",
-					Score: '24%'
-				}
-			]
-
-		}
-	];
-
-	data.Metrics = metrics;
-	data.Metrics.IsTestData = true;
-}
-
-if(data.MetricsNew == null) {
-	var metricsNew = [
+if(data.Metrics == null) {
+	var metrics = [
 		{
 			DimensionId: 'DIM_ENG',
 			Drivers: [
@@ -3240,8 +3048,7 @@ if(data.MetricsNew == null) {
 		}
 	];
 
-	data.MetricsNew = metricsNew;
-	data.MetricsNew.IsTestData = true;
+	data.Metrics = metrics;
 }
 
 // EffectivenessProfile

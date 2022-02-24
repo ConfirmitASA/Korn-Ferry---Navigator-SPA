@@ -27,12 +27,22 @@ function ActionsCreatePlan_Render() {
     var actionInfo = State_Get('actionInfo');
 
     if(!!actionInfo) {
-        o.push(`
-            <p>Page: ${actionInfo.page}</p>
-            <p>Card dimension: ${actionInfo.cardDimensionId}</p>
-            <p>Key Driver dimension: ${actionInfo.keyDriverDimensionId}</p>
-            <p>Key Driver item: ${actionInfo.keyDriverItemId}</p>
-        `);
+        if (actionInfo.page === 'KeyMetrics') {
+            o.push(`
+                <p>Page: ${actionInfo.page}</p>
+                <p>Card dimension: ${actionInfo.cardDimensionId}</p>
+                <p>Key Driver dimension: ${actionInfo.keyDriverDimensionId}</p>
+                <p>Key Driver item: ${actionInfo.keyDriverItemId}</p>
+            `);
+        }
+
+        if(actionInfo.page === 'StrengthsAndOpportunities') {
+            o.push(`
+                <p>Page: ${actionInfo.page}</p>
+                <p>Card type: ${actionInfo.cardType}</p>
+                <p>Item: ${actionInfo.itemId}</p>
+            `);
+        }
     }
 
     $('#Create-Plan-details').html(

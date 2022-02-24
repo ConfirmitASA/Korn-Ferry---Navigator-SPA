@@ -48,7 +48,7 @@ function KeyMetrics_Render() {
         TestData_fillComparatorsData();
     }
 
-    var metrics = data.MetricsNew;
+    var metrics = data.Metrics;
 
     for(var i = 0; i < metrics.length; i++) {
 
