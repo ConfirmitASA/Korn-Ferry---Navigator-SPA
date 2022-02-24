@@ -2,13 +2,12 @@
 
 function DemographicHeatmap_Page() {
     return {
-        Label: meta.Labels.pages.DemographicHeatmap.Label,
+        Label: meta.Labels.pages.DemographicHeatmap.Title,
 
-        LeftPane: meta.Labels.pages.DemographicHeatmap.Title,
+        LeftPane: meta.Labels.pages.DemographicHeatmap.Label,
 
         RightPane: `
         <div id="Demographic-Heatmap-details">
-            ${Utils_LoremIpsum()}
         </div>
         `,
 
@@ -366,8 +365,8 @@ function DemographicHeatmap_GetItemsTable() {
         table_data,
         true,
         true,
-        columnSettings,
-        true
+        true,
+        columnSettings
     );
 
     return dt;

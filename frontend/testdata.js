@@ -377,22 +377,86 @@ if ( meta == null ) {
 				"95": { "Label": "Given your choice, how long would you plan to continue working for the company?" },
 			},
 			Dimensions: {
-				"DIM_ENG": { "Label": "Employee Engagement" },
-				"DIM_ENA": { "Label": "Employee Enablement" },
-				"DIM_N64": { "Label": "Resources" },
-				"DIM_N50": { "Label": "Authority & Empowerment" },
-				"DIM_N65": { "Label": "Respect & Recognition" },
-				"DIM_N52": { "Label": "Collaboration" },
-				"DIM_N63": { "Label": "Quality & Customer Focus" },
-				"DIM_N61": { "Label": "Performance Management" },
-				"DIM_N54": { "Label": "Development Opportunities" },
-				"DIM_N53": { "Label": "Confidence in Leaders" },
-				"DIM_N66": { "Label": "Training" },
-				"DIM_N51": { "Label": "Clear & Promising Direction" },
-				"DIM_N67": { "Label": "Work, Structure, & Process" },
-				"DIM_N60": { "Label": "Pay & Benefits" },
-				"DIM_C15": { "Label": "Local questions" },
-				"DIM_NPS": { "Label": "Employee Net Promoter Score (ENPS)" },
+				"DIM_ENG": {
+					"Label": "Employee Engagement",
+					"KeyMetric_BackCardText": "What drives engagement in our organisation",
+					"KeyMetrics_MoreCardText" : "<p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p><p>The Engagement score is calculated as an average of the favourable scores from questions shown below.</p>"
+				},
+				"DIM_ENA": {
+					"Label": "Employee Enablement",
+					"KeyMetric_BackCardText": "What drives engagement in our organisation",
+					"KeyMetrics_MoreCardText" : "<p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p><p>The Enablement score is calculated as an average of the favourable scores from questions shown below.</p>"
+				},
+				"DIM_N64": {
+					"Label": "Resources",
+					"KeyMetric_BackCardText": "Resources Drivers",
+					"KeyMetrics_MoreCardText" : "Resources intro text"
+				},
+				"DIM_N50": {
+					"Label": "Authority & Empowerment",
+					"KeyMetric_BackCardText": "Authority & Empowerment Drivers",
+					"KeyMetrics_MoreCardText" : "Authority & Empowerment intro text"
+				},
+				"DIM_N65": {
+					"Label": "Respect & Recognition",
+					"KeyMetric_BackCardText": "Respect & Recognition Drivers",
+					"KeyMetrics_MoreCardText" : "Respect & Recognition intro text"
+				},
+				"DIM_N52": {
+					"Label": "Collaboration",
+					"KeyMetric_BackCardText": "Collaboration Drivers",
+					"KeyMetrics_MoreCardText" : "Collaboration intro text"
+				},
+				"DIM_N63": {
+					"Label": "Quality & Customer Focus",
+					"KeyMetric_BackCardText": "Quality & Customer Focus Drivers",
+					"KeyMetrics_MoreCardText" : "Quality & Customer Focus intro text"
+				},
+				"DIM_N61": {
+					"Label": "Performance Management",
+					"KeyMetric_BackCardText": "Performance Management Drivers",
+					"KeyMetrics_MoreCardText" : "Performance Management intro text"
+				},
+				"DIM_N54": {
+					"Label": "Development Opportunities",
+					"KeyMetric_BackCardText": "Development Opportunities Drivers",
+					"KeyMetrics_MoreCardText" : "Development Opportunities intro text"
+				},
+				"DIM_N53": {
+					"Label": "Confidence in Leaders",
+					"KeyMetric_BackCardText": "Confidence in Leaders Drivers",
+					"KeyMetrics_MoreCardText" : "Confidence in Leaders intro text"
+				},
+				"DIM_N66": {
+					"Label": "Training",
+					"KeyMetric_BackCardText": "Training Drivers",
+					"KeyMetrics_MoreCardText" : "Training intro text"
+				},
+				"DIM_N51": {
+					"Label": "Clear & Promising Direction",
+					"KeyMetric_BackCardText": "Clear & Promising Direction",
+					"KeyMetrics_MoreCardText" : "Clear & Promising Direction intro text"
+				},
+				"DIM_N67": {
+					"Label": "Work, Structure, & Process",
+					"KeyMetric_BackCardText": "Work, Structure, & Process Drivers",
+					"KeyMetrics_MoreCardText" : "Work, Structure, & Process intro text"
+				},
+				"DIM_N60": {
+					"Label": "Pay & Benefits",
+					"KeyMetric_BackCardText": "Pay & Benefits Drivers",
+					"KeyMetrics_MoreCardText" : "Pay & Benefits intro text"
+				},
+				"DIM_C15": {
+					"Label": "Local questions",
+					"KeyMetric_BackCardText": "Local questions Drivers",
+					"KeyMetrics_MoreCardText" : "Local questions intro text"
+				},
+				"DIM_NPS": {
+					"Label": "Employee Net Promoter Score (ENPS)",
+					"KeyMetric_BackCardText": "Employee Net Promoter Score (ENPS) Drivers",
+					"KeyMetrics_MoreCardText" : "Employee Net Promoter Score (ENPS) intro text"
+				},
 			},
 			BreakBy: {
 				"Hierarchy": {
@@ -478,7 +542,13 @@ if ( meta == null ) {
 				"Detractors": { "Label": "Detractors" },
 				"PercentDistribution": { "Label": "% Distribution" },
 				"ValidN": { "Label": "Valid N" },
-				"Favorable": { "Label": "Fav" },
+				"Favorable": { "Label": "Favorable" },
+				"Neutral": { "Label": "Neutral" },
+				"Unfavorable": { "Label": "Unfavorable" },
+				"Score": { "Label": "Score" },
+				"Fav": { "Label": "Fav" },
+				"Neu": { "Label": "Neu" },
+				"Unfav": { "Label": "Unfav" },
 				"PercentFav": { "Label": "% Fav" },
 				"PercentNeu": { "Label": "% Neu" },
 				"PercentUnfav": { "Label": "% Unfav" },
@@ -595,6 +665,10 @@ if ( meta == null ) {
 					"Title": "Item Details",
 					"Label": "In this area you can explore survey dimensions in detail, zoom into questions within a dimension and apply demographic filters."
 				},
+				"KeyMetrics" : {
+					"Title": "Key Metrics",
+					"Label": "<p>These metrics are what drive success in your organisation.</p><p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p><p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p><p>The cards show your team performance on these metrics. Click on the cards to flip them and find out which topics have the biggest impact.</p>",
+				},
 				"Action": { "Label": "Take Action" },
 				"ActionAll": { "Label": "Review All Plans" },
 				"ActionBestPractice": { "Label": "Shared Plans" },
@@ -618,8 +692,8 @@ if ( meta == null ) {
 				"DimDetails": { "Label": "Dimension Details" },
 				"GeneratingPssTable": { "Label": "Generating PSS Table..." },
 				"DemographicHeatmap": {
-					"Label": "Heatmap",
-					"Title": "<p>Use the Heatmap to identify differences across demographic and organisational groups, and quickly understand which groups show best practice or require most focus.</p><p>First, select whether you want to review all dimensions, all questions or all questions within dimensions. Select a demographic or organisational group to compare against your base population.</p><p>Results will show percent favourable scores for the base group and you can toggle to show favourable scores or percentage-point differences in favourability for the comparison groups. Statistically significant differences are highlighted to help you understand whether differences are meaningful.</p>"},
+					"Title": "Heatmap",
+					"Label": "<p>Use the Heatmap to identify differences across demographic and organisational groups, and quickly understand which groups show best practice or require most focus.</p><p>First, select whether you want to review all dimensions, all questions or all questions within dimensions. Select a demographic or organisational group to compare against your base population.</p><p>Results will show percent favourable scores for the base group and you can toggle to show favourable scores or percentage-point differences in favourability for the comparison groups. Statistically significant differences are highlighted to help you understand whether differences are meaningful.</p>"},
 				"LocalQuestions": { "Label": "Local Questions" },
 				"Nps": { "Label": "ENPS" },
 				"NpsDetails": { "Label": "ENPS Details" },
@@ -726,6 +800,7 @@ if ( meta == null ) {
 				"NSQComp": { "Label": "NSQ Comparator page" },
 				"NSQ_IBT": { "Label": "NSQ Benchmark Tool" },
 				"Respondents": { "Label": "Respondents" },
+				"TakeAction" : { "Label": "Take Action to Improve" }
 			},
 			exports: {
 				"ResponseRate": { "Label": "Response rate preamble text" },
@@ -3116,7 +3191,8 @@ if(data.MetricsNew == null) {
 				}
 			],
 			KeyMetric: 'Distribution.Fav',
-			Comparators: ['Norm', 'HighPerformers'],
+			Comparators: ['External.IndustryBenchmark', 'External.HighPerformers'],
+			ArrowComparator: 'Internal.trend2020',
 			Icon: Resources_EngagementIcon(),
 			Color: '#d30f1d', // red
 			xBgColor: '#F0FFF0',
@@ -3135,7 +3211,8 @@ if(data.MetricsNew == null) {
 				}
 			],
 			KeyMetric: 'Distribution.Fav',
-			Comparators: ['Norm', 'HighPerformers'],
+			Comparators: ['External.IndustryBenchmark', 'External.HighPerformers'],
+			ArrowComparator: 'Internal.trend2020',
 			Icon: Resources_EnablementIcon(),
 			Color: '#d30f1d', // red
 			xBgColor: '#FFF0F0',
@@ -3154,7 +3231,8 @@ if(data.MetricsNew == null) {
 				}
 			],
 			KeyMetric: 'Distribution.Fav',
-			Comparators: ['Norm', 'HighPerformers'],
+			Comparators: ['External.IndustryBenchmark', 'External.HighPerformers'],
+			ArrowComparator: 'Internal.trend2020',
 			Icon: Resources_EffectivenessIcon(),
 			xBgColor: '#F0FFF0',
 			BgColor: '#FFF',

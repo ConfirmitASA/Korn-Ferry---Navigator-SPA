@@ -1,4 +1,4 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, showButtons, columnSettings, isSearchable) {
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, isSearchable, showButtons, columnSettings) {
 	var o = [];
 
 	o.push(`<table id="${table_id}" class="${class_name}">`);
