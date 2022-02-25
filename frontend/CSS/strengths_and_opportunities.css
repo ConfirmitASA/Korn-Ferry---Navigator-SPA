@@ -1,0 +1,72 @@
+#strengths-and-opportunities-data-container .flip-card {
+    height: 160px;
+    background: none;
+}
+#strengths-and-opportunities-data-container .flip-card-front,
+#strengths-and-opportunities-data-container .flip-card-back {
+    border: 1px solid #c0c0c0;
+    padding: 12px;
+}
+#strengths-and-opportunities-data-container .flip-card-front,
+#strengths-and-opportunities-data-container .flip-card-back,
+#strengths-and-opportunities-data-container .card-details-container {
+    filter: none;
+}
+#strengths-and-opportunities-data-container .strength,
+#strengths-and-opportunities-data-container .opportunity {
+    border: none;
+    padding: 0px;
+    background-color: transparent !important;
+    transition: transform 0.5s;
+}
+
+.strength .flip-card-front,
+.strength .flip-card-back {
+    color: #00634f !important;
+    background-color: #f3fff3;
+}
+.opportunity .flip-card-front,
+.opportunity .flip-card-back {
+    color: #de0f1d !important;
+    background-color: #fff3f3;
+}
+#strengths-and-opportunities-data-container .flipicon {
+    width: 50px;
+}
+#strengths-and-opportunities-data-container .card-row {
+    max-width: 90vw;
+    margin-top: 10px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#strengths-and-opportunities-data-container .card-row_header {
+    font-weight:normal;
+}
+#strengths-and-opportunities-data-container .card-row_header__opportunity {
+    margin-top: 30px;
+}
+#strengths-and-opportunities-data-container .flip-card-front_question-number {
+    margin-bottom:20px;
+    font-size: 14px;
+}
+#strengths-and-opportunities-data-container .flipicon_wrapper {
+    position: absolute;
+    width: 50px;
+    bottom: 0px;
+    right: 0px;
+}
+#strengths-and-opportunities-data-container .action-button_wrapper {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+#strengths-and-opportunities-data-container .flip-card-back_row {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #121821;
+}
+#strengths-and-opportunities-data-container .flip-card-back_row:first-child {
+    font-size: 1rem;
+    font-weight: bold;
+}

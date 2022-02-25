@@ -3,12 +3,9 @@
 function StrengthsAndOpportunities_Page() {
     return {
 
-        Label: 'Strengths and Opportunities',
+        Label: meta.Labels.pages.StrengthsAndOpportunities.Title,
 
-        LeftPane: `
-		<p>To the right is a list of items where your score was either very good (relative to your industry and other comparisons), or very low (where you clearly have work to do).</p>
-		<p>Click on an item for tips and guidance on how to improve or maintain.</p>
-		`,
+        LeftPane: meta.Labels.pages.StrengthsAndOpportunities.Label,
 
         RightPane: `
 		<div id="strengths-and-opportunities-data-container"></div>
@@ -25,34 +22,67 @@ function StrengthsAndOpportunities_Render() {
 
     var o = [];
 
-    //o.push ( Component_TestDataIndicator ( data.Report.IsTestData ) );
+    o.push ( Component_TestDataIndicator ( data.Report.IsTestData ) );
+
+    var stateComparators = State_Get('comparators');
+
+    if(!!stateComparators) {
+        if(stateComparators.indexOf('Internal.trend2020') < 0) {
+            stateComparators.push('Internal.trend2020');
+
+            State_Set('comparators', stateComparators);
+            TestData_fillComparatorsData();
+        }
+    } else {
+        State_Set('comparators', ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']);
+        TestData_fillComparatorsData();
+    }
 
     for (var i = 0; i < data.Strengths.Items.length && i < 5; ++i) {
         var strength_qno = data.Strengths.Items[i];
         var item = data.ItemsNew[strength_qno];//Main_ItemMap()[strength_qno];
 
+        var comparators = [];
+        var itemComparatorIds = Object.keys(item.Comparators);
+
+        if(!!item.Comparators) {
+            for(var j = 0; j < 3 && j < itemComparatorIds.length; j++) {
+                comparators.push(`
+                    <div class="flip-card-back_row">
+                        ${meta.Labels.Comparators[itemComparatorIds[j]].Label}:
+                        ${data.ItemsNew[strength_qno].Comparators[itemComparatorIds[j]].Value}          
+                    </div>
+                `);
+            }
+        }
+
         o.push(`
-			<div id="Strength_${strength_qno}_card" class="strength flip-card" style="transform: scale(0.1); transition: transform 0.5s">
+			<div id="Strength_${strength_qno}_card" class="strength flip-card" style="transform: scale(0.1);">
 				<div class="flip-card-inner">
 					<div id="Strength_${strength_qno}_front" class="flip-card-front">
-						<div style="margin-bottom:20px; font-size: 14px">
+						<div class="flip-card-front_question-number">
 							${(i + 1)} 
 						</div>
-						${meta.Labels.Items[strength_qno].Label} 
+						<div class="flip-card-front_question-text">
+                            ${meta.Labels.Items[strength_qno].Label} 
+                        </div>
 						<!-- Flip Icon -->
-						<div style="position: absolute; width: 50px; bottom: 0px; right: 0px;">
+						<div class="flipicon_wrapper">
 							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 						</div>
 					</div>
 					<div id="Strength_${strength_qno}_back" class="flip-card-back">
-						Score: ${data.ItemsNew[strength_qno].Distribution.Fav}
-						<div style="width: 100%; text-align: center; margin-top: 10px;">
+						<div class="flip-card-back_row"> 
+                            ${meta.Labels.labels.Favorable.Label}: ${data.ItemsNew[strength_qno].Distribution.Fav}%
+                        </div>
+						${comparators.join('')}
+						<div class="action-button_wrapper">
 							<div class="action-button" id="Strength-${strength_qno}-button">
 								${meta.Labels.buttons.TakeAction.Label}
 							</div>
 						</div>
 						<!-- Flip Icon -->
-						<div style="position: absolute; width: 50px; bottom: 0px; right: 0px;">
+						<div class="flipicon_wrapper">
 							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 						</div>
 					</div>
@@ -62,11 +92,11 @@ function StrengthsAndOpportunities_Render() {
     }
 
     tmp.push(`
-		<h2 style="font-weight:normal;">
+		<h2 class="card-row_header card-row_header__strength">
 			${meta.Pages.StrengthsAndOpportunities.Strengths.Title}
 		</h2>
-		${meta.Pages.StrengthsAndOpportunities.Strengths.Text}
-		<div style="max-width: 90vw; margin-top: 0px; display:flex; flex-direction: row; flex-wrap: wrap">
+		<span>${meta.Pages.StrengthsAndOpportunities.Strengths.Text}</span>
+		<div class="card-row">
 			${o.join('')}
 		</div>
 	`);
@@ -76,28 +106,47 @@ function StrengthsAndOpportunities_Render() {
         var qno = data.Opportunities.Items[i];
         var item = data.ItemsNew[qno];//Main_ItemMap()[qno];
 
+        var comparators = [];
+        var itemComparatorIds = Object.keys(item.Comparators);
+
+        if(!!item.Comparators) {
+            for(var j = 0; j < 3 && j < itemComparatorIds.length; j++) {
+                comparators.push(`
+                    <div class="flip-card-back_row">
+                        ${meta.Labels.Comparators[itemComparatorIds[j]].Label}:
+                        ${data.ItemsNew[strength_qno].Comparators[itemComparatorIds[j]].Value}          
+                    </div>
+                `);
+            }
+        }
+
         o.push(`
-			<div id="Opportunity_${qno}_card" class="opportunity flip-card" style="transform: scale(0.1); transition: transform 0.5s">
+			<div id="Opportunity_${qno}_card" class="opportunity flip-card" style="transform: scale(0.1);">
 				<div class="flip-card-inner">
 					<div id="Opportunity_${qno}_front" class="flip-card-front">
-						<div style="margin-bottom:20px; font-size: 14px">
+						<div class="flip-card-front_question-number">
 							${(i + 1)} 
 						</div>
-						${meta.Labels.Items[qno].Label} 
+						<div class="flip-card-front_question-text">
+						    ${meta.Labels.Items[qno].Label}
+						</div>
 						<!-- Flip Icon -->
-						<div style="position: absolute; width: 50px; bottom: 0px; right: 0px;">
+						<div class="flipicon_wrapper">
 							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 						</div>
 					</div>
 					<div id="Opportunity_${qno}_back" class="flip-card-back">
-						Score: ${data.ItemsNew[qno].Distribution.Fav}
-						<div style="width: 100%; text-align: center; margin-top: 10px;">
+						<div class="flip-card-back_row">
+                            ${meta.Labels.labels.Favorable.Label}: ${data.ItemsNew[qno].Distribution.Fav}%
+                        </div>
+                        ${comparators.join('')}
+						<div class="action-button_wrapper">
 							<div class="action-button" id="Opportunity-${qno}-button">
 								${meta.Labels.buttons.TakeAction.Label}
 							</div>
 						</div>
 						<!-- Flip Icon -->
-						<div style="position: absolute; width: 50px; bottom: 0px; right: 0px;">
+						<div class="flipicon_wrapper">
 							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 						</div>
 					</div>
@@ -107,11 +156,11 @@ function StrengthsAndOpportunities_Render() {
     }
 
     tmp.push(`
-		<h2 style="font-weight:normal; margin-top: 30px">
+		<h2 class="card-row_header card-row_header__opportunity">
 			${meta.Pages.StrengthsAndOpportunities.Opportunities.Title}
 		</h2>
-		${meta.Pages.StrengthsAndOpportunities.Opportunities.Text}
-		<div style="max-width: 90vw; margin-top: 0px; display:flex; flex-direction: row; flex-wrap: wrap">
+		<span>${meta.Pages.StrengthsAndOpportunities.Opportunities.Text}</span>
+		<div class="card-row">
 			${o.join('')}
 		</div>
 	`);

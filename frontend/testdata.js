@@ -669,6 +669,10 @@ if ( meta == null ) {
 					"Title": "Key Metrics",
 					"Label": "<p>These metrics are what drive success in your organisation.</p><p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p><p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p><p>The cards show your team performance on these metrics. Click on the cards to flip them and find out which topics have the biggest impact.</p>",
 				},
+				"StrengthsAndOpportunities" : {
+					"Title": "Strengths and Opportunities",
+					"Label": "Strengths and Opportunities text",
+				},
 				"Action": { "Label": "Take Action" },
 				"ActionAll": { "Label": "Review All Plans" },
 				"ActionBestPractice": { "Label": "Shared Plans" },

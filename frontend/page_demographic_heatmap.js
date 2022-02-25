@@ -409,7 +409,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakby
                 cellValue = breakByRowValue.Fav;
             }
 
-            sigTestingClass = (vsTotalValue.Fav.indexOf('*')>0) ? (vsTotalValue.Fav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
                 if (comparatorsVar == 'DifferencetoTotal') {
@@ -418,7 +418,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakby
                     cellValue = breakByRowValue.Unfav;
                 }
 
-                sigTestingClass = (vsTotalValue.Unfav.indexOf('*')>0) ? (vsTotalValue.Unfav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
             } else {
                 cellValue = null;
             }
@@ -473,7 +473,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
                 cellValue = breakByRowValue.Fav;
             }
 
-            sigTestingClass = (vsTotalValue.Fav.indexOf('*')>0) ? (vsTotalValue.Fav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
                 if (comparatorsVar == 'DifferencetoTotal') {
@@ -482,7 +482,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
                     cellValue = breakByRowValue.Unfav;
                 }
 
-                sigTestingClass = (vsTotalValue.Unfav.indexOf('*')>0) ? (vsTotalValue.Unfav.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
             } else {
                 cellValue = null;
             }
