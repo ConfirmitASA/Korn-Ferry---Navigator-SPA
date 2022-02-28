@@ -148,9 +148,9 @@ function TestData_getComparatorsData(comparators) {
 			Label: meta.Labels.Comparators[comparators[i]].Label,
 			Value: (rnd2 ? '' : '-') + (25 + rnd) + (rnd3 ? '' : ' *'),
 			Distribution: {
-				Fav: rnd+10,
+				Fav: rnd+60,
 				Neu: rnd,
-				UnFav: rnd-15
+				UnFav: rnd-5
 			},
 			NPS: rnd
 		}

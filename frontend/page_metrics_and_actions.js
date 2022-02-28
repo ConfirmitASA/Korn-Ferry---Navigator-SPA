@@ -135,7 +135,7 @@ function KeyMetrics_Render() {
 					</div>
 
 					<div class="vs_score">
-						${data.Dimensions[metric.DimensionId].Comparators[c].Value}
+						${data.Dimensions[metric.DimensionId].Comparators[c].Distribution.Fav}%
 					</div>
 				`);
         }
@@ -430,7 +430,7 @@ function KeyMetrics_MetricItems(metric_id) {
         for (var j = 0; j < data.Dimensions[metric_id].Items.length; j++) {
             var item = data.Dimensions[metric_id].Items[j];
 
-            var distribution_chart = Component_DistributionChart(
+            var distribution_chart = Component_DistributionChartStacked(
                 data.ItemsNew[item].Distribution
             );
 
