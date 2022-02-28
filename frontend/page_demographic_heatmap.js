@@ -358,6 +358,37 @@ function DemographicHeatmap_GetItemsTable() {
 			]
 		`;
 
+    var exportColumns = [];
+
+    for (var k = 4; k < 4 + 3 + breakByAnswerIds.length; k++) {
+        exportColumns.push(k);
+    }
+
+    var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+        ],
+    `;
+
     var dt = Component_DataTable(
         'items-table-Demographic-Heatmap',
         'items-table',
@@ -365,8 +396,9 @@ function DemographicHeatmap_GetItemsTable() {
         table_data,
         true,
         true,
+        columnSettings,
         true,
-        columnSettings
+        buttonSettings
     );
 
     return dt;

@@ -1,4 +1,4 @@
-function Component_DataTable ( table_id, class_name, headers, data, isSortable, isSearchable, showButtons, columnSettings) {
+function Component_DataTable ( table_id, class_name, headers, data, isSortable, isSearchable, columnSettings, showButtons, buttonSettings) {
 	var o = [];
 
 	o.push(`<table id="${table_id}" class="${class_name}">`);
@@ -51,7 +51,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			${columnSettings},
 			'autoWidth': false,
 			dom: 'Bfrtip',
-			buttons: ${showButtons ? "['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']" : "[]"}
+			buttons: ${showButtons ? buttonSettings : "[]" }
 		});
 		tbl.css('float', 'left');
 		tbl.css('margin-top', '20px');

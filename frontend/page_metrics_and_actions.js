@@ -13,6 +13,8 @@ function KeyMetrics_Page() {
 			<div id="card-container-1" class="card-container"></div>
 			<div class="card-details-container"></div>
 		</div>
+		<div id="keyDriversTableContainer">
+		</div>
 		`,
 
         ClassName: 'flip-card-container',
@@ -190,6 +192,8 @@ function KeyMetrics_Render() {
 			</div>
 		`);
 
+
+    $('#keyDriversTableContainer').html('Hello');
 
     // Hover Handlers --------------------------------------
 
@@ -451,7 +455,7 @@ function KeyMetrics_MetricDrivers(metric, scoreType) {
     tmp.push('<div class=items>');
 
     if (!!data.Dimensions[metric.DimensionId].Items) {
-        for (var j = 0; j < metric.Drivers.length; j++) {
+        for (var j = 0; j< 2 && j < metric.Drivers.length; j++) {
             var item = metric.Drivers[j];
 
             var scoreValue;
@@ -511,4 +515,9 @@ function KeyMetrics_FlipBackToFront(x) {
         delay: 0,
         duration: 200
     });
+}
+
+function KeyMetrics_GetKeyDriversTable() {
+
+    var headers = [];
 }

@@ -385,9 +385,12 @@ body {
     margin-bottom: 20px;
 }
 
-.card-container,
 .card-details-container {
     position: absolute;
+}
+
+.card-container,
+.card-details-container {
     margin: 0 !important;
     zoom: 0.8 !important;
 }
@@ -545,27 +548,6 @@ body {
     height: 25px;
     width: 25px;
     display: inline-block;
-}
-.green-arrow {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid green;
-}
-.red-arrow {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 25px solid red;
-}
-.gray-arrow{
-    width: 0;
-    height: 0;
-    border-top: 15px solid transparent;
-    border-left: 25px solid grey;
-    border-bottom: 15px solid transparent;
 }
 .metriclabel {
     position: absolute;
