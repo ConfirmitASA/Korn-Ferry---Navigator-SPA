@@ -540,7 +540,11 @@ body {
     background-repeat: no-repeat;
     background-position-x: 16px !important;
     position: relative;
-    top: 150px
+    top: 160px
+}
+
+.myicon img {
+    height: 200px;
 }
 
 
@@ -557,6 +561,9 @@ body {
     color: #000;
     width: 85%;
     left: 23px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .metriclabel_back {

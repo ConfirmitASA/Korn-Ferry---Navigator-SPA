@@ -107,13 +107,10 @@ function KeyMetrics_Render() {
 							<!-- Flip Icon -->
 							<div style="position: absolute; width: 64px; bottom: 0px; right: 0px;">
 								<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
-							</div>
+							</div>						
 
-							<!-- Traffic Light Dot -->
-							<div class="dot ${arrowClass}" style="position: absolute; top: 30px; left: 20px;"></div>
-
-							<div style="zoom: 0.7" class="myicon ${metric.Class} large">
-								${metric.Icon}
+							<div style="zoom: 0.6" class="myicon large">
+								<img src="${Resources_GetIconUrlByDimensionId(metric.DimensionId)}"/>
 							</div>
 
 							<!-- Score -->
@@ -151,7 +148,8 @@ function KeyMetrics_Render() {
 
 							<!-- Metric Label -->
 							<div class=metriclabel>
-								${meta.Labels.Dimensions[metric.DimensionId].Label}
+								<div class="dot ${arrowClass}"></div>
+                                <div>${meta.Labels.Dimensions[metric.DimensionId].Label}</div>
 							</div>
 							
 						</div>
@@ -159,8 +157,8 @@ function KeyMetrics_Render() {
 
 						<!-- Back -->
 						<div id=${metric.DimensionId}_back class="flip-card-back">
-							<div class="myicon ${metric.Class} small">
-								${metric.Icon}
+							<div class="myicon small">
+								<img src="${Resources_GetIconUrlByDimensionId(metric.DimensionId)}"/>
 							</div>
 							
 							<div id=${metric.DimensionId}_more class="detailslink">
@@ -192,8 +190,12 @@ function KeyMetrics_Render() {
 			</div>
 		`);
 
+    if(user.Roles.includes('role1')) {
+        var dt = KeyMetrics_GetKeyDriversTable();
 
-    $('#keyDriversTableContainer').html('Hello');
+        $('#keyDriversTableContainer').html( dt.Html );
+        if ( dt.ScriptCode != null ) eval ( dt.ScriptCode );
+    }
 
     // Hover Handlers --------------------------------------
 
@@ -515,5 +517,124 @@ function KeyMetrics_FlipBackToFront(x) {
 
 function KeyMetrics_GetKeyDriversTable() {
 
-    var headers = [];
+    var comparators = State_Get('comparators');
+    var NofComparators = comparators ? comparators.length : 0;
+    var NofHeaderRows = (NofComparators > 0) ? 2 : 1;
+
+    var headers = [
+        [
+            { Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+            { Label: meta.Labels.labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
+        ]
+    ];
+
+    if (NofComparators > 0) {
+        headers[0].push({ Label: meta.Labels.labels["FavvsComparator"].Label, ClassName: 'numeric-cell', colspan: NofComparators });
+        var subheaders = [];
+        for (var i = 0; i < NofComparators; i++) {
+            subheaders.push({ Label: meta.Labels.Comparators[comparators[i]].Label, ClassName: 'numeric-cell' });
+        }
+        headers.push(subheaders);
+    }
+
+    var metrics = data.Metrics;
+    var addedItems = [];
+    var table_data = [];
+    var rowdata = [];
+
+    for(var i = 0; i < metrics.length; i++) {
+        var metric = metrics[i];
+
+        for(var j = 0; j < metric.Drivers.length; j++) {
+            var driver = metric.Drivers[j];
+
+            var copies = addedItems.filter(function (element) {
+                return element === driver.ItemId;
+            });
+
+            if (copies.length == 0) {
+                addedItems.push(driver.ItemId);
+
+                var item = data.ItemsNew[driver.ItemId];
+                rowdata = [
+                    {Label: driver.ItemId, ClassName: 'id-cell'},
+                    {Label: meta.Labels.Items[driver.ItemId].Label, ClassName: 'text-cell'},
+                    {Label: item.N, ClassName: 'numeric-cell'},
+                    {Label: item.Distribution.Fav, ClassName: 'numeric-cell distribution-cell'},
+                    {Label: item.Distribution.Neu, ClassName: 'numeric-cell distribution-cell'},
+                    {Label: item.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell'},
+                    {Label: Component_DistributionChartStacked(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
+                ];
+
+                for (var k = 0; k < NofComparators; k++) {
+                    var value = item.Comparators[comparators[k]].Value;
+                    sigClassname = (value.indexOf('*')>0) ? (value.indexOf('-')==0 ? 'cell-red' : 'cell-green') : '';
+                    rowdata.push({ Label: value, datasort: value.replace(/\*/g,''), ClassName: 'numeric-cell '+sigClassname });
+                }
+
+                table_data.push(rowdata);
+            }
+        }
+    }
+
+    var hideColumns = [];
+    if (NofComparators > 3) {
+        hideColumns.push(3, 4, 5);
+    }
+
+    var columnSettings = `
+		'order': [ 0, 'asc' ],
+		'columnDefs': [
+		    { 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
+			{ 'targets': '_all', type: 'natural' }
+		],
+	`;
+
+    var exportColumns = [];
+    for (var k = 0; k < 6; k++) exportColumns.push(k);
+    for (var k = 7; k < 7 + NofComparators; k++) exportColumns.push(k);
+
+    var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+        ],
+    `;
+
+    var dt = Component_DataTable (
+        "keyDriversTable",
+        "items-table",
+        headers,
+        table_data,
+        true,
+        false,
+        columnSettings,
+        true,
+        buttonSettings
+    );
+
+    return dt;
 }

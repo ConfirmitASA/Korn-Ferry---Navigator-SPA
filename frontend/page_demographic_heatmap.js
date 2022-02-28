@@ -305,7 +305,7 @@ function DemographicHeatmap_GetItemsTable() {
             {Label: 'dimensionId', ClassName: 'text-cell', colspan: 1, rowspan: 3},
             {Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: 3},
             {Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: 3},
-            {Label: 'Question', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: meta.Labels.labels["Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: 3},
             {Label: `${meta.Labels.BreakBy.Hierarchy.Title}`, ClassName: 'numeric-cell', colspan: 1, rowspan: 1},
             {Label: `${meta.Labels.BreakBy[breakbyVar].Label}`, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1}
         ]

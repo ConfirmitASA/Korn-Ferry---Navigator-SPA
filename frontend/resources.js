@@ -94,40 +94,43 @@ function Resources_GetIconUrlByDimensionId(dimensionId) {
         case 'DIM_ENA':
             iconUrl = 'img/enablement.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N64':
+            iconUrl = '!img/resources.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N50':
+            iconUrl = 'img/authority_and_empowerement.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N65':
+            iconUrl = 'img/respect_and_recognition.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N52':
+            iconUrl = 'img/collaboration.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N63':
+            iconUrl = 'img/quality_and_customer_focus.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N61':
+            iconUrl = 'img/performance_management.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N54':
+            iconUrl = 'img/development_opportunities.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N53':
+            iconUrl = 'img/confidence_in_leaders.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N66':
+            iconUrl = 'img/training.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N51':
+            iconUrl = 'img/clear_and_promising_direction.png';
             break;
-        case 'DIM_ENG':
-            iconUrl = 'img/engagement.png';
+        case 'DIM_N67':
+            iconUrl = 'img/work_structure_progress.png';
             break;
-        case 'DIM_ENG':
+        case 'DIM_N60':
+            iconUrl = 'img/compensation_and_benefits.png';
+            break;
+        default:
             iconUrl = 'img/engagement.png';
             break;
     }
