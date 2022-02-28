@@ -93,7 +93,7 @@ function KeyMetrics_Render() {
             if(vsTrendValue < 0) {
                 arrowClass = 'red-arrow';
             } else {
-                arrowClass = 'gray-arrow';
+                arrowClass = 'amber-arrow';
             }
         }
 
@@ -323,11 +323,7 @@ function KeyMetrics_Render() {
         $('.card-details-container').html(`
 
 				<!-- Exit button -->
-				<div id=exitdetails_${metric_id} style="
-					width:32px; 
-					height: 32px; 
-					background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flat_cross_icon.svg/1200px-Flat_cross_icon.svg.png); background-size:32px 32px; cursor: pointer;  position: absolute;   top: 20px; right: 20px;
-				" class=exitdetails>
+				<div id=exitdetails_${metric_id} class="details-exit">
 				</div>
 
 				<!-- Main Content-->
@@ -337,8 +333,8 @@ function KeyMetrics_Render() {
 			`);
 
         // Click - Exit (X) button in Details view
-        $('.exitdetails').off('click');
-        $('.exitdetails').click(
+        $('.details-exit').off('click');
+        $('.details-exit').click(
             function () {
 
                 // Fade Out Details

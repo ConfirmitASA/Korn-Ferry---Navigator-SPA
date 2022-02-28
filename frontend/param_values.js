@@ -68,3 +68,13 @@ function ParamValues_DemographicHeatmap_Comparators() {
 
 	return param_values;
 }
+
+function ParamValues_NonStandardQuestions() {
+	var param_values = [];
+
+	for (var i in meta.Labels.NonStandardQuestions) {
+		param_values.push ( {Code: i, Label: meta.Labels.NonStandardQuestions[i].Label} );
+	}
+
+	return param_values;
+}

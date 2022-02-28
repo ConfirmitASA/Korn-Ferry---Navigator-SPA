@@ -68,13 +68,13 @@ function AllItems_ItemsTable() {
 	var headers = [
 		[
 			{ Label: "", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "#", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "Question", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "Valid N", ClassName: 'numeric-cell', rowspan: NofHeaderRows },
-			{ Label: "Fav", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Neu", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Unfav", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Distribution", ClassName: 'text-cell', rowspan: NofHeaderRows }
+			{ Label: "# ", ClassName: 'id-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
 		]
 	];
 
@@ -94,14 +94,14 @@ function AllItems_ItemsTable() {
 		for (var j in data.ItemsNew) {
 			var item = data.ItemsNew[j];
 			rowdata = [
-				{Label: '', ClassName: 'text-cell'},
-				{Label: j, ClassName: 'text-cell'},
+				{Label: '', ClassName: 'id-cell'},
+				{Label: j, ClassName: 'id-cell'},
 				{Label: meta.Labels.Items[j].Label, ClassName: 'text-cell'},
 				{Label: item.N, ClassName: 'numeric-cell'},
 				{Label: item.Distribution.Fav, ClassName: 'numeric-cell distribution-cell'},
 				{Label: item.Distribution.Neu, ClassName: 'numeric-cell distribution-cell'},
 				{Label: item.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell'},
-				{Label: Component_DistributionChart(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
+				{Label: Component_DistributionChartStacked(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
 			];
 			for (var k = 0; k < NofComparators; k++) {
 				var value = item.Comparators[comparators[k]].Value;
@@ -114,17 +114,19 @@ function AllItems_ItemsTable() {
 	else {
 		var counter=0;
 		for (var i in data.Dimensions) {
+			var dId = counter<10 ? '0'+counter : counter;
+			var qId = dId+'_';
 			if (itemgroup=='AllDimensions' || itemgroup=='AllQuestionsOrdByDimension' || dimensionId==i) {
 				var item = data.Dimensions[i];
 				rowdata = [
-					{Label: itemgroup=='AllDimensions' ? '' : (counter<10 ? '0'+counter : counter), ClassName: 'text-cell'},
-					{Label: '&#9674;', ClassName: 'text-cell'},
+					{Label: ( itemgroup=='AllDimensions' ? "": dId ), ClassName: 'id-cell'},
+					{Label: '&#9674;', ClassName: 'id-cell'},
 					{Label: '<b>'+meta.Labels.Dimensions[i].Label+'</b>', ClassName: 'text-cell'},
 					{Label: item.N, ClassName: 'numeric-cell'},
 					{Label: item.Distribution.Fav, ClassName: 'numeric-cell distribution-cell'},
 					{Label: item.Distribution.Neu, ClassName: 'numeric-cell distribution-cell'},
 					{Label: item.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell'},
-					{Label: Component_DistributionChart(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
+					{Label: Component_DistributionChartStacked(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
 				];
 				for (var k = 0; k < NofComparators; k++) {
 					var value = item.Comparators[comparators[k]].Value;
@@ -138,14 +140,14 @@ function AllItems_ItemsTable() {
 				for (var j = 0; j < dimItems.length; j++) {
 					var item = data.ItemsNew[dimItems[j]];
 					rowdata = [
-						{Label: counter<10 ? '0'+counter+'_' : counter+'_', ClassName: 'text-cell'},
-						{Label: dimItems[j], ClassName: 'text-cell'},
+						{Label: qId, ClassName: 'id-cell'},
+						{Label: dimItems[j], ClassName: 'id-cell'},
 						{Label: meta.Labels.Items[dimItems[j]].Label, ClassName: 'text-cell'},
 						{Label: item.N, ClassName: 'numeric-cell'},
 						{Label: item.Distribution.Fav, ClassName: 'numeric-cell distribution-cell'},
 						{Label: item.Distribution.Neu, ClassName: 'numeric-cell distribution-cell'},
 						{Label: item.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell'},
-						{Label: Component_DistributionChart(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
+						{Label: Component_DistributionChartStacked(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell'}
 					];
 					for (var k = 0; k < NofComparators; k++) {
 						var value = item.Comparators[comparators[k]].Value;
@@ -159,13 +161,57 @@ function AllItems_ItemsTable() {
 		}
 	}
 
+	var hideColumns = [0];
+	if (NofComparators>3) hideColumns.push(7);
+
+	var columnSettings = `
+		'orderFixed': [ 0, 'asc' ],
+		'order': [ 1, 'asc' ],
+		'columnDefs': [
+			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
+			{ 'targets': '_all', type: 'natural' }
+		],
+	`;
+
+	var exportColumns = [];
+	for (var k = 1; k < 7; k++) exportColumns.push(k);
+	for (var k = 8; k < 8+NofComparators; k++) exportColumns.push(k);
+
+	var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+        ],
+    `;
+
 	var dt = Component_DataTable (
 		"items-table-allitems",
 		"items-table",
 		headers,
 		table_data,
 		true,
-		true
+		false,
+		columnSettings,
+		true,
+		buttonSettings
 	);
 
 	return dt;

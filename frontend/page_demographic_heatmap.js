@@ -154,6 +154,8 @@ function DemographicHeatmap_HandleSwitchClick(selectorObj) {
         if (labelsForInput.length > 0) {
             State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
 
+            DemographicHeatmap_UpdateTableTitle();
+
             for (var i = 0; i < labelsForInput.length; i++) {
                 $(labelsForInput[i]).toggleClass('label-checked');
             }
@@ -298,14 +300,14 @@ function DemographicHeatmap_GetItemsTable() {
 
     var headers = [
         [
-            {Label: 'dimensionN', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: 'dimensionFlag', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: 'dimensionId', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: 'isExclusive', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: "#", ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 3},
-            {Label: 'Question', ClassName: 'text-cell', ColSpan: 1, RowSpan: 3},
-            {Label: `${meta.Labels.BreakBy.Hierarchy.Title}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 1},
-            {Label: `${meta.Labels.BreakBy[breakbyVar].Label}`, ClassName: 'numeric-cell', ColSpan: breakByAnswerIds.length, RowSpan: 1}
+            {Label: 'dimensionN', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: 'dimensionFlag', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: 'dimensionId', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: 3},
+            {Label: 'Question', ClassName: 'text-cell', colspan: 1, rowspan: 3},
+            {Label: `${meta.Labels.BreakBy.Hierarchy.Title}`, ClassName: 'numeric-cell', colspan: 1, rowspan: 1},
+            {Label: `${meta.Labels.BreakBy[breakbyVar].Label}`, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1}
         ]
     ];
 
@@ -313,20 +315,20 @@ function DemographicHeatmap_GetItemsTable() {
     var headerRow1 = [];
     var headerRow2 = [];
 
-    headerRow1.push({Label: `N=${data.Questions[breakbyVar].N}`, ClassName: 'numeric-cell', ColSpan: 1, RowSpan: 2},);
+    headerRow1.push({Label: `N=${data.Questions[breakbyVar].N}`, ClassName: 'numeric-cell', colspan: 1, rowspan: 2},);
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
         headerRow1.push({
             Label: `${meta.Labels.BreakBy[breakbyVar].Options[breakByAnswerIds[i]].Label}`,
             ClassName: 'numeric-cell',
-            ColSpan: 1,
-            RowSpan: 1
+            colspan: 1,
+            rowspan: 1
         })
         headerRow2.push({
             Label: `N=${data.Questions[breakbyVar].Options[breakByAnswerIds[i]].N}`,
             ClassName: 'numeric-cell',
-            ColSpan: 1,
-            RowSpan: 1
+            colspan: 1,
+            rowspan: 1
         })
     }
 
@@ -355,7 +357,7 @@ function DemographicHeatmap_GetItemsTable() {
 				{ targets: [0, 1, 2, 3], visible: false },
 				{ targets: [5], width: 200 },
 				{ targets: [4], type: "natural" }
-			]
+			],
 		`;
 
     var exportColumns = [];

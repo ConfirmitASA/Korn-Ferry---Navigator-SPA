@@ -83,3 +83,54 @@ function Resources_Icon1() {
     </defs>
 </svg>`;
 }
+
+function Resources_GetIconUrlByDimensionId(dimensionId) {
+    var iconUrl = '';
+
+    switch (dimensionId) {
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENA':
+            iconUrl = 'img/enablement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+        case 'DIM_ENG':
+            iconUrl = 'img/engagement.png';
+            break;
+    }
+
+    return iconUrl;
+}

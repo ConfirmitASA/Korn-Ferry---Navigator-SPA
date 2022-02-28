@@ -26,8 +26,8 @@ function DemographicHighlighter_Render() {
 		'Break by: ', 
 		'demographic-highlighter-dropdown', 
 		'(Select demographic)', 
-		ParamValues_Demo(), 
-		State_Get( 'demo' )
+		ParamValues_BreakBy(),
+		State_Get( 'breakby' )
 	);
 
 

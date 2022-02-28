@@ -94,14 +94,13 @@ function ItemDetails_ItemsTable() {
 
 	var headers = [
 		[
+			{ Label: "", ClassName: 'id-cell', rowspan: NofHeaderRows },
 			{ Label: "", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "#", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "Question", ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: "Valid N", ClassName: 'numeric-cell', rowspan: NofHeaderRows },
-			{ Label: "Fav", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Neu", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Unfav", ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-			{ Label: "Distribution", ClassName: 'text-cell', rowspan: NofHeaderRows }
+			{ Label: meta.Labels.labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+			{ Label: meta.Labels.labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
 		]
 	];
 
@@ -123,14 +122,13 @@ function ItemDetails_ItemsTable() {
 
 	if ('N' in item) {
 		rowdata = [
-			{ Label: '0', ClassName: 'text-cell' },
-			{ Label: itemId ? itemId + '.' : '&#9674;', ClassName: 'text-cell' },
-			{ Label: itemId ? meta.Labels.Items[itemId].Label : '<b>' + meta.Labels.Dimensions[dimensionId].Label + '</b>', ClassName: 'text-cell' },
+			{ Label: '0', ClassName: 'id-cell' },
+			{ Label: meta.Labels.BreakBy["Hierarchy"].Title, ClassName: 'text-cell' },
 			{ Label: item.N, ClassName: 'numeric-cell' },
 			{ Label: item.Distribution.Fav, ClassName: 'numeric-cell distribution-cell' },
 			{ Label: item.Distribution.Neu, ClassName: 'numeric-cell distribution-cell' },
 			{ Label: item.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell' },
-			{ Label: Component_DistributionChart(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell' }
+			{ Label: Component_DistributionChartStacked(item.Distribution), datasort: item.Distribution.Fav, ClassName: 'text-cell' }
 		];
 		for (var i = 0; i < NofComparators; i++) {
 			var value = item.Comparators[comparators[i]].Value;
@@ -141,14 +139,13 @@ function ItemDetails_ItemsTable() {
 		for (var j in item.BreakBy.Options) {
 			var option = item.BreakBy.Options[j];
 			rowdata = [
-				{ Label: '0_', ClassName: 'text-cell' },
-				{ Label: '', ClassName: 'text-cell' },
+				{ Label: '0_', ClassName: 'id-cell' },
 				{ Label: meta.Labels.BreakBy[item.BreakBy.Variable].Options[j].Label, ClassName: 'text-cell' },
 				{ Label: option.N, ClassName: 'numeric-cell' },
 				{ Label: option.Distribution.Fav, ClassName: 'numeric-cell distribution-cell' },
 				{ Label: option.Distribution.Neu, ClassName: 'numeric-cell distribution-cell' },
 				{ Label: option.Distribution.Unfav, ClassName: 'numeric-cell distribution-cell' },
-				{ Label: Component_DistributionChart(option.Distribution), datasort: option.Distribution.Fav, ClassName: 'text-cell' }
+				{ Label: Component_DistributionChartStacked(option.Distribution), datasort: option.Distribution.Fav, ClassName: 'text-cell' }
 			];
 			for (var i = 0; i < NofComparators; i++) {
 				var value = option.Comparators[comparators[i]].Value;
@@ -159,13 +156,57 @@ function ItemDetails_ItemsTable() {
 		}
 	}
 
+	var hideColumns = [0];
+	if (NofComparators>3) hideColumns.push(6);
+
+	var columnSettings = `
+		'orderFixed': [ 0, 'asc' ],
+		'order': [],
+		'columnDefs': [
+			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
+			{ 'targets': '_all', type: 'natural' }
+		],
+	`;
+
+	var exportColumns = [];
+	for (var k = 1; k < 6; k++) exportColumns.push(k);
+	for (var k = 7; k < 7+NofComparators; k++) exportColumns.push(k);
+
+	var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+            }, 
+        ],
+    `;
+
 	var dt = Component_DataTable(
 		"items-table-itemdetails",
 		"items-table",
 		headers,
 		table_data,
 		true,
-		true
+		false,
+		columnSettings,
+		true,
+		buttonSettings
 	);
 
 	return dt;

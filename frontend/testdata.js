@@ -146,12 +146,19 @@ function TestData_getComparatorsData(comparators) {
 		var rnd3 = Math.floor(Math.random() * 2);
 		var tmpComparatorsData = {
 			Label: meta.Labels.Comparators[comparators[i]].Label,
-			Value: (rnd2 ? '' : '-') + (25+rnd) + (rnd3 ? '' : ' *')
+			Value: (rnd2 ? '' : '-') + (25 + rnd) + (rnd3 ? '' : ' *'),
+			Distribution: {
+				Fav: rnd+10,
+				Neu: rnd,
+				UnFav: rnd-15
+			},
+			NPS: rnd
 		}
 		comparatorsData[comparators[i]] = tmpComparatorsData;
 	}
 
 	return comparatorsData;
+
 }
 
 function TestData_fillComparatorsData() {
@@ -293,6 +300,12 @@ if ( meta == null ) {
 			DistributionChart: {
 				bgcolors: ['#77bc1f', '#e0e0e0', '#d30f1d'],
 				colors: ['white', 'black', 'white'],
+				height: '20px',
+				style: 'text-align:center; font-size: smaller',
+			},
+			DistributionChart_onecolor: {
+				bgcolor: 'rgb(0, 180, 235)',
+				color: 'white',
 				height: '20px',
 				style: 'text-align:center; font-size: smaller',
 			},
@@ -458,6 +471,32 @@ if ( meta == null ) {
 					"KeyMetrics_MoreCardText" : "Employee Net Promoter Score (ENPS) intro text"
 				},
 			},
+			NonStandardQuestions: {
+				"NSQ1": {
+					"Label": "Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.",
+					"Answers" : {
+						"1": { "Label": "Q1 Answer A" },
+						"2": { "Label": "Q1 Answer B" },
+						"3": { "Label": "Q1 Answer C" }
+					}
+				},
+				"NSQ2": {
+					"Label": "Please select which of the following are barriers to innovation at the company: (Select all that apply)",
+					"Answers" : {
+						"1": { "Label": "Q2 Answer A" },
+						"2": { "Label": "Q2 Answer B" },
+						"3": { "Label": "Q2 Answer C" }
+					}
+				},
+				"NSQ3": {
+					"Label": "How do you prefer to read your emails, reports and books?",
+					"Answers" : {
+						"1": { "Label": "Q3 Answer A" },
+						"2": { "Label": "Q3 Answer B" },
+						"3": { "Label": "Q3 Answer C" }
+					}
+				},
+			},
 			BreakBy: {
 				"Hierarchy": {
 					"Label": "One Level Down",
@@ -602,6 +641,7 @@ if ( meta == null ) {
 				"APHomeItem": { "Label": "Item" },
 				"Max5CompsAllowed": { "Label": "No more than [MAXALLOWED] comparators can be selected at the same time." },
 				"NoDataToDisplay": { "Label": "No data to display" },
+				"Pct" : { "Label": "Pct" }
 			},
 			drop_downs: {
 				"Passives": { "Label": "Passives" },
@@ -659,11 +699,27 @@ if ( meta == null ) {
 			pages: {
 				"AllItems": {
 					"Title": "All Items",
-					"Label": "The results for all survey dimensions and questions are shown below."
+					"Label": `
+						<p>Use this page to explore your survey results in more detail.</p>
+						<p>Select whether you want to view all dimensions, all questions or all questions within their dimensions. You can sort the data by any of the columns, simply click on the column headers.</p>
+						<p>Note that: 
+						<ul class="left-pane-list">
+						<li>The Valid N refers to the number of responses to a question, not the population size</li>
+						<li>Question scores are suppressed if there are deemed to be too few responses to protect confidentiality</li>
+						<li>Dimension scores are suppressed where any of the questions in that dimension have not received enough responses</li>
+						</ul></p>
+						`
 				},
 				"ItemDetails": {
-					"Title": "Item Details",
-					"Label": "In this area you can explore survey dimensions in detail, zoom into questions within a dimension and apply demographic filters."
+					"Title": "Item Breakdown",
+					"Label": `
+						<p><b>Use this page to focus on one dimension or question and review differences by demographic and organisational groups.</b></p>
+						<p>Select the dimension or question you want to view then select the demographic or organisational group to get a better understanding of differences. The data can be sorted by any of the columns.</p>
+						`
+				},
+				"NonStandardQuestions": {
+					"Title": "Non-Standard Questions",
+					"Label": ``
 				},
 				"KeyMetrics" : {
 					"Title": "Key Metrics",
@@ -3940,4 +3996,53 @@ if(data.Questions == null) {
 	}
 
 	data.Questions = questionsData;
+}
+if (data.NonStandardQuestions == null) {
+
+	var NonStandardQuestions = {
+		"NSQ1": {
+			"1": {
+				N: 1294,
+				Pct: 18
+			},
+			"2": {
+				N: 1394,
+				Pct: 14
+			},
+			"3": {
+				N: 1214,
+				Pct: 24
+			},
+		},
+		"NSQ2": {
+			"1": {
+				N: 1294,
+				Pct: 18
+			},
+			"2": {
+				N: 1394,
+				Pct: 18
+			},
+			"3": {
+				N: 1214,
+				Pct: 24
+			},
+		},
+		"NSQ3": {
+			"1": {
+				N: 1294,
+				Pct: 18
+			},
+			"2": {
+				N: 1394,
+				Pct: 14
+			},
+			"3": {
+				N: 1214,
+				Pct: 24
+			},
+		},
+	};
+
+	data.NonStandardQuestions = NonStandardQuestions;
 }

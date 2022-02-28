@@ -1,4 +1,4 @@
-function Component_DistributionChart( distribution ) {
+function Component_DistributionChartStacked( distribution ) {
 
 	var style = meta.Styles.DistributionChart;
 	var keys = Object.keys(distribution);
@@ -20,6 +20,14 @@ function Component_DistributionChart( distribution ) {
 	}
 
 	var distribution_chart = d.join('');
+
+	return distribution_chart;
+}
+
+function Component_DistributionChartBar( value ) {
+
+	var style = meta.Styles.DistributionChart_onecolor;
+	var distribution_chart = '<div style="display: inline-block; height: ' + style.height + '; background-color: ' + style.bgcolor + '; color: ' + style.color + '; width: ' + value + '%; ' + style.style + '"><span style="position: relative; top: 4px">' + '&nbsp;' + '</span></div>'
 
 	return distribution_chart;
 }

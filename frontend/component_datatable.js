@@ -48,7 +48,7 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'sorting': ${isSortable},
 			'paging': false,
 			'info': false,
-			${columnSettings},
+			${columnSettings}
 			'autoWidth': false,
 			dom: 'Bfrtip',
 			buttons: ${showButtons ? buttonSettings : "[]" }
@@ -63,15 +63,13 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 	};
 }
 
-function TD(bodyCellObj, classname) {
-	if (classname == null) classname = bodyCellObj.ClassName;
-	var datasort = ('datasort' in bodyCellObj) ? ' data-sort="' + bodyCellObj.datasort + '"' : '';
-
-	return '<td class="' + classname + '"' + datasort + '>' + (!!bodyCellObj.Label ? bodyCellObj.Label : '-') + '</td>';
+function TD(cell) {
+	if (cell.ClassName == null) cell.ClassName = "items-table-td";
+	var datasort = ('datasort' in cell) ? ' data-sort="'+cell.datasort+'"' : '';
+	return '<td class="' + cell.ClassName + '"' + datasort + '>' + cell.Label + '</td>';
 }
 
-function TH(headerCellObj, classname) {
-	if (classname == null) classname = "items-table-td";
-
-	return '<th class="' + classname + '" colspan="' + headerCellObj.ColSpan + '" rowspan="' + headerCellObj.RowSpan + '">' + headerCellObj.Label + '</th>';
+function TH(cell) {
+	if (cell.ClassName == null) cell.ClassName = "items-table-td";
+	return '<th class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + '>' + cell.Label + '</th>';
 }
