@@ -326,7 +326,8 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
 		'order': [ 0, 'asc' ],
 		'columnDefs': [
 		    { 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
-			{ 'targets': '_all', type: 'natural' }
+			{ 'targets': '_all', type: 'natural' },
+			{ 'targets': '_all', 'orderable': false }
 		],
 	`;
 
