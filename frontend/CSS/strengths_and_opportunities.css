@@ -158,12 +158,12 @@
     background-color: #f9f9f9;
     filter: none;
     position: absolute;
-    margin: 0 !important;
+    margin: 0px 50px 0px 0px;
     left: -100000px;
-    height: 600px;
+    /*height: 600px;*/
     border: 1px solid #999;
     opacity: 0;
-    width: 80%;
+    /*width: 80%;*/
     border-radius: unset;
     padding: 30px 50px;
     background-repeat: no-repeat;

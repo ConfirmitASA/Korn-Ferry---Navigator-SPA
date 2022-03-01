@@ -24,6 +24,12 @@ function StrengthsAndOpportunities_Render() {
 
     o.push(Component_TestDataIndicator(data.Report.IsTestData));
 
+    var preSelectedCardId = State_Get('StrengthAndOpportunitiesSelectedCard');
+
+    if(!!preSelectedCardId) {
+        StrengthsAndOpportunities_fillDetailsCard(preSelectedCardId);
+    }
+
     o.push('<div id="strengthsAndOpportunitiesCardRow" class="card-row">')
 
     //add strengths card - top 3 items
@@ -66,13 +72,15 @@ function StrengthsAndOpportunities_Render() {
         delay += 200;
     });
 
-    StrengthsAndOpportunities_handleActionButtonClick()
+    StrengthsAndOpportunities_handleActionButtonClick();
 
     $('.details-link').click(function (event) {
         event.stopPropagation();
         event.preventDefault();
 
         var selectedCardId = $(this).attr('id').split('_more')[0];
+
+        State_Set('StrengthAndOpportunitiesSelectedCard', selectedCardId);
 
         $('.static-card').css('position', 'relative');
 
@@ -96,8 +104,6 @@ function StrengthsAndOpportunities_Render() {
         container.velocity({
             left: 62 + 'px',
             top: 65 + 'px', //0, //60, //offset.top + "px",
-            height: "600px",
-            width: "80%"
         }, {
             delay: 0,
             duration: 0
@@ -110,14 +116,14 @@ function StrengthsAndOpportunities_Render() {
             delay: 1000
         });
 
+        StrengthsAndOpportunities_fillDetailsCard(selectedCardId);
+    });
+}
 
-        // Card Details - Main Content
-        //var metric = map[metric_id];
+function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
+    var dt = StrengthsAndOpportunities_GetItemsTable(selectedCardId);
 
-        var dt = StrengthsAndOpportunities_GetItemsTable(selectedCardId);
-
-
-        $('.strengths-and-opportunities-card-details-container').html(`
+    $('.strengths-and-opportunities-card-details-container').html(`
 
 				<!-- Exit button -->
 				<div id=exitdetails_${selectedCardId} class="details-exit">
@@ -131,40 +137,38 @@ function StrengthsAndOpportunities_Render() {
 				</div>
 			`);
 
-        if (dt.ScriptCode != null) eval(dt.ScriptCode);
+    if (dt.ScriptCode != null) eval(dt.ScriptCode);
 
-        StrengthsAndOpportunities_handleActionButtonClick();
+    StrengthsAndOpportunities_handleActionButtonClick();
 
-        // Click - Exit (X) button in Details view
-        $('.details-exit').off('click');
-        $('.details-exit').click(
-            function () {
-
-                // Fade Out Details
-                $('.strengths-and-opportunities-card-details-container')
-                    .velocity({
-                        opacity: 0,
-                        top: "800px"
-                    }, {
-                        duration: 500,
-                        delay: 0
-                    })
-                    .velocity({
-                        left: "-2000px"
-                    }, {
-                        duration: 0
-                    });
-
-                // Animate / Fade in the cards not clicked
-                $('.static-card').velocity({
-                    top: "0px",
-                    opacity: 1
+    // Click - Exit (X) button in Details view
+    $('.details-exit').off('click');
+    $('.details-exit').click(
+        function () {
+            // Fade Out Details
+            $('.strengths-and-opportunities-card-details-container')
+                .velocity({
+                    opacity: 0,
+                    top: "800px"
                 }, {
-                    duration: 500
+                    duration: 500,
+                    delay: 0
+                })
+                .velocity({
+                    left: "-2000px"
+                }, {
+                    duration: 0
                 });
-            }
-        );
-    });
+
+            // Animate / Fade in the cards not clicked
+            $('.static-card').velocity({
+                top: "0px",
+                opacity: 1
+            }, {
+                duration: 500
+            });
+        }
+    );
 }
 
 function StrengthsAndOpportunities_handleActionButtonClick() {
@@ -305,7 +309,7 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
             }
         ];
 
-        for (var k = 0; k < NofComparators && k < 3; k++) {
+        for (var k = 0; k < NofComparators; k++) {
             var value = item.Comparators[comparators[k]].Value;
             sigClassname = (value.indexOf('*') > 0) ? (value.indexOf('-') == 0 ? 'cell-red' : 'cell-green') : '';
             rowdata.push({Label: value, datasort: value.replace(/\*/g, ''), ClassName: 'numeric-cell ' + sigClassname});
