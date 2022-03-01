@@ -44,17 +44,17 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 		var tbl = $('#${table_id}');
 
 		tbl.DataTable({
-			'searching': ${isSearchable},
 			'sorting': ${isSortable},
+			'searching': ${isSearchable},			
 			'paging': false,
 			'info': false,
-			${columnSettings}
-			'autoWidth': false,
+			${columnSettings}			
 			dom: 'Bfrtip',
 			buttons: ${showButtons ? buttonSettings : "[]" }
 		});
 		tbl.css('float', 'left');
 		tbl.css('margin-top', '20px');
+		tbl.css('width', '');
     `;
 
 	return {

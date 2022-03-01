@@ -38,56 +38,6 @@ function TestData_EffectivenessByDemo( demo ) {
 	return testdata;
 }
 
-function TestData_getDimensionOptionsFromMeta() {
-	return Object.keys(data.Dimensions);
-}
-function Data_getDimensionLabelsFromMeta() {
-	var dimensionIds = Object.keys(data.Dimensions);
-	var dimensionLabels = [];
-
-	for(var i = 0; i < dimensionIds.length; i++) {
-		var currentDimensionLabel = meta.Labels.Dimensions[dimensionIds[i]].Label;
-
-		if(!!currentDimensionLabel) {
-			dimensionLabels.push(currentDimensionLabel)
-		}
-	}
-
-	return dimensionLabels;
-}
-
-function TestData_getItemOptionsFromMeta() {
-	return Object.keys(data.ItemsNew);
-}
-function Data_getItemLabelsFromMeta() {
-	var itemIds = Object.keys(data.ItemsNew);
-	var itemLabels = [];
-
-	for(var i = 0; i < itemIds.length; i++) {
-		var currentItemLabel = meta.Labels.Items[itemIds[i]].Label;
-
-		if(!!currentItemLabel) {
-			itemLabels.push(currentItemLabel)
-		}
-	}
-
-	return itemLabels;
-}
-function Data_getItemLabelsFromMetaByDimensionId(dimensionId) {
-	var itemIds = data.Dimensions[dimensionId].Items;
-	var itemLabels = [];
-
-	for(var i = 0; i < itemIds.length; i++) {
-		var currentItemLabel = meta.Labels.Items[itemIds[i]].Label;
-
-		if(!!currentItemLabel) {
-			itemLabels.push(currentItemLabel)
-		}
-	}
-
-	return itemLabels;
-}
-
 function TestData_getBreakByData(breakByVariable) {
 	var breakByData = {};
 	breakByData.Variable = breakByVariable;
@@ -496,6 +446,10 @@ if ( meta == null ) {
 						"3": { "Label": "Q3 Answer C" }
 					}
 				},
+			},
+			CommentQuestions: {
+				"Comm1": { "Label": "The MAIN thing that makes the Company a great place to work" },
+				"Comm2": { "Label": "The MAIN thing that would make us more productive" }
 			},
 			BreakBy: {
 				"Hierarchy": {
@@ -2105,8 +2059,7 @@ if ( data.Report == null ) {
 
 if ( data.Comments == null ) {
 	var verbatims = [
-		{"Comm1":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ",
-			"Comm1Theme":"Pay & Benefits"},
+		{"Comm1":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ", "Comm1Theme":"Pay & Benefits"},
 		{"Comm1":"Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.","Comm1Theme":null},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Performance Management","Comm1Theme":"Performance Management"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},
 		{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},
 		{"Comm1":"Comment about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"},
@@ -3893,8 +3846,6 @@ if (data.ItemsNew == null) {
 	data.ItemsNew = itemsNew;
 }
 
-TestData_fillBreakByData();
-
 if(data.Questions == null) {
 	var questionsData = {
 		'Hierarchy': {
@@ -4047,3 +3998,6 @@ if (data.NonStandardQuestions == null) {
 
 	data.NonStandardQuestions = NonStandardQuestions;
 }
+
+
+TestData_fillBreakByData();

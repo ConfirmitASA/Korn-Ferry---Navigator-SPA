@@ -109,7 +109,7 @@ function KeyMetrics_Render() {
 								<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 							</div>						
 
-							<div style="zoom: 0.6" class="myicon large">
+							<div style="zoom: 0.65" class="myicon large">
 								<img src="${Resources_GetIconUrlByDimensionId(metric.DimensionId)}"/>
 							</div>
 
