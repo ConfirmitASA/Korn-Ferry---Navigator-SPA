@@ -9,6 +9,7 @@ function StrengthsAndOpportunities_Page() {
 
         RightPane: `
 		<div id="strengths-and-opportunities-data-container"></div>
+		<div class="card-details-container"></div>
 		`,
 
         ClassName: 'strengths-and-opportunities-container',
@@ -18,157 +19,37 @@ function StrengthsAndOpportunities_Page() {
 }
 
 function StrengthsAndOpportunities_Render() {
-    var tmp = [];
-
     var o = [];
 
     o.push ( Component_TestDataIndicator ( data.Report.IsTestData ) );
 
-    var stateComparators = State_Get('comparators');
+    o.push('<div id="strengthsAndOpportunitiesCardRow" class="card-row">')
 
-    if(!!stateComparators) {
-        if(stateComparators.indexOf('Internal.trend2020') < 0) {
-            stateComparators.push('Internal.trend2020');
-
-            State_Set('comparators', stateComparators);
-            TestData_fillComparatorsData();
-        }
-    } else {
-        State_Set('comparators', ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']);
-        TestData_fillComparatorsData();
-    }
-
-    for (var i = 0; i < data.Strengths.Items.length && i < 5; ++i) {
-        var strength_qno = data.Strengths.Items[i];
-        var item = data.ItemsNew[strength_qno];//Main_ItemMap()[strength_qno];
-
-        var comparators = [];
-        var itemComparatorIds = Object.keys(item.Comparators);
-
-        if(!!item.Comparators) {
-            for(var j = 0; j < 3 && j < itemComparatorIds.length; j++) {
-                comparators.push(`
-                    <div class="flip-card-back_row">
-                        ${meta.Labels.Comparators[itemComparatorIds[j]].Label}:
-                        ${data.ItemsNew[strength_qno].Comparators[itemComparatorIds[j]].Value}          
-                    </div>
-                `);
-            }
-        }
-
-        o.push(`
-			<div id="Strength_${strength_qno}_card" class="strength flip-card" style="transform: scale(0.1);">
-				<div class="flip-card-inner">
-					<div id="Strength_${strength_qno}_front" class="flip-card-front">
-						<div class="flip-card-front_question-number">
-							${(i + 1)} 
-						</div>
-						<div class="flip-card-front_question-text">
-                            ${meta.Labels.Items[strength_qno].Label} 
-                        </div>
-						<!-- Flip Icon -->
-						<div class="flipicon_wrapper">
-							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
-						</div>
+    //add strengths card - top 3 items
+    o.push(`
+			<div id="Strengths_card" class="strength flip-card static-card">
+					<div id="Strengths_front" class="flip-card-front">
+					    <div class="card-label">${meta.Labels.rst_drop_down.Strengths.Label}</div>
+					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Strengths')}</div>
+					    <div id="Strengths_more" class="details-link">${meta.Labels.buttons.More.Label}</div>
 					</div>
-					<div id="Strength_${strength_qno}_back" class="flip-card-back">
-						<div class="flip-card-back_row"> 
-                            ${meta.Labels.labels.Favorable.Label}: ${data.ItemsNew[strength_qno].Distribution.Fav}%
-                        </div>
-						${comparators.join('')}
-						<div class="action-button_wrapper">
-							<div class="action-button" id="Strength-${strength_qno}-button">
-								${meta.Labels.buttons.TakeAction.Label}
-							</div>
-						</div>
-						<!-- Flip Icon -->
-						<div class="flipicon_wrapper">
-							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
-						</div>
-					</div>
-				</div>
 			</div>
 		`);
-    }
 
-    tmp.push(`
-		<h2 class="card-row_header card-row_header__strength">
-			${meta.Pages.StrengthsAndOpportunities.Strengths.Title}
-		</h2>
-		<span>${meta.Pages.StrengthsAndOpportunities.Strengths.Text}</span>
-		<div class="card-row">
-			${o.join('')}
-		</div>
-	`);
-
-    var o = [];
-    for (var i = 0; i < data.Opportunities.Items.length && i < 5; ++i) {
-        var qno = data.Opportunities.Items[i];
-        var item = data.ItemsNew[qno];//Main_ItemMap()[qno];
-
-        var comparators = [];
-        var itemComparatorIds = Object.keys(item.Comparators);
-
-        if(!!item.Comparators) {
-            for(var j = 0; j < 3 && j < itemComparatorIds.length; j++) {
-                comparators.push(`
-                    <div class="flip-card-back_row">
-                        ${meta.Labels.Comparators[itemComparatorIds[j]].Label}:
-                        ${data.ItemsNew[strength_qno].Comparators[itemComparatorIds[j]].Value}          
-                    </div>
-                `);
-            }
-        }
-
-        o.push(`
-			<div id="Opportunity_${qno}_card" class="opportunity flip-card" style="transform: scale(0.1);">
-				<div class="flip-card-inner">
-					<div id="Opportunity_${qno}_front" class="flip-card-front">
-						<div class="flip-card-front_question-number">
-							${(i + 1)} 
-						</div>
-						<div class="flip-card-front_question-text">
-						    ${meta.Labels.Items[qno].Label}
-						</div>
-						<!-- Flip Icon -->
-						<div class="flipicon_wrapper">
-							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
-						</div>
+    //add opportunities card - top 3 items
+    o.push(`
+			<div id="Opportunities_card" class="opportunity flip-card static-card">
+					<div id="Opportunities_front" class="flip-card-front">
+					    <div class="card-label">${meta.Labels.rst_drop_down.Opportunities.Label}</div>
+					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Opportunities')}</div>
+					    <div id="Opportunities_more" class="details-link">${meta.Labels.buttons.More.Label}</div>
 					</div>
-					<div id="Opportunity_${qno}_back" class="flip-card-back">
-						<div class="flip-card-back_row">
-                            ${meta.Labels.labels.Favorable.Label}: ${data.ItemsNew[qno].Distribution.Fav}%
-                        </div>
-                        ${comparators.join('')}
-						<div class="action-button_wrapper">
-							<div class="action-button" id="Opportunity-${qno}-button">
-								${meta.Labels.buttons.TakeAction.Label}
-							</div>
-						</div>
-						<!-- Flip Icon -->
-						<div class="flipicon_wrapper">
-							<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
-						</div>
-					</div>
-				</div>
 			</div>
 		`);
-    }
 
-    tmp.push(`
-		<h2 class="card-row_header card-row_header__opportunity">
-			${meta.Pages.StrengthsAndOpportunities.Opportunities.Title}
-		</h2>
-		<span>${meta.Pages.StrengthsAndOpportunities.Opportunities.Text}</span>
-		<div class="card-row">
-			${o.join('')}
-		</div>
-	`);
+    o.push('</div>');
 
-
-    $('#strengths-and-opportunities-data-container').html(
-        tmp.join('')
-    );
+    $('#strengths-and-opportunities-data-container').html( o.join('') );
 
     // Animation
     $('.strength, .opportunity').css('opacity', 0);
@@ -182,16 +63,6 @@ function StrengthsAndOpportunities_Render() {
     $('.opportunity').each(function () {
         $(this).velocity({opacity: 1, transform: "scale(1)"}, {duration: 500, delay: 500 + delay});
         delay += 200;
-    });
-
-    // Click: Flip Card - Front
-    $('.flip-card-front').click(function () {
-        StrengthsAndOpportunities_FlipFrontToBack($(this));
-    });
-
-    // Click: Flip Card - Back
-    $('.flip-card-back').click(function () {
-        StrengthsAndOpportunities_FlipBackToFront($(this));
     });
 
     // Click: "Take Action To Improve"
@@ -219,21 +90,183 @@ function StrengthsAndOpportunities_Render() {
         e.stopPropagation();
     });
 
-}
+    $('.details-link').click(function (event) {
 
-function StrengthsAndOpportunities_FlipFrontToBack(x) {
-    x.parent().removeClass('flip-card-inner-hover');
-    x.parent().addClass('flip-card-inner-click');
-}
+        // Hide "More" link until restore
+        //$(this).hide();
 
-// Card Flip
-function StrengthsAndOpportunities_FlipBackToFront(x) {
-    var id = x.attr('id');
-    var front_id = '#' + id.split('_back').join('_front');
+        event.stopPropagation();
+        event.preventDefault();
 
-    x.parent().removeClass('flip-card-inner-click');
-    $(front_id).velocity('fadeIn', {
-        delay: 0,
-        duration: 200
+        var selectedCardId = $(this).attr('id').split('_more')[0];
+
+        $('.static-card').css('position', 'relative');
+
+        // Animate / Fade Out the cards not clicked
+        $('.static-card').not('#' + selectedCardId + '_card').velocity({
+            top: "200px",
+            opacity: 0
+        }, {
+            duration: 1000
+        });
+
+        // Animate selected card
+        var card = $('#' + selectedCardId + '_card');
+        var offset = card.offset();
+
+        var distance = offset.left - $('.static-card').first().offset().left
+
+        card.velocity({
+            left: ((-distance) + 'px')
+        }, {
+            duration: 700,
+            delay: 0
+        });
+        /*card.velocity({
+            width: "400px"
+        }, {
+            duration: 500,
+            delay: 0
+        });*/
+
+
+        // Animate / Fade in Details Section
+        var offset = card.offset();
+        var width = card.width();
+        var container = $('.card-details-container');
+
+        var first_card = $('.static-card').first();
+
+        container.velocity({
+            left: (first_card.width() + 250) + 'px',
+            top: 65 + 'px', //0, //60, //offset.top + "px",
+            height: "500px",
+            width: "780px"
+        }, {
+            delay: 0,
+            duration: 0
+        });
+
+        container.velocity({
+            opacity: 1
+        }, {
+            duration: 1000,
+            delay: 1000
+        });
+
+
+        // Card Details - Main Content
+        //var metric = map[metric_id];
+
+        var tmp = [];
+        /*tmp.push(`
+
+				<!-- Metric Label -->
+				<div style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+					${meta.Labels.Dimensions[metric_id].Label}
+				</div>
+
+				<!--Metric Description -->
+				${meta.Labels.Dimensions[metric_id].KeyMetrics_MoreCardText}
+
+				<!-- Details -->
+				${KeyMetrics_CardDetailsMain(metric_id)}
+			`);*/
+
+
+        $('.card-details-container').html(`
+
+				<!-- Exit button -->
+				<div id=exitdetails_${selectedCardId} class="details-exit">
+				</div>
+
+				<!-- Main Content-->
+				<div class="card-details-main">
+					${tmp.join('')}
+				</div>
+			`);
+
+        // Click - Exit (X) button in Details view
+        $('.details-exit').off('click');
+        $('.details-exit').click(
+            function () {
+
+                // Fade Out Details
+                $('.card-details-container')
+                    .velocity({
+                        opacity: 0,
+                        top: "800px"
+                    }, {
+                        duration: 500,
+                        delay: 0
+                    })
+                    .velocity({
+                        left: "-2000px"
+                    }, {
+                        duration: 0
+                    });
+
+                // Restore clicked card`
+                card.velocity({
+                    left: "0px"
+                }, {
+                    duration: 500,
+                    delay: 0
+                });
+
+                //$('.details-link').show();
+
+                // Animate / Fade in the cards not clicked
+                $('.static-card').not('#' + selectedCardId + '_card').velocity({
+                    top: "0px",
+                    opacity: 1
+                }, {
+                    duration: 500
+                });
+            }
+        );
     });
+}
+
+function StrengthsAndOpportunities_getTopNItems(topN, cardType) {
+    var tmp = [];
+
+    var totalItems = [];
+    var buttonText = '';
+
+    if(cardType === 'Strengths') {
+        totalItems = data.Strengths.Items;
+        buttonText = meta.Labels.buttons.Maintain.Label;
+    } else {
+        totalItems = data.Opportunities.Items;
+        buttonText = meta.Labels.buttons.Improve.Label;
+    }
+
+    for(var i = 0; i < topN; i++) {
+        tmp.push(`
+				<div class="item-row">
+				    <div class="item-number item-row_section">
+						${i + 1}
+					</div>
+					<div class="item-label item-row_section">
+						${meta.Labels.Items[totalItems[i]].Label}
+					</div>
+					<div class="items-core item-row_section">
+						${data.ItemsNew[totalItems[i]].Distribution.Fav}%
+					</div>
+					<div class="item-button item-row_section">
+						<div class="action-button" id="${cardType}-${totalItems[i]}-button">
+							${buttonText}
+						</div>
+					</div>
+				</div>
+			`);
+    }
+
+    return tmp.join('');
+}
+
+function StrengthsAndOpportunities_FillDetailsCard() {
+    //top 5 items table
+
 }

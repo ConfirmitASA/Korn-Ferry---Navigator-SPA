@@ -260,6 +260,7 @@ function KeyMetrics_Render() {
         var card = $(selected_card_id);
         var offset = card.offset();
 
+
         var distance = offset.left - $('.flip-card').first().offset().left
 
         card.velocity({

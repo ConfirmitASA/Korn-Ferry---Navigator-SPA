@@ -1,29 +1,4 @@
 /* test */
-
-.opportunity,
-.strength {
-    text-align: center;
-    padding-top: 20px;
-    margin: 20px 20px 0px 0px;
-    width: 200px !important;
-    min-height: 100px;
-    color: white;
-    padding: 12px;
-    background-color: #f0f0f0;
-    filter: drop-shadow(0 1rem 2rem #d0d0d0);
-    border: 1px solid #c0c0c0;
-}
-
-.strength {
-    color: #00634f;
-    background-color: #f3fff3;
-}
-
-.opportunity {
-    background-color: #fff3f3;
-    color: #de0f1d;
-}
-
 .insightbanner {
     margin-bottom: 30px;
 }

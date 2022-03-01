@@ -814,7 +814,9 @@ if ( meta == null ) {
 				"NSQComp": { "Label": "NSQ Comparator page" },
 				"NSQ_IBT": { "Label": "NSQ Benchmark Tool" },
 				"Respondents": { "Label": "Respondents" },
-				"TakeAction" : { "Label": "Take Action to Improve" }
+				"TakeAction" : { "Label": "Take Action to Improve" },
+				"Maintain" : { "Label": "Maintain" },
+				"Improve" : { "Label": "Improve" }
 			},
 			exports: {
 				"ResponseRate": { "Label": "Response rate preamble text" },
