@@ -13,8 +13,7 @@
     max-height: 320px;
 }
 #strengths-and-opportunities-data-container .flip-card-front,
-#strengths-and-opportunities-data-container .flip-card-back,
-#strengths-and-opportunities-data-container .card-details-container {
+#strengths-and-opportunities-data-container .flip-card-back {
     filter: none;
 }
 #strengths-and-opportunities-data-container .strength,
@@ -86,7 +85,8 @@
     font-size: 1rem;
     font-weight: bold;
 }
-#strengths-and-opportunities-data-container .card-label {
+#strengths-and-opportunities-data-container .card-label,
+.strengths-and-opportunities-card-details-container .card-label{
     font-size: 1.5rem;
     font-weight: 400;
     color: #000;
@@ -124,7 +124,8 @@
     margin-bottom: 0px;
     cursor: pointer;
 }
-#strengths-and-opportunities-data-container .opportunity .action-button {
+#strengths-and-opportunities-data-container .opportunity .action-button,
+.action-button__Opportunities {
     border: 1px solid #de0f1d;
     background-color: #de0f1d;
 }
@@ -138,4 +139,35 @@
     align-self: flex-end;
     cursor: pointer;
     text-align: center;
+}
+#strengthsAndOpportunitiesItemTable {
+    width: 100%;
+    margin: 0px;
+    zoom: 1;
+    border-bottom: 0px;
+
+}
+.action-button__Strengths,
+.action-button__Opportunities {
+    margin: 0px;
+    bottom: 0;
+    display: block;
+    cursor: pointer;
+}
+.strengths-and-opportunities-card-details-container {
+    background-color: #f9f9f9;
+    filter: none;
+    position: absolute;
+    margin: 0 !important;
+    left: -100000px;
+    height: 600px;
+    border: 1px solid #999;
+    opacity: 0;
+    width: 80%;
+    border-radius: unset;
+    padding: 30px 50px;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: 20px 20px;
+    zoom: 0.8;
 }

@@ -595,7 +595,8 @@ if ( meta == null ) {
 				"APHomeItem": { "Label": "Item" },
 				"Max5CompsAllowed": { "Label": "No more than [MAXALLOWED] comparators can be selected at the same time." },
 				"NoDataToDisplay": { "Label": "No data to display" },
-				"Pct" : { "Label": "Pct" }
+				"Pct" : { "Label": "Pct" },
+				"Action": { "Label": "Action" }
 			},
 			drop_downs: {
 				"Passives": { "Label": "Passives" },
