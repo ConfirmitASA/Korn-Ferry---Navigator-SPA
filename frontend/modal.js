@@ -64,6 +64,22 @@ function ModalFilterExternalComparators() {
 	return ModalFilterRenderComparators(comparators);
 }
 
+function ModalSetComparators() {
+	// Clear Comparators
+	$("#master-page-modal-filter input:checked").each(function () {
+		$(this).prop('checked', false);
+	});
+
+	// Restore Comparators
+	var comparators = State_Get('comparators');
+	if (comparators == null) comparators = []; // no comparators have ever been set
+
+	for (var i = 0; i < comparators.length; ++i) {
+		// Check Comparator
+		$("#master-page-modal-filter input[value='" + comparators[i] + "']").prop('checked', true);
+	}
+}
+
 $(document).ready(
 	function () {
 		var o = [];
@@ -118,6 +134,9 @@ $(document).ready(
 				</div>
 			`);
 
+		// Set predefined comparators if needed
+		ModalSetComparators();
+
 		// Click Handler: Filter Option
 		$('.answerlabel').click(function () {
 			$(this).parent().find('.democheckbox').click();
@@ -140,19 +159,7 @@ $(document).ready(
 				$("#master-page-modal-filter option[value='" + filters[i] + "']").prop('selected', true);
 			}
 
-			// Clear Comparators
-			$("#master-page-modal-filter input:checked").each(function () {
-				$(this).prop('checked', false);
-			});
-
-			// Restore Comparators
-			var comparators = State_Get('comparators');
-			if (comparators == null) comparators = []; // no comparators have ever been set
-
-			for (var i = 0; i < comparators.length; ++i) {
-				// Check Comparator
-				$("#master-page-modal-filter input[value='" + comparators[i] + "']").prop('checked', true);
-			}
+			ModalSetComparators();
 
 			// Fade Out Modal
 			$('#master-page-modal-filter-container').fadeOut();

@@ -219,7 +219,7 @@ function StrengthsAndOpportunities_getTopNItems(topN, cardType) {
 						${meta.Labels.Items[totalItems[i]].Label}
 					</div>
 					<div class="items-core item-row_section">
-						${data.ItemsNew[totalItems[i]].Distribution.Fav}%
+						${data.Items[totalItems[i]].Distribution.Fav}%
 					</div>
 					<div class="item-button item-row_section">
 						<div class="action-button" id="${cardType}-${totalItems[i]}-button">
@@ -293,7 +293,7 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
     var rowdata = [];
 
     for (var i = 0; i < items.length && i < 5; i++) {
-        var item = data.ItemsNew[items[i]];
+        var item = data.Items[items[i]];
 
         rowdata = [
             {Label: i + 1, ClassName: 'id-cell'},

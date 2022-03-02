@@ -2,91 +2,136 @@
 
 function CommentsCategories_Page() {
     return {
-        Label: 'Comments Categories',
+        Label: meta.Labels.pages['CommentsCategories'].Title,
 
-        LeftPane: meta.Labels.comments.Label,
+        LeftPane: meta.Labels.pages['CommentsCategories'].Label,
 
         RightPane: `
-        <div id="comments-categories-details">
-            Chart Not Loaded
-        </div>
-        `,
-        
-        ClassName: 'comments-categories-container',
+		<div id="commentscategories-table-container"></div>
+		`,
+
+        ClassName: 'commentscategories-container',
         Style: null,
-		ShowFilterSummary: true        
+        ShowFilterSummary: true
     };
 }
 
 function CommentsCategories_Render() {
-   
+
     var o = [];
 
-    o.push ( Component_TestDataIndicator ( data.Comments.IsTestData ) );
-
-    var comments = data.Comments.Verbatims;
-    var theme_map = {};
-
-    for (var i=0; i<comments.length; ++i) {
-        var theme = comments[i].Comm1Theme;
-        if (theme == null) theme = "Uncategorized";
-        if (theme_map[theme] == null) theme_map[theme] = 0;
-        theme_map[theme]++;
-    }
-
-    var categories = [];
-
-    for (var theme in theme_map)
-        categories.push (
-            {
-                Label: theme,
-                Count: theme_map[theme]
-            }
-        );
-
-    var sorted_categories = categories.sort ( SortByCount );
-
-    var max = sorted_categories[0].Count;
-
-    for (var i=0; i<sorted_categories.length; ++i) {
-        var width = sorted_categories[i].Count/max*300;
-        o.push (`
-            <div class="comments-category">
-                <span style="display: inline-block; width: 200px">${sorted_categories[i].Label}</span> 
-                <span style="display: inline-block; position: relative; top: 2px; background-color: #77bc1f; height: 15px; width: ${width}px"></span>
-                <span>${sorted_categories[i].Count}</span>
-            </div>
-            `);
-    }
-
-    $('#comments-categories-details').html(
-        '<div class=hiddenchart style="display: none">' + o.join('') + '</div>'
+    var Comment_dropdown = Component_Dropdown(
+        'comment',
+        meta.Labels.labels["SelectQuestion"].Label,
+        'commentscategories-comment-highlighter-dropdown',
+        '',
+        ParamValues_Comment()
     );
+    o.push(`
+        ${Comment_dropdown}
+    `);
 
-    // Animation
-    $('.comments-category').css('height', '25px');
-    $('.comments-category').css('opacity', 0);
-    $('.comments-category').css('position', 'relative');
-    $('.comments-category').css('left', '80px');
-    $('.hiddenchart').css('display', 'unset');
-    
-    delay = 300;
-    $('.comments-category').each (
-        function () {
-            delay += 10;
-            $(this).velocity ( {opacity: 1, left: 0}, {duration: 200, delay: delay} )
-        }
-    );
+    o.push(Component_TestDataIndicator(data.isTestData));
 
+    var dt = CommentsCategories_ItemsTable();
+    o.push(dt.Html);
+
+    $("#commentscategories-table-container").html(o.join(''));
+    if (dt.ScriptCode != null) eval(dt.ScriptCode);
+
+    $('#commentscategories-comment-highlighter-dropdown').change(function () {
+
+        // Save Selection
+        var SelectedOption = $(this).val();
+        State_Set('comment', SelectedOption);
+
+        var query = {
+            page: 'CommentsCategories',
+            parameter: 'comment'
+        };
+        Main_SubmitQuery(query);
+
+    });
 
 }
 
-function SortByCount(a, b) {
-    if ( a.Count > b.Count ) return -1;
-    if ( a.Count < b.Count ) return 1;
-    if ( a.Count == b.Count ) {
-        if ( a.Label > b.Label ) return 1;
-        if ( a.Label < b.Label ) return -1;
-        if ( a.Label == b.Label ) return 0;
+
+function CommentsCategories_ItemsTable() {
+    // Return Value: {Html: <string>, [ScriptCode: <string>]}
+
+    var comm = State_Get('comment');
+
+    var headers = [
+        [
+            { Label: "", ClassName: 'text-cell' },
+            { Label: meta.Labels.labels["ValidN"].Label, ClassName: 'numeric-cell' },
+            { Label: meta.Labels.labels["Pct"].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels.labels["Distribution"].Label, ClassName: 'numeric-cell' }
+        ]
+    ];
+
+    var table_data = [];
+    var rowdata = [];
+
+    var max = 1;
+    for (var j in data.Dimensions) {
+        if (data.Dimensions[j].Comments[comm].Pct>max) max = data.Dimensions[j].Comments[comm].Pct;
     }
+    max = max/100;
+
+    for (var j in data.Dimensions) {
+        rowdata = [
+            {Label: meta.Labels.Dimensions[j].Label, ClassName: 'text-cell'},
+            {Label: data.Dimensions[j].Comments[comm].N, ClassName: 'numeric-cell'},
+            {Label: data.Dimensions[j].Comments[comm].Pct, ClassName: 'numeric-cell distribution-cell'},
+            {Label: Component_DistributionChartBar(data.Dimensions[j].Comments[comm].Pct/max), datasort: data.Dimensions[j].Comments[comm].Pct,  ClassName: 'text-cell'}
+        ];
+        table_data.push(rowdata);
+    }
+
+    var columnSettings = `
+        'order': [[ 3, 'desc' ],[0, 'asc']],
+        'columnDefs': [
+            { 'targets': '_all', type: 'natural' }
+        ],
+    `;
+
+    var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0, 1, 2 ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0, 1, 2 ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0, 1, 2 ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0, 1, 2 ] }
+            }, 
+        ],
+    `;
+
+    var dt = Component_DataTable(
+        "items-table-commentscategories",
+        "items-table",
+        headers,
+        table_data,
+        true,
+        false,
+        columnSettings,
+        true,
+        buttonSettings
+    );
+
+    return dt;
 }

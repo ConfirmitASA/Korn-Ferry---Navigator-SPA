@@ -75,15 +75,11 @@ function TestData_fillBreakByData() {
 
 	var testBreakByData = TestData_getBreakByData(breakByVariable);
 
-	var itemsLabels = Object.keys(data.ItemsNew);
-
-	for (var i in itemsLabels) {
-		data.ItemsNew[itemsLabels[i]].BreakBy = testBreakByData;
+	for (var i in data.Items) {
+		data.Items[i].BreakBy = testBreakByData;
 	}
-	var dimensionsLabels = Object.keys(data.Dimensions);
-
-	for (var j in dimensionsLabels) {
-		data.Dimensions[dimensionsLabels[j]].BreakBy = testBreakByData;
+	for (var i in data.Dimensions) {
+		data.Dimensions[i].BreakBy = testBreakByData;
 	}
 }
 
@@ -113,21 +109,42 @@ function TestData_getComparatorsData(comparators) {
 
 function TestData_fillComparatorsData() {
 	var comparators = State_Get('comparators');
-	if (!comparators) return;
 
-	for (var i in data.ItemsNew) {
-		var testComparatorsData = TestData_getComparatorsData(comparators);
-		data.ItemsNew[i].Comparators = testComparatorsData;
-		for (var j in data.ItemsNew[i].BreakBy.Options) {
-			data.ItemsNew[i].BreakBy.Options[j].Comparators = testComparatorsData;
+	var comparatorsExtended = [];
+	for (var i in meta.Labels.Comparators) {
+		if ( (!!comparators && comparators.some(el => el==i)) || (config.comparators.some(el => el==i)) )
+			comparatorsExtended.push(i);
+	}
+	if (comparatorsExtended.length==0) return;
+
+	for (var i in data.Items) {
+		var testComparatorsData = TestData_getComparatorsData(comparatorsExtended);
+		data.Items[i].Comparators = testComparatorsData;
+		for (var j in data.Items[i].BreakBy.Options) {
+			data.Items[i].BreakBy.Options[j].Comparators = testComparatorsData;
 		}
 	}
 	for (var i in data.Dimensions) {
-		var testComparatorsData = TestData_getComparatorsData(comparators);
+		var testComparatorsData = TestData_getComparatorsData(comparatorsExtended);
 		data.Dimensions[i].Comparators = testComparatorsData;
 		for (var j in data.Dimensions[i].BreakBy.Options) {
 			data.Dimensions[i].BreakBy.Options[j].Comparators = testComparatorsData;
 		}
+	}
+}
+
+function TestData_fillCommentsData() {
+	for (var i in data.Dimensions) {
+		var testComments = {};
+		for (var j in meta.Labels.CommentQuestions) {
+			var rnd = Math.floor(Math.random() * 30);
+			var commData = {
+				N: rnd+100,
+				Pct: rnd
+			};
+			testComments[j] = commData;
+		}
+		data.Dimensions[i].Comments = testComments;
 	}
 }
 
@@ -684,6 +701,14 @@ if ( meta == null ) {
 					"Title": "Strengths and Opportunities",
 					"Label": "Strengths and Opportunities text",
 				},
+				"CommentsCategories": {
+					"Title": "Comments Categories",
+					"Label": "Use the filters and options below to explore people's comments in different ways. The default view shows all available comments in your report. If you would like to focus on comments related to a particular theme use the Select Theme filter. The select opinion question filter allows you to isolate comments based on how favorable respondents were on a survey question of interest to you. Click the Excel icon at the top of the comments table to export comments into an Excel spreadsheet."
+				},
+				"CommentsVerbatims": {
+					"Title": "Verbatims",
+					"Label": "Use the filters and options below to explore people's comments in different ways. The default view shows all available comments in your report. If you would like to focus on comments related to a particular theme use the Select Theme filter. The select opinion question filter allows you to isolate comments based on how favorable respondents were on a survey question of interest to you. Click the Excel icon at the top of the comments table to export comments into an Excel spreadsheet."
+				},
 				"Action": { "Label": "Take Action" },
 				"ActionAll": { "Label": "Review All Plans" },
 				"ActionBestPractice": { "Label": "Shared Plans" },
@@ -691,7 +716,6 @@ if ( meta == null ) {
 				"ActionHome": { "Label": "Home" },
 				"ActionOwn": { "Label": "Review Own Plans" },
 				"ActionStatistics": { "Label": "Statistics" },
-				"Comments": { "Label": "Comments" },
 				"Dashboard": { "Label": "Dashboard" },
 				"DemographicHighlighter": { "Label": "Demographic Highlighter" },
 				"EE": { "Label": "Engagement and Enablement" },
@@ -2061,18 +2085,22 @@ if ( data.Report == null ) {
 // Comments
 
 if ( data.Comments == null ) {
-	var verbatims = [
-		{"Comm1":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ", "Comm1Theme":"Pay & Benefits"},
-		{"Comm1":"Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.","Comm1Theme":null},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Performance Management","Comm1Theme":"Performance Management"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},
-		{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},
-		{"Comm1":"Comment about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"},
-		{"Comm1":"Comment about Training","Comm1Theme":"Training"}
-	];
+	var verbatims = {
+		"Comm1": [
+			{"Comm":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ", "Comm1Theme":"Pay & Benefits"},
+			{"Comm":"Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.","Comm1Theme":null},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Performance Management","Comm1Theme":"Performance Management"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},
+			{"Comm":"Comment about Collaboration","Comm1Theme":"Collaboration"},
+			{"Comm":"Comment about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"},
+			{"Comm":"Comment about Training","Comm1Theme":"Training"}
+		],
+		"Comm2": [
+			{"Comm":"Comment2 about Pay & Benefits", "Comm1Theme":"Pay & Benefits"},
+			{"Comm":"Comment2 about Collaboration","Comm1Theme":"Collaboration"},
+			{"Comm":"Comment2 about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"}
+		]
+	};
 
-	data.Comments = {
-		IsTestData: true,
-		Verbatims: verbatims
-	}
+	data.Comments = verbatims;
 }
 
 // Strengths
@@ -2163,841 +2191,6 @@ if ( data.ENPS == null ) {
 if ( data.EffectivenessByDemo == null) {
 	data.EffectivenessByDemo = TestData_EffectivenessByDemo( State_Get('demo') );
 }
-
-// Items
-if (data.Items == null) {
-	var items = [{
-		Id: 32,
-		Label: "I believe I am paid fairly for the work I do.",
-		N: 15792,
-		Fav: 87,
-		Neu: 10,
-		Unfav: 2,
-		vsTrend: "0",
-		vsNorm: "38 *",
-		vsHighPerformers: "33 *"
-	},
-		{
-			Id: 10,
-			Label: "There are enough people to do the work in my work group.",
-			N: 15713,
-			Fav: 83,
-			Neu: 9,
-			Unfav: 8,
-			vsTrend: "-2 *",
-			vsNorm: "35 *",
-			vsHighPerformers: "31 *"
-		},
-		{
-			Id: 42,
-			Label: "I believe my pay is fair considering the pay of people doing similar work in other companies.",
-			N: 15794,
-			Fav: 74,
-			Neu: 17,
-			Unfav: 9,
-			vsTrend: "-1",
-			vsNorm: "31 *",
-			vsHighPerformers: "26 *"
-		},
-		{
-			Id: 7,
-			Label: "I have opportunities to achieve my career goals at the company.",
-			N: 15795,
-			Fav: 87,
-			Neu: 7,
-			Unfav: 6,
-			vsTrend: "-1 *",
-			vsNorm: "31 *",
-			vsHighPerformers: "24 *"
-		},
-		{
-			Id: 11,
-			Label: "My job leaves adequate time to take advantage of job-related training opportunities.",
-			N: 15789,
-			Fav: 79,
-			Neu: 13,
-			Unfav: 8,
-			vsTrend: "0",
-			vsNorm: "29 *",
-			vsHighPerformers: "25 *"
-		},
-		{
-			Id: 4,
-			Label: "My work group receives high quality support from other parts of the company we depend on.",
-			N: 15776,
-			Fav: 80,
-			Neu: 11,
-			Unfav: 9,
-			vsTrend: "-1 *",
-			vsNorm: "28 *",
-			vsHighPerformers: "20 *"
-		},
-		{
-			Id: 22,
-			Label: "The company provides training so that I can perform my present job well.",
-			N: 15489,
-			Fav: 85,
-			Neu: 10,
-			Unfav: 5,
-			vsTrend: "0",
-			vsNorm: "25 *",
-			vsHighPerformers: "17 *"
-		},
-		{
-			Id: 40,
-			Label: "I have good opportunities for learning and development at the company.",
-			N: 15601,
-			Fav: 85,
-			Neu: 13,
-			Unfav: 2,
-			vsTrend: "-1 *",
-			vsNorm: "22 *",
-			vsHighPerformers: "15 *"
-		},
-		{
-			Id: 31,
-			Label: "The company is open and honest in communications with employees.",
-			N: 15561,
-			Fav: 78,
-			Neu: 14,
-			Unfav: 8,
-			vsTrend: "-1 *",
-			vsNorm: "21 *",
-			vsHighPerformers: "11 *"
-		},
-		{
-			Id: 15,
-			Label: "The company motivates me to do more than is required.",
-			N: 15767,
-			Fav: 77,
-			Neu: 14,
-			Unfav: 9,
-			vsTrend: "-2 *",
-			vsNorm: "20 *",
-			vsHighPerformers: "12 *"
-		},
-		{
-			Id: 24,
-			Label: "I have opportunities to have my ideas adopted and put into use.",
-			N: 15794,
-			Fav: 86,
-			Neu: 11,
-			Unfav: 4,
-			vsTrend: "1 *",
-			vsNorm: "20 *",
-			vsHighPerformers: "15 *"
-		},
-		{
-			Id: 34,
-			Label: "The work is well organized in my work group.",
-			N: 15618,
-			Fav: 84,
-			Neu: 10,
-			Unfav: 6,
-			vsTrend: "1 *",
-			vsNorm: "19 *",
-			vsHighPerformers: "13 *"
-		},
-		{
-			Id: 48,
-			Label: "The company provides a high quality customer experience.",
-			N: 15799,
-			Fav: 86,
-			Neu: 11,
-			Unfav: 4,
-			vsTrend: "-",
-			vsNorm: "17 *",
-			vsHighPerformers: "6 *"
-		},
-		{
-			Id: 8,
-			Label: "The company is effectively managed and well-run.",
-			N: 15801,
-			Fav: 73,
-			Neu: 14,
-			Unfav: 13,
-			vsTrend: "0",
-			vsNorm: "16 *",
-			vsHighPerformers: "4 *"
-		},
-		{
-			Id: 6,
-			Label: "I receive clear and regular feedback on how well I do my work.",
-			N: 15759,
-			Fav: 74,
-			Neu: 15,
-			Unfav: 11,
-			vsTrend: "-1",
-			vsNorm: "15 *",
-			vsHighPerformers: "7 *"
-		},
-		{
-			Id: 19,
-			Label: "I have trust and confidence in the company's senior leadership team.",
-			N: 15613,
-			Fav: 77,
-			Neu: 13,
-			Unfav: 10,
-			vsTrend: "-1 *",
-			vsNorm: "14 *",
-			vsHighPerformers: "3 *"
-		},
-		{
-			Id: 36,
-			Label: "There are no significant barriers at work to doing my job well.",
-			N: 15417,
-			Fav: 72,
-			Neu: 18,
-			Unfav: 10,
-			vsTrend: "0",
-			vsNorm: "14 *",
-			vsHighPerformers: "7 *"
-		},
-		{
-			Id: 49,
-			Label: "I would recommend the company as a good place to work.",
-			N: 15758,
-			Fav: 83,
-			Neu: 12,
-			Unfav: 5,
-			vsTrend: "-",
-			vsNorm: "14 *",
-			vsHighPerformers: "5 *"
-		},
-		{
-			Id: 46,
-			Label: "The company provides employee benefits that meet my needs.",
-			N: 15805,
-			Fav: 77,
-			Neu: 15,
-			Unfav: 8,
-			vsTrend: "-3 *",
-			vsNorm: "13 *",
-			vsHighPerformers: "6 *"
-		},
-		{
-			Id: 1,
-			Label: "I have the resources I need to do my job effectively.",
-			N: 15792,
-			Fav: 81,
-			Neu: 11,
-			Unfav: 9,
-			vsTrend: "0",
-			vsNorm: "12 *",
-			vsHighPerformers: "6 *"
-		},
-		{
-			Id: 44,
-			Label: "I have the information I need to do my job well.",
-			N: 15795,
-			Fav: 83,
-			Neu: 14,
-			Unfav: 4,
-			vsTrend: "0",
-			vsNorm: "11 *",
-			vsHighPerformers: "5 *"
-		},
-		{
-			Id: 47,
-			Label: "There is effective sharing of ideas and resources across the company.",
-			N: 15804,
-			Fav: 65,
-			Neu: 17,
-			Unfav: 18,
-			vsTrend: "-4 *",
-			vsNorm: "11 *",
-			vsHighPerformers: "2 *"
-		},
-		{
-			Id: 2,
-			Label: "I have enough authority to do my job well.",
-			N: 15785,
-			Fav: 82,
-			Neu: 9,
-			Unfav: 9,
-			vsTrend: "-2 *",
-			vsNorm: "9 *",
-			vsHighPerformers: "4 *"
-		},
-		{
-			Id: 3,
-			Label: "I receive recognition when I do a good job.",
-			N: 15399,
-			Fav: 72,
-			Neu: 15,
-			Unfav: 12,
-			vsTrend: "0",
-			vsNorm: "9 *",
-			vsHighPerformers: "3 *"
-		},
-		{
-			Id: 35,
-			Label: "I am encouraged to come up with new or better ways of doing things.",
-			N: 15608,
-			Fav: 79,
-			Neu: 17,
-			Unfav: 4,
-			vsTrend: "0",
-			vsNorm: "9 *",
-			vsHighPerformers: "4 *"
-		},
-		{
-			Id: 30,
-			Label: "There is a clear link between my performance and my compensation.",
-			N: 15780,
-			Fav: 53,
-			Neu: 22,
-			Unfav: 24,
-			vsTrend: "-2 *",
-			vsNorm: "8 *",
-			vsHighPerformers: "-1 *"
-		},
-		{
-			Id: 13,
-			Label: "I believe that the company has the right strategic priorities and goals.",
-			N: 15721,
-			Fav: 73,
-			Neu: 14,
-			Unfav: 13,
-			vsTrend: "-1",
-			vsNorm: "6 *",
-			vsHighPerformers: "-5 *"
-		},
-		{
-			Id: 29,
-			Label: "The company is innovative in how work is done (using new technologies or creative approaches to continuously improve).",
-			N: 12893,
-			Fav: 63,
-			Neu: 21,
-			Unfav: 16,
-			vsTrend: "2 *",
-			vsNorm: "5 *",
-			vsHighPerformers: "-5 *"
-		},
-		{
-			Id: 64,
-			Label: "In the company, decisions are generally made at the lowest level appropriate.",
-			N: 15685,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "2 *",
-			vsHighPerformers: "-14 *"
-		},
-		{
-			Id: 12,
-			Label: "The company expects a high level of performance from its employees.",
-			N: 15786,
-			Fav: 85,
-			Neu: 9,
-			Unfav: 6,
-			vsTrend: "0",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-6 *"
-		},
-		{
-			Id: 38,
-			Label: "My immediate manager supports me in my learning and development.",
-			N: 15801,
-			Fav: 68,
-			Neu: 20,
-			Unfav: 12,
-			vsTrend: "-1",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-7 *"
-		},
-		{
-			Id: 5,
-			Label: "The company is customer focused (always seeking to understand and meet customer needs).",
-			N: 15784,
-			Fav: 74,
-			Neu: 15,
-			Unfav: 11,
-			vsTrend: "-1",
-			vsNorm: "-2 *",
-			vsHighPerformers: "-9 *"
-		},
-		{
-			Id: 50,
-			Label: "New employees receive the training they need to do their jobs well.",
-			N: 12944,
-			Fav: 54,
-			Neu: 24,
-			Unfav: 22,
-			vsTrend: "-7 *",
-			vsNorm: "-4 *",
-			vsHighPerformers: "-13 *"
-		},
-		{
-			Id: 70,
-			Label: "There is good communication between departments in the company.",
-			N: 12989,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 41,
-			vsTrend: "0",
-			vsNorm: "-5 *",
-			vsHighPerformers: "-17 *"
-		},
-		{
-			Id: 63,
-			Label: "In the company, decisions are generally made in a timely manner.",
-			N: 12931,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-6 *",
-			vsHighPerformers: "-19 *"
-		},
-		{
-			Id: 77,
-			Label: "Poor performance is addressed effectively in the company.",
-			N: 15721,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-7 *",
-			vsHighPerformers: "-17 *"
-		},
-		{
-			Id: 14,
-			Label: "I understand the results expected of me in my job.",
-			N: 13036,
-			Fav: 78,
-			Neu: 14,
-			Unfav: 8,
-			vsTrend: "-1 *",
-			vsNorm: "-9 *",
-			vsHighPerformers: "-13 *"
-		},
-		{
-			Id: 73,
-			Label: "I have opportunities for advancement at the company.",
-			N: 12997,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "0",
-			vsNorm: "-11 *",
-			vsHighPerformers: "-19 *"
-		},
-		{
-			Id: 69,
-			Label: "There is good cooperation between departments in the company.",
-			N: 13015,
-			Fav: 40,
-			Neu: 21,
-			Unfav: 39,
-			vsTrend: "0",
-			vsNorm: "-12 *",
-			vsHighPerformers: "-24 *"
-		},
-		{
-			Id: 58,
-			Label: "The company is effectively organized and structured.",
-			N: 12933,
-			Fav: 39,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-13 *",
-			vsHighPerformers: "-26 *"
-		},
-		{
-			Id: 75,
-			Label: "Employee benefits provided by the company are competitive with benefits offered by other companies in our industry.",
-			N: 15755,
-			Fav: 41,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "1",
-			vsNorm: "-13 *",
-			vsHighPerformers: "-23 *"
-		},
-		{
-			Id: 28,
-			Label: "I am treated with respect as an individual.",
-			N: 12968,
-			Fav: 65,
-			Neu: 19,
-			Unfav: 16,
-			vsTrend: "-3 *",
-			vsNorm: "-14 *",
-			vsHighPerformers: "-19 *"
-		},
-		{
-			Id: 74,
-			Label: "I have a good idea of the possible career paths available to me.",
-			N: 12969,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-15 *",
-			vsHighPerformers: "-21 *"
-		},
-		{
-			Id: 87,
-			Label: "When changes are made where I work, communications are handled well.",
-			N: 15712,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-15 *",
-			vsHighPerformers: "-26 *"
-		},
-		{
-			Id: 16,
-			Label: "The people in my work group are committed to delivering high quality products and services.",
-			N: 15492,
-			Fav: 66,
-			Neu: 21,
-			Unfav: 13,
-			vsTrend: "-1",
-			vsNorm: "-16 *",
-			vsHighPerformers: "-20 *"
-		},
-		{
-			Id: 26,
-			Label: "I believe that the company will be successful over the next 2-3 years.",
-			N: 13002,
-			Fav: 54,
-			Neu: 23,
-			Unfav: 23,
-			vsTrend: "-3 *",
-			vsNorm: "-18 *",
-			vsHighPerformers: "-29 *"
-		},
-		{
-			Id: 71,
-			Label: "The company is responding effectively to changes in the business environment.",
-			N: 14191,
-			Fav: 41,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "1",
-			vsNorm: "-19 *",
-			vsHighPerformers: "-33 *"
-		},
-		{
-			Id: 41,
-			Label: "There is good cooperation and teamwork within my work group.",
-			N: 12922,
-			Fav: 60,
-			Neu: 30,
-			Unfav: 10,
-			vsTrend: "5 *",
-			vsNorm: "-20 *",
-			vsHighPerformers: "-22 *"
-		},
-		{
-			Id: 66,
-			Label: "The information from this survey will be used constructively by the company.",
-			N: 12845,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-21 *",
-			vsHighPerformers: "-30 *"
-		},
-		{
-			Id: 76,
-			Label: "I have a good understanding of compensation policies and practices that affect me.",
-			N: 13042,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 41,
-			vsTrend: "1",
-			vsNorm: "-21 *",
-			vsHighPerformers: "-31 *"
-		},
-		{
-			Id: 61,
-			Label: "Conditions in my job allow me to be about as productive as I can be.",
-			N: 12872,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "1",
-			vsNorm: "-22 *",
-			vsHighPerformers: "-30 *"
-		},
-		{
-			Id: 86,
-			Label: "The amount of work expected of me is reasonable.",
-			N: 12991,
-			Fav: 41,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "1",
-			vsNorm: "-22 *",
-			vsHighPerformers: "-28 *"
-		},
-		{
-			Id: 59,
-			Label: "The company supports me in achieving a reasonable balance between my work life and my personal life.",
-			N: 13000,
-			Fav: 40,
-			Neu: 21,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-23 *",
-			vsHighPerformers: "-29 *"
-		},
-		{
-			Id: 78,
-			Label: "The feedback I receive during the year helps me develop and improve.",
-			N: 13024,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-23 *",
-			vsHighPerformers: "-33 *"
-		},
-		{
-			Id: 60,
-			Label: "The company shows care and concern for its employees.",
-			N: 12877,
-			Fav: 39,
-			Neu: 20,
-			Unfav: 41,
-			vsTrend: "0",
-			vsNorm: "-25 *",
-			vsHighPerformers: "-35 *"
-		},
-		{
-			Id: 85,
-			Label: "My immediate manager coaches me to help improve my performance.",
-			N: 13014,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-26 *",
-			vsHighPerformers: "-33 *"
-		},
-		{
-			Id: 53,
-			Label: "I feel motivated to do more than is required of me.",
-			N: 12949,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "-1",
-			vsNorm: "-28 *",
-			vsHighPerformers: "-34 *"
-		},
-		{
-			Id: 80,
-			Label: "We resolve customer problems quickly and effectively.",
-			N: 12481,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "1",
-			vsNorm: "-31 *",
-			vsHighPerformers: "-40 *"
-		},
-		{
-			Id: 62,
-			Label: "Given your choice, how long would you plan to continue working for the company?",
-			N: 12926,
-			Fav: 25,
-			Neu: 25,
-			Unfav: 50,
-			vsTrend: "0",
-			vsNorm: "-32 *",
-			vsHighPerformers: "-40 *"
-		},
-		{
-			Id: 82,
-			Label: "Physical working conditions where I work are good.",
-			N: 13012,
-			Fav: 39,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "-1",
-			vsNorm: "-33 *",
-			vsHighPerformers: "-41 *"
-		},
-		{
-			Id: 83,
-			Label: "The company values and promotes employee diversity.",
-			N: 12901,
-			Fav: 39,
-			Neu: 20,
-			Unfav: 41,
-			vsTrend: "0",
-			vsNorm: "-33 *",
-			vsHighPerformers: "-39 *"
-		},
-		{
-			Id: 52,
-			Label: "My job provides opportunities to do challenging and interesting work.",
-			N: 13010,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "-1",
-			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *"
-		},
-		{
-			Id: 57,
-			Label: "My job makes good use of my skills and abilities.",
-			N: 13045,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-34 *",
-			vsHighPerformers: "-38 *"
-		},
-		{
-			Id: 55,
-			Label: "I have a good understanding of the company's strategic priorities and goals.",
-			N: 12941,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-36 *",
-			vsHighPerformers: "-41 *"
-		},
-		{
-			Id: 65,
-			Label: "I have trust and confidence in my immediate manager.",
-			N: 12963,
-			Fav: 41,
-			Neu: 21,
-			Unfav: 39,
-			vsTrend: "1",
-			vsNorm: "-36 *",
-			vsHighPerformers: "-40 *"
-		},
-		{
-			Id: 51,
-			Label: "The company provides high quality products and services.",
-			N: 13004,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-37 *",
-			vsHighPerformers: "-46 *"
-		},
-		{
-			Id: 56,
-			Label: "I feel proud to work for the company.",
-			N: 13028,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "0",
-			vsNorm: "-37 *",
-			vsHighPerformers: "-44 *"
-		},
-		{
-			Id: 67,
-			Label: "The company operates in an ethical manner.",
-			N: 12939,
-			Fav: 40,
-			Neu: 19,
-			Unfav: 40,
-			vsTrend: "-1",
-			vsNorm: "-39 *",
-			vsHighPerformers: "-47 *"
-		},
-		{
-			Id: 68,
-			Label: "The company is socially responsible.",
-			N: 12958,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-39 *",
-			vsHighPerformers: "-46 *"
-		},
-		{
-			Id: 79,
-			Label: "I would recommend the company's products or services to a friend.",
-			N: 12971,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-40 *",
-			vsHighPerformers: "-48 *"
-		},
-		{
-			Id: 54,
-			Label: "I understand how my job contributes to the company's strategic priorities and goals.",
-			N: 12918,
-			Fav: 41,
-			Neu: 20,
-			Unfav: 39,
-			vsTrend: "1",
-			vsNorm: "-42 *",
-			vsHighPerformers: "-47 *"
-		},
-		{
-			Id: 81,
-			Label: "My immediate manager is accessible when needed.",
-			N: 13001,
-			Fav: 40,
-			Neu: 21,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-43 *",
-			vsHighPerformers: "-48 *"
-		},
-		{
-			Id: 72,
-			Label: "I have a good understanding of my work group's goals and objectives.",
-			N: 12901,
-			Fav: 40,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "0",
-			vsNorm: "-45 *",
-			vsHighPerformers: "-49 *"
-		},
-		{
-			Id: 84,
-			Label: "My work area is safe.",
-			N: 13857,
-			Fav: 39,
-			Neu: 20,
-			Unfav: 40,
-			vsTrend: "-1",
-			vsNorm: "-45 *",
-			vsHighPerformers: "-48 *"
-		},
-		{
-			Id: 95,
-			Label: "Given your choice, how long would you plan to continue working for the company?",
-			N: 13857,
-			Fav: 35,
-			Neu: 26,
-			Unfav: 39,
-			vsTrend: "-1",
-			vsNorm: "-",
-			vsHighPerformers: "-"
-		}
-
-	];
-
-	data.Items = items;
-	data.Items.IsTestData = true;
-}
-
 // Metrics
 
 if(data.Metrics == null) {
@@ -3240,9 +2433,9 @@ if (data.Dimensions == null) {
 	data.Dimensions = dimensions;
 }
 
-if (data.ItemsNew == null) {
+if (data.Items == null) {
 
-	var itemsNew = {
+	var items = {
 
 		'32': {
 			N: 15792,
@@ -3846,7 +3039,7 @@ if (data.ItemsNew == null) {
 		}
 	};
 
-	data.ItemsNew = itemsNew;
+	data.Items = items;
 }
 
 if(data.Questions == null) {
@@ -4003,4 +3196,14 @@ if (data.NonStandardQuestions == null) {
 }
 
 
+var config = {
+	comparators: ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']
+};
+
+if(!('comparators' in state.Parameters)) {
+	State_Set('comparators', config.comparators);
+}
+
 TestData_fillBreakByData();
+TestData_fillComparatorsData();
+TestData_fillCommentsData();

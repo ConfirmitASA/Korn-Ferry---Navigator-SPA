@@ -432,14 +432,14 @@ function KeyMetrics_MetricItems(metric_id) {
             var item = data.Dimensions[metric_id].Items[j];
 
             var distribution_chart = Component_DistributionChartStacked(
-                data.ItemsNew[item].Distribution
+                data.Items[item].Distribution
             );
 
             tmp.push(`
 				<div class=itemrow>
 					<div class=itemlabel_details>${meta.Labels.Items[item].Label}</div>
 					<div class=item_barchart_container>${distribution_chart}</div>
-					<div class=itemscore_details>${data.ItemsNew[item].Distribution.Fav}%</div>
+					<div class=itemscore_details>${data.Items[item].Distribution.Fav}%</div>
 				</div>
 			`);
         }
@@ -461,16 +461,16 @@ function KeyMetrics_MetricDrivers(metric, scoreType) {
 
             switch (scoreType) {
                 case 'Fav' :
-                    scoreValue = data.ItemsNew[item.ItemId].Distribution.Fav + '%';
+                    scoreValue = data.Items[item.ItemId].Distribution.Fav + '%';
                     break;
                 case 'Neu' :
-                    scoreValue = data.ItemsNew[item.ItemId].Distribution.Neu + '%';
+                    scoreValue = data.Items[item.ItemId].Distribution.Neu + '%';
                     break;
                 case 'Unfav' :
-                    scoreValue = data.ItemsNew[item.ItemId].Distribution.Unfav + '%';
+                    scoreValue = data.Items[item.ItemId].Distribution.Unfav + '%';
                     break;
                 default :
-                    scoreValue = data.ItemsNew[item.ItemId].Score;
+                    scoreValue = data.Items[item.ItemId].Score;
                     break;
             }
 
@@ -561,7 +561,7 @@ function KeyMetrics_GetKeyDriversTable() {
             if (copies.length == 0) {
                 addedItems.push(driver.ItemId);
 
-                var item = data.ItemsNew[driver.ItemId];
+                var item = data.Items[driver.ItemId];
                 rowdata = [
                     {Label: driver.ItemId, ClassName: 'id-cell'},
                     {Label: meta.Labels.Items[driver.ItemId].Label, ClassName: 'text-cell'},

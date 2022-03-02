@@ -78,3 +78,23 @@ function ParamValues_NonStandardQuestions() {
 
 	return param_values;
 }
+
+function ParamValues_Comment() {
+	var param_values = [];
+
+	for (var i in meta.Labels.CommentQuestions) {
+		param_values.push ( {Code: i, Label: meta.Labels.CommentQuestions[i].Label} );
+	}
+
+	return param_values;
+}
+
+function ParamValues_Theme() {
+	var param_values = [];
+
+	for (var i in meta.Labels.Dimensions) {
+		param_values.push ( {Code: i, Label: meta.Labels.Dimensions[i].Label} );
+	}
+
+	return param_values;
+}

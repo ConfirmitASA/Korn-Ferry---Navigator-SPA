@@ -470,10 +470,10 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
     var totalColumnRowValue;
 
     if (metricVar == 'PercentFavorable') {
-        totalColumnRowValue = data.ItemsNew[itemId].Distribution.Fav;
+        totalColumnRowValue = data.Items[itemId].Distribution.Fav;
     } else {
         if (metricVar == 'PercentUnfavorable') {
-            totalColumnRowValue = data.ItemsNew[itemId].Distribution.Unfav;
+            totalColumnRowValue = data.Items[itemId].Distribution.Unfav;
         } else {
             totalColumnRowValue = null;
         }
@@ -494,8 +494,8 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
     ];
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
-        var breakByRowValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
-        var vsTotalValue = data.ItemsNew[itemId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
+        var breakByRowValue = data.Items[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
+        var vsTotalValue = data.Items[itemId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
 
         var sigTestingClass = '';
         var cellValue = '';
