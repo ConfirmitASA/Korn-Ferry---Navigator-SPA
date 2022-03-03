@@ -30,9 +30,9 @@ function KeyMetrics_Render() {
 
     o.push(Component_TestDataIndicator(data.Report.IsTestData));
 
-    var comparators = State_Get('comparators');
+    //var comparators = State_Get('comparators');
 
-    if(!!comparators) {
+    /*if(!!comparators) {
         if(comparators.indexOf('Internal.trend2020') < 0) {
             comparators.push('Internal.trend2020');
         }
@@ -48,7 +48,7 @@ function KeyMetrics_Render() {
     } else {
         State_Set('comparators', ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']);
         TestData_fillComparatorsData();
-    }
+    }*/
 
     var metrics = data.Metrics;
 
@@ -190,7 +190,7 @@ function KeyMetrics_Render() {
 			</div>
 		`);
 
-    if(user.Roles.includes('role1')) {
+    if(user.Roles.includes('role5')) {
         var dt = KeyMetrics_GetKeyDriversTable();
 
         $('#keyDriversTableContainer').html( dt.Html );

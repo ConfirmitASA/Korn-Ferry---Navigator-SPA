@@ -184,7 +184,7 @@ function DemographicHeatmap_HandleSelectorChange(selectorObj) {
         var query = {
             DemographicHeatmap: {
                 DimensionsQuestions: State_Get('dimensions_questions'),
-                Demo: State_Get('breakby'),
+                BreakBy: State_Get('breakby'),
                 Metric: State_Get('metric'),
                 DisplayComparators: State_Get('display_comparators')
             },
@@ -443,7 +443,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakby
                 cellValue = breakByRowValue.Fav;
             }
 
-            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav, 10) < 0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
                 if (comparatorsVar == 'DifferencetoTotal') {
@@ -452,7 +452,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakby
                     cellValue = breakByRowValue.Unfav;
                 }
 
-                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav, 10) < 0 ? 'cell-red' : 'cell-green') : '';
             } else {
                 cellValue = null;
             }
@@ -507,7 +507,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
                 cellValue = breakByRowValue.Fav;
             }
 
-            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
+            sigTestingClass = (vsTotalValue.Fav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav, 10) < 0 ? 'cell-red' : 'cell-green') : '';
         } else {
             if (metricVar == 'PercentUnfavorable') {
                 if (comparatorsVar == 'DifferencetoTotal') {
@@ -516,7 +516,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
                     cellValue = breakByRowValue.Unfav;
                 }
 
-                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav) < 0 ? 'cell-red' : 'cell-green') : '';
+                sigTestingClass = (vsTotalValue.Unfav.indexOf('*') > 0) ? (parseInt(vsTotalValue.Unfav, 10) < 0 ? 'cell-red' : 'cell-green') : '';
             } else {
                 cellValue = null;
             }

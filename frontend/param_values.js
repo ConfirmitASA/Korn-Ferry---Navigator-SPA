@@ -98,3 +98,11 @@ function ParamValues_Theme() {
 
 	return param_values;
 }
+
+function ParamValues_DemographicHighlight_BasisForComparison() {
+	var param_values = [];
+
+	param_values.push ( {Code: 'ReportTotal', Label: meta.Labels.drop_downs["ReportTotal"].Label} );
+
+	return param_values;
+}

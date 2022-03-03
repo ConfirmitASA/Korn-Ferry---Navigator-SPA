@@ -55,9 +55,9 @@ function TestData_getBreakByData(breakByVariable) {
 				Unfav: 2
 			},
 			vsTotal: {
-				Fav: String(5 - rnd),
+				Fav: String(5 - rnd) + ' *',
 				Neu: String(10 - rnd),
-				Unfav: (0 - rnd) + ' *'
+				Unfav: String(0 - rnd)
 			}
 		}
 		breakByData.Options[i] = tmpBreakByData;
@@ -590,7 +590,7 @@ if ( meta == null ) {
 				"Question": { "Label": "Question:" },
 				"BreakBy": { "Label": "Break By:" },
 				"FullDistribution": { "Label": "Full Distribution:" },
-				"none": { "Label": "(None)" },
+				"none": { "Label": "None" },
 				"DIMENSION": { "Label": "Dimension:" },
 				"norm": { "Label": "(Norm)" },
 				"QNo": { "Label": "Q #" },
@@ -613,7 +613,12 @@ if ( meta == null ) {
 				"Max5CompsAllowed": { "Label": "No more than [MAXALLOWED] comparators can be selected at the same time." },
 				"NoDataToDisplay": { "Label": "No data to display" },
 				"Pct" : { "Label": "Pct" },
-				"Action": { "Label": "Action" }
+				"Action": { "Label": "Action" },
+				"SelectDimensionOrQuestion" : { "Label": "Select Dimension or Question:" },
+				"SelectDemographic" : { "Label": "Select Demographic:" },
+				"BasisForComparison" : { "Label": "Basis for comparison:" },
+				"PositiveDifferencesTo" : { "Label": "Positive differences to" },
+				"NegativeDifferencesTo" : { "Label": "Negative differences to" }
 			},
 			drop_downs: {
 				"Passives": { "Label": "Passives" },
@@ -699,7 +704,7 @@ if ( meta == null ) {
 				},
 				"StrengthsAndOpportunities" : {
 					"Title": "Strengths and Opportunities",
-					"Label": "Strengths and Opportunities text",
+					"Label": "<p>This page helps you focus on the most important results for your work group.</p><p>Questions are categorised as 'strengths' and 'opportunities' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks.</p>",
 				},
 				"CommentsCategories": {
 					"Title": "Comments Categories",
@@ -717,7 +722,10 @@ if ( meta == null ) {
 				"ActionOwn": { "Label": "Review Own Plans" },
 				"ActionStatistics": { "Label": "Statistics" },
 				"Dashboard": { "Label": "Dashboard" },
-				"DemographicHighlighter": { "Label": "Demographic Highlighter" },
+				"DemographicHighlighter": {
+					"Title": "Demographic Highlighter",
+					"Label": "Demographic Highlighter"
+				},
 				"EE": { "Label": "Engagement and Enablement" },
 				"EEDetails": { "Label": "Engagement and Enablement Details" },
 				"EEDrivers": { "Label": "Engagement and Enablement Drivers" },
