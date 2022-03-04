@@ -503,24 +503,22 @@ body {
 
 
 .small {
-    transform: scale(0.35);
+    transform: scale(0.25);
     transform-origin: top left;
     top: 20px !important;
-    left: 20px;
+    left: 10px;
 }
 
 .large {
-    top: calc(50% - 120px);
-    left: calc(50% - 94px);
+    top: calc(50% - 140px);
+    left: calc(50% - 150px);
+    transform: scale(0.6);
 }
 
 .myicon {
-    width: 200px;
-    height: 188px;
     background-repeat: no-repeat;
     background-position-x: 16px !important;
     position: relative;
-    top: 150px
 }
 
 .myicon img {
@@ -529,9 +527,11 @@ body {
 
 
 .dot {
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
     display: inline-block;
+    position: relative;
+    left: -5px;
 }
 .metriclabel {
     position: absolute;
@@ -543,7 +543,7 @@ body {
     left: 23px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
 }
 
 .metriclabel_back {
@@ -552,7 +552,7 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     color: #000;
-    top: -86px;
+    top: -105px;
     left: 8%;
     text-align: left;
     width: 85%;
@@ -790,6 +790,7 @@ body {
     font-size: 12px;
     white-space: nowrap;
     min-width: 100px;
+    cursor: pointer;
 }
 
 .item-details-container {
@@ -1171,6 +1172,11 @@ select {
     padding-left: 20px;
 }
 
+.dropshadow {
+    filter: drop-shadow(0 1rem 2rem #d0d0d0);        
+}
+
+
 @media print {
     .menu,
     .submenu {
@@ -1195,5 +1201,6 @@ select {
     .left-pane {
         top: -60px;
     }
+
 
 }

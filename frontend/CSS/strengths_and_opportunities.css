@@ -10,7 +10,8 @@
     justify-content: space-between;
     cursor: default;
     height: 100%;
-    max-height: 320px;
+    min-height: 425px;
+    margin-bottom: 20px;
 }
 #strengths-and-opportunities-data-container .flip-card-front,
 #strengths-and-opportunities-data-container .flip-card-back {
@@ -22,8 +23,9 @@
     transition: transform 0.5s;
     min-height: 320px;
     padding: 12px;
-    width: 40%;
+    width: 400px;
     min-width: 400px;
+    margin-bottom: 20px;
 }
 
 .strength {
@@ -35,16 +37,8 @@
     background-color: #fff3f3;
     color: #de0f1d;
 }
-.strength .flip-card-front,
-.strength .flip-card-back {
-    color: #00634f !important;
-    background-color: #f3fff3;
-}
-.opportunity .flip-card-front,
-.opportunity .flip-card-back {
-    color: #de0f1d !important;
-    background-color: #fff3f3;
-}
+
+
 #strengths-and-opportunities-data-container .flipicon {
     width: 50px;
 }
@@ -88,7 +82,7 @@
 #strengths-and-opportunities-data-container .card-label,
 .strengths-and-opportunities-card-details-container .card-label{
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 300;
     color: #000;
     display: flex;
     flex-direction: row;
@@ -96,33 +90,54 @@
     justify-content: center;
 }
 #strengths-and-opportunities-data-container .item-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px 5px;
+
 }
+
+.strengths-and-opportunities-top-3 {
+    position: absolute;
+    top: 60px;
+    width: 375px;
+}
+
+.strengths-and-opportunities-top-3 td {
+    padding: 15px;
+    vertical-align: top;
+}
+
 #strengths-and-opportunities-data-container .item-row:not(:last-child) {
     border-bottom: 1px #000 solid;
 }
 #strengths-and-opportunities-data-container .item-row_section {
-    padding: 5px;
     color: #000;
+    font-size: 14px;
+    line-height: 16px;
 }
 #strengths-and-opportunities-data-container .item-number,
 #strengths-and-opportunities-data-container .items-core {
     font-size: 1.3rem;
     font-weight: bold;
 }
+
+#strengths-and-opportunities-data-container .item-number {
+    font-size: 2.5rem;
+    padding: 20px 15px 0 15px;
+}
+
+.item-label {
+    font-size: 14px;
+}
+
 #strengths-and-opportunities-data-container .card-top3-items {
 }
+
 #strengths-and-opportunities-data-container .action-button {
+    margin: 10px 0 0 0;
+    /* 
     padding: 5px;
     min-width: 50px;
     margin-bottom: 0px;
     cursor: pointer;
+    */
 }
 #strengths-and-opportunities-data-container .opportunity .action-button,
 .action-button__Opportunities {

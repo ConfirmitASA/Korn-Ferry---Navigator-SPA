@@ -8,7 +8,8 @@ function StrengthsAndOpportunities_Page() {
         LeftPane: meta.Labels.pages.StrengthsAndOpportunities.Label,
 
         RightPane: `
-		<div id="strengths-and-opportunities-data-container"></div>
+        ${Component_TestDataIndicator(data.Report.IsTestData)}
+		<div id="strengths-and-opportunities-data-container" class="dropshadow"></div>
 		<div class="strengths-and-opportunities-card-details-container"></div>
 		`,
 
@@ -21,8 +22,6 @@ function StrengthsAndOpportunities_Page() {
 function StrengthsAndOpportunities_Render() {
 
     var o = [];
-
-    o.push(Component_TestDataIndicator(data.Report.IsTestData));
 
     var preSelectedCardId = State_Get('StrengthAndOpportunitiesSelectedCard');
 
@@ -209,26 +208,29 @@ function StrengthsAndOpportunities_getTopNItems(topN, cardType) {
         buttonText = meta.Labels.buttons.Improve.Label;
     }
 
+    tmp.push ( '<table class="strengths-and-opportunities-top-3" border=0>')
+
     for (var i = 0; i < topN; i++) {
         tmp.push(`
-				<div class="item-row">
-				    <div class="item-number item-row_section">
+				<tr class="item-row">
+				    <td class="item-number item-row_section">
 						${i + 1}
-					</div>
-					<div class="item-label item-row_section">
+					</td>
+					<td class="item-label item-row_section">
 						${meta.Labels.Items[totalItems[i]].Label}
-					</div>
-					<div class="items-core item-row_section">
+                        <div class="item-button item-row_section">
+                            <div class="action-button" id="${cardType}-${totalItems[i]}-button">
+                                ${buttonText}
+                            </div>
+                        </div>
+					</td>
+					<td class="items-core item-row_section">
 						${data.Items[totalItems[i]].Distribution.Fav}%
-					</div>
-					<div class="item-button item-row_section">
-						<div class="action-button" id="${cardType}-${totalItems[i]}-button">
-							${buttonText}
-						</div>
-					</div>
-				</div>
+					</td>
+				</tr>
 			`);
     }
+    tmp.push ( '</table>')
 
     return tmp.join('');
 }

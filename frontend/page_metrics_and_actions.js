@@ -109,12 +109,12 @@ function KeyMetrics_Render() {
 								<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 							</div>						
 
-							<div style="zoom: 0.65" class="myicon large">
+							<div class="myicon large">
 								<img src="${Resources_GetIconUrlByDimensionId(metric.DimensionId)}"/>
 							</div>
 
 							<!-- Score -->
-							<div class=scorelabel>
+							<div class="scorelabel">
 								${scoreLabel}
 							</div>
 
@@ -140,6 +140,7 @@ function KeyMetrics_Render() {
 				`);
         }
 
+        var trend_indicator_description = "Trend Indicator"; // to-do: translate
 
         o.push(`
 								</div>
@@ -147,9 +148,27 @@ function KeyMetrics_Render() {
 							<!-- End Comparison Scores -->
 
 							<!-- Metric Label -->
-							<div class=metriclabel>
-								<div class="dot ${arrowClass}"></div>
-                                <div>${meta.Labels.Dimensions[metric.DimensionId].Label}</div>
+							<div class="metriclabel">
+                                <div class="trend-indicator">
+                                    <div class="dot ${arrowClass}"></div>
+                                </div>
+                                <div class="trend-indicator-description">
+                                    <div style="
+                                        position: absolute;
+                                        font-size: 12px;
+                                        LEFT: 0px;
+                                        top: -45px;
+                                        ">${trend_indicator_description}</div>
+                                    <div style="
+                                        position: absolute;
+                                        top: -27px;
+                                        height: 28px;
+                                        border-left: 1px solid black;
+                                        left: 10px;
+                                    "></div>
+                                </div>
+
+                                <div class="metric-heading">${meta.Labels.Dimensions[metric.DimensionId].Label}</div>
 							</div>
 							
 						</div>
@@ -181,11 +200,21 @@ function KeyMetrics_Render() {
 				</div>
 				<!-- End Flip Card -->
 			`);
+
+        o.push (
+            `
+            <script>
+                $('.trend-indicator').mouseover ( function() { $(this).next().css('opacity', '1'); } );
+                $('.trend-indicator').mouseout ( function() { $(this).next().css('opacity', '0'); } );
+            </script>
+            `
+
+        );
     }
 
     // Update Main Container
     $('#card-container-1').html(`
-			<div style="margin-top: 0px; display:flex; flex-direction: row; flex-wrap: wrap">
+			<div style="margin-top: 20px; display:flex; flex-direction: row; flex-wrap: wrap">
 				${o.join('')}
 			</div>
 		`);

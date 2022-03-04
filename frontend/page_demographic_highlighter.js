@@ -77,7 +77,7 @@ function DemographicHighlighter_Render() {
     o.push ( `
 			${items_dropdown}			
 		</div>
-		<div class="demographic-highlighter-card-wrapper">
+		<div class="demographic-highlighter-card-wrapper dropshadow">
 			${demographicHighlighterCards}
 		</div>
     `);
@@ -144,8 +144,8 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
     positiveCard.push('<div class="demographic-highlighter-card__body">');
     negativeCard.push('<div class="demographic-highlighter-card__body">');
 
-    positiveCard.push('<div class="demographic-highlighter-card__items">');
-    negativeCard.push('<div class="demographic-highlighter-card__items">');
+    positiveCard.push('<table class="demographic-highlighter-card__items"><tbody>');
+    negativeCard.push('<table class="demographic-highlighter-card__items"><tbody>');
 
 	var positiveIndex = 0;
 	var negativeIndex = 0;
@@ -153,32 +153,32 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 	for (var i = 0; i < differences.length; i++) {
         if(differences[i].Value >= 0) {
             positiveCard.push(`
-            	<div class="item-row">
-				    <div class="item-number item-row_section">
+            	<tr class="item-row">
+				    <td class="item-number item-row_section">
 						${positiveIndex + 1}
-					</div>
-					<div class="item-label item-row_section">
+					</td>
+					<td class="item-label item-row_section">
 						${meta.Labels.BreakBy[breakBy].Options[differences[i].Code].Label}
-					</div>
-					<div class="items-core item-row_section">
-						${selectedItem.BreakBy.Options[differences[i].Code].Distribution.Fav}%
-					</div>
-				</div>
+					</td>
+					<td class="items-core item-row_section">
+						${selectedItem.BreakBy.Options[differences[i].Code].vsTotal.Fav}
+					</td>
+				</tr>
             `);
 			positiveIndex++;
         } else {
             negativeCard.push(`
-            	<div class="item-row">
-				    <div class="item-number item-row_section">
+            	<tr class="item-row">
+				    <td class="item-number item-row_section">
 						${negativeIndex + 1}
-					</div>
-					<div class="item-label item-row_section">
+					</td>
+					<td class="item-label item-row_section">
 						${meta.Labels.BreakBy[breakBy].Options[differences[i].Code].Label}
-					</div>
-					<div class="items-core item-row_section">
-						${selectedItem.BreakBy.Options[differences[i].Code].Distribution.Fav}%
-					</div>
-				</div>
+					</td>
+					<td class="items-core item-row_section">
+						${selectedItem.BreakBy.Options[differences[i].Code].vsTotal.Fav}
+					</td>
+				</tr>
             `);
 			negativeIndex++;
         }
@@ -186,26 +186,26 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 
 	if(positiveIndex == 0) {
 		positiveCard.push(`
-			<div class="item-row">
-					<div class="item-label item-row_section">
+				<tr class="item-row">
+					<td class="item-label item-row_section">
 						${meta.Labels.labels.none.Label}
-					</div>
-				</div>
+					</td>
+				</tr>
 		`);
 	}
 
 	if(negativeIndex == 0) {
 		negativeCard.push(`
-			<div class="item-row">
-					<div class="item-label item-row_section">
+				<tr class="item-row">
+					<td class="item-label item-row_section">
 						${meta.Labels.labels.none.Label}
-					</div>
-				</div>
+					</td>
+				</tr>
 		`);
 	}
 
-    positiveCard.push('</div></div></div>');
-    negativeCard.push('</div></div></div>');
+    positiveCard.push('</tbody></table></div></div>');
+    negativeCard.push('</tbody></table></div>');
 
     cardWrapper += positiveCard.join('');
     cardWrapper += negativeCard.join('');
