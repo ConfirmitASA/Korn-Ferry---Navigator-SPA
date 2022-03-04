@@ -1139,6 +1139,9 @@ option {
 	background-color: #77bc1f;
 	color: #ffffff;
 }
+.switch-component label:not(.label-checked) {
+    background-color: #fff;
+}
 select {
 	font-family: "Gotham A", "Gotham B", sans-serif !important;
 	border: 1px solid #77bc1f;
@@ -1175,7 +1178,10 @@ select {
 .dropshadow {
     filter: drop-shadow(0 1rem 2rem #d0d0d0);        
 }
-
+.numeric-cell .action-button {
+    background-color: #778899;
+    border: 1px solid #778899;
+}
 
 @media print {
     .menu,

@@ -86,6 +86,19 @@ function DemographicHighlighter_Render() {
         o.join('')
     );
 
+	// Animation
+	$('#demographic-highlighter-card__positive, #demographic-highlighter-card__negative').css('opacity', 0);
+
+	$('#demographic-highlighter-card__positive').velocity(
+		{opacity: 1, transform: "scale(1)"},
+		{duration: 500, delay: 500}
+	);
+
+	$('#demographic-highlighter-card__negative').velocity(
+		{opacity: 1, transform: "scale(1)"},
+		{duration: 500, delay: 1000}
+	);
+
 	$('#demographic_highlighter-breakby-dropdown').change( function() {
 		var breakbyElementValue = $(this).val();
 		var selectorObj = {
@@ -252,6 +265,19 @@ function DemographicHighlighter_HandleSelectorChange(selectorObj) {
 
 		$('.demographic-highlighter-card-wrapper').html(
 			demographicHighlighterCards
+		);
+
+		// Animation
+		$('#demographic-highlighter-card__positive, #demographic-highlighter-card__negative').css('opacity', 0);
+
+		$('#demographic-highlighter-card__positive').velocity(
+			{opacity: 1, transform: "scale(1)"},
+			{duration: 500, delay: 500}
+		);
+
+		$('#demographic-highlighter-card__negative').velocity(
+			{opacity: 1, transform: "scale(1)"},
+			{duration: 500, delay: 1000}
 		);
 	}
 }

@@ -58,18 +58,17 @@ function StrengthsAndOpportunities_Render() {
     $('#strengths-and-opportunities-data-container').html(o.join(''));
 
     // Animation
-    $('.strength, .opportunity').css('opacity', 0);
-    var delay = 0;
-    $('.strength').each(function () {
-        $(this).velocity({opacity: 1, transform: "scale(1)"}, {duration: 500, delay: 500 + delay});
-        delay += 200;
-    })
+    $('#Strengths_card, #Opportunities_card').css('opacity', 0);
 
-    delay += 500;
-    $('.opportunity').each(function () {
-        $(this).velocity({opacity: 1, transform: "scale(1)"}, {duration: 500, delay: 500 + delay});
-        delay += 200;
-    });
+    $('#Strengths_card').velocity(
+        {opacity: 1, transform: "scale(1)"},
+        {duration: 500, delay: 500}
+    );
+
+    $('#Opportunities_card').velocity(
+        {opacity: 1, transform: "scale(1)"},
+        {duration: 500, delay: 1000}
+    );
 
     StrengthsAndOpportunities_handleActionButtonClick();
 
@@ -102,7 +101,7 @@ function StrengthsAndOpportunities_Render() {
 
         container.velocity({
             left: 62 + 'px',
-            top: 65 + 'px', //0, //60, //offset.top + "px",
+            top: 52 + 'px', //0, //60, //offset.top + "px",
         }, {
             delay: 0,
             duration: 0
@@ -160,6 +159,9 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
                 });
 
             // Animate / Fade in the cards not clicked
+            $('.static-card').css('position', 'relative');
+            $('.static-card').css('top', "200px");
+
             $('.static-card').velocity({
                 top: "0px",
                 opacity: 1

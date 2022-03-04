@@ -27,18 +27,6 @@
     min-width: 400px;
     margin-bottom: 20px;
 }
-
-.strength {
-    color: #00634f;
-    background-color: #f3fff3;
-}
-
-.opportunity {
-    background-color: #fff3f3;
-    color: #de0f1d;
-}
-
-
 #strengths-and-opportunities-data-container .flipicon {
     width: 50px;
 }
