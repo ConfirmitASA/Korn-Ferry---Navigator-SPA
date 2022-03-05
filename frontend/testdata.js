@@ -99,7 +99,7 @@ function TestData_getComparatorsData(comparators) {
 			Distribution: {
 				Fav: rnd+60,
 				Neu: rnd,
-				UnFav: rnd-5
+				Unfav: rnd-5
 			},
 			get NPS() {
 				return this.Distribution.Fav - this.Distribution.Unfav
