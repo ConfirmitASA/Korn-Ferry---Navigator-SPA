@@ -30,26 +30,6 @@ function KeyMetrics_Render() {
 
     o.push(Component_TestDataIndicator(data.Report.IsTestData));
 
-    //var comparators = State_Get('comparators');
-
-    /*if(!!comparators) {
-        if(comparators.indexOf('Internal.trend2020') < 0) {
-            comparators.push('Internal.trend2020');
-        }
-        if(comparators.indexOf('External.IndustryBenchmark') < 0) {
-            comparators.push('External.IndustryBenchmark');
-        }
-        if(comparators.indexOf('External.HighPerformers') < 0) {
-            comparators.push('External.HighPerformers');
-        }
-
-        State_Set('comparators', comparators);
-        TestData_fillComparatorsData();
-    } else {
-        State_Set('comparators', ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']);
-        TestData_fillComparatorsData();
-    }*/
-
     var metrics = data.Metrics;
 
     for(var i = 0; i < metrics.length; i++) {
@@ -317,7 +297,7 @@ function KeyMetrics_Render() {
 
         container.velocity({
             left: (first_card.width() + 40 + 50) + 'px',
-            top: 38 + 'px', //0, //60, //offset.top + "px",
+            top: 58 + 'px', //0, //60, //offset.top + "px",
             height: "500px",
             width: "780px"
         }, {

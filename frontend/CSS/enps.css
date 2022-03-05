@@ -1,14 +1,32 @@
 /* ENPS */
 
+#enps-details {
+    display: flex;
+    flex-direction: row;
+}
+
+.enps-card-wrapper {
+    filter: drop-shadow(0 1rem 2rem #d0d0d0);
+}
+
+.enps-wrapper {
+    background: lightslategray;
+}
+
 .enps {
+    display: flex;
+    flex-direction: column;
     height: 120px; 
     background-color: lightslategrey; 
     font-size: 20px; 
-    width: 450px;
     text-align: center;
     vertical-align: middle;
     color: white;
-    padding: 20px;
+    padding: 30px;
+}
+
+.enps-additional-wrapper {
+    background-color: lightslategrey;
 }
 
 .enps-score {
@@ -30,15 +48,30 @@
     padding: 10px;
 }
 
+.enps-distribution-promoters {
+    background-color: #77bc1f;
+}
+
+.enps-distribution-neutrals {
+    background-color: #FFFFCC;
+    color: #696969;
+}
+
+.enps-distribution-detractors {
+    background-color: #d30f1d;
+}
+
+/*
 .enps-distribution-promoters:before,
 .enps-distribution-detractors:before
  {
     content: "\2191";
     font-size: 20px;
-    position: absolute;
-    top: -15px;
-    left: 50%;
+    position: relative;
+    top: -30px;
+    left: 30%;
 }
+*/
 
 .enps-distribution-score {
     display: block;
@@ -52,7 +85,7 @@
     text-align: center;
     vertical-align: top;
     margin-top: 20px;
-    color: #999;
+    color: #696969;
     margin: 0;
     border: 0;
     font-size: 12px; 
@@ -60,8 +93,79 @@
     display: table-cell;
     padding: 10px;
 }
+/*
 .enps-distribution-description:hover {
     color: black;
+}
+*/
+
+.enps-flip-card {
+    background-color: transparent;
+    min-height: 550px;
+    width: 500px;
+    perspective: 1000px;
+    margin: 0px 40px 0px 0px;
+    color: #696969;
+}
+
+.enps-flip-card-front {
+    border: 1px solid #d0d0d0;
+}
+
+.enps-flip-card-back {
+    transform: rotateY(180deg); 
+    border: 1px solid #d0d0d0;
+}
+
+.enps-flip-card-front, .enps-flip-card-back {
+    background-color: #fff;
+    
+    position: absolute;
+    width: 100%;
+    
+    min-height: 550px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.enps-flipicon-front, .enps-flipicon-back {
+    background: url("https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png") no-repeat;
+    background-size: 64px 50px;
+    cursor: pointer;
+    width: 64px;
+    height: 50px; 
+    position: absolute; 
+    bottom: 0px;
+    right: 0px;
+    opacity: 0.2;
+}
+
+.enps-flipicon-front:hover, .enps-flipicon-back:hover {
+    width: 64px;
+    opacity: 1
+}
+
+.enps-flip-card-inner-click {
+
+    transform: rotateY(180deg);
+}
+
+
+.enps-flip-card-inner__hover {
+    transform: rotateY(10deg);
+	transition: transform 0.2s;
+	
+}
+
+
+.enps-flip-card-inner-back__hover {
+    transform: rotateY(190deg);
+}
+
+
+.enps-distribution-description-wrapper {
+    background-color: #FFF;
+    border-top: 1px solid #f0f0f0;
 }
 
 .enps-distribution-count {
@@ -73,15 +177,159 @@
 }
 
 .enps-add,
-.enps-subtract {
-    position: absolute;
+.enps-subtract,
+.enps-center {
+    display: table-cell;
+    width:150px;
     font-size: 10px;
-    bottom: 272px;
+    text-align: center;
     opacity: 0;
-    z-index: 999;
+    
     color: white;
+    padding-bottom: 15px;
 }
-
+/*
 .enps, .enps-distribution {
     filter: drop-shadow(0 1rem 2rem #999);    
 }
+*/
+button {
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    bottom: 10px;
+    right: 140px;
+
+    border: 1px solid #77bc1f;
+background-color: #77bc1f;
+color: #FFF;
+
+}
+
+.enps-flip-card-back--header {
+
+    font-size: 20px;
+    padding: 30px;
+
+}
+
+.enps-formula-logo {
+    background: url(../img/NPS.png) no-repeat;
+    background-size: 395px auto;
+    width: 400px;
+    height: 300px;
+    margin: auto;
+}
+
+.enps-tables-card {
+    border: 1px solid #d0d0d0;
+    background-color: #FFF;
+    filter: drop-shadow(0 1rem 2rem #d0d0d0);
+    padding: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
+}
+
+.enps-comparators-card { 
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.exit-card-details-indicator {
+    width: 32px;
+    height: 32px;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flat_cross_icon.svg/1200px-Flat_cross_icon.svg.png);
+    background-size: 32px 32px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+}
+
+.data-hidden {
+    display: none;
+
+}
+
+button.dt-button {
+    position: unset !important;
+}
+
+.flip-card-inner {
+
+    background-color: #FFF;
+}
+
+
+.enps-details-wrapper {
+    width: 40%;
+ }
+
+.nps_self {
+    background-image: url(https://reportal.us.confirmit.com/isa/DYCQABDXPXAFCQDXFVCVMKGHPVFBHBOQ/HayGroup_ReportTemplate/nps_model_600x381.png);
+    background-position: -40px -272px;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+    height: 115px;
+    border-collapse: collapse;
+    
+  }
+
+  .trend-wrapper {
+     margin-bottom: 10px;
+     width: 460px;
+  }
+
+  .trend-label, .trend-arrow, .trend-promoters, .trend-math, .trend-detractors, .trend-enps {
+    display: table-cell;
+    height: 70px; 
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  
+    line-height: 30px;
+    vertical-align: middle;
+  }
+  
+  .trend-label {
+    background-color: #d0d0d0;
+    width: 130px;
+    padding: 5px;
+  }
+  
+  .trend-arrow {
+    width: 0px;
+    height: 0px;
+    border-top: 35px solid transparent;
+    border-bottom: 35px solid transparent;
+    border-left: 20px solid #d0d0d0;
+  }
+  
+  .trend-promoters {
+    background-color: #77bc1f;
+    width: 70px;
+  
+  
+  }
+  
+  .trend-math {
+    width: 20px;
+    color: #696969;
+    padding: 5px;
+  }
+  
+  .trend-detractors {
+    background-color: #d30f1d;
+    width: 70px;
+  
+  }
+  
+  .trend-enps {
+      background-color: lightslategrey;
+      width: 70px;
+  
+  }
+
+

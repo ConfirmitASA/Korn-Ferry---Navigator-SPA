@@ -1145,6 +1145,7 @@ option {
 select {
 	font-family: "Gotham A", "Gotham B", sans-serif !important;
 	border: 1px solid #77bc1f;
+    max-width: 500px;
 }
 .items-table th {
     white-space: break-spaces;
