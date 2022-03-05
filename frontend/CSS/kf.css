@@ -687,15 +687,15 @@ body {
     position: absolute;
 }
 
-.comment::after {
-    content: ' ';
-    border-bottom: 1px solid #e0e0e0;
-    display: block;
-    margin: 20px;
-}
-
-.comment {
-    margin-bottom: 20px;
+.commentCategory {
+    display: table;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: #00634f;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10px;
 }
 
 .apple {
@@ -1152,12 +1152,12 @@ select {
 
 .cell-green {
     /*background-color: #D0FFD0;*/
-    color: #707814;
+    color: #77bc1f;
     font-weight: bold;
 }
 .cell-red {
     /*background-color: #FFF0F0;*/
-    color: #D92131;
+    color: #d30f1d;
     font-weight: bold;
 }
 .details-exit {

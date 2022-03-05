@@ -2,82 +2,68 @@
 
 function CommentsVerbatims_Page() {
     return {
-        Label: 'Verbatims',
+        Label: meta.Labels.pages['CommentsVerbatims'].Title,
 
-        LeftPane: meta.Labels.comments.Label,
+        LeftPane: meta.Labels.pages['CommentsVerbatims'].Label,
 
         RightPane: `
-        <div id="commentsverbatims-table-container">
-            Chart Not Loaded
-        </div>
+        <div id="commentsverbatims-table-container"></div>
         `,
-
+        
         ClassName: 'commentsverbatims-container',
         Style: null,
-        ShowFilterSummary: true
+		ShowFilterSummary: true        
     };
 }
 
 function CommentsVerbatims_Render() {
-
+   
     var o = [];
 
-    o.push ( Component_TestDataIndicator ( data.Comments.IsTestData ) );
-    /*
-        var comments = data.Comments.Verbatims;
+	var Comment_dropdown = Component_Dropdown(
+		'comment',
+		meta.Labels.labels["SelectQuestion"].Label,
+		'commentsverbatims-comment-highlighter-dropdown',
+		'',
+		ParamValues_Comment()
+	);
 
-        var values = [];
-        var theme_map = {};
+	var Category_dropdown = Component_Dropdown(
+		'CommentCategory',
+		meta.Labels.labels["SelectCategory"].Label,
+		'commentsverbatims-category-highlighter-dropdown',
+		meta.Labels.drop_downs["all"].Label,
+		ParamValues_CommentCategory()
+	);
 
-        for (var i=0; i<comments.length; ++i) {
-            var theme = comments[i].Comm1Theme;
-            if (theme == null) theme = "Uncategorized";
-            if (theme_map[theme] == null) theme_map[theme] = 0;
-            theme_map[theme]++;
-        }
-
-        for (var theme in theme_map) {
-            values.push (
-              {
-                  Code: ThemeCode ( theme ),
-                  Label: theme + ' (' + theme_map[theme] + ')'
-              }
-            );
-        }
-
-        values = values.sort(SortByLabel);
-    */
-    var Comment_dropdown = Component_Dropdown(
-        'comment',
-        meta.Labels.labels["SelectQuestion"].Label,
-        'commentsverbatims-comment-highlighter-dropdown',
-        '',
-        ParamValues_Comment()
-    );
-
-    var Theme_dropdown = Component_Dropdown(
-        'theme',
-        meta.Labels.labels["SelectTheme"].Label,
-        'commentsverbatims-theme-highlighter-dropdown',
-        meta.Labels.drop_downs["all"].Label,
-        ParamValues_Theme()
-    );
-
-    o.push(`
+	o.push(`
         <div class="selector-group">
             ${Comment_dropdown}
-            ${Theme_dropdown}
+            ${Category_dropdown}
         </div>
     `);
 
-    $("#commentsverbatims-table-container").html(o.join(''));
+    o.push ( Component_TestDataIndicator ( data.Comments.IsTestData ) );
 
+    var dt = CommentsVerbatims_VerbatimsTable();
+    o.push(dt.Html);
+
+    $("#commentsverbatims-table-container").html(o.join(''));
+    if (dt.ScriptCode != null) eval(dt.ScriptCode);
 
     $('#commentsverbatims-comment-highlighter-dropdown').change(function () {
 
         // Save Selection
         var SelectedOption = $(this).val();
         State_Set('comment', SelectedOption);
+
+        // Change Comment Category List
+        State_Set('CommentCategory', '-1');
+        var options = ParamValues_CommentCategory();
+        var str = '<option value="-1">' + meta.Labels.drop_downs["all"].Label + '</option>';    
+        for (var i=0; i<options.length; i++)
+            str += '<option value="' + options[i].Code + '">' + options[i].Label + '</option>';
+        $('#commentsverbatims-category-highlighter-dropdown').html(str);
 
         var query = {
             page: 'CommentsVerbatims',
@@ -86,60 +72,95 @@ function CommentsVerbatims_Render() {
         Main_SubmitQuery(query);
 
     });
-    /*
-        for (var i=0; i<comments.length; ++i) {
-            o.push ( `
-                <div class="comment ${ThemeCode( comments[i].Comm1Theme)}">
-                    <div>${comments[i].Comm1}</div>
-                    <span style="display: table; margin-bottom: 20px; margin-top: 5px; background-color: #00634f; color: white; border-radius: 5px; padding: 5px; font-size: 10px">${comments[i].Comm1Theme == null ? 'N/A' : comments[i].Comm1Theme}</span>
-                </div>
-                `
-            );
 
-        }
+    $('#commentsverbatims-category-highlighter-dropdown').change(function () {
 
-        $('#comments-verbatims-details').html(
-            o.join('')
-        );
+        // Save Selection
+        var SelectedOption = $(this).val();
+        State_Set('CommentCategory', SelectedOption);
 
-        //
-        $('#comments-theme-dropdown').change(
-            function () {
-                var value = $(this).val();
+        var query = {
+            page: 'CommentsVerbatims',
+            parameter: 'CommentCategory'
+        };
+        Main_SubmitQuery(query);
+        
+    });
 
-                switch ( value ) {
-
-                    case '-1': // means show all
-                        $('.comment').css('display', 'unset');
-                        break;
-
-                    default:
-                        $('.comment').css('display', 'none');
-                        $('.' + value).css('display', 'unset');
-                }
-            }
-        );
-        */
 }
 
-function SortByLabel(a, b) {
-    if (a.Label > b.Label) return 1;
-    if (a.Label < b.Label) return -1;
-    if (a.Label == b.Label) return 0;
-}
+function CommentsVerbatims_VerbatimsTable() {
+    var comm = State_Get('comment');
+    var cat = State_Get('CommentCategory');
+    var CategoryList = config.comments[comm].CategoryList;
+    var categories = meta.Labels.CommentCategories[CategoryList];
 
-var theme_codes_map = {};
+    var headers = [
+        [
+            { Label: meta.Labels.labels["Comments"].Label, ClassName: 'text-cell' }
+        ]
+    ];
 
-function ThemeCode ( s ) {
-    if ( s == null) s = "Uncategorized";
-    if ( theme_codes_map[s] == null ) {
-        var tmp = s;
-        tmp = tmp.split(' ').join('_');
-        tmp = tmp.split('/').join('_');
-        tmp = tmp.split('&').join('_');
-        tmp = tmp.split(',').join('_');
+    var table_data = [];
+    var rowdata = [];
 
-        theme_codes_map[s] = tmp;
+    for (var i in data.Comments[comm]) {
+        var comment = data.Comments[comm][i];
+        if (cat && cat != -1 && cat != comment.Category) continue; 
+        var category = comment.Category == null ? meta.Labels.labels['NA'].Label : categories[comment.Category].Label;
+        var commentHtml = `
+        <div>
+            <div>${comment.Comment}</div>
+            <span class="commentCategory">${category}</span>
+        </div>
+        `;
+        rowdata = [
+            {Label: commentHtml, ClassName: 'text-cell'}
+        ];
+        table_data.push(rowdata);
     }
-    return theme_codes_map[s];
+
+    var columnSettings = `
+        'order': [],
+    `;
+
+    var buttonSettings = `
+        [
+            {
+                extend: 'copyHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0 ] }
+            }, 
+            {
+                extend: 'excelHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0 ] }
+            }, 
+            {
+                extend: 'csvHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0 ] }
+            }, 
+            {
+                extend: 'pdfHtml5',
+				title: 'Data export',
+                exportOptions: { columns: [ 0 ] }
+            }, 
+        ],
+    `;
+
+    var dt = Component_DataTable(
+        "items-table-commentsverbatims",
+        "items-table",
+        headers,
+        table_data,
+        true,
+        true,
+        columnSettings,
+        true,
+        buttonSettings
+    );
+
+    return dt;
+
 }

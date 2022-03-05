@@ -72,19 +72,19 @@ function NonStandardQuestions_ItemsTable() {
 
     var table_data = [];
     var rowdata = [];
-
+/*
     var max = 1;
     for (var j in questionData) {
         if (questionData[j].Pct>max) max = questionData[j].Pct;
     }
     max = max/100;
-
+*/
     for (var j in question.Answers) {
         rowdata = [
             {Label: question.Answers[j].Label, ClassName: 'text-cell'},
             {Label: questionData[j].N, ClassName: 'numeric-cell'},
             {Label: questionData[j].Pct, ClassName: 'numeric-cell distribution-cell'},
-            {Label: Component_DistributionChartBar(questionData[j].Pct/max), datasort: questionData[j].Pct,  ClassName: 'text-cell'}
+            {Label: Component_DistributionChartBar(questionData[j].Pct), datasort: questionData[j].Pct,  ClassName: 'text-cell'}
         ];
         table_data.push(rowdata);
     }

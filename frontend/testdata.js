@@ -54,6 +54,9 @@ function TestData_getBreakByData(breakByVariable) {
 				Neu: 10-rnd,
 				Unfav: 2
 			},
+			get NPS() {
+				return this.Distribution.Fav - this.Distribution.Unfav
+			},
 			vsTotal: {
 				Fav: String(5 - rnd) + ' *',
 				Neu: String(10 - rnd),
@@ -98,7 +101,9 @@ function TestData_getComparatorsData(comparators) {
 				Neu: rnd,
 				UnFav: rnd-5
 			},
-			NPS: rnd
+			get NPS() {
+				return this.Distribution.Fav - this.Distribution.Unfav
+			},
 		}
 		comparatorsData[comparators[i]] = tmpComparatorsData;
 	}
@@ -133,19 +138,22 @@ function TestData_fillComparatorsData() {
 	}
 }
 
-function TestData_fillCommentsData() {
-	for (var i in data.Dimensions) {
-		var testComments = {};
-		for (var j in meta.Labels.CommentQuestions) {
+function TestData_fillCommentCategoriesData() {
+	var catData = {};
+	for (var i in meta.Labels.CommentCategories) {
+		var catList = meta.Labels.CommentCategories[i];
+		var catListData = {};
+		for (var j in catList) {
 			var rnd = Math.floor(Math.random() * 30);
 			var commData = {
 				N: rnd+100,
 				Pct: rnd
 			};
-			testComments[j] = commData;
+			catListData[j] = commData;
 		}
-		data.Dimensions[i].Comments = testComments;
+		catData[i] = catListData;
 	}
+	return catData;
 }
 
 // Meta: Menu, Page Text Labels, etc
@@ -468,6 +476,40 @@ if ( meta == null ) {
 				"Comm1": { "Label": "The MAIN thing that makes the Company a great place to work" },
 				"Comm2": { "Label": "The MAIN thing that would make us more productive" }
 			},
+			CommentCategories: {
+				"Comm1Theme": {
+					"1": { "Label": "Employee Engagement" },
+					"2": { "Label": "Employee Enablement" },
+					"3": { "Label": "Resources" },
+					"4": { "Label": "Authority & Empowerment" },
+					"5": { "Label": "Respect & Recognition" },
+					"6": { "Label": "Collaboration" },
+					"7": { "Label": "Quality & Customer Focus" },
+					"8": { "Label": "Performance Management" },
+					"9": { "Label": "Development Opportunities", },
+					"10": { "Label": "Confidence in Leaders" },
+					"11": { "Label": "Training" },
+					"12": { "Label": "Clear & Promising Direction" },
+					"13": { "Label": "Work, Structure, & Process" },
+					"14": { "Label": "Pay & Benefits" },
+				},
+				"Comm2Theme": {
+					"1": { "Label": "Employee Engagement" },
+					"2": { "Label": "Employee Enablement" },
+					"3": { "Label": "Resources" },
+					"4": { "Label": "Authority & Empowerment" },
+					"5": { "Label": "Respect & Recognition" },
+					"6": { "Label": "Collaboration" },
+					"7": { "Label": "Quality & Customer Focus" },
+					"8": { "Label": "Performance Management" },
+					"9": { "Label": "Development Opportunities", },
+					"10": { "Label": "Confidence in Leaders" },
+					"11": { "Label": "Training" },
+					"12": { "Label": "Clear & Promising Direction" },
+					"13": { "Label": "Work, Structure, & Process" },
+					"14": { "Label": "Pay & Benefits" },
+				},
+			},
 			BreakBy: {
 				"Hierarchy": {
 					"Label": "One Level Down",
@@ -594,7 +636,8 @@ if ( meta == null ) {
 				"DIMENSION": { "Label": "Dimension:" },
 				"norm": { "Label": "(Norm)" },
 				"QNo": { "Label": "Q #" },
-				"SelectTheme": { "Label": "Select Theme:" },
+				"SelectCategory": { "Label": "Select Category:" },
+				"Comments": { "Label": "Comments" },
 				"show": { "Label": "Show:" },
 				"metric": { "Label": "Metric:" },
 				"INTERNAL": { "Label": "INTERNAL:" },
@@ -618,7 +661,9 @@ if ( meta == null ) {
 				"SelectDemographic" : { "Label": "Select Demographic:" },
 				"BasisForComparison" : { "Label": "Basis for comparison:" },
 				"PositiveDifferencesTo" : { "Label": "Positive differences to" },
-				"NegativeDifferencesTo" : { "Label": "Negative differences to" }
+				"NegativeDifferencesTo" : { "Label": "Negative differences to" },
+				"Search" : { "Label": "Search:" },
+				"NA" : { "Label": "N/A" }
 			},
 			drop_downs: {
 				"Passives": { "Label": "Passives" },
@@ -2095,20 +2140,60 @@ if ( data.Report == null ) {
 if ( data.Comments == null ) {
 	var verbatims = {
 		"Comm1": [
-			{"Comm":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ", "Comm1Theme":"Pay & Benefits"},
-			{"Comm":"Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.","Comm1Theme":null},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Clear & Promising Direction","Comm1Theme":"Clear & Promising Direction"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Resources","Comm1Theme":"Resources"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Collaboration","Comm1Theme":"Collaboration"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Authority & Empowerment","Comm1Theme":"Authority & Empowerment"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Performance Management","Comm1Theme":"Performance Management"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Confidence in Leaders","Comm1Theme":"Confidence in Leaders"},{"Comm1":"Comment about Respect & Recognition","Comm1Theme":"Respect & Recognition"},{"Comm1":"Comment about Employee Engagement","Comm1Theme":"Employee Engagement"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},{"Comm1":"Comment about Training","Comm1Theme":"Training"},{"Comm1":"Comment about Development Opportunities","Comm1Theme":"Development Opportunities"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Pay & Benefits","Comm1Theme":"Pay & Benefits"},{"Comm1":"Comment about Quality & Customer Focus","Comm1Theme":"Quality & Customer Focus"},{"Comm1":"Comment about Employee Enablement","Comm1Theme":"Employee Enablement"},
-			{"Comm":"Comment about Collaboration","Comm1Theme":"Collaboration"},
-			{"Comm":"Comment about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"},
-			{"Comm":"Comment about Training","Comm1Theme":"Training"}
+			{"Comment":"Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ", "Category":"14"},
+			{"Comment":"Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.","Category":null},
+			{"Comment":"Comment about Resources","Category":"3"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Confidence in Leaders","Category":"10"},
+			{"Comment":"Comment about Clear & Promising Direction","Category":"12"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Employee Enablement","Category":"2"},
+			{"Comment":"Comment about Authority & Empowerment","Category":"4"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Quality & Customer Focus","Category":"7"},
+			{"Comment":"Comment about Resources","Category":"3"},
+			{"Comment":"Comment about Confidence in Leaders","Category":"10"},
+			{"Comment":"Comment about Respect & Recognition","Category":"5"},
+			{"Comment":"Comment about Clear & Promising Direction","Category":"12"},
+			{"Comment":"Comment about Training","Category":"11"},
+			{"Comment":"Comment about Resources","Category":"3"},
+			{"Comment":"Comment about Pay & Benefits","Category":"14"},
+			{"Comment":"Comment about Quality & Customer Focus","Category":"7"},
+			{"Comment":"Comment about Employee Enablement","Category":"2"},
+			{"Comment":"Comment about Employee Engagement","Category":"1"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Respect & Recognition","Category":"5"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Employee Engagement","Category":"1"},
+			{"Comment":"Comment about Pay & Benefits","Category":"14"},
+			{"Comment":"Comment about Authority & Empowerment","Category":"4"},
+			{"Comment":"Comment about Confidence in Leaders","Category":"10"},
+			{"Comment":"Comment about Employee Enablement","Category":"2"},
+			{"Comment":"Comment about Confidence in Leaders","Category":"10"},
+			{"Comment":"Comment about Respect & Recognition","Category":"5"},
+			{"Comment":"Comment about Employee Engagement","Category":"1"},
+			{"Comment":"Comment about Employee Enablement","Category":"2"},
+			{"Comment":"Comment about Training","Category":"11"},
+			{"Comment":"Comment about Quality & Customer Focus","Category":"7"},
+			{"Comment":"Comment about Pay & Benefits","Category":"14"},
+			{"Comment":"Comment about Quality & Customer Focus","Category":"7"},
+			{"Comment":"Comment about Employee Enablement","Category":"2"},
+			{"Comment":"Comment about Collaboration","Category":"6"},
+			{"Comment":"Comment about Work, Structure, & Process","Category":"13"},
+			{"Comment":"Comment about Training","Category":"11"}
 		],
 		"Comm2": [
-			{"Comm":"Comment2 about Pay & Benefits", "Comm1Theme":"Pay & Benefits"},
-			{"Comm":"Comment2 about Collaboration","Comm1Theme":"Collaboration"},
-			{"Comm":"Comment2 about Work, Structure, & Process","Comm1Theme":"Work, Structure, & Process"}
+			{"Comment":"Comment2 about Pay & Benefits", "Category":"14"},
+			{"Comment":"Comment2 about Collaboration","Category":"6"},
+			{"Comment":"Comment2 about Work, Structure, & Process","Category":"13"}
 		]
 	};
 
 	data.Comments = verbatims;
+}
+
+if ( data.CommentCategories == null ) {
+	data.CommentCategories = TestData_fillCommentCategoriesData();
 }
 
 // Strengths
@@ -3205,7 +3290,11 @@ if (data.NonStandardQuestions == null) {
 
 
 var config = {
-	comparators: ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers']
+	comparators: ['Internal.trend2020', 'External.IndustryBenchmark', 'External.HighPerformers'],
+	comments: {
+		"Comm1": {CategoryList: "Comm1Theme"},
+		"Comm2": {CategoryList: "Comm2Theme"},
+	},
 };
 
 if(!('comparators' in state.Parameters)) {
@@ -3214,4 +3303,3 @@ if(!('comparators' in state.Parameters)) {
 
 TestData_fillBreakByData();
 TestData_fillComparatorsData();
-TestData_fillCommentsData();

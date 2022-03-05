@@ -9,25 +9,25 @@ function CommentsCategories_Page() {
         RightPane: `
 		<div id="commentscategories-table-container"></div>
 		`,
-
+        
         ClassName: 'commentscategories-container',
         Style: null,
-        ShowFilterSummary: true
+		ShowFilterSummary: true        
     };
 }
 
 function CommentsCategories_Render() {
-
+   
     var o = [];
 
     var Comment_dropdown = Component_Dropdown(
-        'comment',
-        meta.Labels.labels["SelectQuestion"].Label,
-        'commentscategories-comment-highlighter-dropdown',
-        '',
-        ParamValues_Comment()
-    );
-    o.push(`
+		'comment',
+		meta.Labels.labels["SelectQuestion"].Label,
+		'commentscategories-comment-highlighter-dropdown',
+		'',
+		ParamValues_Comment()
+	);
+	o.push(`
         ${Comment_dropdown}
     `);
 
@@ -35,7 +35,7 @@ function CommentsCategories_Render() {
 
     var dt = CommentsCategories_ItemsTable();
     o.push(dt.Html);
-
+   
     $("#commentscategories-table-container").html(o.join(''));
     if (dt.ScriptCode != null) eval(dt.ScriptCode);
 
@@ -60,7 +60,7 @@ function CommentsCategories_ItemsTable() {
     // Return Value: {Html: <string>, [ScriptCode: <string>]}
 
     var comm = State_Get('comment');
-
+     
     var headers = [
         [
             { Label: "", ClassName: 'text-cell' },
@@ -72,19 +72,21 @@ function CommentsCategories_ItemsTable() {
 
     var table_data = [];
     var rowdata = [];
-
+/*
     var max = 1;
     for (var j in data.Dimensions) {
         if (data.Dimensions[j].Comments[comm].Pct>max) max = data.Dimensions[j].Comments[comm].Pct;
     }
     max = max/100;
-
-    for (var j in data.Dimensions) {
+*/
+    var CategoryList = config.comments[comm].CategoryList;
+    var categories = meta.Labels.CommentCategories[CategoryList];
+    for (var i in categories) {
         rowdata = [
-            {Label: meta.Labels.Dimensions[j].Label, ClassName: 'text-cell'},
-            {Label: data.Dimensions[j].Comments[comm].N, ClassName: 'numeric-cell'},
-            {Label: data.Dimensions[j].Comments[comm].Pct, ClassName: 'numeric-cell distribution-cell'},
-            {Label: Component_DistributionChartBar(data.Dimensions[j].Comments[comm].Pct/max), datasort: data.Dimensions[j].Comments[comm].Pct,  ClassName: 'text-cell'}
+            {Label: categories[i].Label, ClassName: 'text-cell'},
+            {Label: data.CommentCategories[CategoryList][i].N, ClassName: 'numeric-cell'},
+            {Label: data.CommentCategories[CategoryList][i].Pct, ClassName: 'numeric-cell distribution-cell'},
+            {Label: Component_DistributionChartBar(data.CommentCategories[CategoryList][i].Pct), datasort: data.CommentCategories[CategoryList][i].Pct,  ClassName: 'text-cell'}
         ];
         table_data.push(rowdata);
     }

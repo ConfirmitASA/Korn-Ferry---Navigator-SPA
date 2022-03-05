@@ -89,11 +89,13 @@ function ParamValues_Comment() {
 	return param_values;
 }
 
-function ParamValues_Theme() {
+function ParamValues_CommentCategory() {
+	var comm = State_Get('comment');
+	var CategoryList = config.comments[comm].CategoryList;
 	var param_values = [];
 
-	for (var i in meta.Labels.Dimensions) {
-		param_values.push ( {Code: i, Label: meta.Labels.Dimensions[i].Label} );
+	for (var i in meta.Labels.CommentCategories[CategoryList]) {
+		param_values.push ( {Code: i, Label: meta.Labels.CommentCategories[CategoryList][i].Label} );
 	}
 
 	return param_values;

@@ -117,7 +117,7 @@ function ItemDetails_ItemsTable() {
 	var rowdata = [];
 	var item = {};
 
-	if (itemId) item = data.ItemsNew[itemId];
+	if (itemId) item = data.Items[itemId];
 	else if (dimensionId) item = data.Dimensions[dimensionId];
 
 	if ('N' in item) {

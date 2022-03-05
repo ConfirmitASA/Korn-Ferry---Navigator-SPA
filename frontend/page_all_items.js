@@ -91,8 +91,8 @@ function AllItems_ItemsTable() {
 	var rowdata = [];
 
 	if (itemgroup=='AllQuestions') {
-		for (var j in data.ItemsNew) {
-			var item = data.ItemsNew[j];
+		for (var j in data.Items) {
+			var item = data.Items[j];
 			rowdata = [
 				{Label: '', ClassName: 'id-cell'},
 				{Label: j, ClassName: 'id-cell'},
@@ -138,7 +138,7 @@ function AllItems_ItemsTable() {
 			if (itemgroup=='AllQuestionsOrdByDimension' || dimensionId==i) {
 				var dimItems = data.Dimensions[i].Items;
 				for (var j = 0; j < dimItems.length; j++) {
-					var item = data.ItemsNew[dimItems[j]];
+					var item = data.Items[dimItems[j]];
 					rowdata = [
 						{Label: qId, ClassName: 'id-cell'},
 						{Label: dimItems[j], ClassName: 'id-cell'},

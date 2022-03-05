@@ -50,6 +50,9 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'info': false,
 			${columnSettings}			
 			dom: 'Bfrtip',
+			'language': {
+				'search': '${meta.Labels.labels["Search"].Label}'
+			},
 			buttons: ${showButtons ? buttonSettings : "[]" }
 		});
 		tbl.css('float', 'left');
@@ -71,5 +74,7 @@ function TD(cell) {
 
 function TH(cell) {
 	if (cell.ClassName == null) cell.ClassName = "items-table-td";
+	if (cell.colspan == null) cell.colspan = 1;
+	if (cell.rowspan == null) cell.rowspan = 1;
 	return '<th class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + '>' + cell.Label + '</th>';
 }
