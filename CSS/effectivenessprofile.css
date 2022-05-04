@@ -1,0 +1,254 @@
+.effectiveness-profile-card-wrapper {
+	filter: drop-shadow(0 1rem 2rem #d0d0d0);
+}
+.effectiveness-profile-flip-card {
+	background-color: transparent;
+	min-height: 550px;
+	width: 740px;
+	/*width: 800px;*/
+	perspective: 1000px;
+	margin: 0px 40px 0px 0px;
+	color: #696969;
+}
+.effectiveness-profile-flip-card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 0.8s;
+	transform-style: flat;
+}
+
+.effectiveness-profile-flip-card-front {
+	border: 1px solid #d0d0d0;
+}
+.effectiveness-profile-flip-card-back {
+	transform: rotateY(180deg);
+	border: 1px solid #d0d0d0;
+}
+.effectiveness-profile-flip-card-front, .effectiveness-profile-flip-card-back {
+	background-color: #fff;
+	position: absolute;
+	width: 100%;
+	min-height: 550px;
+	/*-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;*/
+	/*cursor: pointer;*/
+}
+.effectiveness-profile-flipicon-front, .effectiveness-profile-flipicon-back {
+	background: url("https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png") no-repeat;
+	background-size: 64px 50px;
+	cursor: pointer;
+	width: 64px;
+	height: 50px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	opacity: 0.2;
+}
+.effectiveness-profile-flipicon-front:hover, .effectiveness-profile-flipicon-back:hover {
+	width: 64px;
+	opacity: 1
+}
+.effectiveness-profile-flip-card-inner-click {
+	transform: rotateY(180deg);
+}
+.effectiveness-profile-flip-card-inner__hover {
+	transform: rotateY(10deg);
+	transition: transform 0.2s;
+}
+.effectiveness-profile-flip-card-inner-back__hover {
+	transform: rotateY(190deg);
+}
+.effectiveness-profile-flip-card-back--header {
+	font-size: 20px;
+	padding: 50px;
+	font-weight: bold;
+}
+.flip-card-inner {
+	background-color: #FFF;
+}
+
+#quadrant-callout {
+	position: fixed;
+	width: 200px;
+	min-width: 200px;
+	display: none;
+	padding: 15px;
+	border: 3px solid #e0e0e0;
+	border-radius: 15px;
+	background-color: #f9f9f9;
+	font-size: 12px;
+}
+
+/*.quadrant {
+	transform: scale(0.8);
+	transform-origin: top left;
+	position: absolute;
+	padding: 50px;
+	padding-left: 125px;
+	padding-top: 70px;
+	width: 100%;
+}*/
+
+.quadrant {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.quadrant_table-container {
+	/*height: 500px;*/
+}
+.quadrant_table {
+	position: relative;
+}
+.tile {
+	opacity: 1;
+	color: white;
+	font-size: 24px;
+	width: 250px;
+	min-width: 250px;
+	height: 150px;
+	background-color: #f0f0f0;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: middle;
+}
+.topleft {
+	background-color: #00B7F1;
+}
+.topright {
+	background-color: #82C341;
+}
+.bottomleft {
+	background-color: #F03223;
+}
+.bottomright {
+	background-color: #F99B1E;
+}
+.quadrantscore {
+	font-size: 46px;
+	margin-top: 10px;
+}
+.quadranticon {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 650px;
+	height: 60px;
+	/*cursor: pointer;
+	margin-top: 80px;
+	margin-left: 275px;*/
+}
+.arrow {
+	position: absolute;
+	width: 100%;
+	animation: arrow 700ms linear infinite;
+}
+.arrow::after,
+.arrow::before {
+	content: '';
+	position: absolute;
+	width: 37px;
+	right: -8px;
+}
+.arrow,
+.arrow::after,
+.arrow::before {
+	height: 5px;
+	background-color: #c0c0c0;
+}
+.arrow::after {
+	top: -12px;
+	transform: rotate(45deg);
+}
+.arrow::before {
+	top: 12px;
+	transform: rotate(-45deg);
+}
+.axislabel {
+	text-align: center;
+	font-size: 26px;
+}
+.axislabely {
+	position: relative;
+	top: -40px;
+}
+.axislabelx {
+	position: relative;
+	top: 10px;
+}
+.icon-horizontal,
+.icon-vertical {
+	opacity: 1;
+	transform: scale(0.9);
+	transform-origin: top left;
+}
+.icon-horizontal {
+	top: 453px;
+	left: 86px;
+	width: 639px;
+}
+.icon-vertical {
+	transform: rotate(-90deg);
+	left: -314px;
+	top: 453px;
+	width: 377px;
+	margin-left: 400px;
+}
+
+.quadrant__complex {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.quadrant_table-container__complex {
+	/*height: 500px;*/
+}
+.quadrant_table__complex {
+	position: relative;
+}
+.tile__complex {
+	opacity: 1;
+	width: 300px;
+	min-width: 300px;
+	height: 220px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 5px;
+}
+.tile_content__complex {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #f0f0f0;
+}
+.tile_header__complex {
+	font-size: 1.3rem;
+	color: white;
+}
+.highcharts-axis-labels span{
+	/*word-break:break-all!important;*/
+	width:100px!important;
+	white-space:normal!important;
+}
+#topleft-chart,
+#topright-chart,
+#bottomleft-chart,
+#bottomright-chart {
+	background-color: #fff;
+}
+.backface-visible {
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+}
+.backface-hidden {
+	-webkit-backface-visibility: hidden !important;
+	backface-visibility: hidden !important;
+}
