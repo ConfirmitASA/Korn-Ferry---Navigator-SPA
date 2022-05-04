@@ -453,17 +453,22 @@ function KeyMetrics_Render() {
         event.preventDefault();
 
         var button_id = $(this).attr('id').split('-');
-        var cardActionObj = {
-            page: 'KeyMetrics',
-            cardDimensionId: button_id[0],
-            keyDriverDimensionId: button_id[1],
-            keyDriverItemId: button_id[2],
-        };
 
-        State_Set('actionInfo', cardActionObj);
+        if($(this).hasClass('add-action')) {
+            Utils_SetActionButtonToREMOVE(this, meta.Labels.Selected.Label);
 
-        //$('#submenuitem-GroupActions-ActionsCreatePlan').click();menuitem-GroupActions
-        $('#menuitem-GroupActions').click();
+            let newFocusArea = {
+                itemId: button_id[2],
+                isDimension: false
+            }
+
+            FocusAreas_AddItem(newFocusArea);
+        } else {
+            if ($(this).hasClass('remove-action')) {
+                Utils_SetActionButtonToADD(this, meta.Buttons.TakeAction.Label);
+                FocusAreas_RemoveItem(button_id[2]);
+            }
+        }
     });
 }
 
@@ -560,6 +565,13 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             }
 
             var item_dimension_id = Main_GetDimensionIdByItemId ( item_id );
+
+            //check if item has been added to Focus Areas
+            //set action button as 'selected' if so
+            let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
+            let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
+            let actionButtonText = isItemAddedAsFocusArea ? meta.Labels.Selected.Label : meta.Buttons.TakeAction.Label;
+
             tmp.push(`
 				<div class=itemrow>
 					<div style="font-size: 10px; padding-top: 10px; padding-bottom: 8px; color: #666; text-transform: uppercase">
@@ -572,8 +584,8 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
 						${scoreValue}
 					</div>
 					<div style="width: 100%; text-align: left">
-						<div class="action-button" id="${dimension_id}-${item_dimension_id}-${item_id}-button">
-							${meta.Buttons.TakeAction.Label}
+						<div class="action-button ${actionButtonClass}" id="${dimension_id}-${item_dimension_id}-${item_id}-button">
+							${actionButtonText}
 						</div>
 					</div>
 				</div>
