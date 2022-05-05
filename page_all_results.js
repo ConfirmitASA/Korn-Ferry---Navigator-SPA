@@ -38,6 +38,8 @@ function AllResults_Render() {
 	$("#allresults-table-container").html( o.join('') );
 	if ( dt.ScriptCode != null ) eval ( dt.ScriptCode );
 
+	AllResults_handleTableActionIconClick();
+
 	$('#allresults-itemgroups-highlighter-dropdown').change( function() {
 
 		// Save Selection
@@ -46,14 +48,6 @@ function AllResults_Render() {
 
 		// The data should already be in the page, so let's redraw the page
 		Main_RefreshCurrentPage();
-
-		/*
-		var query = {
-			page: 'AllResults',
-			parameter: 'itemgroup'
-		};
-		Main_SubmitQuery ( query );
-		*/
 	});
 
 }
@@ -123,6 +117,9 @@ function AllResults_ItemsTable() {
 		headers.push(subheaders);
 	}
 
+	//add action button column
+	headers[0].push( {Label: meta.Labels.Action.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
+
 	var table_data = [];
 	var rowdata = [];
 
@@ -176,6 +173,15 @@ function AllResults_ItemsTable() {
 				}
 				rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
 			}
+
+			//check if item has been added to Focus Areas
+			//set action icon to remove icon if so
+			let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(qid);
+			let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
+
+			let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "question-${qid}-button" ></div></div>`;
+			rowdata.push({Label: actionButton, ClassName: 'numeric-cell'});
+
 			table_data.push(rowdata);
 		}
 	}
@@ -242,6 +248,14 @@ function AllResults_ItemsTable() {
 					rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
 				}
 
+				//check if item has been added to Focus Areas
+				//set action icon to remove icon if so
+				let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(i);
+				let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
+
+				let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "dimension-${i}-button" ></div></div>`;
+				rowdata.push({Label: actionButton, ClassName: 'numeric-cell'});
+
 				table_data.push(rowdata);
 			}
 			if (itemgroup=='AllQuestionsOrdByDimension' || dimensionId==i) {
@@ -298,6 +312,14 @@ function AllResults_ItemsTable() {
 							rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
 						}
 
+						//check if item has been added to Focus Areas
+						//set action icon to remove icon if so
+						let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
+						let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
+
+						let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "question-${item_id}-button" ></div></div>`;
+						rowdata.push({Label: actionButton, ClassName: 'numeric-cell'});
+
 						table_data.push(rowdata);
 					}
 				}
@@ -312,7 +334,7 @@ function AllResults_ItemsTable() {
 	if (NofComparators>3) hideColumns.push(barchartCol);
 
 	var numsortColumns = [];
-	var LastColIndex = 6 + NofComparators + (is_all_dimensions_view ? 0 : 1);
+	var LastColIndex = 6 + NofComparators + (is_all_dimensions_view ? 0 : 1) + 1; //+1 for action column
 	for (var k = 3; k <= LastColIndex ; k++) numsortColumns.push(k);
 
 	var columnSettings = `
@@ -346,4 +368,32 @@ function AllResults_ItemsTable() {
 	);
 
 	return dt;
+}
+
+function AllResults_handleTableActionIconClick() {
+
+	$('#allresults-table-container').find('.action-icon').click(function (event) {
+
+		event.stopPropagation();
+		event.preventDefault();
+
+		let button_id = $(this).attr('id').split('-');
+
+		if($(this).hasClass('add-action')) {
+			Utils_SetActionIconToREMOVE(this);
+
+			let newFocusArea = {
+				itemId: button_id[1],
+				isDimension: button_id[0] === 'dimension'
+			}
+
+			FocusAreas_AddItem(newFocusArea);
+		} else {
+			if ($(this).hasClass('remove-action')) {
+				Utils_SetActionIconToADD(this);
+				FocusAreas_RemoveItem(button_id[1]);
+			}
+		}
+	});
+
 }

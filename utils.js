@@ -142,3 +142,17 @@ function Utils_SetActionButtonToREMOVE(actionButtonElement, buttonText) {
 	$(actionButtonElement).addClass('action-button__selected');
 	$(actionButtonElement).html(buttonText);
 }
+
+function Utils_SetActionIconToADD(actionIconElement) {
+	$(actionIconElement).removeClass('remove-action');
+	$(actionIconElement).removeClass('table_remove-item-minus-circle');
+	$(actionIconElement).addClass('add-action');
+	$(actionIconElement).addClass('table_add-item-plus-circle__thin');
+}
+
+function Utils_SetActionIconToREMOVE(actionIconElement) {
+	$(actionIconElement).removeClass('add-action');
+	$(actionIconElement).removeClass('table_add-item-plus-circle__thin');
+	$(actionIconElement).addClass('remove-action');
+	$(actionIconElement).addClass('table_remove-item-minus-circle');
+}

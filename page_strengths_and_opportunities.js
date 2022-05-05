@@ -265,10 +265,7 @@ function StrengthsAndOpportunities_handleTableActionIconClick() {
         let button_id = $(this).attr('id').split('-');
 
         if($(this).hasClass('add-action')) {
-            $(this).removeClass('add-action');
-            $(this).removeClass('table_add-item-plus-circle__thin');
-            $(this).addClass('remove-action');
-            $(this).addClass('table_remove-item-minus-circle');
+            Utils_SetActionIconToREMOVE(this);
 
             let newFocusArea = {
                 itemId: button_id[1],
@@ -278,11 +275,7 @@ function StrengthsAndOpportunities_handleTableActionIconClick() {
             FocusAreas_AddItem(newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
-                $(this).removeClass('remove-action');
-                $(this).removeClass('table_remove-item-minus-circle');
-                $(this).addClass('add-action');
-                $(this).addClass('table_add-item-plus-circle__thin');
-
+                Utils_SetActionIconToADD(this);
                 FocusAreas_RemoveItem(button_id[1]);
             }
         }
