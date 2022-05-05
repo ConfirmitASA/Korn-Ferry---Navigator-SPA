@@ -769,7 +769,16 @@ function myFunction() {
 		var item = meta.Menu[i];
 
 		if (meta.VisiblePages.includes(item.Code)) {
-			o.push('<div class="menuitem" id="menuitem-' + item.Code + '">' + item.Label + '</div>');
+
+			if(item.Code === 'GroupActions') {
+				//add a span for focus areas counter
+				let addedFocusAreas = FocusAreas_GetFocusAreas();
+				let focusAreasCountSpan = `<span id="focusAreasCounter">${addedFocusAreas.length > 0 ? addedFocusAreas.length : ''}</span>`;
+
+				o.push(`<div class="menuitem" id="menuitem-${item.Code}">${item.Label} ${focusAreasCountSpan}</div>`);
+			} else {
+				o.push('<div class="menuitem" id="menuitem-' + item.Code + '">' + item.Label + '</div>');
+			}
 
 			if (item.Submenu != null) {
 				var o2 = [];

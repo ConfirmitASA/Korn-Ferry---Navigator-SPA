@@ -469,6 +469,8 @@ function KeyMetrics_Render() {
                 FocusAreas_RemoveItem(button_id[2]);
             }
         }
+
+        FocusAreas_UpdateFocusAreasCounterSpan();
     });
 }
 

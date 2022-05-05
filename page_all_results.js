@@ -394,6 +394,8 @@ function AllResults_handleTableActionIconClick() {
 				FocusAreas_RemoveItem(button_id[1]);
 			}
 		}
+
+		FocusAreas_UpdateFocusAreasCounterSpan();
 	});
 
 }

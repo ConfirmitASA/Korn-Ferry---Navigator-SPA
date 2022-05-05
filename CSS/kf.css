@@ -1164,31 +1164,48 @@ table.dataTable thead th {
     background-color: #00adbb!important;
     border: 1px solid #00adbb!important;
 }
+#focusAreasCounter {
+    position: relative;
+    top: -13px;
+    left: 5px;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.focus-areas-counter-visible {
+    background-color: #00adbb;
+}
 
 @media print {
-    .menu,
-    .submenu {
-        display: none
-    }
+.menu,
+.submenu {
+    display: none
+}
 
-    .page-header,
-    .page-container {
-        padding-left: 0px;
-    }
+.page-header,
+.page-container {
+    padding-left: 0px;
+}
 
-    .panes-background {
-        background: linear-gradient(to right, #fff 0px, #FFF 330px, #f0f0f0 330px);
-    }
+.panes-background {
+    background: linear-gradient(to right, #fff 0px, #FFF 330px, #f0f0f0 330px);
+}
 
-    .right-pane-content {
-        padding: 0px 0px 0px 0px;
-        position: relative;
-        left: -60px;
-    }
+.right-pane-content {
+    padding: 0px 0px 0px 0px;
+    position: relative;
+    left: -60px;
+}
 
-    .left-pane {
-        top: -60px;
-    }
+.left-pane {
+    top: -60px;
+}
 
 
 }

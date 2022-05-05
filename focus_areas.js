@@ -36,3 +36,13 @@ function FocusAreas_RemoveItem(idToRemove) {
 function FocusAreas_GetFocusAreas() {
     return FocusAreas;
 }
+
+function FocusAreas_UpdateFocusAreasCounterSpan() {
+    if(FocusAreas.length > 0) {
+        $('#focusAreasCounter').html(FocusAreas.length);
+        $('#focusAreasCounter').addClass('focus-areas-counter-visible');
+    } else {
+        $('#focusAreasCounter').html('');
+        $('#focusAreasCounter').removeClass('focus-areas-counter-visible');
+    }
+}
