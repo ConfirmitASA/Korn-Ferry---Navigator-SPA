@@ -376,238 +376,316 @@ if (meta == null) {
 		},
 		Items: {
 			"RE01": {
-				"Label": "I have the resources I need to do my job effectively."
+				"Label": "I have the resources I need to do my job effectively.",
+				"RecommendedActions": []
 			},
 			"DM02": {
-				"Label": "I have enough authority to do my job well."
+				"Label": "I have enough authority to do my job well.",
+				"RecommendedActions": []
 			},
 			"RC01": {
-				"Label": "I receive recognition when I do a good job."
+				"Label": "I receive recognition when I do a good job.",
+				"RecommendedActions": []
 			},
 			"TW06": {
-				"Label": "My work group receives high quality support from other parts of the company we depend on."
+				"Label": "My work group receives high quality support from other parts of the company we depend on.",
+				"RecommendedActions": []
 			},
 			"QS01": {
-				"Label": "The company is customer focused (always seeking to understand and meet customer needs)."
+				"Label": "The company is customer focused (always seeking to understand and meet customer needs).",
+				"RecommendedActions": []
 			},
 			"PE09": {
-				"Label": "I receive clear and regular feedback on how well I do my work."
+				"Label": "I receive clear and regular feedback on how well I do my work.",
+				"RecommendedActions": []
 			},
 			"AV15": {
-				"Label": "I have opportunities to achieve my career goals at the company."
+				"Label": "I have opportunities to achieve my career goals at the company.",
+				"RecommendedActions": []
 			},
 			"LD04": {
-				"Label": "The company is effectively managed and well-run."
+				"Label": "The company is effectively managed and well-run.",
+				"RecommendedActions": []
 			},
 			"WS03": {
-				"Label": "There are enough people to do the work in my work group."
+				"Label": "There are enough people to do the work in my work group.",
+				"RecommendedActions": []
 			},
 			"TR09": {
-				"Label": "My job leaves adequate time to take advantage of job-related training opportunities."
+				"Label": "My job leaves adequate time to take advantage of job-related training opportunities.",
+				"RecommendedActions": []
 			},
 			"PE06": {
-				"Label": "The company expects a high level of performance from its employees."
+				"Label": "The company expects a high level of performance from its employees.",
+				"RecommendedActions": []
 			},
 			"SD04": {
-				"Label": "I believe that the company has the right strategic priorities and goals."
+				"Label": "I believe that the company has the right strategic priorities and goals.",
+				"RecommendedActions": []
 			},
 			"PE03": {
-				"Label": "I understand the results expected of me in my job."
+				"Label": "I understand the results expected of me in my job.",
+				"RecommendedActions": []
 			},
 			"OM12": {
-				"Label": "The company motivates me to do more than is required."
+				"Label": "The company motivates me to do more than is required.",
+				"RecommendedActions": []
 			},
 			"QS16": {
-				"Label": "The people in my work group are committed to delivering high quality products and services."
+				"Label": "The people in my work group are committed to delivering high quality products and services.",
+				"RecommendedActions": []
 			},
 			"LD09": {
-				"Label": "I have trust and confidence in the company's senior leadership team."
+				"Label": "I have trust and confidence in the company's senior leadership team.",
+				"RecommendedActions": []
 			},
 			"TR01": {
-				"Label": "The company provides training so that I can perform my present job well."
+				"Label": "The company provides training so that I can perform my present job well.",
+				"RecommendedActions": []
 			},
 			"VC04": {
-				"Label": "I have opportunities to have my ideas adopted and put into use."
+				"Label": "I have opportunities to have my ideas adopted and put into use.",
+				"RecommendedActions": []
 			},
 			"GP07": {
-				"Label": "I believe that the company will be successful over the next 2-3 years."
+				"Label": "I believe that the company will be successful over the next 2-3 years.",
+				"RecommendedActions": []
 			},
 			"ER01": {
-				"Label": "I am treated with respect as an individual."
+				"Label": "I am treated with respect as an individual.",
+				"RecommendedActions": []
 			},
 			"IV02": {
-				"Label": "The company is innovative in how work is done (using new technologies or creative approaches to continuously improve)."
+				"Label": "The company is innovative in how work is done (using new technologies or creative approaches to continuously improve).",
+				"RecommendedActions": []
 			},
 			"CP14": {
-				"Label": "There is a clear link between my performance and my compensation."
+				"Label": "There is a clear link between my performance and my compensation.",
+				"RecommendedActions": []
 			},
 			"GP12": {
-				"Label": "The company is open and honest in communications with employees."
+				"Label": "The company is open and honest in communications with employees.",
+				"RecommendedActions": []
 			},
 			"CP11": {
-				"Label": "I believe I am paid fairly for the work I do."
+				"Label": "I believe I am paid fairly for the work I do.",
+				"RecommendedActions": []
 			},
 			"WE01": {
-				"Label": "The work is well organized in my work group."
+				"Label": "The work is well organized in my work group.",
+				"RecommendedActions": []
 			},
 			"IV04": {
-				"Label": "I am encouraged to come up with new or better ways of doing things."
+				"Label": "I am encouraged to come up with new or better ways of doing things.",
+				"RecommendedActions": []
 			},
 			"WE12": {
-				"Label": "There are no significant barriers at work to doing my job well."
+				"Label": "There are no significant barriers at work to doing my job well.",
+				"RecommendedActions": []
 			},
 			"SP12": {
-				"Label": "My immediate manager supports me in my learning and development."
+				"Label": "My immediate manager supports me in my learning and development.",
+				"RecommendedActions": []
 			},
 			"AV09": {
-				"Label": "I have good opportunities for learning and development at the company."
+				"Label": "I have good opportunities for learning and development at the company.",
+				"RecommendedActions": []
 			},
 			"TW04": {
-				"Label": "There is good cooperation and teamwork within my work group."
+				"Label": "There is good cooperation and teamwork within my work group.",
+				"RecommendedActions": []
 			},
 			"CP12": {
-				"Label": "I believe my pay is fair considering the pay of people doing similar work in other companies."
+				"Label": "I believe my pay is fair considering the pay of people doing similar work in other companies.",
+				"RecommendedActions": []
 			},
 			"DC11": {
-				"Label": "I have the information I need to do my job well."
+				"Label": "I have the information I need to do my job well.",
+				"RecommendedActions": []
 			},
 			"BN01": {
-				"Label": "The company provides employee benefits that meet my needs."
+				"Label": "The company provides employee benefits that meet my needs.",
+				"RecommendedActions": []
 			},
 			"GP09": {
-				"Label": "There is effective sharing of ideas and resources across the company."
+				"Label": "There is effective sharing of ideas and resources across the company.",
+				"RecommendedActions": []
 			},
 			"QS03": {
-				"Label": "The company provides a high quality customer experience."
+				"Label": "The company provides a high quality customer experience.",
+				"RecommendedActions": []
 			},
 			"OM01": {
-				"Label": "I would recommend the company as a good place to work."
+				"Label": "I would recommend the company as a good place to work.",
+				"RecommendedActions": []
 			},
 			"TR04": {
-				"Label": "New employees receive the training they need to do their jobs well."
+				"Label": "New employees receive the training they need to do their jobs well.",
+				"RecommendedActions": []
 			},
 			"QS02": {
-				"Label": "The company provides high quality products and services."
+				"Label": "The company provides high quality products and services.",
+				"RecommendedActions": []
 			},
 			"JS05": {
-				"Label": "My job provides opportunities to do challenging and interesting work."
+				"Label": "My job provides opportunities to do challenging and interesting work.",
+				"RecommendedActions": []
 			},
 			"OM11": {
-				"Label": "I feel motivated to do more than is required of me."
+				"Label": "I feel motivated to do more than is required of me.",
+				"RecommendedActions": []
 			},
 			"SD05": {
-				"Label": "I understand how my job contributes to the company's strategic priorities and goals."
+				"Label": "I understand how my job contributes to the company's strategic priorities and goals.",
+				"RecommendedActions": []
 			},
 			"SD03": {
-				"Label": "I have a good understanding of the company's strategic priorities and goals."
+				"Label": "I have a good understanding of the company's strategic priorities and goals.",
+				"RecommendedActions": []
 			},
 			"OS02": {
-				"Label": "I feel proud to work for the company."
+				"Label": "I feel proud to work for the company.",
+				"RecommendedActions": []
 			},
 			"JS02": {
-				"Label": "My job makes good use of my skills and abilities."
+				"Label": "My job makes good use of my skills and abilities.",
+				"RecommendedActions": []
 			},
 			"ST01": {
-				"Label": "The company is effectively organized and structured."
+				"Label": "The company is effectively organized and structured.",
+				"RecommendedActions": []
 			},
 			"WL01": {
-				"Label": "The company supports me in achieving a reasonable balance between my work life and my personal life."
+				"Label": "The company supports me in achieving a reasonable balance between my work life and my personal life.",
+				"RecommendedActions": []
 			},
 			"GP10": {
-				"Label": "The company shows care and concern for its employees."
+				"Label": "The company shows care and concern for its employees.",
+				"RecommendedActions": []
 			},
 			"WE08": {
-				"Label": "Conditions in my job allow me to be about as productive as I can be."
+				"Label": "Conditions in my job allow me to be about as productive as I can be.",
+				"RecommendedActions": []
 			},
 			"DM04": {
-				"Label": "In the company, decisions are generally made in a timely manner."
+				"Label": "In the company, decisions are generally made in a timely manner.",
+				"RecommendedActions": []
 			},
 			"DM18": {
-				"Label": "In the company, decisions are generally made at the lowest level appropriate."
+				"Label": "In the company, decisions are generally made at the lowest level appropriate.",
+				"RecommendedActions": []
 			},
 			"SP45": {
-				"Label": "I have trust and confidence in my immediate manager."
+				"Label": "I have trust and confidence in my immediate manager.",
+				"RecommendedActions": []
 			},
 			"SV03": {
-				"Label": "The information from this survey will be used constructively by the company."
+				"Label": "The information from this survey will be used constructively by the company.",
+				"RecommendedActions": []
 			},
 			"SR05": {
-				"Label": "The company operates in an ethical manner."
+				"Label": "The company operates in an ethical manner.",
+				"RecommendedActions": []
 			},
 			"SR03": {
-				"Label": "The company is socially responsible."
+				"Label": "The company is socially responsible.",
+				"RecommendedActions": []
 			},
 			"TW02": {
-				"Label": "There is good cooperation between departments in the company."
+				"Label": "There is good cooperation between departments in the company.",
+				"RecommendedActions": []
 			},
 			"DC08": {
-				"Label": "There is good communication between departments in the company."
+				"Label": "There is good communication between departments in the company.",
+				"RecommendedActions": []
 			},
 			"GP03": {
-				"Label": "The company is responding effectively to changes in the business environment."
+				"Label": "The company is responding effectively to changes in the business environment.",
+				"RecommendedActions": []
 			},
 			"PE01": {
-				"Label": "I have a good understanding of my work group's goals and objectives."
+				"Label": "I have a good understanding of my work group's goals and objectives.",
+				"RecommendedActions": []
 			},
 			"AV01": {
-				"Label": "I have opportunities for advancement at the company."
+				"Label": "I have opportunities for advancement at the company.",
+				"RecommendedActions": []
 			},
 			"AV08": {
-				"Label": "I have a good idea of the possible career paths available to me."
+				"Label": "I have a good idea of the possible career paths available to me.",
+				"RecommendedActions": []
 			},
 			"BN04": {
-				"Label": "Employee benefits provided by the company are competitive with benefits offered by other companies in our industry."
+				"Label": "Employee benefits provided by the company are competitive with benefits offered by other companies in our industry.",
+				"RecommendedActions": []
 			},
 			"CP16": {
-				"Label": "I have a good understanding of compensation policies and practices that affect me."
+				"Label": "I have a good understanding of compensation policies and practices that affect me.",
+				"RecommendedActions": []
 			},
 			"PE10": {
-				"Label": "Poor performance is addressed effectively in the company."
+				"Label": "Poor performance is addressed effectively in the company.",
+				"RecommendedActions": []
 			},
 			"PE21": {
-				"Label": "The feedback I receive during the year helps me develop and improve."
+				"Label": "The feedback I receive during the year helps me develop and improve.",
+				"RecommendedActions": []
 			},
 			"OM04": {
-				"Label": "I would recommend the company's products or services to a friend."
+				"Label": "I would recommend the company's products or services to a friend.",
+				"RecommendedActions": []
 			},
 			"QS09": {
-				"Label": "We resolve customer problems quickly and effectively."
+				"Label": "We resolve customer problems quickly and effectively.",
+				"RecommendedActions": []
 			},
 			"SP04": {
-				"Label": "My immediate manager is accessible when needed."
+				"Label": "My immediate manager is accessible when needed.",
+				"RecommendedActions": []
 			},
 			"WK01": {
-				"Label": "Physical working conditions where I work are good."
+				"Label": "Physical working conditions where I work are good.",
+				"RecommendedActions": []
 			},
 			"DI03": {
-				"Label": "The company values and promotes employee diversity."
+				"Label": "The company values and promotes employee diversity.",
+				"RecommendedActions": []
 			},
 			"WK02": {
-				"Label": "My work area is safe."
+				"Label": "My work area is safe.",
+				"RecommendedActions": []
 			},
 			"SP47": {
-				"Label": "My immediate manager coaches me to help improve my performance."
+				"Label": "My immediate manager coaches me to help improve my performance.",
+				"RecommendedActions": []
 			},
 			"WS01": {
-				"Label": "The amount of work expected of me is reasonable."
+				"Label": "The amount of work expected of me is reasonable.",
+				"RecommendedActions": []
 			},
 			"DC09": {
-				"Label": "When changes are made where I work, communications are handled well."
+				"Label": "When changes are made where I work, communications are handled well.",
+				"RecommendedActions": []
 			},
 			"AV02": {
-				"Label": "There is a clear link between my performance and my opportunities for career advancement."
+				"Label": "There is a clear link between my performance and my opportunities for career advancement.",
+				"RecommendedActions": []
 			},
 			"DI04": {
-				"Label": "In my work environment, everyone is treated fairly regardless of personal background or characteristics."
+				"Label": "In my work environment, everyone is treated fairly regardless of personal background or characteristics.",
+				"RecommendedActions": []
 			},
 			"IV05": {
-				"Label": "Employees are encouraged to take reasonable risks (e.g., try new ideas, new ways of doing things)."
+				"Label": "Employees are encouraged to take reasonable risks (e.g., try new ideas, new ways of doing things).",
+				"RecommendedActions": []
 			},
 			"OM06": {
-				"Label": "Given your choice, how long would you plan to continue working for the company?"
+				"Label": "Given your choice, how long would you plan to continue working for the company?",
+				"RecommendedActions": []
 			},
 			"NSQ1": {
-				"Label": "How likely is it that you would recommend this company's products and services to family or friends?"
+				"Label": "How likely is it that you would recommend this company's products and services to family or friends?",
+				"RecommendedActions": []
 			}
 		},
 
@@ -615,84 +693,98 @@ if (meta == null) {
 			"DIM_ENG": {
 				Items: ['OM12','OM01','OM11','OS02','OM06'],
 				"Label": "Employee Engagement",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "What drives engagement in our organisation",
 				"KeyMetrics_MoreCardText": "<p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p><p>The Engagement score is calculated as an average of the favourable scores from questions shown below.</p>"
 			},
 			"DIM_ENA": {
 				Items: ['WE12','JS05','JS02','WE08'],
 				"Label": "Employee Enablement",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "What drives enablement in our organisation",
 				"KeyMetrics_MoreCardText": "<p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p><p>The Enablement score is calculated as an average of the favourable scores from questions shown below.</p>"
 			},
 			"DIM_N64": {
 				Items: ['RE01','WS03','DC11','SP04','WK01'],
 				"Label": "Resources",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Resources Drivers",
 				"KeyMetrics_MoreCardText": "Resources intro text"
 			},
 			"DIM_N50": {
 				Items: ['DM02','VC04','IV04','DM18'],
 				"Label": "Authority & Empowerment",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Authority & Empowerment Drivers",
 				"KeyMetrics_MoreCardText": "Authority & Empowerment intro text"
 			},
 			"DIM_N65": {
 				Items: ['RC01','ER01','WL01','GP10','DI03','WK02'],
 				"Label": "Respect & Recognition",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Respect & Recognition Drivers",
 				"KeyMetrics_MoreCardText": "Respect & Recognition intro text"
 			},
 			"DIM_N52": {
 				Items: ['TW06','TW04','GP09','TW02','DC08'],
 				"Label": "Collaboration",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Collaboration Drivers",
 				"KeyMetrics_MoreCardText": "Collaboration intro text"
 			},
 			"DIM_N63": {
 				Items: ['QS01','QS16','QS03','QS02','OM04','QS09'],
 				"Label": "Quality & Customer Focus",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Quality & Customer Focus Drivers",
 				"KeyMetrics_MoreCardText": "Quality & Customer Focus intro text"
 			},
 			"DIM_N61": {
 				Items: ['PE09','PE06','PE03','CP14','PE10','PE21'],
 				"Label": "Performance Management",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Performance Management Drivers",
 				"KeyMetrics_MoreCardText": "Performance Management intro text"
 			},
 			"DIM_N54": {
 				Items: ['AV15','SP12','AV09','AV01','AV08'],
 				"Label": "Development Opportunities",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Development Opportunities Drivers",
 				"KeyMetrics_MoreCardText": "Development Opportunities intro text"
 			},
 			"DIM_N53": {
 				Items: ['LD04','LD09','GP12','SP45','SV03','SR05','SR03'],
 				"Label": "Confidence in Leaders",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Confidence in Leaders Drivers",
 				"KeyMetrics_MoreCardText": "Confidence in Leaders intro text"
 			},
 			"DIM_N66": {
 				Items: ['TR09','TR01','TR04','SP47'],
 				"Label": "Training",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Training Drivers",
 				"KeyMetrics_MoreCardText": "Training intro text"
 			},
 			"DIM_N51": {
 				Items: ['SD04','GP07','SD05','SD03','GP03','PE01'],
 				"Label": "Clear & Promising Direction",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Clear & Promising Direction",
 				"KeyMetrics_MoreCardText": "Clear & Promising Direction intro text"
 			},
 			"DIM_N67": {
 				Items: ['IV02','WE01','ST01','DM04','WS01','DC09'],
 				"Label": "Work, Structure, & Process",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Work, Structure, & Process Drivers",
 				"KeyMetrics_MoreCardText": "Work, Structure, & Process intro text"
 			},
 			"DIM_N60": {
 				Items: ['CP11','CP12','BN01','BN04','CP16'],
 				"Label": "Pay & Benefits",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Pay & Benefits Drivers",
 				"KeyMetrics_MoreCardText": "Pay & Benefits intro text"
 			},
@@ -710,6 +802,7 @@ if (meta == null) {
 			"DIM_NPS": {
 				Items: ['NSQ1'],
 				"Label": "Employee Net Promoter Score (ENPS)",
+				"RecommendedActions": [],
 				"KeyMetric_BackCardText": "Employee Net Promoter Score (ENPS) Drivers",
 				"KeyMetrics_MoreCardText": "Employee Net Promoter Score (ENPS) intro text"
 			},
@@ -898,6 +991,10 @@ if (meta == null) {
 			"ImpactOnEnablement": { "Label": "Impact on Enablement" },
 			"Selected": { "Label": "Selected" },
 			"Add": { "Label": "add" },
+			"NoRecommendationsAvailable": { "Label": "No recommendation/s available" },
+			"RecommendationsAvailable": { "Label": "recommendation/s available" },
+			"FocusOn": { "Label": "Focus on:" },
+			"WorkOnThis": { "Label": "Work on this >>" },
 			//"ResponseRate": { "Label": "Response Rate" },
 			//"Invited": { "Label": "Invited" },
 			//"Respondents": { "Label": "Respondents" },			

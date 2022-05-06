@@ -38,28 +38,48 @@ function ActionsFocusAreas_Render() {
 
     let addedFocusAreas = FocusAreas_GetFocusAreas();
 
+    let itemsData = Main_CurrentItemsData_WithFilter();
+    let dimensionsData = Main_CurrentDimensionsData_WithFilter();
+
+
     addedFocusAreas.forEach((focusArea) => {
         let focusAreaLabel = '';
+        let favScore = '';
+        let recommendedActions = [];
 
         if(focusArea.isDimension) {
             focusAreaLabel = Main_GetDimensionText(focusArea.itemId);
+            favScore = Utils_FormatPctOutput(dimensionsData[focusArea.itemId].Dist.Fav);
+            recommendedActions = meta.Dimensions[focusArea.itemId].RecommendedActions;
         } else {
             focusAreaLabel = Main_GetQuestionText(focusArea.itemId);
+
+            let pct_distribution =  Utils_CountsToPercents (itemsData[focusArea.itemId].Dist);
+            favScore = Utils_FormatPctOutput(pct_distribution.Fav);
+            recommendedActions = meta.Items[focusArea.itemId].RecommendedActions;
+
+            if(!!recommendedActions) {
+                let dimensionIdForCurrentItem = Main_GetDimensionIdByItemId(focusArea.itemId);
+                recommendedActions = meta.Dimensions[dimensionIdForCurrentItem].RecommendedActions;
+            }
+
         }
 
         o.push(`
             <div id="focusArea-${focusArea.itemId}" class="focus-area-card">
                 <div class="focus-area-card_header">
-                    <div class="fa-card-header_text">${'Focus on:'}</div>
+                    <div class="fa-card-header_text">${meta.Labels.FocusOn.Label}</div>
                     <div class="fa-card-header_remove"></div>
                 </div>
                 <div class="focus-area-card_content">
                     <div class="focus-area-info_main">
                         <div class="focus-area-info_text">${focusAreaLabel}</div>
-                        <div class="focus-area-info_fav">${'76%'}</div>
+                        <div class="focus-area-info_fav">${favScore}</div>
                     </div>
                     <div class="focus-area-info_additional">
-                        <div class="focus-area-info_rec-number">${'4 recommendation/s available'}</div>
+                        <div class="focus-area-info_rec-number">
+                            ${recommendedActions.length == 0 ? meta.Labels.NoRecommendationsAvailable.Label : recommendedActions.length + ' ' + meta.Labels.RecommendationsAvailable.Label}
+                        </div>
                         <div class="focus-area-info_comparator">${'-13 vs. Company'}</div>                      
                     </div>
                     <div class="focus-area-info_controls">
@@ -68,7 +88,7 @@ function ActionsFocusAreas_Render() {
                             <div class="ap-tag ap-tag__inactive ap-tag__people-group ap-tag__people-group--unselected"></div>
                             <div class="ap-tag ap-tag__inactive ap-tag__money ap-tag__money--unselected"></div>
                         </div>
-                        <div class="focus-area-info_work-button">${'Work on this >>'}</div> 
+                        <div class="focus-area-info_work-button">${meta.Labels.WorkOnThis.Label}</div> 
                     </div>                   
                 </div>
             </div>
