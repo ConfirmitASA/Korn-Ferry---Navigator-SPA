@@ -10,45 +10,108 @@ function ActionsFocusAreas_Page() {
         // Right Pane
         RightPane: `
             ${Component_TestDataIndicator(data.Report.IsTestData)}
+            <div class="focus-areas-container">
             <div id="AddNewFocusArea">
             </div>
             <div id="FocusAreasList">
             </div>
+            </div>
             `,
 
-        ClassName: 'Focus-Areas-container',
+        ClassName: 'Focus-Areas-page-container',
         Style: null,
         ShowFilterSummary: true
     }
 };
 
 function ActionsFocusAreas_Render() {
-    var o = [];
+    let addNewFocusAreaHTML = `
+        <div class="add-focus-areas-buttons-container">
+            <div class="add-focus-areas-icon ap_add-items-plus-circle"></div>
+            <div class="add-focus-areas-text">${meta.Labels.Add.Label}</div>
+        </div>
+    `;
 
-    o.push(Component_TestDataIndicator(data.Report.IsTestData));
+    $('#AddNewFocusArea').html(addNewFocusAreaHTML);
 
-    var actionInfo = State_Get('actionInfo');
+    let o = [];
 
-    if(!!actionInfo) {
-        if (actionInfo.page === 'KeyMetrics') {
-            o.push(`
-                <p>Page: ${actionInfo.page}</p>
-                <p>Card dimension: ${actionInfo.cardDimensionId}</p>
-                <p>Key Driver dimension: ${actionInfo.keyDriverDimensionId}</p>
-                <p>Key Driver item: ${actionInfo.keyDriverItemId}</p>
-            `);
+    let addedFocusAreas = FocusAreas_GetFocusAreas();
+
+    addedFocusAreas.forEach((focusArea) => {
+        let focusAreaLabel = '';
+
+        if(focusArea.isDimension) {
+            focusAreaLabel = Main_GetDimensionText(focusArea.itemId);
+        } else {
+            focusAreaLabel = Main_GetQuestionText(focusArea.itemId);
         }
 
-        if(actionInfo.page === 'StrengthsAndOpportunities') {
-            o.push(`
-                <p>Page: ${actionInfo.page}</p>
-                <p>Card type: ${actionInfo.cardType}</p>
-                <p>Item: ${actionInfo.itemId}</p>
-            `);
-        }
-    }
+        o.push(`
+            <div id="focusArea-${focusArea.itemId}" class="focus-area-card">
+                <div class="focus-area-card_header">
+                    <div class="fa-card-header_text">${'Focus on:'}</div>
+                    <div class="fa-card-header_remove"></div>
+                </div>
+                <div class="focus-area-card_content">
+                    <div class="focus-area-info_main">
+                        <div class="focus-area-info_text">${focusAreaLabel}</div>
+                        <div class="focus-area-info_fav">${'76%'}</div>
+                    </div>
+                    <div class="focus-area-info_additional">
+                        <div class="focus-area-info_rec-number">${'4 recommendation/s available'}</div>
+                        <div class="focus-area-info_comparator">${'-13 vs. Company'}</div>                      
+                    </div>
+                    <div class="focus-area-info_controls">
+                        <div class="focus-area-info_tags">
+                            <div class="ap-tag ap-tag__inactive ap-tag__exclamation-point ap-tag__exclamation-point--unselected"></div>
+                            <div class="ap-tag ap-tag__inactive ap-tag__people-group ap-tag__people-group--unselected"></div>
+                            <div class="ap-tag ap-tag__inactive ap-tag__money ap-tag__money--unselected"></div>
+                        </div>
+                        <div class="focus-area-info_work-button">${'Work on this >>'}</div> 
+                    </div>                   
+                </div>
+            </div>
+        `)
+    })
 
     $('#FocusAreasList').html(
         o.join('')
     );
+
+    //add click to tags
+    ActionsFocusAreas_HandleTagClick();
+    ActionsFocusAreas_HandleCardsTrashCanClick();
+}
+
+function ActionsFocusAreas_HandleTagClick() {
+    $('.ap-tag').click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        if($(this).hasClass('ap-tag__inactive')) {
+            $(this).removeClass('ap-tag__inactive');
+            $(this).addClass('ap-tag__active');
+        } else {
+            if($(this).hasClass('ap-tag__active')) {
+                $(this).removeClass('ap-tag__active');
+                $(this).addClass('ap-tag__inactive');
+            }
+        }
+    });
+}
+
+function ActionsFocusAreas_HandleCardsTrashCanClick() {
+    $('.fa-card-header_remove').click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        let cardToRemove = $(this).parent().parent();
+        let cardToRemoveID = cardToRemove.attr('id').split('-');
+
+        FocusAreas_RemoveItem(cardToRemoveID[1]);
+        FocusAreas_UpdateFocusAreasCounterSpan();
+
+        $(cardToRemove).remove();
+    });
 }

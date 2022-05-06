@@ -897,6 +897,7 @@ if (meta == null) {
 			"ImpactOnEngagement": { "Label": "Impact on Engagement" },
 			"ImpactOnEnablement": { "Label": "Impact on Enablement" },
 			"Selected": { "Label": "Selected" },
+			"Add": { "Label": "add" },
 			//"ResponseRate": { "Label": "Response Rate" },
 			//"Invited": { "Label": "Invited" },
 			//"Respondents": { "Label": "Respondents" },			

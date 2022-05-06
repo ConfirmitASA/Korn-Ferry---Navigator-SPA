@@ -103,6 +103,12 @@ function Main_GetQuestionText ( qid ) {
 		: meta.Items[qid].Label;
 }
 
+function Main_GetDimensionText ( dId ) {
+	return (meta.Dimensions[dId] == null)
+		? '[Missing Dimension Text for: ' + dId + ']'
+		: meta.Dimensions[dId].Label;
+}
+
 function Main_AddHierarchyEventListeners() {
 	var dd = $('.dd-drilldown');
 	if ( dd.length == 0 ) {
