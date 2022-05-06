@@ -572,7 +572,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             //set action button as 'selected' if so
             let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
-            let actionButtonText = isItemAddedAsFocusArea ? meta.Labels.Selected.Label : meta.Buttons.TakeAction.Label;
+            let actionButtonText = isItemAddedAsFocusArea ? `<div class="remove-action_icon">-</div> ${meta.Labels.Selected.Label}` : meta.Buttons.TakeAction.Label;
 
             tmp.push(`
 				<div class=itemrow>

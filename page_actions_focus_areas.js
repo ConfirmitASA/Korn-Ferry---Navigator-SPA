@@ -80,12 +80,12 @@ function ActionsFocusAreas_Render() {
     );
 
     //add click to tags
-    ActionsFocusAreas_HandleTagClick();
-    ActionsFocusAreas_HandleCardsTrashCanClick();
+    ActionsFocusAreas_HandleTagClick($('.ap-tag'));
+    ActionsFocusAreas_HandleCardsTrashCanClick($('.fa-card-header_remove'));
 }
 
-function ActionsFocusAreas_HandleTagClick() {
-    $('.ap-tag').click(function (event) {
+function ActionsFocusAreas_HandleTagClick(tagElements) {
+    tagElements.click(function (event) {
         event.stopPropagation();
         event.preventDefault();
 
@@ -101,8 +101,8 @@ function ActionsFocusAreas_HandleTagClick() {
     });
 }
 
-function ActionsFocusAreas_HandleCardsTrashCanClick() {
-    $('.fa-card-header_remove').click(function (event) {
+function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
+    trashCanElements.click(function (event) {
         event.stopPropagation();
         event.preventDefault();
 

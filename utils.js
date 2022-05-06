@@ -140,7 +140,7 @@ function Utils_SetActionButtonToREMOVE(actionButtonElement, buttonText) {
 	$(actionButtonElement).removeClass('add-action');
 	$(actionButtonElement).addClass('remove-action');
 	$(actionButtonElement).addClass('action-button__selected');
-	$(actionButtonElement).html(buttonText);
+	$(actionButtonElement).html(`<div class="remove-action_icon">-</div> ${buttonText}`);
 }
 
 function Utils_SetActionIconToADD(actionIconElement) {

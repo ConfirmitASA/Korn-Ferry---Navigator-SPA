@@ -324,7 +324,7 @@ function StrengthsAndOpportunities_getTopNItems(topNItems, cardType) {
         //set action button as 'selected' if so
         let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(totalItems[i]);
         let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
-        let actionButtonText = isItemAddedAsFocusArea ? meta.Labels.Selected.Label : buttonText;
+        let actionButtonText = isItemAddedAsFocusArea ? `<div class="remove-action_icon">-</div> ${meta.Labels.Selected.Label}` : buttonText;
 
         tmp.push(`
 				<tr class="item-row">
