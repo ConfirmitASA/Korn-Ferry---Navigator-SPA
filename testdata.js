@@ -429,7 +429,10 @@ if (meta == null) {
 			},
 			"OM12": {
 				"Label": "The company motivates me to do more than is required.",
-				"RecommendedActions": []
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1 for item', 'Text': 'Recommended action #1 for item text' },
+					{'Title': 'Recommended action #2 for item', 'Text': 'Recommended action #2 for item text' },
+				]
 			},
 			"QS16": {
 				"Label": "The people in my work group are committed to delivering high quality products and services.",
@@ -693,98 +696,152 @@ if (meta == null) {
 			"DIM_ENG": {
 				Items: ['OM12','OM01','OM11','OS02','OM06'],
 				"Label": "Employee Engagement",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "What drives engagement in our organisation",
 				"KeyMetrics_MoreCardText": "<p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p><p>The Engagement score is calculated as an average of the favourable scores from questions shown below.</p>"
 			},
 			"DIM_ENA": {
 				Items: ['WE12','JS05','JS02','WE08'],
 				"Label": "Employee Enablement",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+				],
 				"KeyMetric_BackCardText": "What drives enablement in our organisation",
 				"KeyMetrics_MoreCardText": "<p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p><p>The Enablement score is calculated as an average of the favourable scores from questions shown below.</p>"
 			},
 			"DIM_N64": {
 				Items: ['RE01','WS03','DC11','SP04','WK01'],
 				"Label": "Resources",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Resources Drivers",
 				"KeyMetrics_MoreCardText": "Resources intro text"
 			},
 			"DIM_N50": {
 				Items: ['DM02','VC04','IV04','DM18'],
 				"Label": "Authority & Empowerment",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Authority & Empowerment Drivers",
 				"KeyMetrics_MoreCardText": "Authority & Empowerment intro text"
 			},
 			"DIM_N65": {
 				Items: ['RC01','ER01','WL01','GP10','DI03','WK02'],
 				"Label": "Respect & Recognition",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Respect & Recognition Drivers",
 				"KeyMetrics_MoreCardText": "Respect & Recognition intro text"
 			},
 			"DIM_N52": {
 				Items: ['TW06','TW04','GP09','TW02','DC08'],
 				"Label": "Collaboration",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Collaboration Drivers",
 				"KeyMetrics_MoreCardText": "Collaboration intro text"
 			},
 			"DIM_N63": {
 				Items: ['QS01','QS16','QS03','QS02','OM04','QS09'],
 				"Label": "Quality & Customer Focus",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Quality & Customer Focus Drivers",
 				"KeyMetrics_MoreCardText": "Quality & Customer Focus intro text"
 			},
 			"DIM_N61": {
 				Items: ['PE09','PE06','PE03','CP14','PE10','PE21'],
 				"Label": "Performance Management",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Performance Management Drivers",
 				"KeyMetrics_MoreCardText": "Performance Management intro text"
 			},
 			"DIM_N54": {
 				Items: ['AV15','SP12','AV09','AV01','AV08'],
 				"Label": "Development Opportunities",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Development Opportunities Drivers",
 				"KeyMetrics_MoreCardText": "Development Opportunities intro text"
 			},
 			"DIM_N53": {
 				Items: ['LD04','LD09','GP12','SP45','SV03','SR05','SR03'],
 				"Label": "Confidence in Leaders",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Confidence in Leaders Drivers",
 				"KeyMetrics_MoreCardText": "Confidence in Leaders intro text"
 			},
 			"DIM_N66": {
 				Items: ['TR09','TR01','TR04','SP47'],
 				"Label": "Training",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Training Drivers",
 				"KeyMetrics_MoreCardText": "Training intro text"
 			},
 			"DIM_N51": {
 				Items: ['SD04','GP07','SD05','SD03','GP03','PE01'],
 				"Label": "Clear & Promising Direction",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Clear & Promising Direction",
 				"KeyMetrics_MoreCardText": "Clear & Promising Direction intro text"
 			},
 			"DIM_N67": {
 				Items: ['IV02','WE01','ST01','DM04','WS01','DC09'],
 				"Label": "Work, Structure, & Process",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Work, Structure, & Process Drivers",
 				"KeyMetrics_MoreCardText": "Work, Structure, & Process intro text"
 			},
 			"DIM_N60": {
 				Items: ['CP11','CP12','BN01','BN04','CP16'],
 				"Label": "Pay & Benefits",
-				"RecommendedActions": [],
+				"RecommendedActions": [
+					{'Title': 'Recommended action #1', 'Text': 'Recommended action #1 text' },
+					{'Title': 'Recommended action #2', 'Text': 'Recommended action #2 text' },
+					{'Title': 'Recommended action #3', 'Text': 'Recommended action #3 text' },
+				],
 				"KeyMetric_BackCardText": "Pay & Benefits Drivers",
 				"KeyMetrics_MoreCardText": "Pay & Benefits intro text"
 			},
@@ -994,7 +1051,12 @@ if (meta == null) {
 			"NoRecommendationsAvailable": { "Label": "No recommendation/s available" },
 			"RecommendationsAvailable": { "Label": "recommendation/s available" },
 			"FocusOn": { "Label": "Focus on:" },
-			"WorkOnThis": { "Label": "Work on this >>" },
+			"RecommendedActions": { "Label": "Recommended Actions:" },
+			"ActionPlan": { "Label": "Action Plan" },
+			"PersonalizeActionPlan": { "Label": "Personalize Action Plan" },
+			"Name": { "Label": "Name:" },
+			"Notes": { "Label": "Notes:" },
+			"ActionPlanDetails": { "Label": "Action Plan Details" },
 			//"ResponseRate": { "Label": "Response Rate" },
 			//"Invited": { "Label": "Invited" },
 			//"Respondents": { "Label": "Respondents" },			
@@ -1015,6 +1077,12 @@ if (meta == null) {
 			"TakeAction": { "Label": "Take Action" },
 			"Maintain": { "Label": "Take Action to Maintain" },
 			"Improve": { "Label": "Take Action to Improve" },
+			"WorkOnThis": { "Label": "Work on this >>" },
+			"AddToActionPlan": { "Label": "+ Add to Action Plan" },
+			"AddOwnAction": { "Label": "+ Add Own Action" },
+			"RemoveFromActionPlan": { "Label": "- Remove from Action Plan" },
+			"Submit": { "Label": "Submit" },
+			"Close": { "Label": "Close" },
 		},
 		ExportButtons: {
 			"copy": {

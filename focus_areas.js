@@ -2,8 +2,23 @@ var FocusAreas = [];
 
 /*let focusAreaItem = {
     itemId: 'id',
-    isDimension: false
+    isDimension: false,
+    tags: {
+        importance: false,
+        involvement: false,
+        cost: false
+    }
 }*/
+
+function FocusAreas_UpdateTagOnFocusArea(itemId, tagName, tagValue) {
+    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+
+        FocusAreas[index]['tags'][tagName] = tagValue;
+    } else {
+        throw new Error(`Item ${itemId} you're trying to update a tag on does not exist in the Focus Areas list`);
+    }
+}
 
 function FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId) {
     let foundIndex = FocusAreas.findIndex((element) => {
@@ -21,7 +36,16 @@ function FocusAreas_IsItemAlreadyAdded(itemId) {
 
 function FocusAreas_AddItem(newItemObj) {
     if(!FocusAreas_IsItemAlreadyAdded(newItemObj.itemId)) {
-        FocusAreas.push(newItemObj);
+        let newFocusArea = newItemObj;
+        newFocusArea['tags'] = {
+            importance: false,
+            involvement: false,
+            cost: false
+        };
+
+        newFocusArea['actionPlan'] = {};
+
+        FocusAreas.push(newFocusArea);
     }
 }
 
@@ -30,6 +54,8 @@ function FocusAreas_RemoveItem(idToRemove) {
         let indexOfItemToRemove = FocusAreas_GetIndexOfAddedFocusAreaByItemId(idToRemove);
 
         FocusAreas.splice(indexOfItemToRemove, 1);
+    } else {
+        throw new Error(`Item ${idToRemove} you requested to delete does not exist in the Focus Areas list`);
     }
 }
 
