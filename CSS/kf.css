@@ -799,6 +799,21 @@ b {
     cursor: pointer;
 
 }
+
+.action-button {
+    bottom: 10px;
+    border: 1px solid #77bc1f;
+    background-color: #77bc1f;
+    padding: 2px 8px;
+    color: white;
+    margin-bottom: 20px;
+    display: inline-block;
+    font-size: 12px;
+    /*white-space: nowrap;*/
+    min-width: 50px;
+    cursor: pointer;
+}
+
 .item-details-container {
     position: absolute;
     width: 100%;
@@ -940,18 +955,18 @@ option {
 }
 
 .left-pane-content {
-    margin-bottom: 20px; 
-	width: 350px; 
-	max-width: 350px;
-	padding-right: 10px;
-	overflow: auto;
-	height: calc(100vh - 280px); 
-	font-size: 14px; 
-	font-weight: 300; 
-	line-height: 22px;
+    margin-bottom: 20px;
+    width: 350px;
+    max-width: 350px;
+    padding-right: 10px;
+    overflow: auto;
+    height: calc(100vh - 280px);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
 }
 
-.left-pane-content > p:first-child {
+.left-pane-content>p:first-child {
     color: #00634f;
     font-weight: 500;
 }

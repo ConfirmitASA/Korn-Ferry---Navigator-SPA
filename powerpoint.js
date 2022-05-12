@@ -520,7 +520,7 @@ function Pptx_AddKeyMetricsSlide(pptx) {
 	var dimensions_data = Main_CurrentDimensionsData_WithFilter();
 	var all_comparator_data = Main_ComparatorsData_WithFilter(null, true); // force reading of all comparators (even if not checked in the UI)
 	var comparator_dimensions_data = all_comparator_data[comparator_id].Dimensions; //todo: what if the trend comparator is not selected in the UI?
-	var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
+	var trend_indicator_description = 'vs. ' + config.PreviousWave;
 
 	let keyMetricsSlide = pptx.addSlide({
 		masterName: "WHITE",

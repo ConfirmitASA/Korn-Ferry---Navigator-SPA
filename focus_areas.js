@@ -7,6 +7,15 @@ var FocusAreas = [];
         importance: false,
         involvement: false,
         cost: false
+    },
+    actionPlan: {
+        name: '',
+        notes: '',
+        actions: [],
+        status: '',
+        dueDate: '',
+        owner: '',
+        node: ''
     }
 }*/
 
@@ -43,7 +52,15 @@ function FocusAreas_AddItem(newItemObj) {
             cost: false
         };
 
-        newFocusArea['actionPlan'] = {};
+        newFocusArea['actionPlan'] = {
+            name: '',
+            notes: '',
+            actions: [],
+            status: '',
+            dueDate: '',
+            owner: '',
+            node: ''
+        };
 
         FocusAreas.push(newFocusArea);
     }

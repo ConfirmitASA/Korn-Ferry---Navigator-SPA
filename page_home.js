@@ -72,6 +72,7 @@ function Home_Render() {
             ${meta.WelcomePage.Footer}
         </div>
     </div>
+    <iframe id="iframe1" scrolling="no" style="display:none; position:fixed; inset: 60px 0 0 0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:99;"></iframe>
 
     <script>
 
@@ -99,7 +100,9 @@ function Home_Render() {
 
 	// Click Handler: Button: Slideshow
 	$('#action-slideshow').click(function() {
-		$('#menuitem-Slideshow').click();
+		//$('#menuitem-Slideshow').click();
+        $("#iframe1").fadeIn();
+	    document.getElementById("iframe1").focus();
 	});
 
 	// Click Handler: Button: Explore Results
@@ -110,6 +113,8 @@ function Home_Render() {
     // Click Handler: PowerPoint generator
     $('#action-powerpoint').click(Pptx_Generator);
 
+    document.getElementById("iframe1").contentWindow.document.write(Slideshow_RenderIframe());
+	document.getElementById("iframe1").contentWindow.document.close(); 
 
     </script>
     `;
@@ -123,5 +128,6 @@ $(document).ready( function () {
             // on fadeout complete
          });
         });
-      })
+      });
+
 });
