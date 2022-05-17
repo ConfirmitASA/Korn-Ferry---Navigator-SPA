@@ -171,3 +171,62 @@ a {
     transform: rotate(360deg);
   }
 }
+
+.language-selector {
+    color: #77bc1f;
+    font-size: 14px;
+    padding-top: 12px;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.language-selector:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.button-report-ready {
+    float: right;
+    position: relative;
+    top: -25px;
+    opacity: 0;
+    display: none;
+}
+
+.funfact-title {
+	font-weight: 200; 
+	font-size: 40px; 
+	padding-right: 80px;
+}
+
+.bolded {
+    font-weight: 600;
+}
+
+#home-footer {
+    margin-left: 30vw;
+    position: absolute;
+    bottom: 5vh;
+    max-width: 60vw;
+}
+
+.menuitems{
+    position: absolute;
+    top: -4px;
+    display: flex !important;
+    flex-direction: row;
+}
+
+.menuicon {
+    top: -12px;
+    left: -4px;
+    position: relative;
+}
+
+.pagecontainer {
+    height: calc(100vh - 175px);
+}
+
+.hidden {
+    display: none !important; 
+  }

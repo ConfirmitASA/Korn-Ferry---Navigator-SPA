@@ -44,17 +44,38 @@ function Main_ExportFileName ( view_name ) {
 
 	o.push ( data.User.PersonalizedReportBaseText );
 
-	if (
-		state.Parameters.filter != null
-		&&
-		state.Parameters.filter.length != 0
-	)
-		o.push ( 'Filtered Data')
+	var codes = ModalGetFilters();
+
+	if ( codes.length>0) o.push ( 'Filtered Data')
 
 	return o.join(' - ');
 }
 
 function Main_Run() {
+
+	console.log ('Run');
+
+
+	pdfMake.fonts = {
+
+		// Arabic font
+		Tajawal: {
+			normal: 'https://reportal.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/Tajawal-Regular.ttf',
+			bold: 'https://reportal.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/Tajawal-Bold.ttf',
+			italics: 'https://reportal.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/Tajawal-Light.ttf',
+			bolditalics: 'https://reportal.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/Tajawal-ExtraBold.ttf'
+		},
+
+		// download default Roboto font from cdnjs.com
+		Roboto: {
+		  normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+		  bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+		  italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+		  bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+		}
+	};
+ 
+
 	// Click the hierarchy component
 	$('.dd-target-button-arrow').click();
 
@@ -189,9 +210,21 @@ function Main_HashCode ( s ) {
 	return hash;
 };
 
-function Main_FilterHash(){
+function Main_FilterHash(breakdown_variable_id, code){
 
-	var codes = state.Parameters.filter == null ? [] : state.Parameters.filter;
+	var codes = ModalGetFilters(); // state.Parameters.filter == null ? [] : state.Parameters.filter;
+
+	if ( breakdown_variable_id != null) {
+
+		var new_code = breakdown_variable_id + '.' + code;
+		var found = false;
+		for (var i=0; i<codes.length; ++i) {
+			if ( codes[i] == new_code ) found = true;
+		}
+
+		if (!found)
+			codes.push ( new_code ); // example: "Gender.410"
+	}
 
 	var filter = codes.join(',');
     var hash = Main_HashCode ( filter );
@@ -511,6 +544,7 @@ function Main_UpdateRequest(){
 	var query = $('#submitbutton').find('input').last();
 	var s  = JSON.stringify ( q );
 	query.val ( s );
+	query.trigger('change');
 	if (query.length != 0)
 		query[0].dispatchEvent( new Event("change") );
 
@@ -528,9 +562,13 @@ function Main_DefaultDataRequest() {
 	];
 }
 
+function Main_GetInitialQuery() {
+	return {IsInitialJsonRequest: true, IsInitialLoad: true,  DataRequest:[{ Type: "ResponseRate.Overall"}]}; 
+}
+
 function Main_SubmitInitialQuery() {
 	// Happens on the intial page load only
-	Main_SubmitQuery({IsInitialJsonRequest: true});
+	Main_SubmitQuery(  Main_GetInitialQuery() );
 }
 
 function Main_SubmitDefaultQuery() {
@@ -674,6 +712,10 @@ function Main_RenderPageContents() {
 	console.log ('Main_RenderPageContents - END');
 }
 
+function Main_IsRTL() {
+	return meta.RTL == true;
+}
+
 function Main_RenderMenu() {
 	var o = [];
 
@@ -702,7 +744,6 @@ function myFunction() {
 	overflow: hidden;
 	xbackground-color: #333;
   }
-  
   .menu div {
 	float: left;
 	display: block;
@@ -711,6 +752,11 @@ function myFunction() {
 	padding: 14px 16px;
 	xtext-decoration: none;
 	xfont-size: 17px;
+  }
+  
+  .menu responsive div:hover {
+	background-color: #ddd;
+	color: black;
   }
   
   .menu responsive div:hover {
@@ -731,8 +777,13 @@ function myFunction() {
 	display: none;
   }
   
+
+  @media screen and (max-height: 600px) {
+	#home-footer {display: none}
+  }
+
   @media screen and (max-width: 1400px) {
-	.menu {position: absolute; left: 0; top: 0; padding-top: 10px}
+	.menu {position: absolute; left: 0; top: 0; padding-top: 10px; width: 100vw}
 	.menu div:not(:first-child) {display: none;}
 	.menu div.menuicon {
 	  float: right;
@@ -741,12 +792,32 @@ function myFunction() {
   }
   
   @media screen and (max-width: 1400px) {
+
+	.menuitems{
+		position: unset;
+		top: unset;
+		display: block !important;
+		flex-direction: unset;
+	}	
+
+	.menuitem {
+		border-top: 1px solid #c0c0c0;
+		width: 100vw;
+		position: relative !important;
+		top: 10px !important;
+		left: -20px;
+		padding-left: 30px !important;
+	}
+
+	.menuitem:hover {
+		background-color: white;
+	}
+
+
 	.menu.responsive {
-		xposition: relative;
 		background-color: #f2f2f2;
 	}
 	.menu.responsive .menuicon {
-	  xposition: absolute;
 	  right: 0;
 	  top: 0;
 	}
@@ -754,6 +825,8 @@ function myFunction() {
 	  float: none;
 	  display: block;
 	  text-align: left;
+	  position: relative;
+	  top: -12px;
 	}
   }
   </style>
@@ -762,13 +835,14 @@ function myFunction() {
 	);
 
 
+	o.push ( '<div class=menuitems>' );
 	o.push ( 
 		`
 		<div class="menuicon" onclick="myFunction()">
 			<i class="fa fa-bars"></i>
 		</div>
 		`		
-			)
+	);
 
 
 	for (var i=0; i<meta.Menu.length; ++i) {
@@ -809,6 +883,7 @@ function myFunction() {
 		}
 
 	}
+	o.push ( '</div>' );
 
 
 	$('.menu').html ( o.join('') );
@@ -929,7 +1004,7 @@ function Main_PreviousDimensionsData_WithFilter() {
     return data[Main_GetKeyWithFilter('DIMS', config.PreviousWave, data.User.PersonalizedReportBase)];
 }
 
-function Main_ComparatorsData_WithFilter( type, force_all ) {
+function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id, code ) {
 
 	// Example: type = "ENPS", "EP". A value of null (default) will return Item and Dimension Comparators
 
@@ -993,12 +1068,26 @@ function Main_ComparatorsData_WithFilter( type, force_all ) {
 					if ( type === undefined || type == null ) {
 
 						// Default scenario, return Items and Dimensions
-						var items_key = Main_GetKeyWithFilter( 'ITEMS', wave_id, node_id );
-						var dimensions_key = Main_GetKeyWithFilter( 'DIMS', wave_id, node_id );
-		
-						comparators_data[ comparator_id ] = {
-							Items: data[items_key],
-							Dimensions: data[dimensions_key]
+
+						if ( breakdown_variable_id == null ) {
+							var items_key = Main_GetKeyWithFilter( 'ITEMS', wave_id, node_id );
+							var dimensions_key = Main_GetKeyWithFilter( 'DIMS', wave_id, node_id );
+
+							comparators_data[ comparator_id ] = {
+								Items: data[items_key],
+								Dimensions: data[dimensions_key]
+							}
+						}
+						else {
+							// This is to support results breakdown views
+							var suffix = '.' + breakdown_variable_id.toUpperCase(); // example: ".GENDER"
+							var items_key = Main_GetKeyWithFilter( 'ITEMSX', wave_id, node_id ) + suffix;
+							var dimensions_key = Main_GetKeyWithFilter( 'DIMSX', wave_id, node_id ) + suffix;
+
+							comparators_data[ comparator_id ] = {
+								Items: data[items_key][code],
+								Dimensions: data[dimensions_key][code]
+							}
 						}
 					}
 					else {
@@ -1024,8 +1113,8 @@ function Main_ComparatorsData_WithFilter( type, force_all ) {
 						break;
 				}
 
-				var items_key = Main_GetNormsKeyWithFilter( benchmark_id );
-				var dimensions_key = Main_GetNormDimensionsKeyWithFilter ( benchmark_id );
+				var items_key = Main_GetNormsKeyWithFilter( benchmark_id, breakdown_variable_id, code );
+				var dimensions_key = Main_GetNormDimensionsKeyWithFilter ( benchmark_id, breakdown_variable_id, code );
 
 				// Items and Dimensions
 				comparators_data [ comparator_id ] = {
@@ -1052,12 +1141,13 @@ function Main_ExternalNorms_HighPeformersNormId() {
 	return config.Norms.Codes[1];
 }
 
-function Main_GetNormsKeyWithFilter( benchmark_id ) {
-	return ['NORMS', benchmark_id, Main_FilterHash() ].join('.');
+function Main_GetNormsKeyWithFilter( benchmark_id, breakdown_variable_id, code ) {
+
+	return ['NORMS', benchmark_id, Main_FilterHash(breakdown_variable_id, code) ].join('.');
 }
 
-function Main_GetNormDimensionsKeyWithFilter( benchmark_id ) {
-	return ['NORMDIMS', benchmark_id, Main_FilterHash() ].join('.');
+function Main_GetNormDimensionsKeyWithFilter( benchmark_id, breakdown_variable_id, code ) {
+	return ['NORMDIMS', benchmark_id, Main_FilterHash(breakdown_variable_id, code) ].join('.');
 }
 
 function Main_TestQuery( query ) {

@@ -1,8 +1,8 @@
 function NonStandardQuestions_Page() {
     return {
-        Label: meta.Pages['NonStandardQuestions'].Title,
+        Label: meta.Labels['NonStandardQuestions'].Title,
 
-        LeftPane: meta.Pages['NonStandardQuestions'].Label,
+        LeftPane: meta.Labels['NonStandardQuestions'].Label,
 
         RightPane: `
 		<div id="nonstandardquestions-table-container"></div>
@@ -21,7 +21,7 @@ function NonStandardQuestions_Render() {
 
     var NonStandardQuestions_dropdown = Component_Dropdown(
         'NonStandardQuestions',
-        meta.Labels["SelectQuestion"].Label,
+        meta.Labels["labels.SelectQuestion"].Label,
         'nonstandardquestions-NonStandardQuestions-highlighter-dropdown',
         '',
         ParamValues_NonStandardQuestions()
@@ -64,21 +64,15 @@ function NonStandardQuestions_ItemsTable() {
     var headers = [
         [
             { Label: question.Label, ClassName: 'text-cell' },
-            { Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell' },
-            { Label: meta.Labels["Pct"].Label, ClassName: 'numeric-cell distribution-cell' },
-            { Label: meta.Labels["Distribution"].Label, ClassName: 'numeric-cell' }
+            { Label: meta.Labels["labels.ValidN"].Label, ClassName: 'numeric-cell' },
+            { Label: meta.Labels["labels.Pct"].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels["labels.Distribution"].Label, ClassName: 'numeric-cell' }
         ]
     ];
 
     var table_data = [];
     var rowdata = [];
-/*
-    var max = 1;
-    for (var j in questionData) {
-        if (questionData[j].Pct>max) max = questionData[j].Pct;
-    }
-    max = max/100;
-*/
+
     for (var j in question.Answers) {
         rowdata = [
             {Label: question.Answers[j].Label, ClassName: 'text-cell'},

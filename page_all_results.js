@@ -1,8 +1,8 @@
 function AllResults_Page() {
 	return 	{
-		Label: meta.Pages['AllResults'].Title,
+		Label: meta.Labels['AllResults'].Title,
 
-		LeftPane: meta.Pages['AllResults'].Label,
+		LeftPane: meta.Labels['AllResults'].Label,
 
 		RightPane: `
 		<div id="allresults-table-container"></div>
@@ -21,7 +21,7 @@ function AllResults_Render() {
 
 	var ItemGroups_dropdown = Component_Dropdown (
 		'itemgroup',
-		meta.Labels["show"].Label,
+		meta.Labels["labels.show"].Label,
 		'allresults-itemgroups-highlighter-dropdown',
 		'',
 		ParamValues_ItemGroups()
@@ -90,25 +90,25 @@ function AllResults_ItemsTable() {
 	headers[0].push (
 		{ Label: "", ClassName: 'text-cell', rowspan: NofHeaderRows },
 		{ Label: "# ", ClassName: 'id-cell', rowspan: NofHeaderRows },
-		{ Label: meta.Labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
+		{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
 	);
 
 	// don't show N for All Dimensions view
 	if (!is_all_dimensions_view)
 		headers[0].push (
-			{ Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
+			{ Label: meta.Labels["labels.ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
 		);
 
 	headers[0].push (
-		{ Label: meta.Labels["PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-		{ Label: meta.Labels["PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-		{ Label: meta.Labels["PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-		{ Label: meta.Labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
+		{ Label: meta.Labels["labels.PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+		{ Label: meta.Labels["labels.PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+		{ Label: meta.Labels["labels.PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
+		{ Label: meta.Labels["labels.Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
 	);
 
 	if (NofComparators > 0) {
 		headers[0].push(
-			{ Label: meta.Labels["FavvsComparator"].Label, ClassName: 'numeric-cell', colspan: NofComparators }
+			{ Label: meta.Labels["labels.FavvsComparator"].Label, ClassName: 'numeric-cell', colspan: NofComparators }
 		);
 		var subheaders = [];
 		for (var i = 0; i < NofComparators; i++) {
@@ -118,7 +118,7 @@ function AllResults_ItemsTable() {
 	}
 
 	//add action button column
-	headers[0].push( {Label: meta.Labels.Action.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
+	headers[0].push( {Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
 
 	var table_data = [];
 	var rowdata = [];
@@ -202,7 +202,7 @@ function AllResults_ItemsTable() {
 				rowdata.push (
 					{Label: ( itemgroup=='AllDimensions' ? "": dId ), ClassName: 'id-cell'},
 					{Label: '&#9674;', ClassName: 'id-cell'},
-					{Label: '<b>' + meta.Dimensions[i].Label + '</b>', ClassName: 'text-cell'}
+					{Label: meta.Dimensions[i].Label, ClassName: 'text-cell bolded'}
 				);
 				
 				if (!is_all_dimensions_view)

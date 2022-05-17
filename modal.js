@@ -109,14 +109,14 @@ function Modal_RestoreSelections() {
 function Modal_Render() {
 	var o = [];
 
-	for (var qid in data.Filters.Items) {
+	for (var qid in meta.Demographics) {
 
-		var item = data.Filters.Items[qid];
+		var item = meta.Demographics[qid];
 
 		var tmp = [];
-		for (var i = 0; i < item.Answers.length; ++i) {
-			var answer = item.Answers[i];
-			tmp.push(`<option value="${qid}.${answer.Code}">${answer.Label}</option>`);
+		for (var code in item.Answers) {
+			var answer = item.Answers[code];
+			tmp.push(`<option value="${qid}.${code}">${answer.Label}</option>`);
 		}
 
 		o.push(`
@@ -131,7 +131,7 @@ function Modal_Render() {
 	var has_data_filters = data.Filters.length>0;
 
 	var data_filters_heading = has_data_filters
-		? `<div class=sectionheading>${meta.Labels['DataFilters'].Label}</div>`
+		? `<div class=sectionheading>${meta.Labels['labels.DataFilters'].Label}</div>`
 		: '';
 
 
@@ -143,11 +143,11 @@ function Modal_Render() {
 				</div>
 				${has_data_filters ? '<hr>' : ''}
 				<div class=sectionheading style="margin-top: 20px">
-					${meta.Labels['InternalComparators'].Label}
+					${meta.Labels['labels.InternalComparators'].Label}
 				</div>
 				${ModalFilterInternalComparators()}
 				<div style="margin-top: 20px" class=sectionheading>
-					${meta.Labels['ExternalComparators'].Label}
+					${meta.Labels['labels.ExternalComparators'].Label}
 				</div>
 				${ModalFilterExternalComparators()}
 				<hr>
@@ -156,14 +156,14 @@ function Modal_Render() {
 					class="action"
 					style="margin: 20px; width: 120px;" 
 					type=button 
-					value="${meta.Buttons['Apply'].Label}"
+					value="${meta.Labels['buttons.Apply'].Label}"
 				>
 				<input
 					id="filter-cancel-button" 
 					class="action action-red"
 					style="margin: 20px; width: 120px;" 
 					type=button 
-					value="${meta.Buttons['Cancel'].Label}"
+					value="${meta.Labels['buttons.Cancel'].Label}"
 				>
 				</input>
 			</div>

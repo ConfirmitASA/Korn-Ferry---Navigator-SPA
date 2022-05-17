@@ -3,8 +3,8 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/fc-4.0.1/fh-3.2.1/r-2.2.9/sc-2.0.5/datatables.min.css"/>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/fc-4.0.1/fh-3.2.1/r-2.2.9/sc-2.0.5/datatables.min.js"></script>
 <script type="text/javascript" src="libraries/natural.js"></script>
 
@@ -18,6 +18,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@latest/dist/pptxgen.min.js?v=1"></script>
+
+
+
 
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -61,6 +64,7 @@
 <link rel="stylesheet" href="CSS/demographic-heatmap.css">
 <link rel="stylesheet" href="CSS/demographic_highlighter.css">
 <link rel="stylesheet" href="CSS/focus_areas.css">
+ 
 
 
 <div style="
@@ -112,6 +116,11 @@
 		<div id="master-page-modal-filter"></div>
 	</div>
 
+	<!-- Wait Spinner -->
+	<div id="master-page-modal-spinner-container">
+		<div class="loader"></div>
+	</div>
+
 	<!-- Modal Wait Container -->
 	<div id="master-page-modal-wait-container">
 		<div id="master-page-modal-wait"></div>
@@ -130,7 +139,7 @@ $(document).ready ( function() {
 <!-- Core -->
 <script src="state.js?version=1"></script>
 <script src="resources.js?version=1"></script>
-<script src="utils.js?version=1"></script>
+<script src="utils.js?version=2"></script>
 <script src="param_values.js?version=1"></script>
 <script src="main.js?version=1"></script>
 <script src="menu.js?version=1"></script>
@@ -140,6 +149,7 @@ $(document).ready ( function() {
 <script src="powerpoint_image_storage.js?version=1"></script>
 <script src="focus_areas.js?version=1"></script>
 <script src="slideshow.js?version=1"></script>
+
 
 <!---- Visual Components -->
 <script src="component_hierarchypicker.js?version=1"></script>

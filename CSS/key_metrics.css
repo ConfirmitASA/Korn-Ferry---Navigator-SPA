@@ -18,6 +18,8 @@
     font-weight: 300;
     position: relative;
     left: -10px;
+    width: 100%;
+    padding: 0 30px;
 }
 
 #keyDriversTableContainer {
@@ -30,3 +32,13 @@
 .outer-card-container {
     position: relative;
 }
+
+.trend-indicator-description div:nth-child(1) { 
+    left: 0px; 
+}
+.trend-indicator-description div:nth-child(2) { 
+    left: 10px; 
+}
+
+.trend-indicator-line {}
+.trend-indicator-text {}

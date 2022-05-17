@@ -2,10 +2,10 @@
 
 function KeyMetrics_Page() {
     return {
-        Label: meta.Pages.KeyMetrics.Title,
+        Label:  meta.Labels.KeyMetrics.Title,
 
         // Left Pane
-        LeftPane: meta.Pages.KeyMetrics.Label,
+        LeftPane: meta.Labels.KeyMetrics.Label,
 
         // Right Pane
         RightPane: `
@@ -65,7 +65,7 @@ function KeyMetrics_Render() {
                 case 'Fav' :
                     current_score = pct_distribution.Fav;
                     comparator_score = comparator_pct_distribution.Fav;
-                    scoreLabel = meta.Labels.Favorable.Label;
+                    scoreLabel = meta.Labels['labels.Favorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
                     break;
 
@@ -86,13 +86,13 @@ function KeyMetrics_Render() {
                 default :
                     current_score = distribution.Fav;
                     comparator_score = comparator_pct_distribution.Fav;
-                    scoreLabel = meta.Labels.Favorable.Label;
+                    scoreLabel = meta.Labels['labels.Favorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
                     break;
             }
         } else {
             scoreType = 'Distribution.Fav'; 
-            scoreLabel = meta.Labels.Favorable.Label;
+            scoreLabel = meta.Labels['labels.Favorable'].Label;
             scoreValue = -1; // score not currently available
         }
 
@@ -139,7 +139,7 @@ function KeyMetrics_Render() {
 							
 							<!-- Comparison Scores -->
 							<div class=vs>
-								<div>
+								<table style="width: 200px">
 			`);
 
         
@@ -163,13 +163,15 @@ function KeyMetrics_Render() {
                     : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
 
                 o.push(`
-                        <div class="vs_label">
-                            ${meta.Comparators[c].Label}
-                        </div>
+                        <tr>
+                            <td class="vs_label">
+                                ${meta.Comparators[c].Label}
+                            </td>
 
-                        <div class="vs_score">
-                            ${comparator_fav}
-                        </div>
+                            <td class="vs_score">
+                                ${comparator_fav}
+                            </td>
+                        </tr>
                     `);
             }
         }
@@ -177,8 +179,10 @@ function KeyMetrics_Render() {
         //var trend_indicator_description = meta.Labels["TrendIndicator"].Label + ' (vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label + ')'; 
         var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label; 
 
+        var more_button_text = meta.Labels['buttons.More'].Label;
+
         o.push(`
-								</div>
+								</table>
 							</div>
 							<!-- End Comparison Scores -->
 
@@ -188,7 +192,7 @@ function KeyMetrics_Render() {
                                     <div class="dot ${arrowClass}"></div>
                                     <div style="
                                         font-size: 12px;
-                                        text-align: left;
+                                        text-align: start;
                                         color: #c0c0c0;
                                         padding-top: 4px;
                                         padding-left: 2px;
@@ -198,7 +202,6 @@ function KeyMetrics_Render() {
                                     <div style="
                                         position: absolute;
                                         font-size: 12px;
-                                        LEFT: 0px;
                                         top: -45px;
                                         ">${trend_indicator_description}</div>
                                     <div style="
@@ -206,7 +209,6 @@ function KeyMetrics_Render() {
                                         top: -27px;
                                         height: 28px;
                                         border-left: 1px solid black;
-                                        left: 10px;
                                     "></div>
                                 </div>
 
@@ -223,7 +225,7 @@ function KeyMetrics_Render() {
 							</div>
 							
 							<div id=${dimension_id}_more class="detailslink">
-								${'More'}
+								${more_button_text}
 							</div>
 
 							<div class="metriclabel_back">
@@ -380,7 +382,7 @@ function KeyMetrics_Render() {
 				</div>
 
 				<!--Metric Description -->
-				${meta.Dimensions[metric_id].KeyMetrics_MoreCardText}
+				${meta.Dimensions[metric_id].KeyMetric_MoreCardText}
 
 				<!-- Details -->
 				${KeyMetrics_CardDetailsMain(metric_id)}
@@ -453,9 +455,9 @@ function KeyMetrics_Render() {
         event.preventDefault();
 
         var button_id = $(this).attr('id').split('-');
-
+		
         if($(this).hasClass('add-action')) {
-            Utils_SetActionButtonToREMOVE(this, meta.Labels.Selected.Label);
+            Utils_SetActionButtonToREMOVE(this, meta.Labels['labels.Selected'].Label);
 
             let newFocusArea = {
                 itemId: button_id[2],
@@ -465,7 +467,7 @@ function KeyMetrics_Render() {
             FocusAreas_AddItem(newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
-                Utils_SetActionButtonToADD(this, meta.Buttons.TakeAction.Label);
+                Utils_SetActionButtonToADD(this, meta.Labels['buttons.TakeAction'].Label);
                 FocusAreas_RemoveItem(button_id[2]);
             }
         }
@@ -484,7 +486,7 @@ function KeyMetrics_CardDetailsMain(metric_id) {
     var html = `
 		<div class=itemrow style="border-top: 0px; margin-top: 30px">
 			<div class=metriclabel_back style="position: absolute; top: unset; left: unset;">${meta.Dimensions[metric_id].Label}</div>
-			<div class=score_back style="position: absolute; top: unset; right: 50px; font-size: 18px">${Utils_FormatPctOutput(pct_distribution.Fav)}</div>
+			<div class=score_back style="position: absolute; top: unset; width: 705px; text-align: end; font-size: 18px">${Utils_FormatPctOutput(pct_distribution.Fav)}</div>
 		</div>
 		`;
 
@@ -496,7 +498,7 @@ function KeyMetrics_CardDetailsMain(metric_id) {
 
 function KeyMetrics_MetricItems(metric_id) {
     var tmp = [];
-    tmp.push('<div class=items>');
+    tmp.push('<table style="width: 100%" class=items>');
     var data = Main_CurrentItemsData_WithFilter();
 
     var item_ids = meta.Dimensions[metric_id].Items;
@@ -517,16 +519,16 @@ function KeyMetrics_MetricItems(metric_id) {
                 );
 
                 tmp.push(`
-                    <div class=itemrow>
-                        <div class=itemlabel_details>${Main_GetQuestionText(item_id)}</div>
-                        <div class=item_barchart_container>${distribution_chart}</div>
-                        <div class=itemscore_details>${Utils_FormatPctOutput(pct_distribution.Fav)}</div>
-                    </div>
+                    <tr class=itemrow>
+                        <td class=itemlabel_details>${Main_GetQuestionText(item_id)}</td>
+                        <td class=item_barchart_container>${distribution_chart}</td>
+                        <td class=itemscore_details>${Utils_FormatPctOutput(pct_distribution.Fav)}</td>
+                    </tr>
                 `);
             }
         }
     }
-    tmp.push('</div>');
+    tmp.push('</table>');
     return tmp.join('');
 }
 
@@ -535,7 +537,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
 
     var current_items = Main_CurrentItemsData_WithFilter();
 
-    tmp.push('<div class=items>');
+    tmp.push('<table style="width: 100%" class=items>');
 
     var kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
     var kda = data[kda_key];
@@ -572,29 +574,35 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             //set action button as 'selected' if so
             let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
-            let actionButtonText = isItemAddedAsFocusArea ? `<div class="remove-action_icon">-</div> ${meta.Labels.Selected.Label}` : meta.Buttons.TakeAction.Label;
+            let actionButtonText = isItemAddedAsFocusArea 
+				? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}` 
+				: meta.Labels['buttons.TakeAction'].Label;
 
             tmp.push(`
-				<div class=itemrow>
-					<div style="font-size: 10px; padding-top: 10px; padding-bottom: 8px; color: #666; text-transform: uppercase">
+				<tr class=itemrow>
+					<td colspan=2 style="font-size: 10px; padding-top: 10px; padding-bottom: 8px; color: #666; text-transform: uppercase">
 						${meta.Dimensions[ item_dimension_id ].Label}
-					</div>
-					<div class=itemlabel>
+					</td>
+                </tr>
+                <tr>
+					<td class=itemlabel>
 						${Main_GetQuestionText(item_id)}
-					</div>
-					<div class=itemscore>
+					</td>
+					<td class=itemscore>
 						${scoreValue}
-					</div>
-					<div style="width: 100%; text-align: left">
+					</td>
+                </tr>
+                <tr>
+					<td colspan=2 style="width: 100%;">
 						<div class="action-button ${actionButtonClass}" id="${dimension_id}-${item_dimension_id}-${item_id}-button">
 							${actionButtonText}
 						</div>
-					</div>
-				</div>
+					</td>
+				</tr>
 			`);
         }
     }
-    tmp.push('</div>');
+    tmp.push('</table>');
     return tmp.join('');
 
 }

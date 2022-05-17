@@ -1,8 +1,27 @@
 // Home
 
+
+
 function Home_Render() {
+
+    var languages = {
+        1: "Arabic",
+        32772: "Chinese",
+        9: "English",
+        1046: "Portuguese",
+        2058: "Spanish"
+    };
+
+    var o = [];
+    for (var lang_id in languages) {
+        if ( lang_id.toString() != data.Report.CurrentLanguage.toString())
+            o.push ( '<span onclick="UpdateLanguage(' + lang_id + ');" class=language-selector>' + languages[lang_id] + '</span>' );
+    }
+
+    var language_links = o.join('');
+
     return `
-    <div class="pageheader">${meta.WelcomePage.Title} ${data.User.FirstName}</div>
+    <div class="pageheader">${meta.Labels['WelcomePage.Title'].Label} ${data.User.FirstName}</div>
     <div class="background-area"></div>
     <div class="pagecontainer" id="pagecontainer-1">
 
@@ -11,9 +30,9 @@ function Home_Render() {
         </video>
 
         <div class="greenareatext">
-            ${meta.WelcomePage.Label}        
+            ${meta.Labels['WelcomePage.Label'].Label}        
             <div style="margin-top: 10px;">
-                ${meta.WelcomePage.LabelFooter}
+                ${meta.Labels['WelcomePage.LabelFooter'].Label}
             </div>
         </div>
         <div class="sidebyside">
@@ -26,21 +45,21 @@ function Home_Render() {
 
                 </div>
                 <div class="boxtext_header">
-                    ${meta.WelcomePage.TitleSummary}
+                    ${meta.Labels['WelcomePage.TitleSummary'].Label}
                 </div>
                 <div class="boxtext">
-                    ${meta.WelcomePage.LabelSummary}
+                    ${meta.Labels['WelcomePage.LabelSummary'].Label}
                 </div>
 
 
                 <div class="actioncontainer">
 
                     <div class="action" id="action-powerpoint">
-                        ${meta.Buttons['Download'].Label}
+                        ${meta.Labels['buttons.Download'].Label}
                     </div>
 
                     <div class="action" id="action-slideshow">
-                        ${meta.Buttons['Slideshow'].Label}
+                        ${meta.Labels['buttons.Slideshow'].Label}
                     </div>
 
                 </div>
@@ -53,28 +72,41 @@ function Home_Render() {
                     </div>
                 </div>
                 <div class="boxtext_header">
-                    ${meta.WelcomePage.TitleDetails}
+                    ${meta.Labels['WelcomePage.TitleDetails'].Label}
                 </div>
                 <div class="boxtext">
-                    ${meta.WelcomePage.LabelDetails}
+                    ${meta.Labels['WelcomePage.LabelDetails'].Label}
                 </div>
 
                 <div class="actioncontainer">
 
                     <div class="action" id="action-explore">
-                        ${meta.Buttons['Start'].Label}
+                        ${meta.Labels['buttons.Start'].Label}
                     </div>
 
                 </div>
             </div>
         </div>
-        <div style="color: white; padding-left: 30vw; font-size: 10px">
-            ${meta.WelcomePage.Footer}
+
+        <div id="home-footer">
+
+            <div style="margin-top: 30px; margin-bottom: 20px; font-size: 10px; color: white">
+                This report is also available in:
+                <div>
+                    ${language_links}
+                </div>
+            </div>
+
+            <div style="color: white; border-top: 1px solid white; padding-top: 10px; font-size: 10px">
+                ${meta.Labels['WelcomePage.Footer'].Label}
+            </div>
+
         </div>
     </div>
     <iframe id="iframe1" scrolling="no" style="display:none; position:fixed; inset: 60px 0 0 0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:99;"></iframe>
 
     <script>
+
 
 	// Animation
 
@@ -100,7 +132,6 @@ function Home_Render() {
 
 	// Click Handler: Button: Slideshow
 	$('#action-slideshow').click(function() {
-		//$('#menuitem-Slideshow').click();
         $("#iframe1").fadeIn();
 	    document.getElementById("iframe1").focus();
 	});
@@ -113,8 +144,10 @@ function Home_Render() {
     // Click Handler: PowerPoint generator
     $('#action-powerpoint').click(Pptx_Generator);
 
-    document.getElementById("iframe1").contentWindow.document.write(Slideshow_RenderIframe());
-	document.getElementById("iframe1").contentWindow.document.close(); 
+    var d = document.getElementById("iframe1").contentWindow.document;
+
+    d.write(Slideshow_RenderIframe());
+	d.close(); 
 
     </script>
     `;
@@ -129,5 +162,4 @@ $(document).ready( function () {
          });
         });
       });
-
 });

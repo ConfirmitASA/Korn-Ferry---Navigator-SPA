@@ -2,9 +2,9 @@
 
 function DemographicHeatmap_Page() {
     return {
-        Label: meta.Pages.DemographicHeatmap.Title,
+        Label: meta.Labels.DemographicHeatmap.Title,
 
-        LeftPane: meta.Pages.DemographicHeatmap.Label,
+        LeftPane: meta.Labels.DemographicHeatmap.Label,
 
         RightPane: `
         <div id="Demographic-Heatmap-details">
@@ -24,7 +24,7 @@ function DemographicHeatmap_Render() {
 
     var dimensionsQuestions_dropdown = Component_Dropdown(
         'dimensions_questions',
-        meta.Labels.show.Label,
+        meta.Labels['labels.show'].Label,
         'Demographic-Heatmap-dimensions-questions-dropdown',
         '',
         ParamValues_ItemGroups()
@@ -32,7 +32,7 @@ function DemographicHeatmap_Render() {
 
     var breakby_dropdown = Component_Dropdown(
         'breakby',
-        meta.Labels.BreakBy.Label,
+        meta.Labels['labels.BreakBy'].Label,
         'Demographic-Heatmap-breakby-dropdown',
         '',
         ParamValues_BreakBy()
@@ -40,14 +40,14 @@ function DemographicHeatmap_Render() {
 
     var metric_switchComponent = Component_TwoOptionSwitch(
         'metric',
-        meta.Labels.metric.Label,
+        meta.Labels['labels.metric'].Label,
         'Demographic-Heatmap',
         ParamValues_DemographicHeatmap_Metric()
     );
 
     var comparators_switchComponent = Component_TwoOptionSwitch(
         'display_comparators',
-        meta.Labels['DisplayComparatorsAs'].Label,
+        meta.Labels['labels.DisplayComparatorsAs'].Label,
         'Demographic-Heatmap',
         ParamValues_DemographicHeatmap_Comparators()
     );
@@ -223,24 +223,24 @@ function DemographicHeatmap_UpdateTableTitle() {
     var rowText = '';
 
     if (rowVar === 'AllDimensions') {
-        rowText = meta.Labels.AllDimensions.Label;
+        rowText = meta.Labels['labels.AllDimensions'].Label;
     } else {
         if (rowVar === 'AllQuestions') {
-            rowText = meta.Labels.AllQuestions.Label;
+            rowText = meta.Labels['labels.AllQuestions'].Label;
         } else {
             if (rowVar === 'AllQuestionsOrdByDimension') {
-                rowText = meta.Labels.AllQuestionsOrdByDimension.Label;
+                rowText = meta.Labels['labels.AllQuestionsOrdByDimension'].Label;
             } else {
                 if (rowVar.indexOf('dimensions') >= 0) {
-                    rowText = meta.Labels['Dimension'].Label + ' ' + meta.Dimensions[rowVar.split('.')[1]].Label;
+                    rowText = meta.Labels['labels.Dimension'].Label + ' ' + meta.Dimensions[rowVar.split('.')[1]].Label;
                 }
             }
         }
     }
 
-    var newTitle = meta.Labels.SubHeading.Label;
+    var newTitle = meta.Labels['labels.SubHeading'].Label;
     newTitle = newTitle.replace('[DATA]', rowText)
-        .replace('[BENCHMARK]', `${meta.Labels[metricVar].Label} (${meta.Labels[comparatorsVar].Label})`)
+        .replace('[BENCHMARK]', `${meta.Labels['labels.' + metricVar].Label} (${meta.Labels['labels.' + comparatorsVar].Label})`)
         .replace('[DEMO]', meta.Demographics[breakbyVar].Label);
 
     $('#Demographic-Heatmap-table-title').html(newTitle);
@@ -297,11 +297,14 @@ function DemographicHeatmap_GetItemsTable() {
         return { Html: "" };
     }
 
+    var item_data = Main_CurrentItemsData_WithFilter();
+
+
     var breakbyVar = State_Get('breakby');
     var metricVar = State_Get('metric');
     var comparatorsVar = State_Get('display_comparators');
 
-    var breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Options);
+    var breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Answers);
 
     var headers = [
         [
@@ -310,8 +313,8 @@ function DemographicHeatmap_GetItemsTable() {
             { Label: 'dimensionId', ClassName: 'text-cell', colspan: 1, rowspan: 3 },
             { Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: 3 },
             { Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: 3 },
-            { Label: meta.Labels["Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: 3 },
-            { Label: `${meta.Demographics.Hierarchy.Title}`, ClassName: 'numeric-cell', colspan: 1, rowspan: 1 },
+            { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: 3 },
+            { Label: '${meta.Demographics.Hierarchy.Title}', ClassName: 'numeric-cell', colspan: 1, rowspan: 1 },
             { Label: `${meta.Demographics[breakbyVar].Label}`, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1 }
         ]
     ];
@@ -324,7 +327,7 @@ function DemographicHeatmap_GetItemsTable() {
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
         headerRow1.push({
-            Label: `${meta.Demographics[breakbyVar].Options[breakByAnswerIds[i]].Label}`,
+            Label: `${meta.Demographics[breakbyVar].Answers[breakByAnswerIds[i]].Label}`,
             ClassName: 'numeric-cell',
             colspan: 1,
             rowspan: 1
@@ -342,17 +345,27 @@ function DemographicHeatmap_GetItemsTable() {
 
     var table_data = [];
 
-    var dimensionOptions = Object.keys(data.Dimensions);
+    var dimensionOptions = Object.keys(meta.Dimensions);
 
     var addedItems = [];
 
     for (var i in dimensionOptions) {
         table_data.push(DemographicHeatmap_GetDimensionRowData(i, dimensionOptions[i], breakByAnswerIds, metricVar, comparatorsVar));
 
-        var itemOptions = data.Dimensions[dimensionOptions[i]].Items;
+        var itemOptions = meta.Dimensions[dimensionOptions[i]].Items;
 
         for (var j in itemOptions) {
-            table_data.push(DemographicHeatmap_GetItemRowData(i, dimensionOptions[i], itemOptions[j], breakByAnswerIds, metricVar, comparatorsVar, addedItems));
+            table_data.push(
+                    DemographicHeatmap_GetItemRowData(
+                    i, 
+                    dimensionOptions[i], 
+                    itemOptions[j], 
+                    breakByAnswerIds, 
+                    metricVar, 
+                    comparatorsVar, 
+                    addedItems
+                )
+            );
             addedItems.push(itemOptions[j]);
         }
     }
@@ -397,11 +410,17 @@ function DemographicHeatmap_GetItemsTable() {
 function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakByAnswerIds, metricVar, comparatorsVar) {
     var totalColumnRowValue;
 
+
+    // Overall Dimension score (no breakout)
+    var dimensions_data = Main_CurrentDimensionsData_WithFilter();
+    var overall_data = dimensions_data[dimensionId];
+    var dist = overall_data.Dist;
+
     if (metricVar == 'PercentFavorable') {
-        totalColumnRowValue = data.Dimensions[dimensionId].Distribution.Fav;
+        totalColumnRowValue = dist.Fav;
     } else {
         if (metricVar == 'PercentUnfavorable') {
-            totalColumnRowValue = data.Dimensions[dimensionId].Distribution.Unfav;
+            totalColumnRowValue = dist.Unfav;
         } else {
             totalColumnRowValue = null;
         }
@@ -417,9 +436,18 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
         { Label: totalColumnRowValue, ClassName: 'numeric-cell dimension-row-cell' }
     ];
 
+
+    // Breakout Dimension Scores (DIMSX)
+    var breakdown_variable_id = State_Get('breakby');
+    var breakdown_data_key = Main_GetKeyWithFilter('DIMSX', config.CurrentWave, data.User.PersonalizedReportBase, breakdown_variable_id);
+    var breakdown_data = data[breakdown_data_key];
+
+    // Loop over all breakdown values
     for (var i = 0; i < breakByAnswerIds.length; i++) {
-        var breakByRowValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
-        var vsTotalValue = data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
+        var breakdown_code = breakByAnswerIds[i];
+        var breakdown_dimension_data = breakdown_data[breakdown_code][dimensionId];
+        var breakByRowValue = breakdown_dimension_data.Dist;
+        var vsTotalValue = breakdown_dimension_data.Fav; //data.Dimensions[dimensionId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
 
         var cellData = DemographicHeatmap_SetCellData(metricVar, comparatorsVar, vsTotalValue, breakByRowValue);
 
@@ -432,11 +460,15 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
 function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
     var totalColumnRowValue;
 
+    var items_data = Main_CurrentItemsData_WithFilter();
+    var overall_data = items_data[itemId];
+    var dist = Utils_CountsToPercents ( overall_data.Dist );
+
     if (metricVar == 'PercentFavorable') {
-        totalColumnRowValue = data.Items[itemId].Distribution.Fav;
+        totalColumnRowValue = dist.Fav;
     } else {
         if (metricVar == 'PercentUnfavorable') {
-            totalColumnRowValue = data.Items[itemId].Distribution.Unfav;
+            totalColumnRowValue = dist.Unfav;
         } else {
             totalColumnRowValue = null;
         }
@@ -451,14 +483,14 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
         { Label: '0', ClassName: 'text-cell item-row-cell' },
         { Label: dimensionId, ClassName: 'text-cell item-row-cell' },
         { Label: isExclusiveItem.length > 0 ? '0' : '1', ClassName: 'text-cell item-row-cell' },
-        { Label: itemId, ClassName: 'numeric-cell item-row-cell' },
-        { Label: Main_GetQuestionText (itemId).Label, ClassName: 'text-cell item-row-cell' },
+        { Label: items_data[itemId].QNo, ClassName: 'numeric-cell item-row-cell' },
+        { Label: meta.Items[itemId].Label, ClassName: 'text-cell item-row-cell' },
         { Label: totalColumnRowValue, ClassName: 'numeric-cell item-row-cell' }
     ];
 
     for (var i = 0; i < breakByAnswerIds.length; i++) {
-        var breakByRowValue = data.Items[itemId].BreakBy.Options[breakByAnswerIds[i]].Distribution;
-        var vsTotalValue = data.Items[itemId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
+        var breakByRowValue = null; //data.Items[itemId].BreakBy.Answers[breakByAnswerIds[i]].Distribution;
+        var vsTotalValue = null; //data.Items[itemId].BreakBy.Options[breakByAnswerIds[i]].vsTotal;
 
         var cellData = DemographicHeatmap_SetCellData(metricVar, comparatorsVar, vsTotalValue, breakByRowValue);
 
@@ -473,6 +505,7 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, vsTotalValue,
     var sigTestingClass = '';
     var cellValue = '';
 
+    /*
     if (metricVar == 'PercentFavorable') {
         if (comparatorsVar == 'DifferencetoTotal') {
             cellValue = vsTotalValue.Fav;
@@ -496,6 +529,9 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, vsTotalValue,
     else {
         cellValue = null;
     }
+    */
+
+    cellValue = 0;
 
     cellData.value = cellValue;
     cellData.datasortValue = parseFloat(cellValue);

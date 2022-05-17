@@ -1,8 +1,8 @@
 function OpenComments_Page() {
     return {
-        Label: meta.Pages['OpenComments'].Title,
+        Label: meta.Labels['OpenComments'].Title,
 
-        LeftPane: meta.Pages['OpenComments'].Label,
+        LeftPane: meta.Labels['OpenComments'].Label,
 
         RightPane: `
         <div id="opencomments_table-container"></div>
@@ -37,7 +37,7 @@ function OpenComments_Render() {
 
 	var Comment_dropdown = Component_Dropdown(
 		'comment',
-		meta.Labels["SelectQuestion"].Label,
+		meta.Labels["labels.SelectQuestion"].Label,
 		'opencomments_comment-highlighter-dropdown',
 		'',
 		ParamValues_Comment()
@@ -45,9 +45,9 @@ function OpenComments_Render() {
 
 	var Category_dropdown = Component_Dropdown(
 		'CommentCategory',
-		meta.Labels["SelectTheme"].Label,
+		meta.Labels['labels.SelectTheme'].Label,
 		'opencomments_category-highlighter-dropdown',
-		meta.Labels["all"].Label,
+		meta.Labels['labels.all'].Label,
 		ParamValues_CommentCategory()
 	);
 
@@ -116,7 +116,7 @@ function OpenComments_VerbatimsTable() {
         var comment = data.Comments[comm][i];
         if (cat && cat != -1 && cat != comment.Category) continue; 
         var category = (comment.Category == null) 
-            ? meta.Labels['NA'].Label 
+            ? meta.Labels['labels.NA'].Label
             : categories[comment.Category].Label;
 
         var commentHtml = `
@@ -134,7 +134,7 @@ function OpenComments_VerbatimsTable() {
     }
     
     var hdr = {
-        Label: meta.Labels["Comments"].Label + " (" + table_data.length + "): " + $('#opencomments_comment-highlighter-dropdown option:selected').text(), 
+        Label: meta.Labels['labels.Comments'].Label + " (" + table_data.length + "): " + $('#opencomments_comment-highlighter-dropdown option:selected').text(), 
         ClassName: 'text-cell' 
     };
 
@@ -142,7 +142,7 @@ function OpenComments_VerbatimsTable() {
         [
             hdr,
             hdr,
-            { Label: meta.Labels["Theme"].Label, ClassName: 'text-cell' }
+            { Label: meta.Labels["labels.Theme"].Label, ClassName: 'text-cell' }
         ]
     ];
     

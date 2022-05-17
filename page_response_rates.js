@@ -11,7 +11,7 @@ function ResponseRates_Page() {
 		RightPane:
 			Component_TestDataIndicator ( true ) +
 		`
-		<div class="dashboard__main-wrapper view-mode">
+		<div class="view-mode">
 			<section class="widgets__wrapper">
 
 				<div id="FullHierarchy" class="r2i-row r2i-row--max-width" style="display: block;">
@@ -19,14 +19,14 @@ function ResponseRates_Page() {
 						<h3 class="widget__title"></h3>
 						<div class="" style="WIDTH: 100%" id="FullScrollingDiv">
 							<!-- AccoridionScript-->
-							<table id="accordionTable" class="treetable">
+							<table id="accordionTable" class="treetable items-table dataTable no-footer">
 								<thead class="TableRow" id="accordionHeader">
 									<tr class="TableRow" id="accordionHeader">
-										<th class="acc_hdr" style="text-align:left !important; min-width:200px !important;">Report Group</th>
-										<th class="acc_hdr">Invited</th>
-										<th class="acc_hdr">Respondents</th>
-										<th class="acc_hdr">Response Rate</th>
-										<th class="acc_hdr">Rollup</th>
+										<th class="text-cell" style="text-align:left !important; min-width:200px !important;">Report Group</th>
+										<th class="text-cell">Invited</th>
+										<th class="text-cell">Respondents</th>
+										<th class="text-cell">Response Rate</th>
+										<th class="text-cell">Rollup</th>
 										<th class="workId hideable noexport" style="display:none">Work Unit Id</th>
 										<th class="parentId hideable noexport" style="display:none">Parent Id</th>
 										<th class="managerName hideable noexport" style="display:none">ManagerName</th>
@@ -69,9 +69,9 @@ function ResponseRates_Render() {
 			var treeVals = 'data-tt-id="' + item[2] + '" ';
 			if (item[3] != "TOP") treeVals += 'data-tt-parent-id="' + item[3] + '"';
 			var tableRow = '<tr class="TableRow toggle HierarchyItem ' + (item[1] == "false" ? "alwaysshow" : "") + '" id="node_' + item[2] + '" ' + treeVals + '>';
-			tableRow += '<td class="HierarchyTitle" >' + item[4] + '</td>';
+			tableRow += '<td class="HierarchyTitle text-cell" >' + item[4] + '</td>';
 			item.slice(5, -3).forEach(function(colItem, colIndex) {
-				tableRow += '<td class="acc_data">' + colItem + '</td>';
+				tableRow += '<td class="text-cell">' + colItem + '</td>';
 			});
 			tableRow += '<td class="workId hideable" style="display:none">' + item[2] + '</td><td class="parentId hideable" style="display:none">' + item[3] + '</td>';
 			tableRow += '<td class="managerName hideable" style="display:none">' + item[item.length - 1] + '</td>';

@@ -5,7 +5,7 @@ function Component_HierarchyPicker( ) {
     var key =  Main_GetKey ( 'RR', config.CurrentWave, data.User.PersonalizedReportBase );
     var rr = data[key];
 
-    var rr_label = "Response Rate";
+    var rr_label = meta.Labels['labels.ResponseRate'].Label; //"Response Rate";
     var completed_surveys = rr.Completes;
     var invite_count = rr.Total;
     var rr_pct = (invite_count == 0)
@@ -70,6 +70,8 @@ function Component_HierarchyPicker( ) {
                 FONT-SIZE: 12PX;
                 padding-right: 6px;
                 MARGIN: 0 8px;
+                direction: ltr;
+                display: inline-block;
             ">
             ${rr_pct}
             </span>
@@ -82,29 +84,31 @@ function Component_HierarchyPicker( ) {
 	function OpenHierarchySelector(){
         console.log ('OpenHierarchySelector')
         var dd = $('.dd-drilldown');
+        $('#hierarchypicker').removeClass('displaynone');
 
-        dd.removeClass('displaynone');
+									  
 
-        if( dd.html()==undefined ){
+        if( dd.html() == undefined ) {
             console.log ('clicking button arrow');
-			$('.dd-target-button-arrow')[0].click();}
-		else{
+			$('.dd-target-button-arrow')[0].click();
+        } else {
             console.log ('unhiding what is already here');
-			dd.show();
-            dd.css('display', 'unset');
+			 
+            dd.css('display', 'block');
 		}
         return false;
     }
 
         $('#hierarchy-button').click(
-            function () {
+            function(e) {
                 $('#fullpath-container').css('display', 'none'); // hide the full path
                 OpenHierarchySelector();
+                e.stopPropagation();
             }
         );
 
         $('#hierarchy-button').mouseover (
-            function () {
+            function() {
                 $('#fullpath-container').css('display', 'unset');
             }
         );

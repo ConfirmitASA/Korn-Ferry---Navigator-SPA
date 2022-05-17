@@ -35,6 +35,10 @@
     width: 675px;
 }
 
+.action-text a {
+    color: #647CC2;
+}
+
 .action-label {
     font-size: 12px;
     margin: 10px 0 4px 0;
@@ -70,15 +74,17 @@
 .id-cell {
     background-color: #f9f9f9;
     font-size: 14px;
+    font-weight: normal;
     border-bottom: 1px solid #d0d0d0;
 }
 
 .numeric-cell {
     text-align: center;
+    direction: ltr;
 }
 
 .text-cell {
-    text-align: left;
+    text-align: start;
     width: 400px;
 }
 .id-cell {
@@ -564,6 +570,7 @@ b {
 }
 
 .metriclabel_back {
+    text-align: start;
     position: relative;
     font-size: 14px;
     font-weight: bold;
@@ -571,7 +578,6 @@ b {
     color: #000;
     top: -105px;
     left: 8%;
-    text-align: left;
     width: 85%;
 }
 
@@ -610,7 +616,7 @@ b {
     position: absolute;
     font-size: 28px;
     font-weight: bold;
-    right: 20px;
+    right: 50px;
     top: 50px;
 }
 
@@ -629,15 +635,17 @@ b {
 .itemrow {
     width: 100%;
     border-top: 1px solid #000;
+    text-align: start;
 }
 
 .itemlabel {
-    display: inline-block;
     padding-top: 4px;
+    padding-bottom: 12px;
     margin-bottom: 10px;
     font-size: 12px;
     line-height: 14px;
     width: 80%;
+    text-align: start;
 }
 
 .item_barchart_container {
@@ -667,12 +675,13 @@ b {
 .itemscore {
     width: 20%;
     right: 0px;
-    padding-top: 4px;
+    padding-bottom: 12px;
     font-size: 16px;
     font-weight: bold;
     text-align: right;
     width: 17%;
-    float: right;
+    text-align: end;
+    vertical-align: top;
 }
 
 
@@ -684,7 +693,7 @@ b {
     font-weight: 400;
     text-align: right;
     width: 17%;
-    float: right;
+    text-align: end;
 }
 
 .flip-card-front,
@@ -748,13 +757,13 @@ b {
 }
 
 .vs_label {
-    width: 48%;
+    width: 160px;
     font-size: 12px;
     color: #666;
 }
 
 .vs_score {
-    width: 15%;
+    width: 40px;
     font-size: 14px;
     font-weight: normal;
 }
@@ -886,7 +895,8 @@ b {
 /* master-page-modal-filter-container */
 
 #master-page-modal-filter-container,
-#master-page-modal-wait-container {
+#master-page-modal-wait-container,
+#master-page-modal-spinner-container {
     z-index: 99999;
     height: 100vh;
     width: 100vw;
@@ -955,18 +965,18 @@ option {
 }
 
 .left-pane-content {
-    margin-bottom: 20px;
-    width: 350px;
-    max-width: 350px;
-    padding-right: 10px;
-    overflow: auto;
-    height: calc(100vh - 280px);
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 22px;
+    margin-bottom: 20px; 
+	width: 350px; 
+	max-width: 350px;
+	padding-right: 10px;
+	overflow: auto;
+	height: calc(100vh - 280px); 
+	font-size: 14px; 
+	font-weight: 300; 
+	line-height: 22px;
 }
 
-.left-pane-content>p:first-child {
+.left-pane-content > p:first-child {
     color: #00634f;
     font-weight: 500;
 }
@@ -1210,30 +1220,50 @@ align-items: center;
 background-color: #00adbb;
 }
 
+
+#accordionTable.treetable td {
+    border-bottom: 1px solid #d0d0d0 !important;
+    padding: 10px 15px !important;
+}
+
+/* sticky headers */
+.stickyHeaderWrapper {
+    height: 62vh;
+    overflow-y: auto;
+    width: 100%;
+}
+.stickyHeaderWrapper thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+
 @media print {
-.menu,
-.submenu {
-display: none
-}
+    .menu,
+    .submenu {
+        display: none
+    }
 
-.page-header,
-.page-container {
-padding-left: 0px;
-}
+    .page-header,
+    .page-container {
+        padding-left: 0px;
+    }
 
-.panes-background {
-background: linear-gradient(to right, #fff 0px, #FFF 330px, #f0f0f0 330px);
-}
+    .panes-background {
+        background: linear-gradient(to right, #fff 0px, #FFF 330px, #f0f0f0 330px);
+    }
 
-.right-pane-content {
-padding: 0px 0px 0px 0px;
-position: relative;
-left: -60px;
-}
+    .right-pane-content {
+        padding: 0px 0px 0px 0px;
+        position: relative;
+        left: -60px;
+    }
 
-.left-pane {
-top: -60px;
-}
+    .left-pane {
+        top: -60px;
+    }
 
 
 }

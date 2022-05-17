@@ -25,7 +25,7 @@ function FilterSummary_GetFilterSummary() {
         <tr>
             <td style="vertical-align: top; padding-top: 4px;"> 
                 <span class=filtervariable> 
-                    ${data.Filters.Items[key].Label} 
+                    ${meta.Demographics[key].Label} 
                     <span onclick='ClearFiltersIndividualDemographic("${key}")' class=miniredx></span>
                 </span>
             </td> 
@@ -40,7 +40,7 @@ function FilterSummary_GetFilterSummary() {
     
     var filter_summary = (o.length > 0)
         ?  '<table>' + o.join('') + '</table>' +
-            `<div onclick="ClearFilters()" class="action action-red" style="position: absolute; right: 20px; top: 10px; width: 80px;">${meta.Buttons['Clear'].Label}</div>`
+            `<div onclick="ClearFilters()" class="action action-red" style="position: absolute; right: 20px; top: 10px; width: 80px;">${meta.Labels['buttons.Clear'].Label}</div>`
         : '';
 
     return filter_summary;

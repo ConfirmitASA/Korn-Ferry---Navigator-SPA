@@ -9,7 +9,8 @@ function State_Get( name ){
     return state.Parameters[name];
 }
 
-function State_Set ( name, value ) {
+function State_Set ( name, value, ref ) {
+    console.log ( 'State_Set: ' + [name, value, ref].join(' : ') );
     state.Parameters[name] = value;
 }
 

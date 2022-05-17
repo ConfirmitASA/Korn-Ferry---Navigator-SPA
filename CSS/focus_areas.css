@@ -34,7 +34,7 @@
 .focus-area-card {
     margin: 5px 0px;
     padding: 5px;
-    border: 2px solid #999999;
+    border: 1px solid #c0c0c0;
     background-color: #ffffff;
     width: 100%;
     display: flex;
@@ -99,7 +99,7 @@
 .fa-card-header_text {
     padding: 10px 15px;
     font-size: 1.1rem;
-    text-decoration: underline;
+    text-decoration: none;
     color: #00634f;
 }
 .fa-card-header_remove {

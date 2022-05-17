@@ -1,11 +1,26 @@
 function Slideshow_RenderIframe() {
     return `
+
+    <!--
+    <script src="libraries/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="libraries/reveal.css" />
     <link rel="stylesheet" href="libraries/white.css" />
     <script type="text/javascript" src="libraries/reveal.js"></script>
-    <script src="libraries/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="CSS/kf.css">
     <link rel="stylesheet" href="CSS/key_metrics.css">
+    -->
+
+
+    <link rel="stylesheet" href="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/reveal.css">
+    <link rel="stylesheet" href="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/white.css">
+    <link rel="stylesheet" href="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/kf.css">
+    <link rel="stylesheet" href="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/key_metrics.css">
+    
+    <script src="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/reveal.js"></script>
+    <script src="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerrySPA/jquery-3.6.0.min.js"></script>
+
+
     <style>
         :root {
             --r-link-color: #00634f;
@@ -16,7 +31,7 @@ function Slideshow_RenderIframe() {
         }
         .reveal table th, .reveal table td {
             border: none;
-            padding: 0;
+            padding: 5px 10px;
         }
         .reveal-viewport {
             height: 85%;
@@ -30,19 +45,28 @@ function Slideshow_RenderIframe() {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
-            min-height: 400px;
+            height: 600px;
         }
         .slide_header {
             color: #00634f;
             font-size: 28px;
-            text-align: left;
+            text-align: start;
         }
         .slide_infotext {
             font-size: 12px;
             background-color: #ECF6D9;
-            text-align: left;
+            text-align: start;
             margin: 10px 0 10px 0;
             padding: 10px 0 10px 0;
+        }
+        .slide_text {
+            font-size: 20px;
+            text-align: start;
+            margin: 20px 0px;
+            line-height: 2;
+        }
+        .slide_text ul, .slide_text ol {
+            padding-left: 30px;
         }
         .close_slideshow_button {
 		    width: 30px;
@@ -99,11 +123,14 @@ function Slideshow_RenderIframe() {
         .keydrivers-icon img {
             margin: 5px;
         }
+        .vs {
+            bottom: 60px;
+        }
         .keydrivers-text {
             text-transform: uppercase;
             font-size: 10px;
             font-weight: bold;
-            text-align: left;
+            text-align: start;
             padding: 20px 0px;
             height: 15px;
             clear: both;
@@ -114,9 +141,6 @@ function Slideshow_RenderIframe() {
         .items-table-slideshow {
             width: 100%;
             margin: 10px auto !important;
-        }
-        .items-table-slideshow th, .items-table-slideshow td {
-            padding: 5px !important;
         }
         .items-table-slideshow .numeric-cell {
             text-align: center;
@@ -133,13 +157,13 @@ function Slideshow_RenderIframe() {
             $('.close_slideshow_button').click(function() {
                 window.parent.document.getElementById("iframe1").style.display = "none";
             });
-            Reveal.initialize({width:1200,height:700,controlsLayout:'edges'});
+            Reveal.initialize({width:1200,height:700,controlsLayout:'edges', rtl: parent.Main_IsRTL()});
         </script>
     `;
 }
 
 function Slideshow_RenderSlides() {
-    var slides = ["keyindices", "keydrivers", "ENG", "", ""];
+    var slides = ["WELCOME", "KEYINDICES", "KEYDRIVERS", "STRENGTHS", "OPPORTUNITIES", "DIMS", "NEXTSTEPS"];
     var o = [];
     for (const key in slides) {
         o.push(`
@@ -156,7 +180,7 @@ function Slideshow_RenderSlides() {
 
 function Slideshow_RenderSlideContent(slide) {
     switch (slide) {
-        case "keyindices":
+        case "KEYINDICES":
             return `
             <div style="padding: 20px 50px;">
                 <div class="slide_header">${meta.SlideTexts.SLIDE_KEYINDICES.title}</div>
@@ -166,23 +190,46 @@ function Slideshow_RenderSlideContent(slide) {
                         <li>${meta.SlideTexts.SLIDE_KEYINDICES.info[1]}</li>
                     </ul>
                 </div>
-                <div class="flip-card-wrapper">${Slideshow_RenderKeyIndices()}</div>
+                <div class="flip-card-wrapper" style="margin-top: 30px;">${Slideshow_RenderKeyIndices()}</div>
             </div>
             `;
-        case "keydrivers":
+        case "KEYDRIVERS":
             return `
             <div style="padding: 20px 50px;">
                 <div class="slide_header">${meta.SlideTexts.SLIDE_KEYDRIVERS.title}</div>
                 <div>${Slideshow_RenderKeyDrivers()}</div>
             </div>    
             `;
-        case "ENG":        
+        case "WELCOME":
             return `
-            <div style="padding: 0px 0px;">
-                <div class="slide_header">${meta.SlideTexts["SLIDE_"+slide].title}</div>
-                <div>${Slideshow_RenderItemsTable(slide)}</div>
-            </div>    
+                <div style="padding: 20px 50px;">
+                    <div class="slide_header">${meta.SlideTexts["SLIDE_" + slide].title}</div>
+                    <div class="slide_text">
+                        <p>${meta.SlideTexts["SLIDE_" + slide].info[0]}</p>
+                        <ul>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[1]}</li>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[2]}</li>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[3]}</li>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[4]}</li>                            
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[5]}</li>
+                        </ul>
+                    </div>
+                </div>
             `;
+        case "NEXTSTEPS":
+            return `
+                <div style="padding: 20px 50px;">
+                    <div class="slide_header">${meta.SlideTexts["SLIDE_" + slide].title}</div>
+                    <div class="slide_text">
+                        <p>${meta.SlideTexts["SLIDE_" + slide].info[0]}</p>
+                        <ol>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[1]}</li>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[2]}</li>
+                            <li>${meta.SlideTexts["SLIDE_" + slide].info[3]}</li>
+                        </ol>
+                    </div>
+                </div>
+                `;
         default:
             return "slide placeholder";
     }
@@ -204,7 +251,7 @@ function Slideshow_RenderKeyIndices() {
         var dimension_id = metrics[i];
         var current_score = current_dimensions[dimension_id].Dist.Fav;
         var comparator_score = comparator_dimensions[dimension_id].Dist.Fav;
-        var scoreLabel = meta.Labels.Favorable.Label;
+        var scoreLabel = meta.Labels['labels.Favorable'].Label;
         var scoreValue = Utils_FormatPctOutput(current_score);
 
         var arrowClass = '';
@@ -324,12 +371,14 @@ function Slideshow_RenderKeyDrivers() {
     `;
 
     var html = `
-        <table width="100%" style="font-size: 14px;"><tbody valign="top"><tr>
-        <td width="50%">${infotext}</td>
+        <table width="100%" style="font-size: 14px; margin-top: 20px;"><tbody valign="top"><tr>
+        <td width="50%">
+            <div style="font-size: 16px; margin-left: -10px;">${infotext}</div>
+        </td>
         <td width="25%" align="center">
             <span style="color: #006550; font-weight: bold;">${meta.SlideTexts.SLIDE_KEYDRIVERS.LabelTop2KeyDriversOf}<br>${meta.SlideTexts.SLIDE_KEYDRIVERS.LabelEmployeeEngagement}</span>
             <div class="keydrivers-card">
-                <div class="keydrivers-icon"><img src="img/engagement.png"></div>
+                <div class="keydrivers-icon"><img src="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/engagement.png"></div>
                 <div class="keydrivers-text">
                     ${meta.Dimensions[config.EngagementDimensionId].KeyMetric_BackCardText}
                 </div>
@@ -341,7 +390,7 @@ function Slideshow_RenderKeyDrivers() {
         <td width="25%" align="center">
             <span style="color: #006550; font-weight: bold;">${meta.SlideTexts.SLIDE_KEYDRIVERS.LabelTop2KeyDriversOf}<br>${meta.SlideTexts.SLIDE_KEYDRIVERS.LabelEmployeeEnablement}</span>
             <div class="keydrivers-card">
-                <div class="keydrivers-icon""><img src="img/enablement.png"></div>
+                <div class="keydrivers-icon""><img src="https://survey.us.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC2/enablement.png"></div>
                 <div class="keydrivers-text">
                     ${meta.Dimensions[config.EnablementDimensionId].KeyMetric_BackCardText}
                 </div>
@@ -360,6 +409,46 @@ function Slideshow_MetricDrivers(dimension_id) {
 
     var current_items = Main_CurrentItemsData_WithFilter();
 
+
+    tmp.push('<table style="width: 100%" class=items>');
+
+    var kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
+    var kda = data[kda_key];
+    var drivers = kda[dimension_id];
+    if (drivers == null) drivers = [];
+
+    var drivers = drivers.slice(0,2); //todo
+
+    if (!!meta.Dimensions[ dimension_id ].Items) {
+        for (var j = 0; j< 2 && j < drivers.length; j++) {
+            var item_id = drivers[j]; // example: "AV01"
+            var pct_distribution = Utils_CountsToPercents ( current_items[item_id].Dist );
+            var scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
+            var item_dimension_id = Main_GetDimensionIdByItemId ( item_id );
+
+            tmp.push(`
+				<tr class=itemrow style="height: 50px !important">
+					<td colspan=2 style="font-size: 10px; padding-top: 10px; padding-bottom: 8px; color: #666; text-transform: uppercase">
+						${meta.Dimensions[ item_dimension_id ].Label}
+					</td>
+                </tr>
+                <tr>
+					<td class=itemlabel style="height: 80px; vertical-align: top;">
+						${Main_GetQuestionText(item_id)}
+					</td>
+					<td class=itemscore>
+						${scoreValue}
+					</td>
+                </tr>
+			`);
+        }
+    }
+    tmp.push('</table>');
+
+
+
+
+    /*
     tmp.push('<div class=items>');
 
     var kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
@@ -391,204 +480,9 @@ function Slideshow_MetricDrivers(dimension_id) {
         }
     }
     tmp.push('</div>');
+    */
     return tmp.join('');
 }
 
-function Slideshow_RenderItemsTable(tableType) {
-    //return "";
-    var dt = Slideshow_GenerateTable(tableType);
-    return dt.Html;
-}
 
-function Slideshow_GenerateTable(tableType) {
-    var table_data = [];
-    var rowdata = [];
 
-    var comparators = Main_CompactComparatorSet();
-    var NofComparators = comparators ? comparators.length : 0;
-    var NofHeaderRows = (NofComparators > 0) ? 2 : 1;
-
-    var is_all_dimensions_view = (tableType == 'DIMS');
-
-    var headers = [
-        []
-    ];
-
-    headers[0].push(
-        { Label: "# ", ClassName: 'id-cell', rowspan: NofHeaderRows },
-        { Label: meta.Labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
-    );
-
-    // don't show N for All Dimensions view
-    if (!is_all_dimensions_view)
-        headers[0].push({ Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows });
-
-    headers[0].push(
-        { Label: meta.Labels["PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-        { Label: meta.Labels["PercentNeu"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-        { Label: meta.Labels["PercentUnfav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: NofHeaderRows },
-        { Label: meta.Labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
-    );
-
-    if (NofComparators > 0) {
-        headers[0].push(
-            { Label: meta.Labels["FavvsComparator"].Label, ClassName: 'numeric-cell', colspan: NofComparators }
-        );
-        var subheaders = [];
-        for (var i = 0; i < NofComparators; i++) {
-            subheaders.push({ Label: meta.Comparators[comparators[i]].Label, ClassName: 'numeric-cell' });
-        }
-        headers.push(subheaders);
-    }
-
-    if (tableType == 'ENG' || tableType == 'ENA') {
-        var dimId = (tableType == 'ENG')
-            ? 'DIM_ENG'
-            : 'DIM_ENA';
-
-        rowdata = Slideshow_AddItemToTable(dimId, true, is_all_dimensions_view);
-        table_data.push(rowdata);
-    }
-    var items = [];
-    switch (tableType) {
-        case 'ENG':
-            items = meta.Dimensions['DIM_ENG'].Items;
-            items.sort(Pptx_SortByFav_Desc);
-            break;
-        case 'ENA':
-            items = meta.Dimensions['DIM_ENA'].Items;
-            items.sort(Pptx_SortByFav_Desc);
-            break;
-        case 'STRENGTHS':
-            var so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
-            var so = data[so_key];
-            items = so.S;
-            break;
-        case 'OPPORTUNITIES':
-            var so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
-            var so = data[so_key];
-            items = so.O;
-            break;
-        case 'DIMS':
-            items = Object.keys(meta.Dimensions);
-            items.sort(Pptx_SortByDimensionFav_Desc);
-            break;
-        case 'TOP5':
-            items = Object.keys(meta.Items);
-            items.sort(Pptx_SortByFav_Desc);
-            items = items.slice(0, 5);
-            break;
-        case 'BOTTOM5':
-            items = Object.keys(meta.Items);
-            items.sort(Pptx_SortByUnfav_Desc);
-            items = items.slice(0, 5);
-            break;
-    }
-    for (var i = 0; i < items.length; i++) {
-        var index = (tableType == 'STRENGTHS' || tableType == 'OPPORTUNITIES') ? i + 1 : 0;
-        rowdata = Slideshow_AddItemToTable(items[i], is_all_dimensions_view, is_all_dimensions_view, index);
-        table_data.push(rowdata);
-    }
-
-    var barchartCol = is_all_dimensions_view ? 5 : 6;
-    var hideColumns = [];
-    if (NofComparators > 3) hideColumns.push(barchartCol);
-
-    var columnSettings = `
-		'columnDefs': [
-			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
-		],
-	`;
-
-    var dt = Component_DataTable(
-        "items-table-slideshow-"+tableType,
-        "items-table-slideshow",
-        headers,
-        table_data,
-        false,
-        false,
-        columnSettings
-    );
-
-    return dt;
-}
-
-function Slideshow_AddItemToTable(itemId, isDimension, is_all_dimensions_view, index) {
-    var formatter = Utils_FormatOutput;
-
-    var comparators = Main_CompactComparatorSet();
-    var NofComparators = comparators ? comparators.length : 0;
-    var comparators_data = Main_ComparatorsData_WithFilter();
-    
-    var current_data = isDimension
-        ? Main_CurrentDimensionsData_WithFilter()
-        : Main_CurrentItemsData_WithFilter();
-
-    var obj = current_data[itemId]; // Either Item or Dimension
-
-    var label = isDimension
-        ? '<b>' + meta.Dimensions[itemId].Label + '</b>'
-        : meta.Items[itemId].Label;
-
-    var id = isDimension
-        ? '&#9674;' // diamond symbol
-        : (index ? index : obj.QNo);
-
-    var pct_dist = isDimension
-        ? obj.Dist // dimensions already store rounded percentages in the distribution
-        : Utils_CountsToPercents(obj.Dist);
-
-    var rowdata = [];
-
-    rowdata.push(
-        { Label: id, ClassName: 'id-cell' },
-        { Label: label, ClassName: 'text-cell' }
-    );
-
-    if (!is_all_dimensions_view) { // don't show N value for dimensions
-        rowdata.push(
-            { Label: isDimension ? '' : formatter(obj.N), ClassName: 'numeric-cell' } 
-        );
-    }
-
-    rowdata.push(
-        { Label: formatter(pct_dist.Fav), ClassName: 'numeric-cell distribution-cell' },
-        { Label: formatter(pct_dist.Neu), ClassName: 'numeric-cell distribution-cell' },
-        { Label: formatter(pct_dist.Unfav), ClassName: 'numeric-cell distribution-cell' },
-        { Label: Component_DistributionChartStacked(pct_dist), datasort: pct_dist.Fav, ClassName: 'text-cell' }
-    );
-
-    for (var k = 0; k < NofComparators; k++) {
-        var comparator_id = comparators[k];
-        var comparator_data = comparators_data[comparator_id];
-        var comparator_data_itemsdata = isDimension ? comparator_data.Dimensions : comparator_data.Items;
-
-        var value;
-        var sigClassname;
-
-        if (
-            comparator_data == null
-            ||
-            comparator_data_itemsdata == null
-            ||
-            comparator_data_itemsdata[itemId] == null
-        ) {
-            value = NOT_AVAILABLE;
-            sigClassname = '';
-        }
-        else {
-            var sig_test = Utils_SigTest(obj, comparator_data_itemsdata[itemId], 'Fav', isDimension);
-            sigClassname = sig_test.IsSignificant
-                ? (sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
-                : '';
-
-            value = (sig_test.Diff == null)
-                ? NOT_AVAILABLE
-                : (sig_test.Diff > 0 ? '+' : '') + sig_test.Diff + (sig_test.IsSignificant ? ' *' : '');
-
-        }
-        rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
-    }
-
-    return rowdata;
-}

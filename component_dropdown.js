@@ -12,7 +12,7 @@ function Component_Dropdown ( param_name, label, id, default_text, param_values 
         o.push ( '<option value="-1">' + default_text + '</option>' );
     } else {
         if (current_value==null) {
-            current_value=param_values[0].Code;
+                current_value = (param_values.length>0) ? param_values[0].Code : null;
         }
     }
 

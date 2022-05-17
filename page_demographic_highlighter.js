@@ -2,9 +2,9 @@
 
 function DemographicHighlighter_Page() {
     return {
-        Label: meta.Pages.DemographicHighlighter.Title,
+        Label: meta.Labels.DemographicHighlighter.Title,
 
-        LeftPane: meta.Pages.DemographicHighlighter.Label,
+        LeftPane: meta.Labels.DemographicHighlighter.Label,
 
         RightPane: `
 			<div id="demographic-highlighter-details">

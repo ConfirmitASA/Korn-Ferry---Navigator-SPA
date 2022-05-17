@@ -67,6 +67,7 @@ function Utils_LoremIpsum() {
 }
 
 function Utils_IsNullInDistribution( dist ) {
+	if (dist==null) return true;
 	let indexOfNull = Object.values(dist).findIndex((element) => {
 		return element === null || isNaN(element);
 	});
@@ -87,6 +88,7 @@ function Utils_CountsToPercents  ( dist ) {
 	var o = {};
 
 	if(!Utils_IsNullInDistribution(dist)) {
+
 		for (var key in dist)
 			o[key] = (count == 0) ? null : Math.round(100 * dist[key] / count);
 	} else {
@@ -128,6 +130,7 @@ function Utils_AddComparatorsData (item, rowdata) {
 	
 	return rowdata;
 }
+
 
 function Utils_SetActionButtonToADD(actionButtonElement, buttonText) {
 	$(actionButtonElement).removeClass('remove-action');

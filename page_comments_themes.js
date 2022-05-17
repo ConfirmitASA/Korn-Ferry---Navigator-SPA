@@ -1,8 +1,8 @@
 function CommentsThemes_Page() {
     return {
-        Label: meta.Pages['CommentsThemes'].Title,
+        Label: meta.Labels['CommentsThemes'].Title,
 
-        LeftPane: meta.Pages['CommentsThemes'].Label,
+        LeftPane: meta.Labels['CommentsThemes'].Label,
 
         RightPane: `
 		<div id="commentsthemes-table-container"></div>
@@ -20,7 +20,7 @@ function CommentsThemes_Render() {
 
     var Comment_dropdown = Component_Dropdown(
 		'comment',
-		meta.Labels["SelectQuestion"].Label,
+		meta.Labels["labels.SelectQuestion"].Label,
 		'commentsthemes-comment-highlighter-dropdown',
 		'',
 		ParamValues_Comment()
@@ -65,9 +65,9 @@ function CommentsThemes_ItemsTable() {
     var headers = [
         [
             { Label: meta.CommentQuestions[comm].Label, ClassName: 'text-cell' },
-            { Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell' },
-            { Label: meta.Labels["Pct"].Label, ClassName: 'numeric-cell distribution-cell' },
-            { Label: meta.Labels["Distribution"].Label, ClassName: 'numeric-cell' }
+            { Label: meta.Labels["labels.ValidN"].Label, ClassName: 'numeric-cell' },
+            { Label: meta.Labels["labels.Pct"].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels["labels.Distribution"].Label, ClassName: 'numeric-cell' }
         ]
     ];
 

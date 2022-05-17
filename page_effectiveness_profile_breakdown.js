@@ -2,9 +2,9 @@
 
 function EffectivenessProfileBreakdown_Page() {
 	return {
-		Label: meta.Pages.EffectivenessProfileBreakdown.Title,
+		Label: meta.Labels.EffectivenessProfileBreakdown.Title,
 
-		LeftPane: meta.Pages.EffectivenessProfileBreakdown.Label,
+		LeftPane: meta.Labels.EffectivenessProfileBreakdown.Label,
 
 		RightPane: `
 		<div class="effectiveness-breakdown-container"></div>
@@ -19,7 +19,7 @@ function EffectivenessProfileBreakdown_Page() {
 function EffectivenessProfileBreakdown_Render() {
 	var demographic_dropdown = Component_Dropdown(
 		'breakby',
-		meta.Labels.BreakBy.Label,
+		meta.Labels['labels.BreakBy'].Label,
 		'effectiveness-breakdown-dropdown',
 		'',
 		ParamValues_BreakBy()
@@ -108,12 +108,12 @@ function EffectivenessProfileBreakdown_ItemsTable() {
 	
 	var headers = [[
 		{Label: breakdown_variable_label, ClassName: 'text-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels.MostEffective.Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels.Frustrated.Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels.Detached.Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels.LeastEffective.Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
-		{Label: meta.Labels.Distribution.Label, ClassName: 'numeric-cell barchart-cell', colspan: 1, rowspan: 1}
+		{Label: meta.Labels['labels.ValidN'].Label, ClassName: 'numeric-cell', colspan: 1, rowspan: 1},
+		{Label: meta.Labels['labels.MostEffective'].Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
+		{Label: meta.Labels['labels.Frustrated'].Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
+		{Label: meta.Labels['labels.Detached'].Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
+		{Label: meta.Labels['labels.LeastEffective'].Label, ClassName: 'numeric-cell distribution-cell', colspan: 1, rowspan: 1},
+		{Label: meta.Labels['labels.Distribution'].Label, ClassName: 'numeric-cell barchart-cell', colspan: 1, rowspan: 1}
 	]];
 
 	var table_data = [];
@@ -129,7 +129,7 @@ function EffectivenessProfileBreakdown_ItemsTable() {
 
             var dist = Utils_CountsToPercents ( segment_data.Dist );
 
-            var option = meta.Demographics[breakdown_variable_id].Options[segment_code];
+            var option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
             var label = (option == null)
                 ? NOT_AVAILABLE
                 : option.Label;
@@ -168,7 +168,7 @@ function EffectivenessProfileBreakdown_ItemsTable() {
 		`;
 
 	var view_name = [
-		Main_GetPageLabel ('#submenuitem-GroupEnps-EffectivenessProfileBreakdown'),  // Page Name
+		Main_GetPageLabel ('#submenuitem-GroupHeadlines-EffectivenessProfileBreakdown'),  // Page Name
 		$('#effectiveness-breakdown-dropdown option:selected').text() // Selected breakdown variable label
 	].join(' - ');
 

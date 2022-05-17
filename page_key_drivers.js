@@ -2,10 +2,10 @@
 
 function KeyDrivers_Page() {
     return {
-        Label: meta.Pages.KeyDrivers.Title,
+        Label: meta.Labels.KeyDrivers.Title,
 
         // Left Pane
-        LeftPane: meta.Pages.KeyDrivers.Label,
+        LeftPane: meta.Labels.KeyDrivers.Label,
 
         // Right Pane
         RightPane: `
@@ -37,13 +37,13 @@ function KeyDrivers_GetKeyDriversTable() {
     var headers = [
         [
             {Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: NofHeaderRows},
-            {Label: meta.Labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows},
-            {Label: meta.Labels.Dimension.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
-            {Label: meta.Labels.ImpactOnEngagement.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
-            {Label: meta.Labels.ImpactOnEnablement.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
-            {Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels['labels.Question'].Label, ClassName: 'text-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels['labels.Dimension'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels['labels.ImpactOnEngagement'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels['labels.ImpactOnEnablement'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels['labels.ValidN'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
             {
-                Label: meta.Labels["PercentFav"].Label,
+                Label: meta.Labels['labels.PercentFav'].Label,
                 ClassName: 'numeric-cell distribution-cell',
                 rowspan: NofHeaderRows
             },
@@ -52,7 +52,7 @@ function KeyDrivers_GetKeyDriversTable() {
 
     if (NofComparators > 0) {
         headers[0].push({
-            Label: meta.Labels["FavvsComparator"].Label,
+            Label: meta.Labels['labels.FavvsComparator'].Label,
             ClassName: 'numeric-cell',
             colspan: NofComparators
         });

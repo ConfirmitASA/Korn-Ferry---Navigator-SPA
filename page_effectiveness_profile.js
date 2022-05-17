@@ -2,9 +2,9 @@
 
 function EffectivenessProfile_Page() {
 	return 	{
-		Label: meta.Pages['EffectivenessProfile'].Title,
+		Label: meta.Labels['EffectivenessProfile'].Title,
 
-		LeftPane: meta.Pages['EffectivenessProfile'].Label,
+		LeftPane: meta.Labels['EffectivenessProfile'].Label,
 		
 		RightPane: `
 		<div id="effectiveness-chart-container"></div>
@@ -165,13 +165,13 @@ function EffectivenessProfile_GetSimpleQuadrantChart() {
 					<tbody>
 						<tr>
 							<td class="tile topleft">
-								${meta.Labels.Detached.Label}
+								${meta.Labels['labels.Detached'].Label}
 								<div class="quadrantscore">
 									${formatterPct(pct_distribution.Detached)}
 								</div>
 							</td>
 							<td class="tile topright">
-								${meta.Labels.MostEffective.Label}
+								${meta.Labels['labels.MostEffective'].Label}
 								<div class="quadrantscore">
 									${formatterPct(pct_distribution.MostEffective)}
 								</div>							
@@ -180,13 +180,13 @@ function EffectivenessProfile_GetSimpleQuadrantChart() {
 
 						<tr>
 							<td class="tile bottomleft">
-								${meta.Labels.LeastEffective.Label}
+								${meta.Labels['labels.LeastEffective'].Label}
 								<div class="quadrantscore">
 									${formatterPct(pct_distribution.LeastEffective)}
 								</div>
 							</td>
 							<td class="tile bottomright">
-								${meta.Labels.Frustrated.Label}
+								${meta.Labels['labels.Frustrated'].Label}
 								<div class="quadrantscore">
 									${formatterPct(pct_distribution.Frustrated)}
 								</div>
@@ -199,16 +199,16 @@ function EffectivenessProfile_GetSimpleQuadrantChart() {
 			<div id="quadrant-callout"></div>
 
 			<div class="quadranticon icon-horizontal">
-				<div class="arrow"></div>
+				<div id="arrow-x" class="arrow"></div>
 				<div class="axislabel axislabelx">
-					${meta.Labels.Engagement.Label}
+					${meta.Labels['labels.Engagement'].Label}
 				</div>
 			</div>
 
 			<div class="quadranticon icon-vertical">
-				<div class="arrow"></div>
+				<div id="arrow-y" class="arrow"></div>
 				<div class="axislabel axislabely">
-					${meta.Labels.Enablement.Label}
+					${meta.Labels['labels.Enablement'].Label}
 				</div>
 			</div>
 			
@@ -228,7 +228,7 @@ function EffectivenessProfile_GetComplexQuadrantChart() {
 						<tr>
 							<td class="tile__complex">
 								<div class="tile_content__complex">
-									<div class="tile_header__complex topleft">${'Detached'}</div>
+									<div class="tile_header__complex topleft">${meta.Labels['labels.Detached'].Label}</div>
 									<div class="tile_body__complex">
 										<div id="topleft-chart"></div>
 									</div>
@@ -236,7 +236,7 @@ function EffectivenessProfile_GetComplexQuadrantChart() {
 							</td>
 							<td class="tile__complex">
 								<div class="tile_content__complex">
-									<div class="tile_header__complex topright">${'Most Effective'}</div>	
+									<div class="tile_header__complex topright">${meta.Labels['labels.MostEffective'].Label}</div>	
 									<div class="tile_body__complex">
 										<div id="topright-chart"></div>
 									</div>	
@@ -247,7 +247,7 @@ function EffectivenessProfile_GetComplexQuadrantChart() {
 						<tr>
 							<td class="tile__complex">
 								<div class="tile_content__complex">
-									<div class="tile_header__complex bottomleft">${'Least Effective'}</div>
+									<div class="tile_header__complex bottomleft">${meta.Labels['labels.LeastEffective'].Label}</div>
 									<div class="tile_body__complex">
 										<div id="bottomleft-chart"></div>
 									</div>
@@ -255,7 +255,7 @@ function EffectivenessProfile_GetComplexQuadrantChart() {
 							</td>
 							<td class="tile__complex">
 								<div class="tile_content__complex">
-									<div class="tile_header__complex bottomright">${'Frustrated'}</div>
+									<div class="tile_header__complex bottomright">${meta.Labels['labels.Frustrated'].Label}</div>
 									<div class="tile_body__complex">
 										<div id="bottomright-chart"></div>
 									</div>
@@ -353,7 +353,7 @@ function EffectivenessProfile_GetChartData() {
 		LeastEffective: {
 			categories: [current_branch_label],
 			series: {
-				name: meta.Labels.LeastEffective.Label,
+				name: meta.Labels['labels.LeastEffective'].Label,
 				data: [pct_distribution.LeastEffective],
 				colors: ['#F03223']
 			},
@@ -361,7 +361,7 @@ function EffectivenessProfile_GetChartData() {
 		Detached: {
 			categories: [current_branch_label],
 			series: {
-				name: meta.Labels.Detached.Label,
+				name: meta.Labels['labels.Detached'].Label,
 				data: [pct_distribution.Detached],
 				colors: ['#00B7F1']
 			}
@@ -369,7 +369,7 @@ function EffectivenessProfile_GetChartData() {
 		Frustrated: {
 			categories: [current_branch_label],
 			series: {
-				name: meta.Labels.Frustrated.Label,
+				name: meta.Labels['labels.Frustrated'].Label,
 				data: [pct_distribution.Frustrated],
 				colors: ['#F99B1E']
 			}
@@ -377,7 +377,7 @@ function EffectivenessProfile_GetChartData() {
 		MostEffective: {
 			categories: [current_branch_label],
 			series: {
-				name: meta.Labels.MostEffective.Label,
+				name: meta.Labels['labels.MostEffective'].Label,
 				data: [pct_distribution.MostEffective],
 				colors: ['#82C341']
 			}

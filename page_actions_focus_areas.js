@@ -2,10 +2,10 @@
 
 function ActionsFocusAreas_Page() {
     return {
-        Label: meta.Pages["ActionsFocusAreas"].Title,
+        Label: meta.Labels["ActionsFocusAreas"].Title,
 
         // Left Pane
-        LeftPane: meta.Pages["ActionsFocusAreas"].Label,
+        LeftPane: meta.Labels["ActionsFocusAreas"].Label,
 
         // Right Pane
         RightPane: `
@@ -24,11 +24,12 @@ function ActionsFocusAreas_Page() {
     }
 };
 
+
 function ActionsFocusAreas_Render() {
     let addNewFocusAreaHTML = `
         <div class="add-focus-areas-buttons-container">
             <div class="add-focus-areas-icon ap_add-items-plus-circle"></div>
-            <div class="add-focus-areas-text">${meta.Labels.Add.Label}</div>
+            <div class="add-focus-areas-text">${meta.Labels['labels.Add'].Label}</div>
         </div>
     `;
 
@@ -47,20 +48,25 @@ function ActionsFocusAreas_Render() {
         let favScore = '';
         let recommendedActions = [];
 
+        
+
         if(focusArea.isDimension) {
             focusAreaLabel = Main_GetDimensionText(focusArea.itemId);
             favScore = Utils_FormatPctOutput(dimensionsData[focusArea.itemId].Dist.Fav);
-            recommendedActions = meta.Dimensions[focusArea.itemId].RecommendedActions;
+
+            recommendedActions = ActionFocusAreas_GetRecommendedActions ( focusArea.itemId );
         } else {
             focusAreaLabel = Main_GetQuestionText(focusArea.itemId);
 
             let pct_distribution =  Utils_CountsToPercents (itemsData[focusArea.itemId].Dist);
             favScore = Utils_FormatPctOutput(pct_distribution.Fav);
-            recommendedActions = meta.Items[focusArea.itemId].RecommendedActions;
+
+            recommendedActions = ActionFocusAreas_GetRecommendedActions (focusArea.itemId);
 
             if(recommendedActions.length == 0) {
                 let dimensionIdForCurrentItem = Main_GetDimensionIdByItemId(focusArea.itemId);
-                recommendedActions = meta.Dimensions[dimensionIdForCurrentItem].RecommendedActions;
+
+                recommendedActions = ActionFocusAreas_GetRecommendedActions ( dimensionIdForCurrentItem );
             }
 
         }
@@ -68,7 +74,7 @@ function ActionsFocusAreas_Render() {
         o.push(`
             <div id="focusArea-${focusArea.itemId}" class="focus-area-card">
                 <div class="focus-area-card_header">
-                    <div class="fa-card-header_text">${meta.Labels.FocusOn.Label}</div>
+                    <div class="fa-card-header_text">${meta.Labels['labels.FocusOn'].Label}</div>
                     <div class="fa-card-header_remove"></div>
                 </div>
                 <div class="focus-area-card_content">
@@ -78,7 +84,9 @@ function ActionsFocusAreas_Render() {
                     </div>
                     <div class="focus-area-info_additional">
                         <div class="focus-area-info_rec-number">
-                            ${recommendedActions.length == 0 ? meta.Labels.NoRecommendationsAvailable.Label : recommendedActions.length + ' ' + meta.Labels.RecommendationsAvailable.Label}
+                            ${recommendedActions.length == 0 
+                                ? meta.Labels['labels.NoRecommendationsAvailable'].Label
+                                : recommendedActions.length + ' ' + meta.Labels['labels.RecommendationsAvailable'].Label}
                         </div>
                         <div class="focus-area-info_comparator">${'-13 vs. Company'}</div>                      
                     </div>
@@ -96,25 +104,26 @@ function ActionsFocusAreas_Render() {
                             <div class="plan-column">
                                 ${ActionFocusAreas_RenderRecommendedActions(focusArea.itemId, recommendedActions)}                        
                                 <div class="action-plan_selected-actions">
-                                    <div class="selected-actions_title">${meta.Labels.ActionPlan.Label}</div>
+                                    <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label
+                                }</div>
                                     <div class="selected-actions_container"></div>
                                     <div class="add-to-plan selected-actions_add">${meta.Buttons.AddOwnAction.Label}</div>
                                 </div>
                                 <div class="action-plan_personal">
-                                    <div class="personal-plan_title">${meta.Labels.PersonalizeActionPlan.Label}</div>
+                                    <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
                                     <div class="personal-plan_name">
-                                        <label for="plan-name-${focusArea.itemId}" class="personal-plan_label">${meta.Labels.Name.Label}</label>
+                                        <label for="plan-name-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
                                         <input id="plan-name-${focusArea.itemId}" type="text" class="plan-name__input" >
                                     </div>
                                     <div class="personal-plan_notes">
-                                        <label for="plan-notes-${focusArea.itemId}" class="personal-plan_label">${meta.Labels.Notes.Label}</label>
+                                        <label for="plan-notes-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
                                         <textarea id="plan-notes-${focusArea.itemId}" class="plan-notes__input"></textarea>
                                     </div>
                                     <div class="personal-plan_details"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="action-plan_controls"><div class="action-plan_submit">${meta.Buttons.Submit.Label}</div><div class="action-plan_close">${meta.Buttons.Close.Label}</div></div>
+                        <div class="action-plan_controls"><div class="action-plan_submit">${meta.Labels['buttons.Submit'].Label}</div><div class="action-plan_close">${meta.Labels['buttons.Close'].Label}</div></div>
                     </div>                   
                 </div>
             </div>
@@ -133,11 +142,78 @@ function ActionsFocusAreas_Render() {
     ActionFocusAreas_HandleCloseButtonClick($('.action-plan_close'));
 }
 
+function ActionFocusAreas_GetRecommendedActions ( s ) {
+    // s is a string that can be either a dimension reference ("DIM_N51"), or an item reference ("TR04")
+
+    var o = {}; // recommended actions
+
+    // Extract matching elements
+    for (var key in meta.Labels) {
+
+        // example keys: "RecommendedActions_DIM_N51.text_0", "RecommendedActions_TR04.text_0"
+
+        var parts = key.split('_');
+        if (parts[0] == 'Actions') {
+
+            switch (parts[1]) {
+
+                case 'DIM':
+                    // this is a dimension
+                    // example: "Actions_DIM_N51.text_0"
+                    var tmp = key.split('.'); // example: ["Actions_DIM_N51", "text_0"]
+                    if (tmp.length == 2) {
+                        var dimension_id = tmp[0].slice(8); // example: "DIM_N51"
+                        if (dimension_id == s) {
+                            // We found a matching entry
+
+                            var tmp2 = tmp[1].split('_'); // example: ["text", "0"]
+                            var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
+                            var index = tmp2[1]; // example: "0"
+
+                            if ( o[index] == null) o[index] = {};
+
+                            o[index][property] = meta.Labels[key].Label;
+                        }
+                    }
+                    break;
+
+                default:
+                    // this is an item
+                    // example: "Actions_TR04.text_0"
+                    var tmp = key.split('.'); // example: ["Actions_TR04", "text_0"]
+                    if (tmp.length == 2) {
+                        var item_id = tmp[0].slice(8); // example: "TR04"
+                        if (item_id == s) {
+                            // We found a matching entry
+
+                            var tmp2 = tmp[1].split('_'); // example: ["text", "0"]
+                            var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
+                            var index = tmp2[1]; // example: "0"
+
+                            if ( o[index] == null) o[index] = {};
+
+                            o[index][property] = meta.Labels[key].Label;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    // Turn into array
+    var actions = [];
+    for (var key in o) {
+        actions.push ( o[key] );
+    }
+
+    return actions;
+}
+
 function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
     let recommendedActionsHTML = [];
 
     if(recommendedActions.length > 0) {
-        recommendedActionsHTML.push(`<div class="action-plan_recommended-actions"><div class="recommended-actions_title">${meta.Labels.RecommendedActions.Label}</div><div class="recommended-actions_container">`);
+        recommendedActionsHTML.push(`<div class="action-plan_recommended-actions"><div class="recommended-actions_title">${meta.Labels['labels.RecommendedActions'].Label}</div><div class="recommended-actions_container">`);
 
         recommendedActions.forEach((recAction, index) => {
             let recActionHTML = `<div class="recommended-action ${index == 0 ? 'action__uncollapsed' : 'action__collapsed'}">

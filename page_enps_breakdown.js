@@ -1,7 +1,7 @@
 function ENPSBreakdown_Page() {
     return {
-        Label: meta.Pages['ENPSBreakdown'].Title,
-        LeftPane: meta.Pages['ENPSBreakdown'].Label,
+        Label: meta.Labels['ENPSBreakdown'].Title,
+        LeftPane: meta.Labels['ENPSBreakdown'].Label,
         RightPane: `
         <div id="enps-breakdown-details">
         </div>
@@ -18,7 +18,7 @@ function ENPSBreakdown_Render() {
     var o = [];
     var breakby_dropdown = Component_Dropdown(
         'breakby',
-        meta.Labels["BreakBy"].Label,
+        meta.Labels["labels.BreakBy"].Label,
         'enps-breakdown-dropdown',
         '',
         ParamValues_BreakBy()
@@ -114,12 +114,12 @@ function ENPSBreakdown_ItemsTable() {
         [
             { Label: "", ClassName: 'id-cell'},
             { Label: breakdown_variable_label, ClassName: 'text-cell'},
-            { Label: meta.Labels.ValidN.Label, ClassName: 'numeric-cell'},
-            { Label: meta.Labels.Promoters.Label, ClassName: 'numeric-cell distribution-cell' },
-            { Label: meta.Labels.Passives.Label, ClassName: 'numeric-cell distribution-cell' },
-            { Label: meta.Labels.Detractors.Label, ClassName: 'numeric-cell distribution-cell' },
-            { Label: meta.Labels.Distribution.Label, ClassName: 'numeric-cell'},
-            { Label: meta.Labels.ENPS.Label, ClassName: 'numeric-cell'}
+            { Label: meta.Labels['labels.ValidN'].Label, ClassName: 'numeric-cell'},
+            { Label: meta.Labels['labels.Promoters'].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels['labels.Passives'].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels['labels.Detractors'].Label, ClassName: 'numeric-cell distribution-cell' },
+            { Label: meta.Labels['labels.Distribution'].Label, ClassName: 'numeric-cell'},
+            { Label: meta.Labels['labels.ENPS'].Label, ClassName: 'numeric-cell'}
         ]
     ];
 
@@ -141,7 +141,7 @@ function ENPSBreakdown_ItemsTable() {
                 ? NOT_AVAILABLE
                 : (dist.Promoters - dist.Detractors);
 
-            var option = meta.Demographics[breakdown_variable_id].Options[segment_code];
+            var option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
             var label = (option == null)
                 ? NOT_AVAILABLE
                 : option.Label;
@@ -163,7 +163,7 @@ function ENPSBreakdown_ItemsTable() {
                 { Label: formatter(dist.Promoters), ClassName: 'numeric-cell distribution-cell' },
                 { Label: formatter(dist.Neutrals), ClassName: 'numeric-cell distribution-cell' },
                 { Label: formatter(dist.Detractors), ClassName: 'numeric-cell distribution-cell' },
-                { Label: Component_DistributionChartStacked(chart_distribution), datasort: chart_distribution.Promoters, ClassName: 'text-cell' },
+                { Label: Component_DistributionChartStacked(chart_distribution, 'DistributionChartEnps'), datasort: chart_distribution.Promoters, ClassName: 'text-cell' },
                 { Label: formatter(nps), ClassName: 'numeric-cell distribution-cell' + ColorClassName(nps) }
             ];
 

@@ -50,17 +50,18 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			'paging': false,
 			'info': false,
 			${columnSettings}			
-			dom: 'Bfrtip',
+			dom: 'Bfr<"stickyHeaderWrapper"t>ip',
 			'language': {
-				'search': '${meta.Labels["Search"].Label}',
-				'zeroRecords': '${meta.Labels["NoMatchingRecordsFound"].Label}',
-				'infoEmpty': '${meta.Labels["NoDataToDisplay"].Label}'
+				'search': '${meta.Labels['labels.Search'].Label}',
+				'zeroRecords': '${meta.Labels['labels.NoMatchingRecordsFound'].Label}',
+				'infoEmpty': '${meta.Labels['labels.NoDataToDisplay'].Label}'
 			},
 			buttons: ${showButtons ? buttonSettings : "[]" }
 		});
 		tbl.css('float', 'left');
 		tbl.css('margin-top', '20px');
 		tbl.css('width', '');
+		tbl.css('overflow', 'scroll');
     `;
 
 	return {
@@ -84,37 +85,77 @@ function TH(cell) {
 
 function DataTable_ButtonSettings(exportColumns, view_name ) {
 
+	// reverse export columns if RTL
+	if ( meta.RTL) exportColumns = exportColumns.reverse();
+
 	if ( view_name == null )
 		view_name = meta.ExportButtons['copy'].FileName; // fallback to "Data Export"
 
 	var export_filename = Main_ExportFileName ( view_name );
 
 	var file_name_encoded = encodeURI ( export_filename );
+
+	var modifier = meta.RTL
+		? `
+		,
+		modifier: {order: 'index'},
+		format: {
+			body: function (data, row, column, node) {
+
+				const arabic = /[\u0600-\u06FF]/;
+
+				if (arabic.test(data)) {
+					return data.split(' ').reverse().join(' ');
+				}
+				return data;
+			},
+			header: function (data, row, column, node) {
+				const arabic = /[\u0600-\u06FF]/;
+
+				if (arabic.test(data)) {
+					return data.split(' ').reverse().join(' ');
+				}
+				return data;
+			}
+		}`
+		: '';
+
+
 	var buttonSettings = `
         [
             {
                 extend: 'copyHtml5',
-                text: '${meta.ExportButtons['copy'].Label}',
+                text: '${meta.Labels.copy.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             }, 
             {
                 extend: 'excelHtml5',
-                text: '${meta.ExportButtons['excel'].Label}',
+                text: '${meta.Labels.excel.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             }, 
             {
                 extend: 'csvHtml5',
-                text: '${meta.ExportButtons['csv'].Label}',
+				charset: 'UTF-8',
+				bom: true,
+				text: '${meta.Labels.csv.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             }, 
             {
                 extend: 'pdfHtml5',
-                text: '${meta.ExportButtons['pdf'].Label}',
+				orientation: 'landscape',
+                text: '${meta.Labels.pdf.Title}',
                 title: decodeURI("${file_name_encoded}"),
-                exportOptions: { columns: [ ${exportColumns.join(',')} ] }
+				customize: function (doc) { 
+					doc.defaultStyle.font = meta.RTL ? 'Tajawal' : 'Roboto'; 
+					if (meta.RTL) doc.defaultStyle.alignment = 'right';
+				},
+                exportOptions: { 
+					columns: [ ${exportColumns.join(',')} ]
+					${modifier}
+				}
             }, 
         ],
     `;

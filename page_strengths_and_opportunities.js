@@ -3,9 +3,9 @@
 function StrengthsAndOpportunities_Page() {
     return {
 
-        Label: meta.Pages["StrengthsAndOpportunities"].Title,
+        Label: meta.Labels["StrengthsAndOpportunities"].Title,
 
-        LeftPane: meta.Pages["StrengthsAndOpportunities"].Label,
+        LeftPane: meta.Labels["StrengthsAndOpportunities"].Label,
 
         RightPane: `
         ${Component_TestDataIndicator(data.Report.IsTestData)}
@@ -24,9 +24,9 @@ function StrengthsAndOpportunities_Render() {
     //hide detail card if open when page is reloaded
     $('.strengths-and-opportunities-card-details-container').css({opacity: 0, top: '800px', left: '-2000px'});
 
-    let o = [];
+    var o = [];
 
-    let preSelectedCardId = State_Get('StrengthAndOpportunitiesSelectedCard');
+    var preSelectedCardId = State_Get('StrengthAndOpportunitiesSelectedCard');
 
     if(!!preSelectedCardId) {
         StrengthsAndOpportunities_fillDetailsCard(preSelectedCardId);
@@ -34,16 +34,16 @@ function StrengthsAndOpportunities_Render() {
 
     o.push('<div id="strengthsAndOpportunitiesCardRow" class="card-row">')
 
-    let noData = `<div class="strengths-and-opportunities-top-3-nodata">${meta.Labels.NoDataToDisplay.Label}</div>`;
+    let noData = `<div class="strengths-and-opportunities-top-3-nodata">${'No data to display*' /*'meta.Labels.NoDataToDisplay.Label'*/}</div>`;
   
     //add strengths card - top 3 items
     let strengths = StrengthsAndOpportunities_getTopNItems(3, 'Strengths');
     o.push(`
 			<div id="Strengths_card" class="strength flip-card static-card">
 					<div id="Strengths_front" class="flip-card-front">
-					    <div class="card-label">${meta.Labels.Strengths.Label}</div>
-					    <div class="card-top3-items">${strengths ? strengths : noData}</div>
-					    <div id="Strengths_more" class="details-link" style="display: ${strengths ? '' : 'none'};">${meta.Buttons.More.Label}</div>
+					    <div class="card-label">${meta.Labels['labels.Strengths'].Label}</div>
+					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Strengths')}</div>
+					    <div id="Strengths_more" class="details-link">${meta.Labels['buttons.More'].Label}</div>
 					</div>
 			</div>
 		`);
@@ -53,9 +53,9 @@ function StrengthsAndOpportunities_Render() {
     o.push(`
 			<div id="Opportunities_card" class="opportunity flip-card static-card">
 					<div id="Opportunities_front" class="flip-card-front">
-					    <div class="card-label">${meta.Labels.Opportunities.Label}</div>
-					    <div class="card-top3-items">${oppts ? oppts : noData}</div>
-					    <div id="Opportunities_more" class="details-link" style="display: ${oppts ? '' : 'none'};">${meta.Buttons.More.Label}</div>
+					    <div class="card-label">${meta.Labels['labels.Opportunities'].Label}</div>
+					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Opportunities')}</div>
+					    <div id="Opportunities_more" class="details-link">${meta.Labels['buttons.More'].Label}</div>
 					</div>
 			</div>
 		`);
@@ -141,7 +141,7 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
 				<div id=exitdetails_${selectedCardId} class="details-exit">
 				</div>
 				
-				<div class="card-label">${meta.Labels[selectedCardId].Label}</div>
+				<div class="card-label">${meta.Labels['labels.' + selectedCardId].Label}</div>
 
 				<!-- Main Content-->
 				<div class="card-details-main">
@@ -177,7 +177,7 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
                 let button_id = $(actionButton).attr('id').split('-');
 
                 if($(actionButton).hasClass('add-action') && FocusAreas_IsItemAlreadyAdded(button_id[1])) {
-                    Utils_SetActionButtonToREMOVE(actionButton, meta.Labels.Selected.Label);
+                    Utils_SetActionButtonToREMOVE(actionButton, meta.Labels['labels.Selected'].Label);
                 } else {
                     if($(actionButton).hasClass('remove-action') && !FocusAreas_IsItemAlreadyAdded(button_id[1])) {
                         let newActionButtonText = '';
@@ -194,7 +194,6 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
                     }
                 }
             })
-
             // Animate / Fade in the cards not clicked
             $('.static-card').css('position', 'relative');
             $('.static-card').css('top', "200px");
@@ -222,7 +221,7 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
         let button_id = $(this).attr('id').split('-');
 
         if($(this).hasClass('add-action')) {
-            Utils_SetActionButtonToREMOVE(this, meta.Labels.Selected.Label);
+            Utils_SetActionButtonToREMOVE(this, meta.Labels['labels.Selected'].Label);
 
             let newFocusArea = {
                 itemId: button_id[1],
@@ -235,11 +234,11 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
                 let newActionButtonText = '';
 
                 if(button_id[0] === 'Strengths') {
-                    newActionButtonText = meta.Buttons.Maintain.Label;
+                    newActionButtonText = meta.Labels['buttons.Maintain'].Label; //meta.Buttons.Maintain.Label;
                 }
 
                 if(button_id[0] === 'Opportunities') {
-                    newActionButtonText = meta.Buttons.Improve.Label;
+                    newActionButtonText = meta.Labels['buttons.Improve'].Label;
                 }
 
                 Utils_SetActionButtonToADD(this, newActionButtonText);
@@ -249,13 +248,15 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
         }
 
         FocusAreas_UpdateFocusAreasCounterSpan();
-    });
+	});
 
 }
 
 function StrengthsAndOpportunities_handleTableActionIconClick() {
+				 
 
     $('.strengths-and-opportunities-card-details-container').find('.action-icon').click(function (event) {
+						
 
         // Hide "More" link until restore
         //$(this).hide();
@@ -299,12 +300,12 @@ function StrengthsAndOpportunities_getTopNItems(topNItems, cardType) {
 
         case 'Strengths':
             totalItems = so.S;
-            buttonText = meta.Buttons.Maintain.Label;
+            buttonText =  meta.Labels['buttons.Maintain'].Label;
             break;
 
         case 'Opportunities':
             totalItems = so.O;
-            buttonText = meta.Buttons.Improve.Label;
+            buttonText =  meta.Labels['buttons.Improve'].Label;
             break;
     
     }
@@ -323,8 +324,13 @@ function StrengthsAndOpportunities_getTopNItems(topNItems, cardType) {
         //check if item has been added to Focus Areas
         //set action button as 'selected' if so
         let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(totalItems[i]);
-        let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
-        let actionButtonText = isItemAddedAsFocusArea ? `<div class="remove-action_icon">-</div> ${meta.Labels.Selected.Label}` : buttonText;
+        let actionButtonClass = isItemAddedAsFocusArea 
+            ? 'remove-action action-button__selected' 
+            : 'add-action';
+        
+        let actionButtonText = isItemAddedAsFocusArea 
+            ? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}` 
+            : buttonText;
 
         tmp.push(`
 				<tr class="item-row">
@@ -358,33 +364,34 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
     let NofHeaderRows = (NofComparators > 0) ? 2 : 1;
     let items_data = Main_CurrentItemsData_WithFilter();
 
+
     let headers = [
         [
             {Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: NofHeaderRows},
-            {Label: meta.Labels["Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows},
-            {Label: meta.Labels["ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows},
+            {Label: meta.Labels["labels.ValidN"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows},
             {
-                Label: meta.Labels["PercentFav"].Label,
+                Label: meta.Labels["labels.PercentFav"].Label,
                 ClassName: 'numeric-cell distribution-cell',
                 rowspan: NofHeaderRows
             },
             {
-                Label: meta.Labels["PercentNeu"].Label,
+                Label: meta.Labels["labels.PercentNeu"].Label,
                 ClassName: 'numeric-cell distribution-cell',
                 rowspan: NofHeaderRows
             },
             {
-                Label: meta.Labels["PercentUnfav"].Label,
+                Label: meta.Labels["labels.PercentUnfav"].Label,
                 ClassName: 'numeric-cell distribution-cell',
                 rowspan: NofHeaderRows
             },
-            {Label: meta.Labels["Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows}
+            {Label: meta.Labels["labels.Distribution"].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows}
         ]
     ];
 
     if (NofComparators > 0) {
         headers[0].push({
-            Label: meta.Labels["FavvsComparator"].Label,
+            Label: meta.Labels["labels.FavvsComparator"].Label,
             ClassName: 'numeric-cell',
             colspan: NofComparators
         });
@@ -396,7 +403,7 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
     }
 
     //add action button column
-    headers[0].push( {Label: meta.Labels.Action.Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
+    headers[0].push( {Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
 
     let so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
     let so = data[so_key];

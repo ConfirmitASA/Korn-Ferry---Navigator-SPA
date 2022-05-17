@@ -15,8 +15,8 @@ function ShowWaitCloseButton() {
     $('.loader').hide();
     $('#wait-heading').velocity('fadeOut');
 
+    $('#wait-close').removeClass('hidden');
     $('#wait-close').css('opacity', '0' );
-    //$('#wait-close').css('display', 'block' );
     $('#wait-close').velocity('fadeIn');
 }
 
@@ -58,14 +58,14 @@ function WaitMessage() {
 
 </style>
 <div id="did-you-know" style="opacity: 0; width: 50vw; min-width: 600px; position: absolute; color: black; padding: 50px;">
-    <div style="background-color: #f0f0f0; color: #333; margin: 20px 0; padding: 50px; border-radius: 15px; box-shadow: 20px 20px 40px #666;">
-        <div class=loader>Loading...</div>
-        <h1 style="font-weight: 200; font-size: 40px; padding-right: 80px">${tip.Title}</h1>
+<div class=loader>Loading...</div>
+<div style="background-color: #f0f0f0; color: #333; margin: 20px 0; padding: 50px; border-radius: 15px; box-shadow: 20px 20px 40px #666;">
+        <h1 class="funfact-title">${tip.Title}</h1>
         <br>
         <h3 class="tip-text" style="padding-bottom: 20px; line-height: 24px; color: black; font-weight: 400">${tip.Text}</h3>
         <p style="color: #999">
         <div style="margin-bottom: 45px"></div>
-        <span style="display: none; float: right; position: relative; top: -25px; border-radius: 15px; " id="wait-close">Your Report is ready >></span>
+        <span class="button-report-ready hidden" id="wait-close">Your Report is ready >></span>
     </div>
 </div>
 

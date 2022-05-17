@@ -1,8 +1,8 @@
 function ENPSScore_Page() {
     return {
-        Label: meta.Pages['ENPSScore'].Title,
+        Label: meta.Labels['ENPSScore'].Title,
 
-        LeftPane:  meta.Pages['ENPSScore'].Label,
+        LeftPane:  meta.Labels['ENPSScore'].Label,
         RightPane: `
         <div id="enps-score-details">
         </div>
@@ -57,18 +57,20 @@ function ENPSScore_Render() {
             <div class="enps-flip-card-front">
                 <div class="enps-wrapper">
                     <div class="enps">
-                        ${meta.ENPSTexts.ENPSCardFrontTitle.Label}
+
+
+                        ${meta.Labels['ENPSTexts.ENPSCardFrontTitle'].Label}
                         <div class="enps-score">
                             ${Utils_FormatOutput(enpsScore)}
                         </div>
-                        <div class="qtext">${meta.ENPSTexts.ENPSQuestionLabel.Label}</div>
+                        <div class="qtext">${meta.Labels['ENPSTexts.ENPSQuestion'].Label}</div>
                     </div>
                 </div>
 
                 <div class="enps-distribution-wrapper">
                 <!-- PROMOTERS -->
                 <div class="enps-distribution enps-distribution-promoters">
-                    ${meta.Labels.Promoters.Label}
+                    ${meta.Labels['labels.Promoters'].Label}
                     <div class="enps-distribution-score">
                         ${formatterPct( pct_promoters )}
                     </div>
@@ -76,7 +78,7 @@ function ENPSScore_Render() {
 
                 <!-- NEUTRALS -->
                 <div class="enps-distribution enps-distribution-neutrals">
-                    ${meta.Labels.Passives.Label}
+                    ${meta.Labels['labels.Passives'].Label}
                     <div class="enps-distribution-score">
                         ${formatterPct( pct_neutrals )}
                     </div>
@@ -84,7 +86,7 @@ function ENPSScore_Render() {
 
                 <!-- DETRACTORS -->
                 <div class="enps-distribution enps-distribution-detractors">
-                    ${meta.Labels.Detractors.Label}
+                    ${meta.Labels['labels.Detractors'].Label}
                     <div class="enps-distribution-score">
                         ${formatterPct( pct_detractors )} 
                     </div>
@@ -97,7 +99,7 @@ function ENPSScore_Render() {
                         <div class="enps-distribution-count">
                             (N=${formatter(d.Promoters)})
                         </div>
-                        ${meta.ENPSTexts.ENPSPromotersDesc.Label}
+                        ${meta.Labels['ENPSTexts.ENPSPromotersDesc'].Label}
                     </div>
 
                     <!-- NEUTRALS -->
@@ -105,7 +107,7 @@ function ENPSScore_Render() {
                         <div class="enps-distribution-count">
                             (N=${formatter(d.Neutrals)})
                         </div>
-                        ${meta.ENPSTexts.ENPSPassivesDesc.Label}
+                        ${meta.Labels['ENPSTexts.ENPSPassivesDesc'].Label}
                     </div>
 
                     <!-- DETRACTORS -->
@@ -113,7 +115,7 @@ function ENPSScore_Render() {
                         <div class="enps-distribution-count">
                             (N=${formatter(d.Detractors)})
                         </div>
-                        ${meta.ENPSTexts.ENPSDetractorsDesc.Label}
+                        ${meta.Labels['ENPSTexts.ENPSDetractorsDesc'].Label}
                     </div>
                 </div>
 
@@ -127,18 +129,18 @@ function ENPSScore_Render() {
 
             <div class="enps-wrapper">
             <div class="enps">
-                ${meta.ENPSTexts.ENPSCardBackTitle.Label}
+                ${meta.Labels['ENPSTexts.ENPSCardBackTitle'].Label}
                 <div class="enps-score">
                     ${formatter(current_enps.N)}
                 </div>
-                <div class="qtext">${meta.ENPSTexts.ENPSQuestionLabel.Label}</div>
+                <div class="qtext">${meta.Labels['ENPSTexts.ENPSQuestion'].Label}</div>
             </div>
         </div>
         
         <div class="enps-distribution-wrapper">
             <!-- PROMOTERS -->
             <div class="enps-distribution enps-distribution-promoters">
-                ${meta.Labels.Promoters.Label}
+                ${meta.Labels['labels.Promoters'].Label}
                 <div class="enps-distribution-score">
                     ${formatter(n_promoters)}
                 </div>
@@ -146,7 +148,7 @@ function ENPSScore_Render() {
 
             <!-- NEUTRALS -->
             <div class="enps-distribution enps-distribution-neutrals">
-                ${meta.Labels.Passives.Label}
+                ${meta.Labels['labels.Passives'].Label}
                 <div class="enps-distribution-score">
                     ${formatter(n_neutrals)}
                 </div>
@@ -154,7 +156,7 @@ function ENPSScore_Render() {
 
             <!-- DETRACTORS -->
             <div class="enps-distribution enps-distribution-detractors">
-                ${meta.Labels.Detractors.Label}
+                ${meta.Labels['labels.Detractors'].Label}
                 <div class="enps-distribution-score">
                     ${formatter(n_detractors)}
                 </div>
@@ -175,9 +177,9 @@ function ENPSScore_Render() {
             <div class="material-icons enps-smile-detractor">sentiment_very_dissatisfied</div>
           </div>
           <div class="label-wrapper">
-             <div class="promoter-label">${meta.Labels.Promoters.Label}</div>
-             <div class="passive-label">${meta.Labels.Passives.Label}</div>
-             <div class="detractor-label">${meta.Labels.Detractors.Label}</div>
+             <div class="promoter-label">${meta.Labels['labels.Promoters'].Label}</div>
+             <div class="passive-label">${meta.Labels['labels.Passives'].Label}</div>
+             <div class="detractor-label">${meta.Labels['labels.Detractors'].Label}</div>
           </div>
           <div class="border-wrapper">
              <div class="promoter-border"></div>
@@ -212,12 +214,12 @@ function ENPSScore_Render() {
 
                 <!-- OLD BACK SIDE DESIGN START -->
                 <!--
-                <div class="enps-flip-card-back--header">${meta.ENPSTexts.ENPSCardBackTitle.Label}</div>
+                <div class="enps-flip-card-back--header">${meta.Labels['ENPSTexts.ENPSCardBackTitle'].Label}</div>
 
                 <div class="formula-block-wrapper">
                     <div class="grid-wrapper">
                         <div class="detractors-grid-wrapper">
-                            <div class="detractors-grid-upperlabel">${meta.Labels.Detractors.Label}</div>
+                            <div class="detractors-grid-upperlabel">${meta.Labels['labels.Detractors'].Label}</div>
                             <div class="detractors-grid">
                                 <div class="detractors-grid-item">0</div>
                                 <div class="detractors-grid-item">1</div> 
@@ -227,32 +229,32 @@ function ENPSScore_Render() {
                                 <div class="detractors-grid-item">5</div>
                                 <div class="detractors-grid-item">6</div> 
                             </div>
-                            <div class="detractors-grid-lowerlabel">${meta.ENPSTexts.ENPSDetractorsScale.Label}</div>
+                            <div class="detractors-grid-lowerlabel">${meta.Labels['ENPSTexts.ENPSDetractorsScale'].Label}</div>
                         </div>
                         <div class="passives-grid-wrapper">
-                            <div class="passives-grid-upperlabel">${meta.Labels.Passives.Label}</div>
+                            <div class="passives-grid-upperlabel">${meta.Labels['labels.Passives'].Label}</div>
                             <div class="passives-grid">
                                 <div class="passives-grid-item">7</div>
                                 <div class="passives-grid-item">8</div> 
                             </div>
-                            <div class="passives-grid-lowerlabel">${meta.ENPSTexts.ENPSPassivesScale.Label}</div>
+                            <div class="passives-grid-lowerlabel">${meta.Labels['ENPSTexts.ENPSPassivesScale'].Label}</div>
                         </div>
                         <div class="promoters-grid-wrapper">
-                            <div class="promoters-grid-upperlabel">${meta.Labels.Promoters.Label}</div>
+                            <div class="promoters-grid-upperlabel">${meta.Labels['labels.Promoters'].Label}</div>
                             <div class="promoters-grid">
                                 <div class="promoters-grid-item">9</div>
                                 <div class="promoters-grid-item">10</div>
                             </div>
-                            <div class="promoters-grid-lowerlabel">${meta.ENPSTexts.ENPSPromotersScale.Label}</div>
+                            <div class="promoters-grid-lowerlabel">${meta.Labels['ENPSTexts.ENPSPromotersScale'].Label}</div>
                         </div>
                     </div>
 
                     <div class="formula-wrapper">
-                        <div class="nps-block">${meta.Labels.ENPS.Label}</div>
+                        <div class="nps-block">${meta.Labels['labels.ENPS'].Label}</div>
                         <div class="math-block">=</div>
-                        <div class="promoters-block"><div class="white-text">${meta.Labels.PercentPromoters.Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSPromotersScaleDesc.Label}</div></div>
+                        <div class="promoters-block"><div class="white-text">${meta.Labels['labels.PercentPromoters'].Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSPromotersScaleDesc.Label}</div></div>
                         <div class="math-block">-</div>
-                        <div class="detractors-block"><div class="white-text">${meta.Labels.PercentDetractors.Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSDetractorsScaleDesc.Label}</div></div>
+                        <div class="detractors-block"><div class="white-text">${meta.Labels['labels.PercentDetractors'].Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSDetractorsScaleDesc.Label}</div></div>
                     </div>
                 </div>
                 -->
