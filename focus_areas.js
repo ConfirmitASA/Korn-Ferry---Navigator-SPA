@@ -55,7 +55,7 @@ function FocusAreas_AddItem(newItemObj) {
         newFocusArea['actionPlan'] = {
             name: '',
             notes: '',
-            actions: [],
+            actions: [], //{actionId, actionStatus, actionDueDate, actionOwner}
             status: '',
             dueDate: '',
             owner: '',
@@ -63,6 +63,54 @@ function FocusAreas_AddItem(newItemObj) {
         };
 
         FocusAreas.push(newFocusArea);
+    }
+}
+
+function FocusAreas_UpdateActionPlan(itemId, actionPlanSetting, actionPlanValue) {
+    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+
+        FocusAreas[index].actionPlan[actionPlanSetting] = actionPlanValue;
+    } else {
+        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_AddActionsToActionPlan(itemId, newActionObj) {
+    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+
+        let actions = FocusAreas[index].actionPlan.actions;
+        let foundIndex = actions.findIndex((element) => {
+            return element.actionId === newActionObj.actionId;
+        });
+
+        if(foundIndex < 0) {
+            FocusAreas[index].actionPlan.actions.push(newActionObj);
+        }
+
+    } else {
+        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_UpdateActionInActionPlan(itemId, actionId, actionSetting, actionValue) {
+    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+
+        let actions = FocusAreas[index].actionPlan.actions;
+        let foundIndex = actions.findIndex((element) => {
+            return element.actionId === actionId;
+        });
+
+        if(foundIndex >= 0) {
+            FocusAreas[index].actionPlan.actions[foundIndex][actionSetting] = actionValue;
+        } else {
+            throw new Error(`Action ${actionId} you're trying to update does not exist in this action plan for ${itemId}`);
+        }
+
+    } else {
+        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
     }
 }
 

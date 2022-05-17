@@ -170,8 +170,11 @@ function ActionFocusAreas_GetRecommendedActions ( s ) {
                             var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
                             var index = tmp2[1]; // example: "0"
 
-                            if ( o[index] == null) o[index] = {};
+                            if ( o[index] == null) {
+                                o[index] = {};
+                            }
 
+                            o[index]['Id'] = tmp[0] + '_' + index;
                             o[index][property] = meta.Labels[key].Label;
                         }
                     }
@@ -190,8 +193,11 @@ function ActionFocusAreas_GetRecommendedActions ( s ) {
                             var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
                             var index = tmp2[1]; // example: "0"
 
-                            if ( o[index] == null) o[index] = {};
+                            if ( o[index] == null) {
+                                o[index] = {};
+                            }
 
+                            o[index]['Id'] = tmp[0] + '_' + index;
                             o[index][property] = meta.Labels[key].Label;
                         }
                     }
@@ -212,11 +218,14 @@ function ActionFocusAreas_GetRecommendedActions ( s ) {
 function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
     let recommendedActionsHTML = [];
 
+    console.log('recommendedActions');
+    console.log(recommendedActions);
+
     if(recommendedActions.length > 0) {
         recommendedActionsHTML.push(`<div class="action-plan_recommended-actions"><div class="recommended-actions_title">${meta.Labels['labels.RecommendedActions'].Label}</div><div class="recommended-actions_container">`);
 
         recommendedActions.forEach((recAction, index) => {
-            let recActionHTML = `<div class="recommended-action ${index == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
+            let recActionHTML = `<div id="${recAction.Id}" class="recommended-action ${index == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
                                     <div class="action-title recommended-action_title ${index == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text">${recAction.Title}</div><div class="action-chevron ${index == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
                                     <div class="action-body recommended-action_body ${index == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
                                         <div class="action-text recommended-action_text">${recAction.Text}</div>
@@ -367,5 +376,19 @@ function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
         FocusAreas_UpdateFocusAreasCounterSpan();
 
         $(cardToRemove).remove();
+    });
+}
+
+function ActionFocusAreas_HandleAddToActionButtonClick(addActionButtons) {
+    addActionButtons.click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        let focusAreaCard = $(this).parents('.focus-area-card').first();
+        let focusAreaCardID = focusAreaCard.attr('id').split('-');
+        let action = $(this).parents('.recommended-action').first();
+        let actionId = action.attr('id');
+
+        let focusAreaId = FocusAreas_GetIndexOfAddedFocusAreaByItemId(focusAreaCardID);
     });
 }
