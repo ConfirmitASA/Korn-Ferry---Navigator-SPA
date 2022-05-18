@@ -58,7 +58,7 @@ function FocusAreas_AddItem(newItemObj) {
         newFocusArea['actionPlan'] = {
             name: '',
             notes: '',
-            actions: [], //{actionId, actionStatus, actionDueDate, actionOwner}
+            actions: [], //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner}
             status: 'NotStarted',
             dueDate: dueDate.toDateString(),
             owner: data.User.FirstName,

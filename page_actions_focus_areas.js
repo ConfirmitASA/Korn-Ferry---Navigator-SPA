@@ -139,7 +139,8 @@ function ActionsFocusAreas_Render() {
     ActionFocusAreas_HandleWorkOnThisButtonClick($('.focus-area-info_work-button'));
     ActionFocusAreas_HandleActionTitleClick($('.action-title'));
     ActionFocusAreas_HandleCloseButtonClick($('.action-plan_close'));
-    ActionFocusAreas_HandleAddToActionButtonClick($('.recommended-action_add-to-plan'))
+    ActionFocusAreas_HandleAddToActionPlanButtonClick($('.recommended-action_add-to-plan'));
+    ActionFocusAreas_HandleAddOwnActionButtonClick($('.selected-actions_add'));
 }
 
 function ActionFocusAreas_GetRecommendedActions ( s ) {
@@ -376,7 +377,7 @@ function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
     });
 }
 
-function ActionFocusAreas_HandleAddToActionButtonClick(addActionButtons) {
+function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
     addActionButtons.click(function (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -389,13 +390,49 @@ function ActionFocusAreas_HandleAddToActionButtonClick(addActionButtons) {
         let actionId = action.attr('id');
 
         let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 12);
+        dueDate.setDate(dueDate.getDate() + 14);
 
         let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
+
+        let metaActionId = actionId.split('_').slice(0,2).join('_');
+        let metaActionOrderNumber = actionId.split('_')[2];
+        let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
+        let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
 
         let newActionObj = {
             actionId: actionId,
             orderId: actionId + '_selected_' + focusAreaActions.length,
+            actionTitle: newActionTitle,
+            actionText: newActionText,
+            actionStatus: 'NotStarted',
+            actionDueDate: dueDate.toDateString(),
+            actionOwner: data.User.FirstName
+        }
+
+        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);
+        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj);
+    });
+}
+
+function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
+    addActionButtons.click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        //get item id for focus area
+        let focusAreaCard = $(this).parents('.focus-area-card').first();
+        let focusAreaCardID = focusAreaCard.attr('id').split('-')[1];
+
+        let dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 14);
+
+        let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
+
+        let newActionObj = {
+            actionId: 'OwnAction_selected_' + focusAreaActions.length,
+            orderId: 'OwnAction_selected_' + focusAreaActions.length,
+            actionTitle: 'newActionTitle',
+            actionText: 'newActionText',
             actionStatus: 'NotStarted',
             actionDueDate: dueDate.toDateString(),
             actionOwner: data.User.FirstName
@@ -416,19 +453,38 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
 
         let numberOfActionsInActionPlan = $(actionPlanContainer).find('.selected-action').length;
 
-        let metaActionId = newActionObj.actionId.split('_').slice(0,2).join('_');
-        let metaActionOrderNumber = newActionObj.actionId.split('_')[2];
-        let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
-        let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
+        let actionStatus_dropdown = Component_Dropdown (
+            'actionStatus_' + newActionObj.orderId,
+            meta.Labels['labels.Status'].Label,
+            newActionObj.orderId + '_dropdown',
+            '',
+            ParamValues_ActionPlannerStatusSelector()
+        );
 
         let newActionHTML = `<div id="${newActionObj.orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
-                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text">${newActionTitle}</div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
+                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text" contenteditable="true">${newActionObj.actionTitle}</div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
                                     <div class="action-body selected-action_body ${numberOfActionsInActionPlan == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
-                                        <div class="action-text selected-action_text">${newActionText}</div>                                        
+                                        <div class="action-text selected-action_text" contenteditable="true">${newActionObj.actionText}</div>
+                                        <div class="selected-action_settings">
+                                            <div class="action-setting selected-action_status">
+                                                ${actionStatus_dropdown}
+                                            </div>
+                                            <div class="action-setting selected-action_due-date">
+                                                <label class="action-setting_label">${meta.Labels['labels.DueDate'].Label}</label>
+                                                <input type="text" id="${newActionObj.orderId}_datepicker">
+                                            </div>
+                                            <div class="action-setting selected-action_owner">
+                                                <label class="action-setting_label">${meta.Labels['labels.Owner'].Label}</label>
+                                                <input type="text" id="${newActionObj.orderId}_owner" value="${newActionObj.actionOwner}">
+                                            </div>
+                                        </div>                                        
                                     </div>
                                 </div>`;
 
         $(actionPlanContainer).append(newActionHTML);
+
+        $(`#${newActionObj.orderId}_datepicker`).datepicker();
+        $(`#${newActionObj.orderId}_datepicker`).datepicker('setDate', new Date(newActionObj.actionDueDate));
 
         ActionFocusAreas_HandleActionTitleClick($(`#${newActionObj.orderId}`).find('.action-title'));
     }

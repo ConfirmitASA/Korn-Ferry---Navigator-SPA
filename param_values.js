@@ -102,3 +102,14 @@ function ParamValues_DemographicHighlight_BasisForComparison() {
 
 	return param_values;
 }
+
+function ParamValues_ActionPlannerStatusSelector() {
+	var param_values = [];
+
+	param_values.push ( {Code: 'NotStarted', Label: meta.Labels["labels.NotStarted"].Label} );
+	param_values.push ( {Code: 'Started', Label: meta.Labels["labels.Started"].Label} );
+	param_values.push ( {Code: 'Complete', Label: meta.Labels["labels.Complete"].Label} );
+
+	return param_values;
+
+}

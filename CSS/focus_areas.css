@@ -311,3 +311,41 @@
 .personal-plan_label {
     font-size: 0.9rem;
 }
+.selected-action_settings {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 5px 20px;
+    font-size: 12px;
+}
+.action-setting {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+.action-setting .selector-row {
+    flex-direction: column !important;
+}
+.action-setting select {
+    font-size: 12px !important;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 1px solid #999999 !important;
+}
+.action-setting .selector-label,
+.action-setting_label {
+    margin-bottom: 10px;
+}
+.action-setting input {
+    height: 28px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+.ui-datepicker th {
+    color: #000 !important;
+    font-size: .9em !important;
+}
