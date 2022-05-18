@@ -104,9 +104,8 @@ function ActionsFocusAreas_Render() {
                             <div class="plan-column">
                                 ${ActionFocusAreas_RenderRecommendedActions(focusArea.itemId, recommendedActions)}                        
                                 <div class="action-plan_selected-actions">
-                                    <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label
-                                }</div>
-                                    <div class="selected-actions_container"></div>
+                                    <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label}</div>
+                                    <div class="selected-actions_container selected-actions_container__hidden"></div>
                                     <div class="add-to-plan selected-actions_add">${meta.Buttons.AddOwnAction.Label}</div>
                                 </div>
                                 <div class="action-plan_personal">
@@ -140,6 +139,7 @@ function ActionsFocusAreas_Render() {
     ActionFocusAreas_HandleWorkOnThisButtonClick($('.focus-area-info_work-button'));
     ActionFocusAreas_HandleActionTitleClick($('.action-title'));
     ActionFocusAreas_HandleCloseButtonClick($('.action-plan_close'));
+    ActionFocusAreas_HandleAddToActionButtonClick($('.recommended-action_add-to-plan'))
 }
 
 function ActionFocusAreas_GetRecommendedActions ( s ) {
@@ -217,9 +217,6 @@ function ActionFocusAreas_GetRecommendedActions ( s ) {
 
 function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
     let recommendedActionsHTML = [];
-
-    console.log('recommendedActions');
-    console.log(recommendedActions);
 
     if(recommendedActions.length > 0) {
         recommendedActionsHTML.push(`<div class="action-plan_recommended-actions"><div class="recommended-actions_title">${meta.Labels['labels.RecommendedActions'].Label}</div><div class="recommended-actions_container">`);
@@ -384,11 +381,56 @@ function ActionFocusAreas_HandleAddToActionButtonClick(addActionButtons) {
         event.stopPropagation();
         event.preventDefault();
 
+        //get item id for focus area
         let focusAreaCard = $(this).parents('.focus-area-card').first();
-        let focusAreaCardID = focusAreaCard.attr('id').split('-');
+        let focusAreaCardID = focusAreaCard.attr('id').split('-')[1];
+        //get action id
         let action = $(this).parents('.recommended-action').first();
         let actionId = action.attr('id');
 
-        let focusAreaId = FocusAreas_GetIndexOfAddedFocusAreaByItemId(focusAreaCardID);
+        let dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 12);
+
+        let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
+
+        let newActionObj = {
+            actionId: actionId,
+            orderId: actionId + '_selected_' + focusAreaActions.length,
+            actionStatus: 'NotStarted',
+            actionDueDate: dueDate.toDateString(),
+            actionOwner: data.User.FirstName
+        }
+
+        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);
+        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj);
     });
+}
+
+function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj) {
+    let actionPlanContainer = $(focusAreaCard).find('.selected-actions_container').first();
+
+    if (!!actionPlanContainer) {
+        if($(actionPlanContainer).hasClass('selected-actions_container__hidden')) {
+            $(actionPlanContainer).removeClass('selected-actions_container__hidden');
+        }
+
+        let numberOfActionsInActionPlan = $(actionPlanContainer).find('.selected-action').length;
+
+        let metaActionId = newActionObj.actionId.split('_').slice(0,2).join('_');
+        let metaActionOrderNumber = newActionObj.actionId.split('_')[2];
+        let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
+        let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
+
+        let newActionHTML = `<div id="${newActionObj.orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
+                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text">${newActionTitle}</div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
+                                    <div class="action-body selected-action_body ${numberOfActionsInActionPlan == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
+                                        <div class="action-text selected-action_text">${newActionText}</div>                                        
+                                    </div>
+                                </div>`;
+
+        $(actionPlanContainer).append(newActionHTML);
+
+        ActionFocusAreas_HandleActionTitleClick($(`#${newActionObj.orderId}`).find('.action-title'));
+    }
+
 }

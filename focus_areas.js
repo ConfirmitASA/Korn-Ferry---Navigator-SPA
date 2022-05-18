@@ -52,14 +52,17 @@ function FocusAreas_AddItem(newItemObj) {
             cost: false
         };
 
+        let dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 12);
+
         newFocusArea['actionPlan'] = {
             name: '',
             notes: '',
             actions: [], //{actionId, actionStatus, actionDueDate, actionOwner}
-            status: '',
-            dueDate: '',
-            owner: '',
-            node: ''
+            status: 'NotStarted',
+            dueDate: dueDate.toDateString(),
+            owner: data.User.FirstName,
+            node: data.User.PersonalizedReportBase
         };
 
         FocusAreas.push(newFocusArea);
@@ -80,14 +83,14 @@ function FocusAreas_AddActionsToActionPlan(itemId, newActionObj) {
     if(FocusAreas_IsItemAlreadyAdded(itemId)) {
         let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
 
-        let actions = FocusAreas[index].actionPlan.actions;
+        /*let actions = FocusAreas[index].actionPlan.actions;
         let foundIndex = actions.findIndex((element) => {
             return element.actionId === newActionObj.actionId;
         });
 
-        if(foundIndex < 0) {
+        if(foundIndex < 0) {*/
             FocusAreas[index].actionPlan.actions.push(newActionObj);
-        }
+        /*}*/
 
     } else {
         throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
@@ -112,6 +115,18 @@ function FocusAreas_UpdateActionInActionPlan(itemId, actionId, actionSetting, ac
     } else {
         throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
     }
+}
+
+function FocusAreas_GetActionsInActionPlan(itemId) {
+    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let index = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+
+        return FocusAreas[index].actionPlan.actions;
+
+    } else {
+        throw new Error(`Item ${itemId} you're trying to actions for for does not exist in the Focus Areas list`);
+    }
+
 }
 
 function FocusAreas_RemoveItem(idToRemove) {
