@@ -53,7 +53,7 @@ function FocusAreas_AddItem(newItemObj) {
         };
 
         let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 12);
+        dueDate.setDate(dueDate.getDate() + 14);
 
         newFocusArea['actionPlan'] = {
             name: '',

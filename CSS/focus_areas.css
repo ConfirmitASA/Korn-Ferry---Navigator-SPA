@@ -301,45 +301,62 @@
     border: 1px solid #999999;
     border-radius: 3px;
     height: 30px;
+    padding-left: 5px;
+    margin-top: 10px;
 }
 .plan-notes__input {
     width: 100%;
     height: 100px;
     border: 1px solid #999999;
     border-radius: 3px;
+    padding: 5px;
+    margin-top: 10px;
 }
 .personal-plan_label {
     font-size: 0.9rem;
 }
-.selected-action_settings {
+.selected-action_settings,
+.personal-plan_details {
     display: flex;
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    padding: 5px 20px;
     font-size: 12px;
 }
-.action-setting {
+.selected-action_settings{
+    padding: 5px 20px;
+}
+.personal-plan_details{
+    margin-top: 15px;
+    padding: 0px;
+}
+.action-setting,
+.plan-setting {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     margin-right: 20px;
 }
-.action-setting .selector-row {
+.action-setting .selector-row,
+.plan-setting .selector-row {
     flex-direction: column !important;
 }
-.action-setting select {
+.action-setting select,
+.plan-setting select {
     font-size: 12px !important;
     border-radius: 5px;
     padding: 5px 10px;
     border: 1px solid #999999 !important;
 }
 .action-setting .selector-label,
-.action-setting_label {
+.action-setting_label,
+.plan-setting .selector-label,
+.plan-setting_label{
     margin-bottom: 10px;
 }
-.action-setting input {
+.action-setting input,
+.plan-setting input {
     height: 28px;
     border: 1px solid #999;
     border-radius: 5px;
