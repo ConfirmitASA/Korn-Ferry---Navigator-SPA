@@ -133,11 +133,15 @@ function ActionsFocusAreas_Render() {
         o.join('')
     );
 
+    addedFocusAreas.forEach((focusArea) => {
+        ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
+    });
+
     //add clicks to things
     ActionsFocusAreas_HandleTagClick($('.ap-tag'));
     ActionsFocusAreas_HandleCardsTrashCanClick($('.fa-card-header_remove'));
     ActionFocusAreas_HandleWorkOnThisButtonClick($('.focus-area-info_work-button'));
-    ActionFocusAreas_HandleActionTitleClick($('.action-title'));
+    ActionFocusAreas_HandleActionTitleClick($('.recommended-action_title'));
     ActionFocusAreas_HandleCloseButtonClick($('.action-plan_close'));
     ActionFocusAreas_HandleAddToActionPlanButtonClick($('.recommended-action_add-to-plan'));
     ActionFocusAreas_HandleAddOwnActionButtonClick($('.selected-actions_add'));
@@ -483,10 +487,42 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
 
         $(actionPlanContainer).append(newActionHTML);
 
-        $(`#${newActionObj.orderId}_datepicker`).datepicker();
+        let focusAreaCardID = $(focusAreaCard).attr('id').split('-')[1];
+
+        $(`#${newActionObj.orderId}_datepicker`).datepicker({
+            onSelect: function (date) {
+                if (!!date) {
+                    let newDate = new Date(date);
+                    FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionDueDate', newDate.toDateString());
+                }
+            }
+        });
         $(`#${newActionObj.orderId}_datepicker`).datepicker('setDate', new Date(newActionObj.actionDueDate));
 
         ActionFocusAreas_HandleActionTitleClick($(`#${newActionObj.orderId}`).find('.action-title'));
+
+        $(`#${newActionObj.orderId}_dropdown`).change(function (event) {
+            let selectedOption = $(this).val();
+            State_Set ( 'actionStatus_' + newActionObj.orderId, selectedOption );
+
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionStatus', selectedOption);
+        });
+
+        $(`#${newActionObj.orderId}_owner`).on('input', function (event) {
+            let newOwnerName = $(this).val();
+
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionOwner', newOwnerName);
+        });
     }
 
+}
+
+function ActionFocusAreas_RenderSelectedActions(itemId) {
+    let focusAreaActions = FocusAreas_GetActionsInActionPlan(itemId);
+
+    if (focusAreaActions.length > 0) {
+        focusAreaActions.forEach((action) => {
+            ActionFocusAreas_AddActionToActionPlanSection($('#focusArea-' + itemId).first(), action);
+        });
+    }
 }
