@@ -1347,7 +1347,8 @@ if (meta == null) {
 			"labels.Started": {"Label": "Started"},
 			"labels.Complete": {"Label": "Complete"},
             "labels.DueDate": {"Label": "Due Date:"},
-            "labels.Owner": {"Label": "Owner:"},
+            "labels.PlanOwner": {"Label": "Plan Owner:"},
+			"labels.ActionOwner": {"Label": "Action Owner:"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},
@@ -30453,6 +30454,8 @@ var config = {
 			color: 'white'
 		},
 	},
+
+	ActionPlannerDateFormat: "yy-mm-dd",
 };
 
 if (!('comparators' in state.Parameters)) {

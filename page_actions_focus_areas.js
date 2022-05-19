@@ -138,8 +138,8 @@ function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) 
                                             <input type="text" id="${focusArea.itemId}_datepicker">
                                         </div>
                                         <div class="plan-setting plan_owner">
-                                            <label class="plan-setting_label">${meta.Labels['labels.Owner'].Label}</label>
-                                            <input type="text" id="${focusArea.itemId}_owner" value="${focusArea.actionPlan.owner}">
+                                            <label class="plan-setting_label">${meta.Labels['labels.PlanOwner'].Label}</label>
+                                            <div id="${focusArea.itemId}_owner" class="plan-setting_owner">${focusArea.actionPlan.owner}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +171,8 @@ function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) 
                 let newDate = new Date(date);
                 FocusAreas_UpdateActionPlan(focusArea.itemId, 'dueDate', newDate.toDateString());
             }
-        }
+        },
+        dateFormat: config.ActionPlannerDateFormat
     });
     $(`#${focusArea.itemId}_datepicker`).datepicker('setDate', new Date(focusArea.actionPlan.dueDate));
 
@@ -182,11 +183,11 @@ function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) 
         FocusAreas_UpdateActionPlan(focusArea.itemId, 'status', selectedOption);
     });
 
-    $(`#${focusArea.itemId}_owner`).on('input', function (event) {
+    /*$(`#${focusArea.itemId}_owner`).on('input', function (event) {
         let newOwnerName = $(this).val();
 
         FocusAreas_UpdateActionPlan(focusArea.itemId, 'owner', newOwnerName);
-    });
+    });*/
 
     ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
     ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
@@ -297,8 +298,8 @@ function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
 
 function ActionFocusAreas_HandleActionTitleClick(titleElements) {
     titleElements.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         let chevronElement = $(this).find('.action-chevron');
         let actionElement = $(this).parent();
@@ -347,8 +348,8 @@ function ActionFocusAreas_HandleActionTitleClick(titleElements) {
 
 function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
     buttons.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         let cardContent = $(this).parent().parent();
         let actionPlanContainer = $(cardContent).find('.action-plan');
@@ -361,8 +362,8 @@ function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
 
 function ActionFocusAreas_HandleCloseButtonClick(buttons) {
     buttons.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+       /* event.stopPropagation();
+        event.preventDefault();*/
 
         let actionPlanContainer = $(this).parent().parent();
         let focusAreaCard = $(actionPlanContainer).parent();
@@ -374,8 +375,8 @@ function ActionFocusAreas_HandleCloseButtonClick(buttons) {
 
 function ActionsFocusAreas_HandleTagClick(tagElements) {
     tagElements.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         let tagName = '';
         let tagValue = false;
@@ -419,8 +420,8 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
 
 function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
     trashCanElements.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         let cardToRemove = $(this).parent().parent();
         let cardToRemoveID = cardToRemove.attr('id').split('-');
@@ -434,8 +435,8 @@ function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
 
 function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
     addActionButtons.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         //get item id for focus area
         let focusAreaCard = $(this).parents('.focus-area-card').first();
@@ -471,8 +472,8 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
 
 function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
     addActionButtons.click(function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        /*event.stopPropagation();
+        event.preventDefault();*/
 
         //get item id for focus area
         let focusAreaCard = $(this).parents('.focus-area-card').first();
@@ -517,9 +518,9 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         );
 
         let newActionHTML = `<div id="${newActionObj.orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
-                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text" contenteditable="true">${newActionObj.actionTitle}</div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
+                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text"><div class="action-title_text__editable" contenteditable="true">${newActionObj.actionTitle}</div><div class="edit-icon"></div></div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
                                     <div class="action-body selected-action_body ${numberOfActionsInActionPlan == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
-                                        <div class="action-text selected-action_text" contenteditable="true">${newActionObj.actionText}</div>
+                                        <div class="action-text selected-action_text"><div class="selected-action_text__editable" contenteditable="true">${newActionObj.actionText}</div><div class="edit-icon"></div></div>
                                         <div class="selected-action_settings">
                                             <div class="action-setting selected-action_status">
                                                 ${actionStatus_dropdown}
@@ -529,7 +530,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
                                                 <input type="text" id="${newActionObj.orderId}_datepicker">
                                             </div>
                                             <div class="action-setting selected-action_owner">
-                                                <label class="action-setting_label">${meta.Labels['labels.Owner'].Label}</label>
+                                                <label class="action-setting_label">${meta.Labels['labels.ActionOwner'].Label}</label>
                                                 <input type="text" id="${newActionObj.orderId}_owner" value="${newActionObj.actionOwner}">
                                             </div>
                                         </div>                                        
@@ -546,7 +547,8 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
                     let newDate = new Date(date);
                     FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionDueDate', newDate.toDateString());
                 }
-            }
+            },
+            dateFormat: config.ActionPlannerDateFormat
         });
         $(`#${newActionObj.orderId}_datepicker`).datepicker('setDate', new Date(newActionObj.actionDueDate));
 
