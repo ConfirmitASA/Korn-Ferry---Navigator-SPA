@@ -213,8 +213,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
 
     ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
     ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
-    ActionsFocusAreas_HandleFocusAreaTrashCanClick($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`));
-    ActionFocusAreas_HandlePlanConfirmationBox($(`#focusArea-${focusArea.itemId} .confirmation-button__agree`), $(`#focusArea-${focusArea.itemId} .confirmation-button__close`));
+    ActionsFocusAreas_HandleRemovingFocusArea($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`), $(`#focusArea-${focusArea.itemId} .confirmation-button__agree`), $(`#focusArea-${focusArea.itemId} .confirmation-button__close`));
     ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
     ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
     ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
@@ -233,35 +232,6 @@ function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
         //$(".selected-progress-sign").css('color', '#c0c0c0');
         $('#' + elem.id + " .selected-progress-sign").css('color', '#77bc1f');
     });
-}
-
-function ActionFocusAreas_HandlePlanConfirmationBox(yesButton, noButton) {
-    //handle removing focus area card
-    yesButton.click(function (event) {
-        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
-        if (!!confirmationBox) {
-            $(confirmationBox).addClass('confirmation__hidden');
-
-            let cardToRemove = $(this).parents('.focus-area-card').first();
-
-            if (!!cardToRemove) {
-                let cardToRemoveID = cardToRemove.attr('id').split('-');
-
-                FocusAreas_RemoveItem(cardToRemoveID[1]);
-                FocusAreas_UpdateFocusAreasCounterSpan();
-
-                $(cardToRemove).remove();
-            }
-        }
-    });
-
-    noButton.click(function (event) {
-        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
-        if (!!confirmationBox) {
-            $(confirmationBox).addClass('confirmation__hidden');
-        }
-    });
-
 }
 
 function ActionFocusAreas_GetRecommendedActions(s) {
@@ -492,7 +462,7 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
     });
 }
 
-function ActionsFocusAreas_HandleFocusAreaTrashCanClick(trashCanElements) {
+function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, noButton) {
     trashCanElements.click(function (event) {
         let cardToRemove = $(this).parent().parent();
 
@@ -501,6 +471,31 @@ function ActionsFocusAreas_HandleFocusAreaTrashCanClick(trashCanElements) {
             if($(confirmationBox).hasClass('confirmation__hidden')) {
                 $(confirmationBox).removeClass('confirmation__hidden');
             }
+        }
+    });
+
+    yesButton.click(function (event) {
+        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+
+            let cardToRemove = $(this).parents('.focus-area-card').first();
+
+            if (!!cardToRemove) {
+                let cardToRemoveID = cardToRemove.attr('id').split('-');
+
+                FocusAreas_RemoveItem(cardToRemoveID[1]);
+                FocusAreas_UpdateFocusAreasCounterSpan();
+
+                $(cardToRemove).remove();
+            }
+        }
+    });
+
+    noButton.click(function (event) {
+        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
         }
     });
 }
@@ -728,6 +723,12 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
             FocusAreas_RemoveActionFromActionPlan(focusAreaId, actionId);
 
             $(`#${actionId}`).remove();
+
+            let actions = FocusAreas_GetActionsInActionPlan(focusAreaId);
+
+            if (actions.length == 0) {
+                $(`#focusArea-${focusAreaId} .selected-actions_container`).addClass('selected-actions_container__hidden');
+            }
         }
     });
 
