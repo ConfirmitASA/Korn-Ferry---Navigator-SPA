@@ -430,3 +430,42 @@
 .action-title_text__editable {
     margin-right: 5px;
 }
+.focus-area-card_confirmation,
+.action_confirmation {
+    z-index: 99999;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.confirmation_content {
+    margin: 20% auto 0 auto;
+    width: fit-content;
+    background-color: #ffffff;
+    padding: 30px;
+}
+.confirmation_controls {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.confirmation-button {
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.confirmation-button__agree {
+    border: 1px solid #77bc1f;
+    background-color: #77bc1f;
+    color: #fff;
+}
+.confirmation-button__close {
+    border: 1px solid #999999;
+}
+.confirmation__hidden{
+    display: none;
+}

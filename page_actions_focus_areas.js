@@ -161,6 +161,15 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
                         <div class="action-plan_controls"><div class="action-plan_submit">${meta.Labels['buttons.Submit'].Label}</div><div class="action-plan_close">${meta.Labels['buttons.Close'].Label}</div></div>
                     </div>                   
                 </div>
+                <div class="focus-area-card_confirmation confirmation__hidden">
+                    <div class="confirmation_content">
+                        <div class="confirmation_text">${meta.Labels['labels.DeletePlanConfirmation'].Label}</div>
+                        <div class="confirmation_controls">
+                            <div class="confirmation-button confirmation-button__agree">${meta.Labels['buttons.Yes'].Label}</div>
+                            <div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.No'].Label}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         `);
 
@@ -202,9 +211,35 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
         FocusAreas_UpdateActionPlan(focusArea.itemId, 'owner', newOwnerName);
     });*/
 
+    //handle removing focus area card
+    $(`#focusArea-${focusArea.itemId} .confirmation-button__agree`).click(function (event) {
+        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+
+            let cardToRemove = $(this).parents('.focus-area-card').first();
+
+            if (!!cardToRemove) {
+                let cardToRemoveID = cardToRemove.attr('id').split('-');
+
+                FocusAreas_RemoveItem(cardToRemoveID[1]);
+                FocusAreas_UpdateFocusAreasCounterSpan();
+
+                $(cardToRemove).remove();
+            }
+        }
+    });
+
+    $(`#focusArea-${focusArea.itemId} .confirmation-button__close`).click(function (event) {
+        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+        }
+    });
+
     ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
     ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
-    ActionsFocusAreas_HandleCardsTrashCanClick($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`));
+    ActionsFocusAreas_HandleFocusAreaTrashCanClick($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`));
     ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
     ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
     ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
@@ -449,18 +484,25 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
     });
 }
 
-function ActionsFocusAreas_HandleCardsTrashCanClick(trashCanElements) {
+function ActionsFocusAreas_HandleFocusAreaTrashCanClick(trashCanElements) {
     trashCanElements.click(function (event) {
         /*event.stopPropagation();
         event.preventDefault();*/
 
         let cardToRemove = $(this).parent().parent();
-        let cardToRemoveID = cardToRemove.attr('id').split('-');
+        /*let cardToRemoveID = cardToRemove.attr('id').split('-');
 
         FocusAreas_RemoveItem(cardToRemoveID[1]);
         FocusAreas_UpdateFocusAreasCounterSpan();
 
-        $(cardToRemove).remove();
+        $(cardToRemove).remove();*/
+
+        let confirmationBox = $(cardToRemove).find('.focus-area-card_confirmation').first();
+        if (!!confirmationBox) {
+            if($(confirmationBox).hasClass('confirmation__hidden')) {
+                $(confirmationBox).removeClass('confirmation__hidden');
+            }
+        }
     });
 }
 
@@ -574,6 +616,15 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
                                                 <input type="text" id="${newActionObj.orderId}_owner" value="${newActionObj.actionOwner}">
                                             </div>
                                         </div>                                        
+                                    </div>
+                                    <div class="action_confirmation confirmation__hidden">
+                                        <div class="confirmation_content">
+                                            <div class="confirmation_text">${meta.Labels['labels.DeleteActionConfirmation'].Label}</div>
+                                            <div class="confirmation_controls">
+                                                <div class="confirmation-button confirmation-button__agree">${meta.Labels['buttons.Yes'].Label}</div>
+                                                <div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.No'].Label}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>`;
 
