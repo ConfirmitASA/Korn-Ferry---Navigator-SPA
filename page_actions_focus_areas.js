@@ -43,12 +43,12 @@ function ActionsFocusAreas_Render() {
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
 
 
-    addedFocusAreas.forEach((focusArea) => {
-        ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData);
+    addedFocusAreas.forEach((focusArea, index) => {
+        ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimensionsData);
     });
 }
 
-function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) {
+function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimensionsData) {
     let o = [];
 
     let focusAreaLabel = '';
@@ -111,35 +111,48 @@ function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) 
                     </div>
                     <div class="action-plan action-plan__collapsed">
                         <div class="action-plan_container">
-                            <div class="progress-column"></div>
                             <div class="plan-column">
-                                ${ActionFocusAreas_RenderRecommendedActions(focusArea.itemId, recommendedActions)}                        
-                                <div class="action-plan_selected-actions">
-                                    <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label}</div>
-                                    <div class="selected-actions_container selected-actions_container__hidden"></div>
-                                    <div class="add-to-plan selected-actions_add">${meta.Buttons.AddOwnAction.Label}</div>
+                                ${ActionFocusAreas_RenderRecommendedActions(focusArea.itemId, recommendedActions, index)}                        
+                                <div id="innerblock2${index}" class="action-plan_selected-actions">
+                                    <div class="selected-progress">
+                                        <div class="line"></div>
+                                        <div class="selected-progress-sign">&#9830;</div>
+                                        <div class="line"></div>
+                                    </div>
+                                    <div class="selected-wrapper">
+                                        <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label}</div>
+                                        <div class="selected-actions_container selected-actions_container__hidden"></div>
+                                        <div class="add-to-plan selected-actions_add">${meta.Buttons.AddOwnAction.Label}</div>
+                                    </div>
                                 </div>
-                                <div class="action-plan_personal">
-                                    <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
-                                    <div class="personal-plan_name">
-                                        <label for="plan-name-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
-                                        <input id="plan-name-${focusArea.itemId}" type="text" class="plan-name__input" value="${focusArea.actionPlan.name}">
+                                <div id="innerblock3${index}" class="action-plan_personal">
+                                    <div class="selected-progress">
+                                        <div class="line"></div>
+                                        <div class="selected-progress-sign">&#9830;</div>
+                                        <div class="line"></div>
                                     </div>
-                                    <div class="personal-plan_notes">
-                                        <label for="plan-notes-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
-                                        <textarea id="plan-notes-${focusArea.itemId}" class="plan-notes__input">${focusArea.actionPlan.notes}</textarea>
-                                    </div>
-                                    <div class="personal-plan_details">
-                                        <div class="plan-setting plan_status">
-                                            ${actionPlan_dropdown}
+                                    <div class="selected-wrapper">
+                                        <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
+                                        <div class="personal-plan_name">
+                                            <label for="plan-name-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
+                                            <input id="plan-name-${focusArea.itemId}" type="text" class="plan-name__input" value="${focusArea.actionPlan.name}">
                                         </div>
-                                        <div class="plan-setting plan_due-date">
-                                            <label class="plan-setting_label">${meta.Labels['labels.DueDate'].Label}</label>
-                                            <input type="text" id="${focusArea.itemId}_datepicker">
+                                        <div class="personal-plan_notes">
+                                            <label for="plan-notes-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
+                                            <textarea id="plan-notes-${focusArea.itemId}" class="plan-notes__input">${focusArea.actionPlan.notes}</textarea>
                                         </div>
-                                        <div class="plan-setting plan_owner">
-                                            <label class="plan-setting_label">${meta.Labels['labels.PlanOwner'].Label}</label>
-                                            <div id="${focusArea.itemId}_owner" class="plan-setting_owner">${focusArea.actionPlan.owner}</div>
+                                        <div class="personal-plan_details">
+                                            <div class="plan-setting plan_status">
+                                                ${actionPlan_dropdown}
+                                            </div>
+                                            <div class="plan-setting plan_due-date">
+                                                <label class="plan-setting_label">${meta.Labels['labels.DueDate'].Label}</label>
+                                                <input type="text" id="${focusArea.itemId}_datepicker">
+                                            </div>
+                                            <div class="plan-setting plan_owner">
+                                                <label class="plan-setting_label">${meta.Labels['labels.PlanOwner'].Label}</label>
+                                                <div id="${focusArea.itemId}_owner" class="plan-setting_owner">${focusArea.actionPlan.owner}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -197,6 +210,15 @@ function ActionFocusAreas_RenderFocusArea(focusArea, itemsData, dimensionsData) 
     ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
     ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusArea.itemId} .recommended-action_add-to-plan`));
     ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusArea.itemId} .selected-actions_add`));
+
+    $(`#focusArea-${focusArea.itemId} .plan-column`).click(function(e) {
+        var elem = e.target;
+        while (elem.id.indexOf('innerblock') == -1) {
+            elem = elem.parentElement;
+        }
+        //$(".selected-progress-sign").css('color', '#c0c0c0');
+        $('#' + elem.id + " .selected-progress-sign").css('color', '#77bc1f');
+    });
 }
 
 function ActionFocusAreas_GetRecommendedActions(s) {
@@ -272,11 +294,20 @@ function ActionFocusAreas_GetRecommendedActions(s) {
     return actions;
 }
 
-function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
+function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions, index) {
     let recommendedActionsHTML = [];
 
     if (recommendedActions.length > 0) {
-        recommendedActionsHTML.push(`<div class="action-plan_recommended-actions"><div class="recommended-actions_title">${meta.Labels['labels.RecommendedActions'].Label}</div><div class="recommended-actions_container">`);
+        recommendedActionsHTML.push(`<div id="innerblock1${index}" class="action-plan_recommended-actions">
+                                        <div class="selected-progress">
+                                            <div class="line"></div>
+                                            <div class="selected-progress-sign">&#9830;</div>
+                                            <div class="line"></div>
+                                        </div>
+                                        <div class="selected-wrapper">
+                                            <div class="recommended-actions_title">${meta.Labels['labels.RecommendedActions'].Label}</div>
+                                            <div class="recommended-actions_container">`
+        );
 
         recommendedActions.forEach((recAction, index) => {
             let recActionHTML = `<div id="${recAction.Id}" class="recommended-action ${index == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
@@ -289,7 +320,7 @@ function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions) {
 
             recommendedActionsHTML.push(recActionHTML);
         })
-        recommendedActionsHTML.push(`</div></div>`);
+        recommendedActionsHTML.push(`</div></div></div>`);
     }
 
     return recommendedActionsHTML.join('');
@@ -518,9 +549,18 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         );
 
         let newActionHTML = `<div id="${newActionObj.orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
-                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text"><div class="action-title_text__editable" contenteditable="true">${newActionObj.actionTitle}</div><div class="edit-icon"></div></div><div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
+                                    <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}">
+                                        <div class="action-title_text">
+                                            <div class="action-title_text__editable" contenteditable="true" tabindex="-1">${newActionObj.actionTitle}</div>
+                                            <div class="edit-icon"></div>
+                                        </div>
+                                        <div class="action-chevron ${numberOfActionsInActionPlan == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div>
+                                    </div>
                                     <div class="action-body selected-action_body ${numberOfActionsInActionPlan == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
-                                        <div class="action-text selected-action_text"><div class="selected-action_text__editable" contenteditable="true">${newActionObj.actionText}</div><div class="edit-icon"></div></div>
+                                        <div class="action-text selected-action_text">
+                                            <div class="selected-action_text__editable" contenteditable="true" tabindex="-1">${newActionObj.actionText}</div>
+                                            <div class="edit-icon"></div>
+                                        </div>
                                         <div class="selected-action_settings">
                                             <div class="action-setting selected-action_status">
                                                 ${actionStatus_dropdown}
@@ -541,6 +581,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
 
         let focusAreaCardID = $(focusAreaCard).attr('id').split('-')[1];
 
+        //handle calendar click
         $(`#${newActionObj.orderId}_datepicker`).datepicker({
             onSelect: function (date) {
                 if (!!date) {
@@ -554,6 +595,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
 
         ActionFocusAreas_HandleActionTitleClick($(`#${newActionObj.orderId}`).find('.action-title'));
 
+        //handle status dropdown change
         $(`#${newActionObj.orderId}_status-dropdown`).change(function (event) {
             let selectedOption = $(this).val();
             State_Set('actionStatus_' + newActionObj.orderId, selectedOption);
@@ -561,11 +603,45 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
             FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionStatus', selectedOption);
         });
 
+        //handle owner input change
         $(`#${newActionObj.orderId}_owner`).on('input', function (event) {
             let newOwnerName = $(this).val();
 
             FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionOwner', newOwnerName);
         });
+
+        //handle click on action title/text + pen icon to enable immediate editing (using contenteditable)
+        $(`#${newActionObj.orderId} .action-title_text__editable, #${newActionObj.orderId} .selected-action_text__editable, #${newActionObj.orderId} .edit-icon`).click(function (event) {
+            event.stopPropagation();
+
+            if($(this).hasClass('edit-icon')) {
+                let actionTitle = $(this).parent().find('.action-title_text__editable');
+
+                if(actionTitle.length > 0) {
+                    $(actionTitle).focus();
+                }
+
+                let actionText = $(this).parent().find('.selected-action_text__editable');
+
+                if(actionText.length > 0) {
+                    $(actionText).focus();
+                }
+            }
+        });
+
+        //handle actionTitle text change
+        $(`#${newActionObj.orderId} .action-title_text__editable`).on('input', function (event) {
+            let newTitle = this.textContent;
+
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionTitle', newTitle);
+        });
+
+        //handle actionText text change
+        $(`#${newActionObj.orderId} .selected-action_text__editable`).on('input', function (event) {
+            let newText = this.textContent;
+
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionText', newText);
+        })
     }
 
 }

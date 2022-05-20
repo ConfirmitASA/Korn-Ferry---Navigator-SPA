@@ -72,8 +72,10 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 
 function TD(cell) {
 	if (cell.ClassName == null) cell.ClassName = "items-table-td";
+	if (cell.colspan == null) cell.colspan = 1;
+	if (cell.rowspan == null) cell.rowspan = 1;
 	var datasort = ('datasort' in cell) ? ' data-sort="'+cell.datasort+'"' : '';
-	return '<td class="' + cell.ClassName + '"' + datasort + '>' + cell.Label + '</td>';
+	return '<td class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + ' ' + datasort + '>' + cell.Label + '</td>';
 }
 
 function TH(cell) {

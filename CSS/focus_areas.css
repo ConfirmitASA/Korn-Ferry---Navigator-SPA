@@ -289,12 +289,42 @@
 .action-plan_close {
     border: 1px solid #999999;
 }
-.action-plan_selected-actions,
+.action-plan_recommended-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.action-plan_selected-actions  {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
 .action-plan_personal {
     width: 100%;
     display: flex;
+    flex-direction: row;
+}
+.selected-progress {
+    width: 10px;
+    color: #c0c0c0;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    display: flex;
     flex-direction: column;
-    margin-top: 25px;
+}
+.selected-wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.selected-progress-sign {
+    font-size: 14px;
+}
+.line {
+    width: 1px;
+    background: #c0c0c0;
+    height: 50%;
 }
 .personal-plan_notes {
     margin-top: 15px;
@@ -380,6 +410,7 @@
     filter: invert(52%) sepia(13%) saturate(1563%) hue-rotate(187deg) brightness(91%) contrast(101%);
     width: 10px;
     height: 10px;
+    cursor: pointer;
 }
 .action-title_text {
     display: flex;

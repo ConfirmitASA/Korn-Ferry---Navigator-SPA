@@ -250,7 +250,7 @@ function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable) {
 	slide.addText(title, PPTX_TITLE_STYLE);
 
 	var info = meta.SlideTexts[slideId].info;
-	if (info.length > 0) {
+	if (info.length > 0 && tableType!='DIMS') { // info text for DIMS is only for slideshow
 		var str = [];
 		for (var i = 0; i < info.length; i++)
 			str.push({ text: info[i], options: { bullet: PPTX_BULLET_STYLE, breakLine: true } });

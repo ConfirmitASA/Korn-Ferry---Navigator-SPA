@@ -205,6 +205,11 @@ if (meta == null) {
 
 		ClientName: "Company X",
 
+		Hierarchy: {
+			Map: {389: {ParentId: -1}},
+			TopNode: {Id: 389}
+		},
+
 		VisiblePages: ["Intro", "Home", "Slideshow", "GroupHeadlines",
 			"KeyMetrics", "KeyDrivers", "StrengthsAndOpportunities",
 			"EffectivenessProfile", "EffectivenessProfileBreakdown",
@@ -1987,7 +1992,9 @@ if (meta == null) {
 					'title': 'Dimension Overview',
 					'info': [
 						"Here is an overview of the most favourable and least favourable dimensions"
-					]
+					],
+					"LabelMostFav": "Most favourable dimensions",
+					"LabelLeastFav": "Least favourable dimensions"
 				},
 
 
