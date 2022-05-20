@@ -469,3 +469,8 @@
 .confirmation__hidden{
     display: none;
 }
+.selected-action_remove {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

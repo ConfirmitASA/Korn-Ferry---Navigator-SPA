@@ -211,8 +211,33 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
         FocusAreas_UpdateActionPlan(focusArea.itemId, 'owner', newOwnerName);
     });*/
 
+    ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
+    ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
+    ActionsFocusAreas_HandleFocusAreaTrashCanClick($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`));
+    ActionFocusAreas_HandlePlanConfirmationBox($(`#focusArea-${focusArea.itemId} .confirmation-button__agree`), $(`#focusArea-${focusArea.itemId} .confirmation-button__close`));
+    ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
+    ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
+    ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
+    ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusArea.itemId} .recommended-action_add-to-plan`));
+    ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusArea.itemId} .selected-actions_add`));
+    ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusArea.itemId} .plan-column`));
+
+}
+
+function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
+    planColumnForProgressBar.click(function(e) {
+        var elem = e.target;
+        while (elem.id.indexOf('innerblock') == -1) {
+            elem = elem.parentElement;
+        }
+        //$(".selected-progress-sign").css('color', '#c0c0c0');
+        $('#' + elem.id + " .selected-progress-sign").css('color', '#77bc1f');
+    });
+}
+
+function ActionFocusAreas_HandlePlanConfirmationBox(yesButton, noButton) {
     //handle removing focus area card
-    $(`#focusArea-${focusArea.itemId} .confirmation-button__agree`).click(function (event) {
+    yesButton.click(function (event) {
         let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
         if (!!confirmationBox) {
             $(confirmationBox).addClass('confirmation__hidden');
@@ -230,30 +255,13 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
         }
     });
 
-    $(`#focusArea-${focusArea.itemId} .confirmation-button__close`).click(function (event) {
+    noButton.click(function (event) {
         let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
         if (!!confirmationBox) {
             $(confirmationBox).addClass('confirmation__hidden');
         }
     });
 
-    ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
-    ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
-    ActionsFocusAreas_HandleFocusAreaTrashCanClick($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`));
-    ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
-    ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
-    ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
-    ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusArea.itemId} .recommended-action_add-to-plan`));
-    ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusArea.itemId} .selected-actions_add`));
-
-    $(`#focusArea-${focusArea.itemId} .plan-column`).click(function(e) {
-        var elem = e.target;
-        while (elem.id.indexOf('innerblock') == -1) {
-            elem = elem.parentElement;
-        }
-        //$(".selected-progress-sign").css('color', '#c0c0c0');
-        $('#' + elem.id + " .selected-progress-sign").css('color', '#77bc1f');
-    });
 }
 
 function ActionFocusAreas_GetRecommendedActions(s) {
@@ -486,16 +494,7 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
 
 function ActionsFocusAreas_HandleFocusAreaTrashCanClick(trashCanElements) {
     trashCanElements.click(function (event) {
-        /*event.stopPropagation();
-        event.preventDefault();*/
-
         let cardToRemove = $(this).parent().parent();
-        /*let cardToRemoveID = cardToRemove.attr('id').split('-');
-
-        FocusAreas_RemoveItem(cardToRemoveID[1]);
-        FocusAreas_UpdateFocusAreasCounterSpan();
-
-        $(cardToRemove).remove();*/
 
         let confirmationBox = $(cardToRemove).find('.focus-area-card_confirmation').first();
         if (!!confirmationBox) {
@@ -615,6 +614,9 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
                                                 <label class="action-setting_label">${meta.Labels['labels.ActionOwner'].Label}</label>
                                                 <input type="text" id="${newActionObj.orderId}_owner" value="${newActionObj.actionOwner}">
                                             </div>
+                                            <div class="selected-action_remove">
+                                                <div class="fa-card-header_remove"></div>
+                                            </div>
                                         </div>                                        
                                     </div>
                                     <div class="action_confirmation confirmation__hidden">
@@ -692,8 +694,51 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
             let newText = this.textContent;
 
             FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionText', newText);
-        })
+        });
+
+        ActionFocusAreas_HandleRemovingAction(focusAreaCardID, newActionObj.orderId, $(`#${newActionObj.orderId} .fa-card-header_remove`), $(`#${newActionObj.orderId} .confirmation-button__agree`), $(`#${newActionObj.orderId} .confirmation-button__close`))
+
     }
+
+}
+
+function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanElement, yesButton, noButton) {
+    //handle trash can click on action
+    trashCanElement.click(function (event) {
+        event.stopPropagation();
+
+        let actionToRemove = $(this).parents('.selected-action').first();
+
+        let confirmationBox = $(actionToRemove).find('.action_confirmation').first();
+        if (!!confirmationBox) {
+            if($(confirmationBox).hasClass('confirmation__hidden')) {
+                $(confirmationBox).removeClass('confirmation__hidden');
+            }
+        }
+    });
+
+    yesButton.click(function (event) {
+        event.stopPropagation();
+
+        let confirmationBox = $(this).parents('.action_confirmation').first();
+
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+
+            FocusAreas_RemoveActionFromActionPlan(focusAreaId, actionId);
+
+            $(`#${actionId}`).remove();
+        }
+    });
+
+    noButton.click(function (event) {
+        event.stopPropagation();
+
+        let confirmationBox = $(this).parents('.action_confirmation').first();
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+        }
+    });
 
 }
 

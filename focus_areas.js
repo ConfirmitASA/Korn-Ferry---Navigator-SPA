@@ -132,6 +132,25 @@ function FocusAreas_RemoveItem(idToRemove) {
     }
 }
 
+function FocusAreas_RemoveActionFromActionPlan(itemId, actionOrderId) {
+    if (FocusAreas_IsItemAlreadyAdded(itemId)) {
+        let itemIndex = FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId);
+        let actions = FocusAreas[itemIndex].actionPlan.actions;
+
+        let actionIndex = actions.findIndex((element) => {
+            return element.orderId === actionOrderId;
+        });
+
+        if(actionIndex >= 0) {
+            FocusAreas[itemIndex].actionPlan.actions.splice(actionIndex, 1);
+        } else {
+            throw new Error(`Action ${actionOrderId} you're trying to update does not exist in this action plan for ${itemId}`);
+        }
+    } else {
+        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
 function FocusAreas_GetFocusAreas() {
     return FocusAreas;
 }
