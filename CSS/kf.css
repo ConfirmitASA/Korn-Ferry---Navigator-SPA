@@ -1137,6 +1137,9 @@ select {
 table.dataTable thead th {
     padding: 10px 15px;
 }
+.dt-buttons {
+    margin-bottom: 20px;
+}
 
 
 .action-cell {

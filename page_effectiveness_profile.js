@@ -16,6 +16,18 @@ function EffectivenessProfile_Page() {
 	};
 
 }
+
+function detectRTL() {
+	var elem = document.getElementsByTagName('html');
+	cs = window.getComputedStyle(elem[0], null).getPropertyValue('direction');
+	if (cs == 'rtl') {
+	   return true;
+	} else {
+	   return false;
+	}
+}
+var detectRTL = detectRTL();
+
 function EffectivenessProfile_Render() {
 	var o = [];
 
@@ -60,22 +72,22 @@ function EffectivenessProfile_Render() {
 
 	EffectivenessProfile_QuadrantCallout('bottomright', {
 		Text: meta.EffectivenessProfileTexts.Frustrated,
-		Left: 590,
+		Left: detectRTL == true ? -45 : 590,
 		Top: 410
 	});
 	EffectivenessProfile_QuadrantCallout('topright', {
 		Text: meta.EffectivenessProfileTexts.MostEffective,
-		Left: 590,
+		Left: detectRTL == true ? -45 : 590,
 		Top: 40
 	});
 	EffectivenessProfile_QuadrantCallout('bottomleft', {
 		Text: meta.EffectivenessProfileTexts.LeastEffective,
-		Left: -45,
+		Left: detectRTL == true ? 590 : -45,
 		Top: 410
 	});
 	EffectivenessProfile_QuadrantCallout('topleft', {
 		Text: meta.EffectivenessProfileTexts.Detached,
-		Left: -45,
+		Left: detectRTL == true ? 590 : -45,
 		Top: 40
 	});
 
@@ -431,9 +443,10 @@ function EffectivenessProfile_DrawTileChart(tileId, chartData) {
 		},
 		xAxis: {
 			categories: chartData.categories,
+			opposite: detectRTL == true ? true : false, // rtl
 			labels: {
-				useHTML:true,
-				style:{
+				useHTML: true,
+				style: {
 					width:'100px',
 					fontSize: 12
 				}
@@ -442,31 +455,37 @@ function EffectivenessProfile_DrawTileChart(tileId, chartData) {
 		yAxis: {
 			min: 0,
 			max: 100,
+			reversed: detectRTL == true ? true : false, //rtl
 			title: {
 				text: ''
 			},
+			
 			stackLabels: {
+				useHTML: true,
 				enabled: true,
 				style: {
 					fontSize: '12px'
 				}
 			}
+			
 		},
 		legend: {
 			enabled: false
 		},
+		
 		plotOptions: {
 			series: {
 				stacking: 'normal',
 				colorByPoint: true
 			},
 		},
+		
 		tooltip: {
 			enabled: false
 		},
 		series: [
-			chartData.series
-		]
+			chartData.series	
+	   ]
 	});
 
 }
@@ -529,6 +548,8 @@ function EffectivenessProfile_ShowQuadrantChart() {
 	}
 
 }
+
+
 
 function EffectivenessProfile_QuadrantCallout(classname, config) {
 	var x = $('.' + classname);

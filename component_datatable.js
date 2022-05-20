@@ -59,7 +59,6 @@ function Component_DataTable ( table_id, class_name, headers, data, isSortable, 
 			buttons: ${showButtons ? buttonSettings : "[]" }
 		});
 		tbl.css('float', 'left');
-		tbl.css('margin-top', '20px');
 		tbl.css('width', '');
 		tbl.css('overflow', 'scroll');
     `;

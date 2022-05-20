@@ -139,7 +139,7 @@ function KeyMetrics_Render() {
 							
 							<!-- Comparison Scores -->
 							<div class=vs>
-								<table style="width: 200px">
+								<table>
 			`);
 
         
@@ -196,6 +196,7 @@ function KeyMetrics_Render() {
                                         color: #c0c0c0;
                                         padding-top: 4px;
                                         padding-left: 2px;
+                                        direction: ltr;
                                     ">${vsTrendValue>0 ? ('+' + vsTrendValue) : (vsTrendValue<0 ? vsTrendValue : '')}</div>
                                 </div>
                                 <div class="trend-indicator-description">
@@ -203,6 +204,7 @@ function KeyMetrics_Render() {
                                         position: absolute;
                                         font-size: 12px;
                                         top: -45px;
+                                        width: 100px;
                                         ">${trend_indicator_description}</div>
                                     <div style="
                                         position: absolute;
@@ -231,9 +233,9 @@ function KeyMetrics_Render() {
 							<div class="metriclabel_back">
 								${meta.Dimensions[dimension_id].KeyMetric_BackCardText}
 							</div>
-
+                            
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${dimension_id == 'DIM_N65' ? meta.Labels['KeyMetrics_MoreCardText.DIM_N65'].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>
@@ -302,6 +304,18 @@ function KeyMetrics_Render() {
 
     // Click: Show Details ("More" button)
     $('.detailslink').click(function (event) {
+        
+        // third card
+        let DIM = event.target.id;
+        let DIM_ID = DIM.split('_')[1];
+        if (DIM_ID == 'N65') {
+            var menuitem = document.getElementById('menuitem-GroupExplore');
+            menuitem.click();
+            var dropdown = document.getElementById('allresults-itemgroups-highlighter-dropdown');
+            dropdown.options[7].selected = true;
+            console.log(dropdown.options[7]);
+            return;
+        }
 
         // Hide "More" link until restore
         $(this).hide();
@@ -457,7 +471,7 @@ function KeyMetrics_Render() {
         var button_id = $(this).attr('id').split('-');
 		
         if($(this).hasClass('add-action')) {
-            Utils_SetActionButtonToREMOVE(this, meta.Labels['labels.Selected'].Label);
+            Utils_SetActionButtonToREMOVE(this, 'Selected*' /*meta.Labels['buttons.Selected'].Label*/);
 
             let newFocusArea = {
                 itemId: button_id[2],
@@ -484,14 +498,14 @@ function KeyMetrics_CardDetailsMain(metric_id) {
     var pct_distribution = Utils_CountsToPercents ( dimensions[metric_id].Dist );
 
     var html = `
-		<div class=itemrow style="border-top: 0px; margin-top: 30px">
-			<div class=metriclabel_back style="position: absolute; top: unset; left: unset;">${meta.Dimensions[metric_id].Label}</div>
-			<div class=score_back style="position: absolute; top: unset; width: 705px; text-align: end; font-size: 18px">${Utils_FormatPctOutput(pct_distribution.Fav)}</div>
+		<div class="itemrow-header">
+			<div class="metricback_label">${meta.Dimensions[metric_id].Label}</div>
+			<div class="scoreback_label">${Utils_FormatPctOutput(pct_distribution.Fav)}</div>
 		</div>
 		`;
 
 
-    html += '<div style="margin-top: 60px">' + KeyMetrics_MetricItems(metric_id) + '</div>';
+    html += '<div style="margin-top: 30px">' + KeyMetrics_MetricItems(metric_id) + '</div>';
 
     return html;
 }
@@ -575,7 +589,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
             let actionButtonText = isItemAddedAsFocusArea 
-				? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}` 
+				? `<div class="remove-action_icon">-</div> ${"Selected*"}` 
 				: meta.Labels['buttons.TakeAction'].Label;
 
             tmp.push(`
