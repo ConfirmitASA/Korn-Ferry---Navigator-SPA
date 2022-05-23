@@ -254,7 +254,8 @@ function AllResults_AddItemToTable(itemId, isDimension, sortId) {
 	//set action icon to remove icon if so
 	let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(itemId);
 	let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
-	let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "question-${itemId}-button" ></div></div>`;
+	let actionIdDimensionOrQuestion = isDimension ? 'dimension' : 'question';
+	let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "${actionIdDimensionOrQuestion}-${itemId}-button" ></div></div>`;
 	rowdata.push({Label: actionButton, ClassName: 'numeric-cell'});
 
     return rowdata;
@@ -281,36 +282,7 @@ function AllResults_handleTableActionIconClick() {
 		} else {
 			if ($(this).hasClass('remove-action')) {
 				Utils_SetActionIconToADD(this);
-						for (var k = 0; k < NofComparators; k++) {
-				var comparator_id = comparators[k];
-				var comparator_data = comparators_data[comparator_id];
-
-				var value;
-				var sigClassname;
-
-				if (
-					comparator_data == null
-					||
-					comparator_data.Items == null
-					||
-					comparator_data.Items[qid] == null
-				) {
-					value = NOT_AVAILABLE;
-					sigClassname = '';
-				}
-				else {
-					var sig_test = Utils_SigTest ( item, comparator_data.Items[qid], 'Fav' );
-					sigClassname = sig_test.IsSignificant
-						? ( sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
-						: '';
-
-					value = (sig_test.Diff == null)
-						? NOT_AVAILABLE
-						: (sig_test.Diff>0 ? '+' : '') + sig_test.Diff + (sig_test.IsSignificant ? ' *' : '');
-
-				}
-				rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
-			}	FocusAreas_RemoveItem(button_id[1]);
+				FocusAreas_RemoveItem(button_id[1]);
 			}
 		}
 
