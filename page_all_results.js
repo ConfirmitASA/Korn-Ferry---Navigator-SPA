@@ -38,7 +38,7 @@ function AllResults_Render() {
 	$("#allresults-table-container").html( o.join('') );
 	if ( dt.ScriptCode != null ) eval ( dt.ScriptCode );
 
-	AllResults_handleTableActionIconClick();
+	FocusAreas__handleTableActionIconClick('#items-table-allresults');
 
 	$('#allresults-itemgroups-highlighter-dropdown').change( function() {
 
@@ -261,32 +261,4 @@ function AllResults_AddItemToTable(itemId, isDimension, sortId) {
     return rowdata;
 }
 
-function AllResults_handleTableActionIconClick() {
 
-	$('#allresults-table-container').find('.action-icon').click(function (event) {
-
-		event.stopPropagation();
-		event.preventDefault();
-
-		let button_id = $(this).attr('id').split('-');
-
-		if($(this).hasClass('add-action')) {
-			Utils_SetActionIconToREMOVE(this);
-
-			let newFocusArea = {
-				itemId: button_id[1],
-				isDimension: button_id[0] === 'dimension'
-			}
-
-			FocusAreas_AddItem(newFocusArea);
-		} else {
-			if ($(this).hasClass('remove-action')) {
-				Utils_SetActionIconToADD(this);
-				FocusAreas_RemoveItem(button_id[1]);
-			}
-		}
-
-		FocusAreas_UpdateFocusAreasCounterSpan();
-	});
-
-}

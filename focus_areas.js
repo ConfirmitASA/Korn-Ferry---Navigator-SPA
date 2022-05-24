@@ -164,3 +164,33 @@ function FocusAreas_UpdateFocusAreasCounterSpan() {
         $('#focusAreasCounter').removeClass('focus-areas-counter-visible');
     }
 }
+
+function FocusAreas__handleTableActionIconClick(containerId) {
+
+	$(containerId).find('.action-icon').click(function (event) {
+
+		event.stopPropagation();
+		event.preventDefault();
+
+		let button_id = $(this).attr('id').split('-');
+
+		if($(this).hasClass('add-action')) {
+			Utils_SetActionIconToREMOVE(this);
+
+			let newFocusArea = {
+				itemId: button_id[1],
+				isDimension: button_id[0] === 'dimension'
+			}
+
+			FocusAreas_AddItem(newFocusArea);
+		} else {
+			if ($(this).hasClass('remove-action')) {
+				Utils_SetActionIconToADD(this);
+				FocusAreas_RemoveItem(button_id[1]);
+			}
+		}
+
+		FocusAreas_UpdateFocusAreasCounterSpan();
+	});
+
+}

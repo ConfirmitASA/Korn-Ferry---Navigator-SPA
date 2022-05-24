@@ -26,22 +26,47 @@ function ActionsFocusAreas_Page() {
 
 
 function ActionsFocusAreas_Render() {
+    
+    var dt = ActionFocusAreas_RenderAddActionTable();
+ 
     let addNewFocusAreaHTML = `
-        <div class="add-focus-areas-buttons-container">
+        <div id="AddActionWindow_Button" class="add-focus-areas-buttons-container">
             <div class="add-focus-areas-icon ap_add-items-plus-circle"></div>
             <div class="add-focus-areas-text">${meta.Labels['labels.Add'].Label}</div>
+        </div>
+        <div id="AddActionWindow" class="focus-area-card_addaction" style="display:none;">
+            <div class="addaction_content">
+                <div class="addaction_table">${dt.Html}</div>
+                <button id="AddActionWindow_CloseButton" class="close_addaction_button">X</button>
+            </div>
         </div>
     `;
 
     $('#AddNewFocusArea').html(addNewFocusAreaHTML);
 
+    if (dt.ScriptCode != null) eval(dt.ScriptCode);
+
+    FocusAreas__handleTableActionIconClick('#items-table-addaction');
+
+    $('#AddActionWindow_Button').click(function() {
+        document.getElementById("AddActionWindow").style.display = "";
+	});
+    $('#AddActionWindow_CloseButton').click(function() {
+        document.getElementById("AddActionWindow").style.display = "none";
+        ActionFocusAreas_RenderFocusAreaList();
+    });
+
+    ActionFocusAreas_RenderFocusAreaList();
+    
+}
+
+function ActionFocusAreas_RenderFocusAreaList() {
     $('#FocusAreasList').html('');
 
     let addedFocusAreas = FocusAreas_GetFocusAreas();
 
     let itemsData = Main_CurrentItemsData_WithFilter();
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
-
 
     addedFocusAreas.forEach((focusArea, index) => {
         ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimensionsData);
@@ -224,7 +249,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
 }
 
 function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
-    planColumnForProgressBar.click(function(e) {
+    planColumnForProgressBar.click(function (e) {
         var elem = e.target;
         while (elem.id.indexOf('innerblock') == -1) {
             elem = elem.parentElement;
@@ -406,8 +431,8 @@ function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
 
 function ActionFocusAreas_HandleCloseButtonClick(buttons) {
     buttons.click(function (event) {
-       /* event.stopPropagation();
-        event.preventDefault();*/
+        /* event.stopPropagation();
+         event.preventDefault();*/
 
         let actionPlanContainer = $(this).parent().parent();
         let focusAreaCard = $(actionPlanContainer).parent();
@@ -468,7 +493,7 @@ function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, 
 
         let confirmationBox = $(cardToRemove).find('.focus-area-card_confirmation').first();
         if (!!confirmationBox) {
-            if($(confirmationBox).hasClass('confirmation__hidden')) {
+            if ($(confirmationBox).hasClass('confirmation__hidden')) {
                 $(confirmationBox).removeClass('confirmation__hidden');
             }
         }
@@ -662,16 +687,16 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         $(`#${newActionObj.orderId} .action-title_text__editable, #${newActionObj.orderId} .selected-action_text__editable, #${newActionObj.orderId} .edit-icon`).click(function (event) {
             event.stopPropagation();
 
-            if($(this).hasClass('edit-icon')) {
+            if ($(this).hasClass('edit-icon')) {
                 let actionTitle = $(this).parent().find('.action-title_text__editable');
 
-                if(actionTitle.length > 0) {
+                if (actionTitle.length > 0) {
                     $(actionTitle).focus();
                 }
 
                 let actionText = $(this).parent().find('.selected-action_text__editable');
 
-                if(actionText.length > 0) {
+                if (actionText.length > 0) {
                     $(actionText).focus();
                 }
             }
@@ -706,7 +731,7 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
 
         let confirmationBox = $(actionToRemove).find('.action_confirmation').first();
         if (!!confirmationBox) {
-            if($(confirmationBox).hasClass('confirmation__hidden')) {
+            if ($(confirmationBox).hasClass('confirmation__hidden')) {
                 $(confirmationBox).removeClass('confirmation__hidden');
             }
         }
@@ -753,7 +778,102 @@ function ActionFocusAreas_RenderSelectedActions(itemId) {
     }
 }
 
+function ActionFocusAreas_RenderAddActionTable() {
+    var current_items = Main_CurrentItemsData_WithFilter();
+    var current_dimensions = Main_CurrentDimensionsData_WithFilter();
 
+    // temp code until the Source property is removed
+    if (current_items.hasOwnProperty("Source"))
+        delete current_items.Source;
 
+    var headers = [[
+        { Label: "", ClassName: 'text-cell', rowspan: 1 },
+        { Label: "# ", ClassName: 'id-cell', rowspan: 1 },
+        { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: 1 },
+        { Label: meta.Labels["labels.PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: 1 },
+        { Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: 1 }
+    ]];
+    var table_data = [];
 
+    // Some type of Dimension View
+    var counter = 0;
+    for (var i in current_dimensions) {
+        var sort_dId = counter < 10 ? '0' + counter : counter;
+        var sort_qId = sort_dId + '_';
+        table_data.push(ActionFocusAreas_AddItemToTable(i, true, sort_dId));
+        // Add Questions from this Dimension
+        var dimItems = meta.Dimensions[i].Items;
+        for (var j = 0; j < dimItems.length; j++) {
+            // Check if question exists in data (this is only a temp problem with test data, in real life we shouldn't have to do this test)
+            if (current_items[dimItems[j]] != null) {
+                table_data.push(ActionFocusAreas_AddItemToTable(dimItems[j], false, sort_qId));
+            }
+        }
+        counter++;
+    }
+
+    var columnSettings = `
+		'orderFixed': [ 0, 'asc' ],
+		'order': [ 1, 'asc' ],
+		'columnDefs': [
+			{ 'targets': [ 0 ], 'visible': false },
+			{ 'targets': [0,1,2], type: 'natural' },
+			{ 'targets': [ 3 ], type: 'numsort' }
+		],
+        'searchHighlight': true,
+	`;
+
+    var dt = Component_DataTable(
+        "items-table-addaction",
+        "",
+        headers,
+        table_data,
+        true,
+        true,
+        columnSettings,
+        false
+    );
+
+    return dt;
+}
+
+function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
+    var formatter = Utils_FormatOutput;
+
+    var current_data = isDimension
+        ? Main_CurrentDimensionsData_WithFilter()
+        : Main_CurrentItemsData_WithFilter();
+
+    var obj = current_data[itemId]; // Either Item or Dimension
+
+    var label = isDimension
+        ? '<b>' + meta.Dimensions[itemId].Label + '</b>'
+        : meta.Items[itemId].Label;
+
+    var id = isDimension
+        ? '&#9674;' // diamond symbol
+        : obj.QNo;
+
+    var pct_dist = isDimension
+        ? obj.Dist // dimensions already store rounded percentages in the distribution
+        : Utils_CountsToPercents(obj.Dist);
+
+    var rowdata = [];
+    rowdata.push(
+        { Label: sortId, ClassName: 'id-cell' },
+        { Label: id, ClassName: 'id-cell' },
+        { Label: label, ClassName: 'text-cell' },
+        { Label: formatter(pct_dist.Fav), ClassName: 'numeric-cell distribution-cell' }
+    );
+
+    //check if item has been added to Focus Areas
+    //set action icon to remove icon if so
+    let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(itemId);
+    let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
+    let actionIdDimensionOrQuestion = isDimension ? 'dimension' : 'question';
+    let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "${actionIdDimensionOrQuestion}-${itemId}-button" ></div></div>`;
+    rowdata.push({ Label: actionButton, ClassName: 'numeric-cell' });
+
+    return rowdata;
+}
 
