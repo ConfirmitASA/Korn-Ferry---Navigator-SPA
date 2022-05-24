@@ -26,9 +26,9 @@ function ActionsFocusAreas_Page() {
 
 
 function ActionsFocusAreas_Render() {
-    
+
     var dt = ActionFocusAreas_RenderAddActionTable();
- 
+
     let addNewFocusAreaHTML = `
         <div id="AddActionWindow_Button" class="add-focus-areas-buttons-container">
             <div class="add-focus-areas-icon ap_add-items-plus-circle"></div>
@@ -50,14 +50,26 @@ function ActionsFocusAreas_Render() {
 
     $('#AddActionWindow_Button').click(function() {
         document.getElementById("AddActionWindow").style.display = "";
-	});
+        $('.addaction_table .action-icon').each(function() {
+            let itemId = $(this).attr('id').split('-')[1];
+            let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(itemId);
+            if (isItemAddedAsFocusArea) {
+                $(this).removeClass('add-action table_add-item-plus-circle__thin');
+                $(this).addClass('remove-action table_remove-item-minus-circle');
+            }
+            else {
+                $(this).removeClass('remove-action table_remove-item-minus-circle');
+                $(this).addClass('add-action table_add-item-plus-circle__thin');
+            }
+        });
+    });
     $('#AddActionWindow_CloseButton').click(function() {
         document.getElementById("AddActionWindow").style.display = "none";
         ActionFocusAreas_RenderFocusAreaList();
     });
 
     ActionFocusAreas_RenderFocusAreaList();
-    
+
 }
 
 function ActionFocusAreas_RenderFocusAreaList() {
