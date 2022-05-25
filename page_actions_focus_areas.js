@@ -20,7 +20,7 @@ function ActionsFocusAreas_Page() {
 
         ClassName: 'Focus-Areas-page-container',
         Style: null,
-        ShowFilterSummary: true
+        ShowFilterSummary: false
     }
 };
 
@@ -566,7 +566,8 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
             actionText: newActionText,
             actionStatus: 'NotStarted',
             actionDueDate: dueDate.toDateString(),
-            actionOwner: data.User.FirstName
+            actionOwner: data.User.FirstName,
+            isFromRecommended: true
         }
 
         FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);
@@ -595,7 +596,8 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
             actionText: 'newActionText',
             actionStatus: 'NotStarted',
             actionDueDate: dueDate.toDateString(),
-            actionOwner: data.User.FirstName
+            actionOwner: data.User.FirstName,
+            isFromRecommended: false
         }
 
         FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);

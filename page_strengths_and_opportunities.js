@@ -151,7 +151,7 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
 
     if (dt.ScriptCode != null) eval(dt.ScriptCode);
 
-    StrengthsAndOpportunities_handleTableActionIconClick();
+    FocusAreas__handleTableActionIconClick('.strengths-and-opportunities-card-details-container');
 
     // Click - Exit (X) button in Details view
     $('.details-exit').off('click');
@@ -225,7 +225,8 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
 
             let newFocusArea = {
                 itemId: button_id[1],
-                isDimension: false
+                isDimension: false,
+                pageSourceId: 'StrengthsAndOpportunities'
             }
 
             FocusAreas_AddItem(newFocusArea);
@@ -249,41 +250,6 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
 
         FocusAreas_UpdateFocusAreasCounterSpan();
 	});
-
-}
-
-function StrengthsAndOpportunities_handleTableActionIconClick() {
-				 
-
-    $('.strengths-and-opportunities-card-details-container').find('.action-icon').click(function (event) {
-						
-
-        // Hide "More" link until restore
-        //$(this).hide();
-
-        event.stopPropagation();
-        event.preventDefault();
-
-        let button_id = $(this).attr('id').split('-');
-
-        if($(this).hasClass('add-action')) {
-            Utils_SetActionIconToREMOVE(this);
-
-            let newFocusArea = {
-                itemId: button_id[1],
-                isDimension: false
-            }
-
-            FocusAreas_AddItem(newFocusArea);
-        } else {
-            if ($(this).hasClass('remove-action')) {
-                Utils_SetActionIconToADD(this);
-                FocusAreas_RemoveItem(button_id[1]);
-            }
-        }
-
-        FocusAreas_UpdateFocusAreasCounterSpan();
-    });
 
 }
 

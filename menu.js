@@ -44,10 +44,11 @@ function Menu() {
         {
             Code: 'GroupActions', Label: 'Actions', Submenu: [
                 { Code: 'ActionsFocusAreas', Label: 'Areas to focus' },
-                { Code: 'ActionsPlans', Label: 'Plans' },
-                /*{ Code: 'ActionsAllPlans', Label: 'All Plans' },
+                { Code: 'ActionsStatistics', Label: 'Statistics' },
+                /*{ Code: 'ActionsPlans', Label: 'Plans' },
+                { Code: 'ActionsAllPlans', Label: 'All Plans' },
                 { Code: 'ActionsSharedPlans', Label: 'Shared Plans' },
-                { Code: 'ActionsStatistics', Label: 'Statistics' }*/
+                */
             ]
         },			
         { Code: 'Filters', Label: FilterIcon() }, //Filters & Comparators'},

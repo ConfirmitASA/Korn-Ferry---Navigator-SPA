@@ -3,6 +3,7 @@ var FocusAreas = [];
 /*let focusAreaItem = {
     itemId: 'id',
     isDimension: false,
+    pageSourceId: '',
     tags: {
         importance: false,
         involvement: false,
@@ -14,6 +15,7 @@ var FocusAreas = [];
         actions: [],
         status: '',
         dueDate: '',
+        createdDate: '',
         owner: '',
         node: ''
     }
@@ -58,11 +60,13 @@ function FocusAreas_AddItem(newItemObj) {
         newFocusArea['actionPlan'] = {
             name: '',
             notes: '',
-            actions: [], //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner}
+            actions: [], //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
             status: 'NotStarted',
             dueDate: dueDate.toDateString(),
+            createdDate: (new Date()).toDateString(),
             owner: data.User.FirstName,
-            node: data.User.PersonalizedReportBase
+            node: data.User.PersonalizedReportBase,
+            isSubmitted: false
         };
 
         FocusAreas.push(newFocusArea);
@@ -173,13 +177,15 @@ function FocusAreas__handleTableActionIconClick(containerId) {
 		event.preventDefault();
 
 		let button_id = $(this).attr('id').split('-');
+        let pageId = $(this).parents('.section').first().attr('id').split('-');
 
 		if($(this).hasClass('add-action')) {
 			Utils_SetActionIconToREMOVE(this);
 
 			let newFocusArea = {
 				itemId: button_id[1],
-				isDimension: button_id[0] === 'dimension'
+				isDimension: button_id[0] === 'dimension',
+                pageSourceId: pageId[2]
 			}
 
 			FocusAreas_AddItem(newFocusArea);
