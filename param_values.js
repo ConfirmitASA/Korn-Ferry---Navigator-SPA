@@ -108,6 +108,7 @@ function ParamValues_ActionPlannerStatusSelector() {
 
 	param_values.push ( {Code: 'NotStarted', Label: meta.Labels["labels.NotStarted"].Label} );
 	param_values.push ( {Code: 'Started', Label: meta.Labels["labels.Started"].Label} );
+	param_values.push ( {Code: 'OnHold', Label: meta.Labels["labels.OnHold"].Label} );
 	param_values.push ( {Code: 'Complete', Label: meta.Labels["labels.Complete"].Label} );
 
 	return param_values;

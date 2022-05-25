@@ -1350,6 +1350,7 @@ if (meta == null) {
             "labels.Status": {"Label": "Status:"},
 			"labels.NotStarted": {"Label": "Not Started"},
 			"labels.Started": {"Label": "Started"},
+			"labels.OnHold": {"Label": "On Hold"},
 			"labels.Complete": {"Label": "Complete"},
             "labels.DueDate": {"Label": "Due Date:"},
             "labels.PlanOwner": {"Label": "Plan Owner:"},

@@ -253,6 +253,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
     ActionsFocusAreas_HandleRemovingFocusArea($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`), $(`#focusArea-${focusArea.itemId} .confirmation-button__agree`), $(`#focusArea-${focusArea.itemId} .confirmation-button__close`));
     ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
     ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
+    ActionFocusAreas_HandleSubmitButtonClick(focusArea.itemId, $(`#focusArea-${focusArea.itemId} .action-plan_submit`))
     ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
     ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusArea.itemId} .recommended-action_add-to-plan`));
     ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusArea.itemId} .selected-actions_add`));
@@ -441,6 +442,18 @@ function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
     });
 }
 
+function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
+    buttons.click(function () {
+
+        FocusAreas_UpdateActionPlan(focusAreaId, 'isSubmitted', true);
+
+        let actionPlanContainer = $(this).parent().parent();
+        let focusAreaCard = $(actionPlanContainer).parent();
+
+        $(actionPlanContainer).addClass('action-plan__collapsed');
+        $(focusAreaCard).find('.focus-area-info_work-button').first().show();
+    });
+}
 function ActionFocusAreas_HandleCloseButtonClick(buttons) {
     buttons.click(function (event) {
         /* event.stopPropagation();

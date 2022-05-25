@@ -66,4 +66,16 @@ function ActionsStatistics_Render() {
     $('#numberOfOwners').html('50');
     $('#numberOfPlans').html('100');
     $('#numberOfActions').html('339');
+
+    $('#ownersShowButton').click(() => {
+        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+    });
+
+    $('#plansShowButton').click(() => {
+        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+    });
+
+    $('#actionsShowButton').click(() => {
+        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+    });
 }
