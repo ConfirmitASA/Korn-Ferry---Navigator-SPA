@@ -75,14 +75,8 @@ function Main_Run() {
 		}
 	};
  
-
-	// Click the hierarchy component
-	$('.dd-target-button-arrow').click();
-
 	Main_RenderHierarchyPicker();
 	Main_RenderPagesContainer();
-
-	setTimeout ( Main_AddHierarchyEventListeners, 500 );
 
 	if (!Main_IsProduction()) ShowWaitCloseButton(); // for intro page
 }
@@ -140,15 +134,14 @@ function Main_AddHierarchyEventListeners() {
 		// Apply button
 		$('.dd-button-select').click( function () {
 			console.log ('Button click: Apply Hierarchy');
-
-			$('.dd-drilldown').addClass('displaynone');
+			$('#hierarchypicker').addClass('displaynone');
 			WaitMessage();
 		});
 	
 		// Cancel link
 		$('.dd-cancel').click( function () {
 			console.log ('Button click: Cancel Hierarchy');
-			$('.dd-drilldown').addClass('displaynone');
+			$('#hierarchypicker').addClass('displaynone');
 		});
 
 		console.log ("Added Hierarchy Event Listeners")

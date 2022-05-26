@@ -31,6 +31,7 @@ function Component_HierarchyPicker( ) {
         font-size: 14px;
         color: black;
         max-height: 41px;
+        z-index: 1;
     }
 
     .hierarchy:hover {
@@ -86,17 +87,14 @@ function Component_HierarchyPicker( ) {
         var dd = $('.dd-drilldown');
         $('#hierarchypicker').removeClass('displaynone');
 
-									  
-
         if( dd.html() == undefined ) {
             console.log ('clicking button arrow');
 			$('.dd-target-button-arrow')[0].click();
         } else {
             console.log ('unhiding what is already here');
-			 
             dd.css('display', 'block');
 		}
-        return false;
+        Main_AddHierarchyEventListeners();
     }
 
         $('#hierarchy-button').click(

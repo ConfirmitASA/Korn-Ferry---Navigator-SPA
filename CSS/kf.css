@@ -159,12 +159,20 @@ p {
 }
 
 .submenu,
-.submenuitem,
-.menu,
-.menuitem,
-.logo {
+.submenuitem {
     display: inline-block;
     padding-right: 60px;
+}
+
+.menu,
+.menuitem { 
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.logo { 
+    display: inline-block;
+    padding-right: 30px;
 }
 
 .submenuitem:hover,
@@ -190,6 +198,7 @@ p {
     padding: 10px 20px;
     cursor: pointer;
     color: #00634f;
+    max-width: 200px;
 }
 
 body {
@@ -1010,11 +1019,13 @@ option {
 }
 
 .selector-row,
-.switch-row {
+.switch-row,
+.checkbox-row {
     display: flex;
     flex-direction: row;
 }
-.selector-row {
+.selector-row,
+.checkbox-row {
     margin-bottom: 20px;
 }
 .switch-row {
@@ -1023,7 +1034,8 @@ option {
 }
 
 .selector-label,
-.switch-label {
+.switch-label,
+.checkbox-label {
     width: 10%;
     margin-right: 10px;
 }

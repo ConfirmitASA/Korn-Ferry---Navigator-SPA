@@ -218,7 +218,7 @@ if (meta == null) {
 			"NonStandardQuestions", "GroupComments", "CommentsThemes",
 			"OpenComments", "GroupEnps", "ENPSScore", "ENPSBreakdown",
 			"GroupResponse", "ResponseRates", "GroupActions",
-			"ActionsFocusAreas", "ActionsOwnPlans", "ActionsAllPlans",
+			"ActionsFocusAreas", "ActionsPlans", "ActionsAllPlans",
 			"ActionsSharedPlans", "ActionsStatistics", "Filters",
 			"LogOut"
 		],
@@ -400,8 +400,8 @@ if (meta == null) {
 					<p>Be sure to revisit your action plans as you work to improve your team perceptions, editing the content as necessary and updating the status as you progress.</p>
 				`
 			},
-			"ActionsOwnPlans": {
-				"Label": "Own Plans"
+			"ActionsPlans": {
+				"Label": "Plans"
 			},
 			"ActionsAllPlans": {
 				"Label": "All Plans"
@@ -1264,7 +1264,7 @@ if (meta == null) {
 			"menu.ResponseRates": {"Label": "Response Rates"},
 			"menu.GroupActions": {"Label": "Actions"},
 			"menu.ActionsCreatePlan": {"Label": "Create Plan"},
-			"menu.ActionsOwnPlans": {"Label": "Own Plans"},
+			"menu.ActionsActionPlans": {"Label": "Plans"},
 			"menu.ActionsAllPlans": {"Label": "All Plans"},
 			"menu.ActionsSharedPlans": {"Label": "Shared Plans"},
 			"menu.ActionsStatistics": {"Label": "Statistics"},
@@ -1357,9 +1357,28 @@ if (meta == null) {
 			"labels.ActionOwner": {"Label": "Action Owner:"},
 			"labels.DeletePlanConfirmation": {"Label": "Are you sure you want to delete this plan?"},
 			"labels.DeleteActionConfirmation": {"Label": "Are you sure you want to delete this action?"},
+			"labels.NameHeader": {"Label": "Name"},
+			"labels.NotesHeader": {"Label": "Notes"},
+			"labels.StatusHeader": {"Label": "Status"},
+			"labels.DueDateHeader": {"Label": "Due Date"},
+			"labels.PlanOwnerHeader": {"Label": "Plan Owner"},
+			"labels.NOfActions": {"Label": "# of actions"},
+			"labels.PlanTitle": {"Label": "Plan"},
+			"labels.ActionTitle": {"Label": "Action"},
+			"labels.ActionText": {"Label": "Description"},
+			"labels.ShowActions": {"Label": "Show Actions"},
+			"labels.Checked": {"Label": "Checked"},
+			"labels.Unchecked": {"Label": "Unchecked"},
+			"labels.Off": {"Label": "Off"},
+			"labels.On": {"Label": "On"},
+			"labels.OwnPlans": {"Label": "Own Plans"},
+			"labels.AreaPlans": {"Label": "Area Plans"},
+			"labels.SharedPlans": {"Label": "Shared Plans"},
 			"labels.Owners": {"Label": "Owners"},
 			"labels.Actions": {"Label": "Actions"},
 			"labels.Plans": {"Label": "Plans"},
+			"labels.CreatedDateByPlanCounts": {"Label": "Created Date by Plan counts"},
+			"labels.PlansByCurrentStatus": {"Label": "Plans by Current Status"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},
@@ -1650,7 +1669,7 @@ if (meta == null) {
 				"Title": "Areas for Focus",
 				"Label": "<p>These are the areas you selected for focus from your survey results.</p>\n<p>Prioritise two or three areas, deleting those you no longer need, and open out each one to build out a plan of action. Select from our recommended actions tailored to your focus areas or create your own, providing an owner and planned competion date. Finally, give each plan a name and a timescale.</p>\n<p>Be sure to revisit your action plans as you work to improve your team perceptions, editing the content as necessary and updating the status as you progress.</p>"
 			},
-			"ActionsOwnPlans": {"Id": "ActionsOwnPlans", "Title": "Own Plans", "Label": "Own Plans"},
+			"ActionsPlans": {"Id": "ActionsPlans", "Title": "Plans", "Label": "Plans"},
 			"ActionsAllPlans": {"Id": "ActionsAllPlans", "Title": "All Plans", "Label": "All Plans"},
 			"ActionsSharedPlans": {"Id": "ActionsSharedPlans", "Title": "Shared Plans", "Label": "Shared Plans"},
 			"ActionsStatistics": {"Id": "ActionsStatistics", "Title": "Statistics", "Label": "Statistics"},

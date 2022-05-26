@@ -1,0 +1,26 @@
+.tab {
+    height: 45px;
+}
+
+.tablink {
+    cursor: pointer;
+    height: 40px;
+    min-width: 100px;
+    max-width: 300px;
+
+    background-color: #FFFFFF;
+    color: #121821;
+    font: 400 1rem/1.28 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif;
+
+    margin-right: 1px;
+
+    border: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.tablink--selected {
+    height: 45px;
+    padding-top: 5px;
+    color: #FFFFFF;
+    background-color: #77bc1f;
+}

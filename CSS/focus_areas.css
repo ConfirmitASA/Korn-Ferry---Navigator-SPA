@@ -2,6 +2,7 @@
     width: 80%;
     display: flex;
     flex-direction: column;
+    filter: drop-shadow(0 1rem 2rem #d0d0d0);
 }
 #AddNewFocusArea {
     width: 100%;

@@ -114,3 +114,12 @@ function ParamValues_ActionPlannerStatusSelector() {
 	return param_values;
 
 }
+
+function ParamValues_ActionsPlans_ShowActions() {
+	var param_values = [];
+
+	param_values.push ( {Code: 'Off', Label: meta.Labels["labels.Off"].Label} );
+	param_values.push ( {Code: 'On', Label: meta.Labels["labels.On"].Label} );
+
+	return param_values;
+}

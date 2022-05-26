@@ -44,7 +44,7 @@ function Menu() {
         {
             Code: 'GroupActions', Label: 'Actions', Submenu: [
                 { Code: 'ActionsFocusAreas', Label: 'Areas to focus' },
-                { Code: 'ActionsAllPlans', Label: 'Plans' },
+                { Code: 'ActionsPlans', Label: 'Plans' },
                 { Code: 'ActionsStatistics', Label: 'Statistics' }
             ]
         },			
