@@ -224,12 +224,11 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
             Utils_SetActionButtonToREMOVE(this, meta.Labels['labels.Selected'].Label);
 
             let newFocusArea = {
-                itemId: button_id[1],
                 isDimension: false,
                 pageSourceId: 'StrengthsAndOpportunities'
             }
 
-            FocusAreas_AddItem(newFocusArea);
+            FocusAreas_AddItem(button_id[1], newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
                 let newActionButtonText = '';

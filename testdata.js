@@ -1399,6 +1399,7 @@ if (meta == null) {
 			"buttons.Yes": {"Label": "Yes"},
 			"buttons.No": {"Label": "No"},
 			"buttons.Show": {"Label": "show"},
+			"buttons.Selected": {"Label": "Selected"},
 			"comparators": {"Id": "comparators", "Title": "", "Label": ""},
 			"comparators.Internal_trend2020": {"Label": "Trend 2020"},
 			"comparators.Internal_trend2019": {"Label": "Trend 2019"},

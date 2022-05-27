@@ -80,12 +80,15 @@ function ActionFocusAreas_RenderFocusAreaList() {
     let itemsData = Main_CurrentItemsData_WithFilter();
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
 
-    addedFocusAreas.forEach((focusArea, index) => {
-        ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimensionsData);
-    });
+    let index = 0;
+
+    for(let focusArea in addedFocusAreas) {
+        ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, dimensionsData);
+        index++;
+    }
 }
 
-function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimensionsData) {
+function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsData, dimensionsData) {
     let o = [];
 
     let focusAreaLabel = '';
@@ -93,20 +96,20 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
     let recommendedActions = [];
 
     if (focusArea.isDimension) {
-        focusAreaLabel = Main_GetDimensionText(focusArea.itemId);
-        favScore = Utils_FormatPctOutput(dimensionsData[focusArea.itemId].Dist.Fav);
+        focusAreaLabel = Main_GetDimensionText(focusAreaId);
+        favScore = Utils_FormatPctOutput(dimensionsData[focusAreaId].Dist.Fav);
 
-        recommendedActions = ActionFocusAreas_GetRecommendedActions(focusArea.itemId);
+        recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
     } else {
-        focusAreaLabel = Main_GetQuestionText(focusArea.itemId);
+        focusAreaLabel = Main_GetQuestionText(focusAreaId);
 
-        let pct_distribution = Utils_CountsToPercents(itemsData[focusArea.itemId].Dist);
+        let pct_distribution = Utils_CountsToPercents(itemsData[focusAreaId].Dist);
         favScore = Utils_FormatPctOutput(pct_distribution.Fav);
 
-        recommendedActions = ActionFocusAreas_GetRecommendedActions(focusArea.itemId);
+        recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
 
         if (recommendedActions.length == 0) {
-            let dimensionIdForCurrentItem = Main_GetDimensionIdByItemId(focusArea.itemId);
+            let dimensionIdForCurrentItem = Main_GetDimensionIdByItemId(focusAreaId);
 
             recommendedActions = ActionFocusAreas_GetRecommendedActions(dimensionIdForCurrentItem);
         }
@@ -114,15 +117,15 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
     }
 
     let actionPlan_dropdown = Component_Dropdown(
-        'actionPlanStatus_' + focusArea.itemId,
+        'actionPlanStatus_' + focusAreaId,
         meta.Labels['labels.Status'].Label,
-        focusArea.itemId + '_status-dropdown',
+        focusAreaId + '_status-dropdown',
         '',
         ParamValues_ActionPlannerStatusSelector()
     );
 
     o.push(`
-            <div id="focusArea-${focusArea.itemId}" class="focus-area-card">
+            <div id="focusArea-${focusAreaId}" class="focus-area-card">
                 <div class="focus-area-card_header">
                     <div class="fa-card-header_text">${meta.Labels['labels.FocusOn'].Label}</div>
                     <div class="fa-card-header_remove"></div>
@@ -140,16 +143,16 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
                     </div>
                     <div class="focus-area-info_controls">
                         <div class="focus-area-info_tags">
-                            <div class="ap-tag ${focusArea.tags.importance ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__importance"></div>
-                            <div class="ap-tag ${focusArea.tags.involvement ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__involvement"></div>
-                            <div class="ap-tag ${focusArea.tags.cost ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__cost"></div>
+                            <div class="ap-tag ${focusArea.importance ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__importance"></div>
+                            <div class="ap-tag ${focusArea.involvement ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__involvement"></div>
+                            <div class="ap-tag ${focusArea.cost ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__cost"></div>
                         </div>
                         <div class="focus-area-info_work-button">${meta.Buttons.WorkOnThis.Label}</div> 
                     </div>
                     <div class="action-plan action-plan__collapsed">
                         <div class="action-plan_container">
                             <div class="plan-column">
-                                ${ActionFocusAreas_RenderRecommendedActions(focusArea.itemId, recommendedActions, index)}                        
+                                ${ActionFocusAreas_RenderRecommendedActions(focusAreaId, recommendedActions, index)}                        
                                 <div id="innerblock2${index}" class="action-plan_selected-actions">
                                     <div class="selected-progress">
                                         <div class="line"></div>
@@ -171,12 +174,12 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
                                     <div class="selected-wrapper">
                                         <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
                                         <div class="personal-plan_name">
-                                            <label for="plan-name-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
-                                            <input id="plan-name-${focusArea.itemId}" type="text" class="plan-name__input" value="${focusArea.actionPlan.name}">
+                                            <label for="plan-name-${focusAreaId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
+                                            <input id="plan-name-${focusAreaId}" type="text" class="plan-name__input" value="${focusArea.planName}">
                                         </div>
                                         <div class="personal-plan_notes">
-                                            <label for="plan-notes-${focusArea.itemId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
-                                            <textarea id="plan-notes-${focusArea.itemId}" class="plan-notes__input">${focusArea.actionPlan.notes}</textarea>
+                                            <label for="plan-notes-${focusAreaId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
+                                            <textarea id="plan-notes-${focusAreaId}" class="plan-notes__input">${focusArea.planNotes}</textarea>
                                         </div>
                                         <div class="personal-plan_details">
                                             <div class="plan-setting plan_status">
@@ -184,18 +187,21 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
                                             </div>
                                             <div class="plan-setting plan_due-date">
                                                 <label class="plan-setting_label">${meta.Labels['labels.DueDate'].Label}</label>
-                                                <input type="text" id="${focusArea.itemId}_datepicker">
+                                                <input type="text" id="${focusAreaId}_datepicker">
                                             </div>
                                             <div class="plan-setting plan_owner">
                                                 <label class="plan-setting_label">${meta.Labels['labels.PlanOwner'].Label}</label>
-                                                <div id="${focusArea.itemId}_owner" class="plan-setting_owner">${focusArea.actionPlan.owner}</div>
+                                                <div id="${focusAreaId}_owner" class="plan-setting_owner">${focusArea.planOwner}</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="action-plan_controls"><div class="action-plan_submit">${meta.Labels['buttons.Submit'].Label}</div><div class="action-plan_close">${meta.Labels['buttons.Close'].Label}</div></div>
+                        <div class="action-plan_controls">
+                            <div class="action-plan_submit">${meta.Labels['buttons.Submit'].Label}</div>
+                            <div class="action-plan_close">${meta.Labels['buttons.Close'].Label}</div>
+                        </div>
                     </div>                   
                 </div>
                 <div class="focus-area-card_confirmation confirmation__hidden">
@@ -212,52 +218,52 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index, itemsData, dimension
 
     $('#FocusAreasList').append(o.join(''));
 
-    $(`#plan-name-${focusArea.itemId}`).on('input', function (event) {
+    $(`#plan-name-${focusAreaId}`).on('input', function (event) {
         let newPlanName = $(this).val();
 
-        FocusAreas_UpdateActionPlan(focusArea.itemId, 'name', newPlanName);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'planName', newPlanName);
     });
 
-    $(`#plan-notes-${focusArea.itemId}`).on('input', function (event) {
+    $(`#plan-notes-${focusAreaId}`).on('input', function (event) {
         let newPlanNotes = $(this).val();
 
-        FocusAreas_UpdateActionPlan(focusArea.itemId, 'notes', newPlanNotes);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'planNotes', newPlanNotes);
     });
 
-    $(`#${focusArea.itemId}_datepicker`).datepicker({
+    $(`#${focusAreaId}_datepicker`).datepicker({
         onSelect: function (date) {
             if (!!date) {
                 let newDate = new Date(date);
-                FocusAreas_UpdateActionPlan(focusArea.itemId, 'dueDate', newDate.toDateString());
+                FocusAreas_UpdateActionPlan(focusAreaId, 'planDueDate', newDate.toDateString());
             }
         },
         dateFormat: config.ActionPlannerDateFormat
     });
-    $(`#${focusArea.itemId}_datepicker`).datepicker('setDate', new Date(focusArea.actionPlan.dueDate));
+    $(`#${focusAreaId}_datepicker`).datepicker('setDate', new Date(focusArea.planDueDate));
 
-    $(`#${focusArea.itemId}_status-dropdown`).change(function (event) {
+    $(`#${focusAreaId}_status-dropdown`).change(function (event) {
         let selectedOption = $(this).val();
-        State_Set('actionPlanStatus_' + focusArea.itemId, selectedOption);
+        State_Set('actionPlanStatus_' + focusAreaId, selectedOption);
 
-        FocusAreas_UpdateActionPlan(focusArea.itemId, 'status', selectedOption);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'planStatus', selectedOption);
     });
 
-    /*$(`#${focusArea.itemId}_owner`).on('input', function (event) {
+    /*$(`#${focusAreaId}_owner`).on('input', function (event) {
         let newOwnerName = $(this).val();
 
-        FocusAreas_UpdateActionPlan(focusArea.itemId, 'owner', newOwnerName);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'owner', newOwnerName);
     });*/
 
-    ActionFocusAreas_RenderSelectedActions(focusArea.itemId);
-    ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusArea.itemId} .ap-tag`));
-    ActionsFocusAreas_HandleRemovingFocusArea($(`#focusArea-${focusArea.itemId} .fa-card-header_remove`), $(`#focusArea-${focusArea.itemId} .confirmation-button__agree`), $(`#focusArea-${focusArea.itemId} .confirmation-button__close`));
-    ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusArea.itemId} .focus-area-info_work-button`));
-    ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusArea.itemId} .recommended-action_title`));
-    ActionFocusAreas_HandleSubmitButtonClick(focusArea.itemId, $(`#focusArea-${focusArea.itemId} .action-plan_submit`))
-    ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusArea.itemId} .action-plan_close`));
-    ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusArea.itemId} .recommended-action_add-to-plan`));
-    ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusArea.itemId} .selected-actions_add`));
-    ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusArea.itemId} .plan-column`));
+    ActionFocusAreas_RenderSelectedActions(focusAreaId);
+    ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusAreaId} .ap-tag`));
+    ActionsFocusAreas_HandleRemovingFocusArea($(`#focusArea-${focusAreaId} .fa-card-header_remove`), $(`#focusArea-${focusAreaId} .confirmation-button__agree`), $(`#focusArea-${focusAreaId} .confirmation-button__close`));
+    ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusAreaId} .focus-area-info_work-button`));
+    ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusAreaId} .recommended-action_title`));
+    ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, $(`#focusArea-${focusAreaId} .action-plan_submit`))
+    ActionFocusAreas_HandleCloseButtonClick($(`#focusArea-${focusAreaId} .action-plan_close`));
+    ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusAreaId} .recommended-action_add-to-plan`));
+    ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusAreaId} .selected-actions_add`));
+    ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusAreaId} .plan-column`));
 
 }
 
@@ -380,8 +386,6 @@ function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions, i
 
 function ActionFocusAreas_HandleActionTitleClick(titleElements) {
     titleElements.click(function (event) {
-        /*event.stopPropagation();
-        event.preventDefault();*/
 
         let chevronElement = $(this).find('.action-chevron');
         let actionElement = $(this).parent();
@@ -430,8 +434,6 @@ function ActionFocusAreas_HandleActionTitleClick(titleElements) {
 
 function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
     buttons.click(function (event) {
-        /*event.stopPropagation();
-        event.preventDefault();*/
 
         let cardContent = $(this).parent().parent();
         let actionPlanContainer = $(cardContent).find('.action-plan');
@@ -444,8 +446,7 @@ function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
 
 function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
     buttons.click(function () {
-
-        FocusAreas_UpdateActionPlan(focusAreaId, 'isSubmitted', true);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'planIsSubmitted', true);
 
         let actionPlanContainer = $(this).parent().parent();
         let focusAreaCard = $(actionPlanContainer).parent();
@@ -456,9 +457,6 @@ function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
 }
 function ActionFocusAreas_HandleCloseButtonClick(buttons) {
     buttons.click(function (event) {
-        /* event.stopPropagation();
-         event.preventDefault();*/
-
         let actionPlanContainer = $(this).parent().parent();
         let focusAreaCard = $(actionPlanContainer).parent();
 
@@ -469,9 +467,6 @@ function ActionFocusAreas_HandleCloseButtonClick(buttons) {
 
 function ActionsFocusAreas_HandleTagClick(tagElements) {
     tagElements.click(function (event) {
-        /*event.stopPropagation();
-        event.preventDefault();*/
-
         let tagName = '';
         let tagValue = false;
 
@@ -552,8 +547,6 @@ function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, 
 
 function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
     addActionButtons.click(function (event) {
-        /*event.stopPropagation();
-        event.preventDefault();*/
 
         //get item id for focus area
         let focusAreaCard = $(this).parents('.focus-area-card').first();
@@ -572,9 +565,10 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
         let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
         let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
 
+        let newActionId = actionId + '_' +(!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
+        //let newOrderId = actionId + '_selected_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
         let newActionObj = {
-            actionId: actionId,
-            orderId: actionId + '_selected_' + focusAreaActions.length,
+            /*orderId: actionId + '_selected_' + Object.keys(focusAreaActions).length,*/
             actionTitle: newActionTitle,
             actionText: newActionText,
             actionStatus: 'NotStarted',
@@ -583,8 +577,8 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
             isFromRecommended: true
         }
 
-        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);
-        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj);
+        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionId, newActionObj);
+        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionId, newActionObj, newActionId);
     });
 }
 
@@ -602,9 +596,8 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
 
         let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
 
+        let newOrderId = 'OwnAction_' + focusAreaCardID + '_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
         let newActionObj = {
-            actionId: 'OwnAction_selected_' + focusAreaActions.length,
-            orderId: 'OwnAction_selected_' + focusAreaActions.length,
             actionTitle: 'newActionTitle',
             actionText: 'newActionText',
             actionStatus: 'NotStarted',
@@ -613,12 +606,12 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
             isFromRecommended: false
         }
 
-        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionObj);
-        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj);
+        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newOrderId, newActionObj);
+        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newOrderId, newActionObj, newOrderId);
     });
 }
 
-function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionObj) {
+function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, actionId, newActionObj, orderId) {
     let actionPlanContainer = $(focusAreaCard).find('.selected-actions_container').first();
 
     if (!!actionPlanContainer) {
@@ -629,14 +622,14 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         let numberOfActionsInActionPlan = $(actionPlanContainer).find('.selected-action').length;
 
         let actionStatus_dropdown = Component_Dropdown(
-            'actionStatus_' + newActionObj.orderId,
+            'actionStatus_' + orderId,
             meta.Labels['labels.Status'].Label,
-            newActionObj.orderId + '_status-dropdown',
+            orderId + '_status-dropdown',
             '',
             ParamValues_ActionPlannerStatusSelector()
         );
 
-        let newActionHTML = `<div id="${newActionObj.orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
+        let newActionHTML = `<div id="${orderId}" class="selected-action ${numberOfActionsInActionPlan == 0 ? 'action__uncollapsed' : 'action__collapsed'}">
                                     <div class="action-title selected-action_title ${numberOfActionsInActionPlan == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}">
                                         <div class="action-title_text">
                                             <div class="action-title_text__editable" contenteditable="true" tabindex="-1">${newActionObj.actionTitle}</div>
@@ -655,14 +648,14 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
                                             </div>
                                             <div class="action-setting selected-action_due-date">
                                                 <label class="action-setting_label">${meta.Labels['labels.DueDate'].Label}</label>
-                                                <input type="text" id="${newActionObj.orderId}_datepicker">
+                                                <input type="text" id="${orderId}_datepicker">
                                             </div>
                                             <div class="action-setting selected-action_owner">
                                                 <label class="action-setting_label">${meta.Labels['labels.ActionOwner'].Label}</label>
-                                                <input type="text" id="${newActionObj.orderId}_owner" value="${newActionObj.actionOwner}">
+                                                <input type="text" id="${orderId}_owner" value="${newActionObj.actionOwner}">
                                             </div>
                                             <div class="selected-action_remove">
-                                                <div class="fa-card-header_remove"></div>
+                                                <div class="action_remove-icon"></div>
                                             </div>
                                         </div>                                        
                                     </div>
@@ -682,36 +675,36 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         let focusAreaCardID = $(focusAreaCard).attr('id').split('-')[1];
 
         //handle calendar click
-        $(`#${newActionObj.orderId}_datepicker`).datepicker({
+        $(`#${orderId}_datepicker`).datepicker({
             onSelect: function (date) {
                 if (!!date) {
                     let newDate = new Date(date);
-                    FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionDueDate', newDate.toDateString());
+                    FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionDueDate', newDate.toDateString());
                 }
             },
             dateFormat: config.ActionPlannerDateFormat
         });
-        $(`#${newActionObj.orderId}_datepicker`).datepicker('setDate', new Date(newActionObj.actionDueDate));
+        $(`#${orderId}_datepicker`).datepicker('setDate', new Date(newActionObj.actionDueDate));
 
-        ActionFocusAreas_HandleActionTitleClick($(`#${newActionObj.orderId}`).find('.action-title'));
+        ActionFocusAreas_HandleActionTitleClick($(`#${orderId}`).find('.action-title'));
 
         //handle status dropdown change
-        $(`#${newActionObj.orderId}_status-dropdown`).change(function (event) {
+        $(`#${orderId}_status-dropdown`).change(function (event) {
             let selectedOption = $(this).val();
-            State_Set('actionStatus_' + newActionObj.orderId, selectedOption);
+            State_Set('actionStatus_' + orderId, selectedOption);
 
-            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionStatus', selectedOption);
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionStatus', selectedOption);
         });
 
         //handle owner input change
-        $(`#${newActionObj.orderId}_owner`).on('input', function (event) {
+        $(`#${orderId}_owner`).on('input', function (event) {
             let newOwnerName = $(this).val();
 
-            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionOwner', newOwnerName);
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionOwner', newOwnerName);
         });
 
         //handle click on action title/text + pen icon to enable immediate editing (using contenteditable)
-        $(`#${newActionObj.orderId} .action-title_text__editable, #${newActionObj.orderId} .selected-action_text__editable, #${newActionObj.orderId} .edit-icon`).click(function (event) {
+        $(`#${orderId} .action-title_text__editable, #${orderId} .selected-action_text__editable, #${orderId} .edit-icon`).click(function (event) {
             event.stopPropagation();
 
             if ($(this).hasClass('edit-icon')) {
@@ -730,20 +723,20 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionO
         });
 
         //handle actionTitle text change
-        $(`#${newActionObj.orderId} .action-title_text__editable`).on('input', function (event) {
+        $(`#${orderId} .action-title_text__editable`).on('input', function (event) {
             let newTitle = this.textContent;
 
-            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionTitle', newTitle);
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionTitle', newTitle);
         });
 
         //handle actionText text change
-        $(`#${newActionObj.orderId} .selected-action_text__editable`).on('input', function (event) {
+        $(`#${orderId} .selected-action_text__editable`).on('input', function (event) {
             let newText = this.textContent;
 
-            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, newActionObj.orderId, 'actionText', newText);
+            FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionText', newText);
         });
 
-        ActionFocusAreas_HandleRemovingAction(focusAreaCardID, newActionObj.orderId, $(`#${newActionObj.orderId} .fa-card-header_remove`), $(`#${newActionObj.orderId} .confirmation-button__agree`), $(`#${newActionObj.orderId} .confirmation-button__close`))
+        ActionFocusAreas_HandleRemovingAction(focusAreaCardID, orderId, $(`#${orderId} .action_remove-icon`), $(`#${orderId} .confirmation-button__agree`), $(`#${orderId} .confirmation-button__close`))
 
     }
 
@@ -753,6 +746,7 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
     //handle trash can click on action
     trashCanElement.click(function (event) {
         event.stopPropagation();
+        event.preventDefault();
 
         let actionToRemove = $(this).parents('.selected-action').first();
 
@@ -798,10 +792,14 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
 function ActionFocusAreas_RenderSelectedActions(itemId) {
     let focusAreaActions = FocusAreas_GetActionsInActionPlan(itemId);
 
-    if (focusAreaActions.length > 0) {
-        focusAreaActions.forEach((action) => {
+    if (!!focusAreaActions && Object.keys(focusAreaActions).length > 0) {
+        /*focusAreaActions.forEach((action) => {
             ActionFocusAreas_AddActionToActionPlanSection($('#focusArea-' + itemId).first(), action);
-        });
+        });*/
+
+        for(let action in focusAreaActions) {
+            ActionFocusAreas_AddActionToActionPlanSection($('#focusArea-' + itemId).first(), action, focusAreaActions[action], action);
+        }
     }
 }
 

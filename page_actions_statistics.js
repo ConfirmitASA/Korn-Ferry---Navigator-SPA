@@ -88,20 +88,24 @@ function ActionsStatistics_Render() {
     $('#numberOfActions').html(numberOfActions);
 
     $('#ownersShowButton').click(() => {
-        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+        $('#submenuitem-GroupActions-ActionsPlans').click();
     });
 
     $('#plansShowButton').click(() => {
-        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+        State_Set('showactions', 'Off');
+        $('#submenuitem-GroupActions-ActionsPlans').click();
     });
 
     $('#actionsShowButton').click(() => {
-        $('#submenuitem-GroupActions-ActionsAllPlans').click();
+        State_Set('showactions', 'On');
+        $('#submenuitem-GroupActions-ActionsPlans').click();
     });
 
-    let chartData = [];
-    ActionsStatistics_DrawCreatedDateByPlanCountsChart('createdDateByPlanCountsChart', chartData);
-    ActionStatistics_DrawPlansByCurrentStatusChart('plansByCurrentStatusChart', chartData)
+    let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();
+    ActionsStatistics_DrawCreatedDateByPlanCountsChart('createdDateByPlanCountsChart', createdDateByPlanCountsChartData);
+
+    let plansByCurrentStatusChartData = ActionStatistics_GetPlansByCurrentStatusChartData();
+    ActionStatistics_DrawPlansByCurrentStatusChart('plansByCurrentStatusChart', plansByCurrentStatusChartData)
 }
 
 function ActionStatistics_GetStatData() {
@@ -111,23 +115,118 @@ function ActionStatistics_GetStatData() {
     let numberOfActions = 0;
     let owners = [];
 
-    focusAreas.forEach((area) => {
-        let actionPlan = area.actionPlan;
+    for(let area in focusAreas) {
+        let actionPlan = focusAreas[area];
 
-        if(actionPlan.isSubmitted) {
+        if(actionPlan.planIsSubmitted) {
             numberOfPlans++;
-            numberOfActions += actionPlan.actions.length;
+            numberOfActions += !!actionPlan.planActions ? Object.keys(actionPlan.planActions).length : 0;
 
-            let foundOwnerIndex = owners.indexOf(actionPlan.owner);
+            let foundOwnerIndex = owners.indexOf(actionPlan.planOwner);
 
             if(foundOwnerIndex < 0) {
-                owners.push(actionPlan.owner);
+                owners.push(actionPlan.planOwner);
             }
         }
-    });
+    };
 
     return [owners.length, numberOfPlans, numberOfActions];
 
+}
+
+function ActionStatistics_GetCreatedDateByPlanCountsChartData() {
+    let focusAreas = FocusAreas_GetFocusAreas();
+
+    let chartData = {
+        categories: [],
+        series: {
+            name: meta.Labels['labels.Plans'].Label,
+            data: []
+        }
+    }
+
+    let dates = {};
+
+    for(let area in focusAreas) {
+        let actionPlan = focusAreas[area];
+
+        if(actionPlan.planIsSubmitted) {
+            let createdDate_Clear = actionPlan.planCreatedDate.split(' ').splice(1).join(' ');
+
+            if(dates.hasOwnProperty(createdDate_Clear)) {
+                dates[createdDate_Clear]++;
+            } else {
+                dates[createdDate_Clear] = 1;
+            }
+        }
+    };
+
+    chartData.categories = Object.keys(dates);
+    chartData.categories.sort((a,b) => {
+        let aDate = new Date(a);
+        let bDate = new Date(b);
+
+        if (aDate < bDate) {
+            return -1;
+        }
+
+        if (aDate > bDate) {
+            return 1;
+        }
+
+        return 0;
+    });
+
+    for(let i = 0; i < chartData.categories.length; i++) {
+        chartData.series.data[i] = dates[chartData.categories[i]];
+    }
+
+    return chartData;
+}
+
+function ActionStatistics_GetPlansByCurrentStatusChartData() {
+    let focusAreas = FocusAreas_GetFocusAreas();
+
+    let chartData = {
+        categories: [
+            meta.Labels["labels.NotStarted"].Label,
+            meta.Labels["labels.Started"].Label,
+            meta.Labels["labels.OnHold"].Label,
+            meta.Labels["labels.Complete"].Label
+        ],
+        series: {
+            name: meta.Labels['labels.Plans'].Label,
+            data: [0,0,0,0],
+            colors: ['#F03223', '#F99B1E', '#00B7F1', '#82C341']
+        }
+    }
+
+    //series.data[0] - not started
+    //series.data[1] - started
+    //series.data[2] - on hold
+    //series.data[3] - complete
+    for(let area in focusAreas) {
+        let actionPlan = focusAreas[area];
+
+        if (actionPlan.planIsSubmitted) {
+            switch (actionPlan.planStatus) {
+                case 'NotStarted':
+                    chartData.series.data[0]++;
+                    break;
+                case 'Started':
+                    chartData.series.data[1]++;
+                    break;
+                case 'OnHold':
+                    chartData.series.data[2]++;
+                    break;
+                case 'Complete':
+                    chartData.series.data[3]++;
+                    break;
+            }
+        }
+    };
+
+    return chartData;
 }
 
 function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartData) {
@@ -141,7 +240,7 @@ function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartDa
             text: ''
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: chartData.categories
         },
         yAxis: {
             reversed: meta.RTL ? true : false, //rtl
@@ -165,16 +264,14 @@ function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartDa
         },
         plotOptions: {
             line: {
+                color: '#77bc1f',
                 dataLabels: {
                     enabled: true
                 },
                 enableMouseTracking: false
             }
         },
-        series: [{
-            name: 'Test',
-            data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-        }]
+        series: [chartData.series]
     });
 
 }
@@ -190,14 +287,23 @@ function ActionStatistics_DrawPlansByCurrentStatusChart(containerId, chartData) 
             text: ''
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: chartData.categories,
             crosshair: true
         },
         yAxis: {
+            min: 0,
+            /*tickInterval: 5,*/
             reversed: meta.RTL ? true : false, //rtl
             title: {
                 text: ''
             },
+            stackLabels: {
+                useHTML: true,
+                enabled: true,
+                style: {
+                    fontSize: '12px'
+                }
+            }
         },
         tooltip: {
             enabled: false
@@ -218,9 +324,6 @@ function ActionStatistics_DrawPlansByCurrentStatusChart(containerId, chartData) 
                 colorByPoint: true
             },
         },
-        series: [{
-            name: 'Test',
-            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }]
+        series: [chartData.series]
     });
 }

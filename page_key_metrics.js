@@ -471,15 +471,14 @@ function KeyMetrics_Render() {
         var button_id = $(this).attr('id').split('-');
 		
         if($(this).hasClass('add-action')) {
-            Utils_SetActionButtonToREMOVE(this, 'Selected*' /*meta.Labels['buttons.Selected'].Label*/);
+            Utils_SetActionButtonToREMOVE(this, meta.Labels['buttons.Selected'].Label);
 
             let newFocusArea = {
-                itemId: button_id[2],
                 isDimension: false,
                 pageSourceId: 'KeyMetrics'
             }
 
-            FocusAreas_AddItem(newFocusArea);
+            FocusAreas_AddItem(button_id[2], newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
                 Utils_SetActionButtonToADD(this, meta.Labels['buttons.TakeAction'].Label);
