@@ -155,27 +155,14 @@ function ActionsPlans_GetPlansTableData() {
 	let tableData = [];
 	let rowdata = [];
 
-	console.log('itemId');
-	console.log(itemId);
-
 	let focusAreas = FocusAreas_GetFocusAreas();
 
 	for(let area in focusAreas) {
-
-		console.log('area');
-		console.log(area);
-
 		if (itemId !== '' && area !== itemId) {
 			continue;
 		}
 
-		console.log('itemid after if');
-		console.log(itemId);
-
 		let actionPlan = focusAreas[area];
-
-		console.log('actionPlan after if');
-		console.log(actionPlan);
 
 		if(actionPlan.planIsSubmitted) {
 			rowdata = [
