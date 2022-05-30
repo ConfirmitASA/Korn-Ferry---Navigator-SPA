@@ -12,6 +12,7 @@ var FocusAreas = {};
     planStatus: '',
     planDueDate: '',
     planCreatedDate: '',
+    planLastUpdatedDate: '',
     planOwner: '',
     planNode: ''
     planIsSubmitted: false,
@@ -41,11 +42,6 @@ function FocusAreas_IsItemAlreadyAdded(itemId) {
 function FocusAreas_AddItem(itemId, newItemObj) {
     if(!FocusAreas_IsItemAlreadyAdded(itemId)) {
         let newFocusArea = newItemObj;
-        /*newFocusArea['tags'] = {
-            importance: false,
-            involvement: false,
-            cost: false
-        };*/
 
         newFocusArea.importance = false;
         newFocusArea.involvement = false;
@@ -54,24 +50,13 @@ function FocusAreas_AddItem(itemId, newItemObj) {
         let dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 14);
 
-        /*newFocusArea['actionPlan'] = {
-            name: '',
-            notes: '',
-            actions: [], //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
-            status: 'NotStarted',
-            dueDate: dueDate.toDateString(),
-            createdDate: (new Date()).toDateString(),
-            owner: data.User.FirstName,
-            node: data.User.PersonalizedReportBase,
-            isSubmitted: false
-        };*/
-
         newFocusArea.planName = '';
         newFocusArea.planNotes = '';
         newFocusArea.planActions = {}; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
         newFocusArea.planStatus = 'NotStarted';
         newFocusArea.planDueDate = dueDate.toDateString();
         newFocusArea.planCreatedDate = (new Date()).toDateString();
+        newFocusArea.planLastUpdatedDate = (new Date()).toDateString();
         newFocusArea.planOwner = data.User.FirstName;
         newFocusArea.planNode = data.User.PersonalizedReportBase;
         newFocusArea.planIsSubmitted = false;
