@@ -295,6 +295,7 @@ function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
                 }
 
                 FocusAreas_UpdateActionPlan(focusAreaId, 'planIsShared', selectorObj.selectorElementValue === 'On');
+                FocusAreas_UpdateActionPlan(focusAreaId, 'planLastUpdatedDate', (new Date()).toDateString());
             }
         }
 
@@ -503,6 +504,7 @@ function ActionFocusAreas_HandleWorkOnThisButtonClick(buttons) {
 function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
     buttons.click(function () {
         FocusAreas_UpdateActionPlan(focusAreaId, 'planIsSubmitted', true);
+        FocusAreas_UpdateActionPlan(focusAreaId, 'planLastUpdatedDate', (new Date()).toDateString());
 
         let actionPlanContainer = $(this).parent().parent();
         let focusAreaCard = $(actionPlanContainer).parent();
@@ -559,6 +561,7 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
             let itemId = $(parentCard).attr('id').split('-')[1];
 
             FocusAreas_UpdateTagOnFocusArea(itemId, tagName, tagValue);
+            FocusAreas_UpdateActionPlan(itemId, 'planLastUpdatedDate', (new Date()).toDateString());
         }
     });
 }
@@ -634,6 +637,7 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
         }
 
         FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionId, newActionObj);
+        FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
         ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionId, newActionObj, newActionId);
     });
 }
@@ -663,6 +667,7 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
         }
 
         FocusAreas_AddActionsToActionPlan(focusAreaCardID, newOrderId, newActionObj);
+        FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
         ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newOrderId, newActionObj, newOrderId);
     });
 }
@@ -823,6 +828,7 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
             $(confirmationBox).addClass('confirmation__hidden');
 
             FocusAreas_RemoveActionFromActionPlan(focusAreaId, actionId);
+            FocusAreas_UpdateActionPlan(focusAreaId, 'planLastUpdatedDate', (new Date()).toDateString());
 
             $(`#${actionId}`).remove();
 
