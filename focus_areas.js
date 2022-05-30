@@ -27,14 +27,6 @@ function FocusAreas_UpdateTagOnFocusArea(itemId, tagName, tagValue) {
     }
 }
 
-/*function FocusAreas_GetIndexOfAddedFocusAreaByItemId(itemId) {
-    let foundIndex = FocusAreas.findIndex((element) => {
-        return element.itemId === itemId;
-    });
-
-    return foundIndex;
-}*/
-
 function FocusAreas_IsItemAlreadyAdded(itemId) {
     return FocusAreas.hasOwnProperty(itemId);
 }

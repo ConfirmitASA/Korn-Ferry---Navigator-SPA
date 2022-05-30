@@ -230,100 +230,110 @@ function ActionStatistics_GetPlansByCurrentStatusChartData() {
 }
 
 function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartData) {
-    Highcharts.chart(containerId, {
-        chart: {
-            type: 'line',
-            height: 300,
-            width: 400
-        },
-        title: {
-            text: ''
-        },
-        xAxis: {
-            categories: chartData.categories
-        },
-        yAxis: {
-            reversed: meta.RTL ? true : false, //rtl
+    if(chartData.categories.length > 0) {
+        Highcharts.chart(containerId, {
+            chart: {
+                type: 'line',
+                height: 300,
+                width: 400
+            },
             title: {
                 text: ''
             },
-
-            stackLabels: {
-                useHTML: true,
-                enabled: true,
-                style: {
-                    fontSize: '14px'
-                }
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            line: {
-                color: '#77bc1f',
-                dataLabels: {
-                    enabled: true
+            xAxis: {
+                categories: chartData.categories
+            },
+            yAxis: {
+                reversed: meta.RTL ? true : false, //rtl
+                title: {
+                    text: ''
                 },
-                enableMouseTracking: false
-            }
-        },
-        series: [chartData.series]
-    });
 
+                stackLabels: {
+                    useHTML: true,
+                    enabled: true,
+                    style: {
+                        fontSize: '14px'
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                line: {
+                    color: '#77bc1f',
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [chartData.series]
+        });
+    } else {
+        $('#createdDateByPlanCountsChart').html(meta.Labels['labels.NoDataToDisplay'].Label);
+    }
 }
 
 function ActionStatistics_DrawPlansByCurrentStatusChart(containerId, chartData) {
-    Highcharts.chart(containerId, {
-        chart: {
-            type: 'column',
-            height: 300,
-            width: 400
-        },
-        title: {
-            text: ''
-        },
-        xAxis: {
-            categories: chartData.categories,
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            /*tickInterval: 5,*/
-            reversed: meta.RTL ? true : false, //rtl
+    let indexOfNotZero = chartData.series.data.findIndex((dataPoint) => {
+        return dataPoint > 0;
+    });
+
+    if(chartData.categories.length > 0 && indexOfNotZero >= 0) {
+        Highcharts.chart(containerId, {
+            chart: {
+                type: 'column',
+                height: 300,
+                width: 400
+            },
             title: {
                 text: ''
             },
-            stackLabels: {
-                useHTML: true,
-                enabled: true,
-                style: {
-                    fontSize: '12px'
+            xAxis: {
+                categories: chartData.categories,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                reversed: meta.RTL ? true : false, //rtl
+                title: {
+                    text: ''
+                },
+                stackLabels: {
+                    useHTML: true,
+                    enabled: true,
+                    style: {
+                        fontSize: '12px'
+                    }
                 }
-            }
-        },
-        tooltip: {
-            enabled: false
-        },
-        legend: {
-            enabled: false
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
             },
-            series: {
-                stacking: 'normal',
-                colorByPoint: true
+            tooltip: {
+                enabled: false
             },
-        },
-        series: [chartData.series]
-    });
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                },
+                series: {
+                    stacking: 'normal',
+                    colorByPoint: true
+                },
+            },
+            series: [chartData.series]
+        });
+    } else {
+        $('#plansByCurrentStatusChart').html(meta.Labels['labels.NoDataToDisplay'].Label);
+    }
 }

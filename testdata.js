@@ -1379,6 +1379,7 @@ if (meta == null) {
 			"labels.Plans": {"Label": "Plans"},
 			"labels.CreatedDateByPlanCounts": {"Label": "Created Date by Plan counts"},
 			"labels.PlansByCurrentStatus": {"Label": "Plans by Current Status"},
+			"labels.SharePlan": {"Label": "Share plan"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},

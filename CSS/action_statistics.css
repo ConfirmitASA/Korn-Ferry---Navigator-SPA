@@ -75,3 +75,6 @@
     flex-direction: row;
     justify-content: center;
 }
+.statistics-tile__with-charts {
+    min-height: 200px;
+}

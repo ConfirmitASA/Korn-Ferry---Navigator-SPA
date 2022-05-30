@@ -124,6 +124,14 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
         ParamValues_ActionPlannerStatusSelector()
     );
 
+    let sharePlanSwitch = Component_TwoOptionSwitch(
+        `actionPlanShared_${focusAreaId}`,
+        '',
+        `${focusAreaId}_share-switch`,
+        ParamValues_OnOff()
+    );
+
+
     o.push(`
             <div id="focusArea-${focusAreaId}" class="focus-area-card">
                 <div class="focus-area-card_header">
@@ -192,6 +200,10 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
                                             <div class="plan-setting plan_owner">
                                                 <label class="plan-setting_label">${meta.Labels['labels.PlanOwner'].Label}</label>
                                                 <div id="${focusAreaId}_owner" class="plan-setting_owner">${focusArea.planOwner}</div>
+                                            </div>
+                                            <div class="plan-setting plan_share">
+                                                <label class="plan-setting_label">${meta.Labels['labels.SharePlan'].Label}</label>
+                                                ${sharePlanSwitch}
                                             </div>
                                         </div>
                                     </div>
@@ -264,7 +276,51 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_HandleAddToActionPlanButtonClick($(`#focusArea-${focusAreaId} .recommended-action_add-to-plan`));
     ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusAreaId} .selected-actions_add`));
     ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusAreaId} .plan-column`));
+    ActionFocusAreas_HandleShareSwitchClick(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}`, focusAreaId);
 
+}
+
+function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
+    let setSwitchValueAfterClick =(selectorObj)=> {
+        let currentSwitchVal = State_Get(selectorObj.parameterName);
+
+        if (currentSwitchVal != selectorObj.selectorElementValue) {
+            let labelsForInput = $(`${selectorObj.parameterElementId}`).parent().find('label');
+
+            if (labelsForInput.length > 0) {
+                State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
+
+                for (let i = 0; i < labelsForInput.length; i++) {
+                    $(labelsForInput[i]).toggleClass('label-checked');
+                }
+
+                FocusAreas_UpdateActionPlan(focusAreaId, 'planIsShared', selectorObj.selectorElementValue === 'On');
+            }
+        }
+
+    }
+
+    $(`${switchId}-left`).click(function () {
+        let switchElementValue = $(this).val();
+        let selectorObj = {
+            selectorElementValue: switchElementValue,
+            parameterName: `actionPlanShared_${focusAreaId}`,
+            parameterElementId: `${switchId}-left`
+        }
+
+        setSwitchValueAfterClick(selectorObj);
+    });
+
+    $(`${switchId}-right`).click(function () {
+        let switchElementValue = $(this).val();
+        let selectorObj = {
+            selectorElementValue: switchElementValue,
+            parameterName: `actionPlanShared_${focusAreaId}`,
+            parameterElementId: `${switchId}-right`
+        }
+
+        setSwitchValueAfterClick(selectorObj);
+    });
 }
 
 function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {

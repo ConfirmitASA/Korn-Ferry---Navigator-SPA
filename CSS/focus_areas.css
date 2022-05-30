@@ -506,3 +506,6 @@
 #items-table-addaction_filter {
     margin-bottom: 20px;
 }
+.plan_share .switch-label {
+    display: none;
+}

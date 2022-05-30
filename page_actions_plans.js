@@ -31,7 +31,7 @@ function ActionsPlans_Render() {
 		'showactions',
 		meta.Labels['labels.ShowActions'].Label,
 		'actionsplans',
-		ParamValues_ActionsPlans_ShowActions()
+		ParamValues_OnOff()
 	);
 	o.push ( `
         <div class="selector-group">

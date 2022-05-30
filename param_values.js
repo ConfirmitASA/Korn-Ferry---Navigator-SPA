@@ -115,7 +115,7 @@ function ParamValues_ActionPlannerStatusSelector() {
 
 }
 
-function ParamValues_ActionsPlans_ShowActions() {
+function ParamValues_OnOff() {
 	var param_values = [];
 
 	param_values.push ( {Code: 'Off', Label: meta.Labels["labels.Off"].Label} );
