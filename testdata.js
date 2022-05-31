@@ -218,7 +218,7 @@ if (meta == null) {
 			"NonStandardQuestions", "GroupComments", "CommentsThemes",
 			"OpenComments", "GroupEnps", "ENPSScore", "ENPSBreakdown",
 			"GroupResponse", "ResponseRates", "GroupActions",
-			"ActionsFocusAreas", "ActionsPlans", "ActionsAllPlans",
+			"ActionsFocusAreas", "ActionsSummaries", "ActionsAllPlans",
 			"ActionsSharedPlans", "ActionsStatistics", "Filters",
 			"LogOut"
 		],
@@ -266,153 +266,6 @@ if (meta == null) {
 				Text: "Organizations rated the highest by employees for acting on survey feedback outperform others on financial performance."
 			}
 		],
-
-		Pages: {
-			"KeyMetrics": {
-				"Title": "Key Metrics",
-				"Label": `
-					<p>These metrics are what drive success in your organisation.</p>
-					<p>Engagement measures commitment to the company, and extra effort employees are willing to put in for the good of the organisation.</p>
-					<p>Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.</p>
-					<p>The cards show your team performance on these metrics. Click on the cards to flip them and find out which topics have the biggest impact.</p>
-					`
-			},
-			"KeyDrivers": {
-				"Title": "Key Drivers",
-				"Label": `
-					<p>Key Driver Analysis determines which question items within survey questionnaire most strongly influence or predict Employee Engagement and Employee Enablement.</p>
-					<p>Using key driver analysis, we can help answer the question: “Where should I focus attention first in order to have the best chance of improving engagement and enablement?”</p>
-					<p>Results can give you an alternative lens for understanding the culture of your organisation and can be used to drive targeted Action Planning process.</p>
-					`
-			},
-			"StrengthsAndOpportunities": {
-				"Title": "Strengths & Opportunities",
-				"Label": `
-					<p>This page helps you focus on the most important results for your work group.</p>
-					<p>Questions are categorised as 'strengths' and 'opportunities' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks.</p>
-					`
-			},
-			"EffectivenessProfile": {
-				"Title": "Effectiveness Profile",
-				"Label": `
-					<p>The effectiveness profile is designed to guide targeted action efforts.</p>
-					<p>The Effectiveness profile clusters employees into four distinct segments, based on relative levels of Engagement and Enablement in comparison to Korn Ferry’s global benchmark.</p>
-					<p>Leaders seeking to improve the effectiveness of their teams need to determine whether performance issues are the result of a lack of engagement, a lack of enablement, or both.</p>
-					<p>Click on the chart to understand how your team compares to the rest of the organization and Korn Ferry benchmarks.</p>
-					`
-			},
-			"EffectivenessProfileBreakdown": {
-				"Title": "Effectiveness Profile Breakdown",
-				"Label": `
-					<p>The breakdown page allows you to view how the effectiveness profile varies by different employee groups.</p>
-					<p>The <b>break by</b> drop down enables the selection of the demographic of most interest to you.</p>
-					<p>Use the column headers to rank employees by their effectiveness level and better understand groups where action is most needed.</p>
-					`
-			},
-			"AllResults": {
-				"Title": "All Results",
-				"Label": `
-					<p>Use this page to explore your survey results in more detail.</p>
-					<p>Select whether you want to view all dimensions, all questions or all questions within their dimensions. You can sort the data by any of the columns, simply click on the column headers.</p>
-					<p>Note that: 
-					<ul class="left-pane-list">
-					<li>The Valid N refers to the number of responses to a question, not the population size</li>
-					<li>Question scores are suppressed if there are deemed to be too few responses to protect confidentiality</li>
-					<li>Dimension scores are suppressed where any of the questions in that dimension have not received enough responses</li>
-					</ul></p>
-					`
-			},
-			"ResultsBreakdown": {
-				"Title": "Results Breakdown",
-				"Label": `
-					<p>Use this page to focus on one dimension or question and review differences by demographic and organisational groups.</p>
-					<p>Select the dimension or question you want to view then select the demographic or organisational group to get a better understanding of differences. The data can be sorted by any of the columns.</p>
-					`
-			},
-			"DemographicHeatmap": {
-				"Title": "Heatmap",
-				"Label": `
-					<p>Use the Heatmap to identify differences across demographic and organisational groups, and quickly understand which groups show best practice or require most focus.</p>
-					<p>First, select whether you want to review all dimensions, all questions or all questions within dimensions. Select a demographic or organisational group to compare against your base population.</p>
-					<p>Results will show percent favourable scores for the base group and you can toggle to show favourable scores or percentage-point differences in favourability for the comparison groups. Statistically significant differences are highlighted to help you understand whether differences are meaningful.</p>
-					`
-			},
-			"DemographicHighlighter": {
-				"Title": "Demographic Highlighter",
-				"Label": `
-					<p>This page enables you to identify important variations in employee experience by looking at significant differences in the way demographic groups have answered questions.</p>
-					<p>Use the drop-down functions to select the demographic group and dimension / questions for which you would like to display results. Demographic groups that are significantly above or below average for the chosen dimensions or question will be displayed.</p>				
-					`
-			},
-			"NonStandardQuestions": {
-				"Title": "Non-Standard Questions",
-				"Label": `
-					<p>This page shows results to questions that do not use the standard 5-point response scale measuring favourability.</p>
-					<p>Select a question from the dropdown to view the distribution of results.</p>
-					`
-			},
-			"CommentsThemes": {
-				"Title": "Comment Themes",
-				"Label": `
-					<p>Comments provide helpful context in understanding your survey results and can be an additional source of action planning ideas. To make the best use of your comments in your interpretation and action planning, review your survey scores first and then your group's comments.</p>
-					<p>This chart ranks comment themes in order of selection by the respondents. Select the question that you want to review.</p>
-					<p>Consider the topics that are of most interest based on your results so far and then explore the verbatims further.</p>
-					`
-			},
-			"OpenComments": {
-				"Title": "Open Comments",
-				"Label": `
-					<p>Comments provide helpful context in understanding your survey results and can be an additional source of action planning ideas. To make the best use of your comments in your interpretation and action planning, review your survey scores first and then your group's comments.</p>
-					<p>Select the comment question, then you can focus on a specific theme or even search for a specific term. The filter options allow you to highlight specific demographic groups.</p>
-					<p>Export the comments to share them with others.</p>				
-					`
-			},
-			"ENPSScore": {
-				"Title": "ENPS Score",
-				"Label": `
-					<p>Use your Employee Net Promoter Score (ENPS) as a key measure of your employees' overall perception of your organisation. ENPS provides an anchor for your employee experience management.</p>
-					<p>A positive score means you have a higher proportion of employees that are strong advocates of the organization, whereas a negative score suggests you need to dig deeper to understand why people are less likely to recommend the organization as a place to work.</p>
-					<p>Flip the card to understand more about the scoring methodology.</p>
-					`
-			},
-			"ENPSBreakdown": {
-				"Title": "ENPS Breakdown",
-				"Label": `
-					<p>Use the ENPS Break By to identify differences across demographic and organisational groups, and quickly understand best practice areas and where action is most needed.</p>
-					<p>Select the different demographics from the dropdown at the top of the page and focus on groups that include high volume of either promoters or detractors.</p>
-					`
-			},
-			"ResponseRates": {
-				"Title": "Response Rates",
-				"Label": `
-					<p>A Response Rate of 90% or above is considered good.</p>
-					`
-			},
-			"ActionsCreatePlan": {
-				"Label": "Create Plan"
-			},
-
-			"ActionsFocusAreas": {
-				"Title": "Areas for Focus",
-				"Label": `
-					<p>These are the areas you selected for focus from your survey results.</p>
-					<p>Prioritise two or three areas, deleting those you no longer need, and open out each one to build out a plan of action. Select from our recommended actions tailored to your focus areas or create your own, providing an owner and planned competion date. Finally, give each plan a name and a timescale.</p>
-					<p>Be sure to revisit your action plans as you work to improve your team perceptions, editing the content as necessary and updating the status as you progress.</p>
-				`
-			},
-			"ActionsPlans": {
-				"Label": "Plans"
-			},
-			"ActionsAllPlans": {
-				"Label": "All Plans"
-			},
-			"ActionsSharedPlans": {
-				"Label": "Shared Plans"
-			},
-			"ActionsStatistics": {
-				"Label": "Statistics"
-			},
-		},
 		Items: {
 			"RE01": {
 				"Label": "I have the resources I need to do my job effectively.",
@@ -1671,10 +1524,18 @@ if (meta == null) {
 				"Title": "Areas for Focus",
 				"Label": "<p>These are the areas you selected for focus from your survey results.</p>\n<p>Prioritise two or three areas, deleting those you no longer need, and open out each one to build out a plan of action. Select from our recommended actions tailored to your focus areas or create your own, providing an owner and planned competion date. Finally, give each plan a name and a timescale.</p>\n<p>Be sure to revisit your action plans as you work to improve your team perceptions, editing the content as necessary and updating the status as you progress.</p>"
 			},
-			"ActionsPlans": {"Id": "ActionsPlans", "Title": "Plans", "Label": "Plans"},
+			"ActionsSummaries": {
+				"Id": "ActionsSummaries",
+				"Title": "Summaries",
+				"Label": "<p>This page gives you an overview of action plans in your area and allows you to monitor their progress.</p><p>Define the view you want, with options to:<ul class=\"left-pane-list\"><li>Choose whether you look at plans for a single question / dimension or all of them.</li><li>View your own plans, all plans in your area or all plans that have been shared by your colleagues.</li><li>Toggle between plan overviews and individual plan actions.</li><li>Export the table to different formats.</li></ul></p>"
+			},
 			"ActionsAllPlans": {"Id": "ActionsAllPlans", "Title": "All Plans", "Label": "All Plans"},
 			"ActionsSharedPlans": {"Id": "ActionsSharedPlans", "Title": "Shared Plans", "Label": "Shared Plans"},
-			"ActionsStatistics": {"Id": "ActionsStatistics", "Title": "Statistics", "Label": "Statistics"},
+			"ActionsStatistics": {
+				"Id": "ActionsStatistics",
+				"Title": "Statistics",
+				"Label": "<p>Monitor plans, actions and their progress through these statistical representations of action planning activity in your area.</p>"
+			},
 			"SLIDE_ENG": {"Id": "SLIDE_ENG", "Title": "Employee Engagement: Results Details", "Label": ""},
 			"SLIDE_ENG.info_0": {"Label": "Engagement measures commitment to the company and extra effort employees are willing to put in for the good of the organization"},
 			"SLIDE_ENG.info_1": {"Label": "The Engagement score is calculated as an average of the favourable scores from questions shown below"},
@@ -30493,6 +30354,7 @@ var config = {
 	},
 
 	ActionPlannerDateFormat: "yy-mm-dd",
+	LimitActionsPerPlan: 10
 };
 
 if (!('comparators' in state.Parameters)) {

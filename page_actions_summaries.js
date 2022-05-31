@@ -1,8 +1,8 @@
-function ActionsPlans_Page() {
+function ActionsSummaries_Page() {
 	return 	{
-		Label: meta.Labels['ActionsPlans'].Title,
+		Label: meta.Labels['ActionsSummaries'].Title,
 
-		LeftPane: meta.Labels['ActionsPlans'].Label,
+		LeftPane: meta.Labels['ActionsSummaries'].Label,
 
 		RightPane: `
 		<div id="actionsplans-table-container"></div>
@@ -15,7 +15,7 @@ function ActionsPlans_Page() {
 
 }
 
-function ActionsPlans_Render() {
+function ActionsSummaries_Render() {
 	let o = [];
 
 	o.push ( Component_TestDataIndicator(data.isTestData) );
@@ -40,7 +40,7 @@ function ActionsPlans_Render() {
         </div>
     `);
 
-	let dt = ActionsPlans_GetItemsTable();
+	let dt = ActionsSummaries_GetItemsTable();
 	o.push ( dt.Html );
 
 	$("#actionsplans-table-container").html( o.join('') );
@@ -56,7 +56,7 @@ function ActionsPlans_Render() {
 		Main_RefreshCurrentPage();
 	});
 
-	ActionsPlans_AddTabSelectors();
+	ActionsSummaries_AddTabSelectors();
 
 	$('#actionsplans-showactions-left').click(function () {
 		let switchElementValue = $(this).val();
@@ -66,7 +66,7 @@ function ActionsPlans_Render() {
 			parameterElementId: 'actionsplans-showactions-left'
 		}
 
-		ActionsPlans_HandleSwitchClick(selectorObj);
+		ActionsSummaries_HandleSwitchClick(selectorObj);
 	});
 
 	$('#actionsplans-showactions-right').click(function () {
@@ -77,11 +77,11 @@ function ActionsPlans_Render() {
 			parameterElementId: 'actionsplans-showactions-right'
 		}
 
-		ActionsPlans_HandleSwitchClick(selectorObj);
+		ActionsSummaries_HandleSwitchClick(selectorObj);
 	});
 }
 
-function ActionsPlans_GetItemsTable() {
+function ActionsSummaries_GetItemsTable() {
 
 	// Return Value: {Html: <string>, [ScriptCode: <string>]}
 
@@ -102,7 +102,7 @@ function ActionsPlans_GetItemsTable() {
 	let showActionsOn = State_Get('showactions') === meta.Labels["labels.On"].Label;
 
 	if(showActionsOn) {
-		table_data = ActionsPlans_GetActionsTableData();
+		table_data = ActionsSummaries_GetActionsTableData();
 		headers = [
 			[
 				{ Label: meta.Labels["labels.PlanTitle"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
@@ -114,7 +114,7 @@ function ActionsPlans_GetItemsTable() {
 			]
 		];
 	} else {
-		table_data = ActionsPlans_GetPlansTableData();
+		table_data = ActionsSummaries_GetPlansTableData();
 	}
 
 	let columnSettings = `
@@ -124,9 +124,9 @@ function ActionsPlans_GetItemsTable() {
 
 	let exportColumns = [ 0, 1, 2, 3, 4, 5 ];
 
-	let view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-ActionsPlans'); /* +
+	let view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-ActionsSummaries'); /* +
     ' - ' +
-    $("#actionsplans-ActionsPlans-highlighter-dropdown option:selected").text();
+    $("#actionsplans-ActionsSummaries-highlighter-dropdown option:selected").text();
     */
 
 	let buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
@@ -148,7 +148,7 @@ function ActionsPlans_GetItemsTable() {
 	return dt;
 }
 
-function ActionsPlans_GetPlansTableData() {
+function ActionsSummaries_GetPlansTableData() {
 	let item = State_Get('item4actions');
 	let itemId = (!item || item == -1) ? '' : item.split('.')[1];
 
@@ -183,7 +183,7 @@ function ActionsPlans_GetPlansTableData() {
 	return tableData;
 }
 
-function ActionsPlans_GetActionsTableData() {
+function ActionsSummaries_GetActionsTableData() {
 	let item = State_Get('item4actions');
 	let itemId = (!item || item == -1) ? '' : item.split('.')[1];
 
@@ -214,17 +214,17 @@ function ActionsPlans_GetActionsTableData() {
 	return tableData;
 }
 
-function ActionsPlans_AddTabSelectors() {
+function ActionsSummaries_AddTabSelectors() {
 	let dataTable = $('#items-table-actionsplans');
 
 	dataTable.before('<div class="tab"></div>');
 
-	ActionsPlans_CreateTabLink('actionplans-own', meta.Labels["labels.OwnPlans"].Label, true, ActionsPlans_OwnPlans_OnClick).appendTo('.tab');
-	ActionsPlans_CreateTabLink('actionplans-area', meta.Labels["labels.AreaPlans"].Label, false, ActionsPlans_AreaPlans_OnClick).appendTo('.tab');
-	ActionsPlans_CreateTabLink('actionplans-shared', meta.Labels["labels.SharedPlans"].Label, false, ActionsPlans_SharedPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('actionplans-own', meta.Labels["labels.OwnPlans"].Label, true, ActionsSummaries_OwnPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('actionplans-area', meta.Labels["labels.AreaPlans"].Label, false, ActionsSummaries_AreaPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('actionplans-shared', meta.Labels["labels.SharedPlans"].Label, false, ActionsSummaries_SharedPlans_OnClick).appendTo('.tab');
 }
 
-function ActionsPlans_CreateTabLink(id, text, isSelected, onClick) {
+function ActionsSummaries_CreateTabLink(id, text, isSelected, onClick) {
 	let selectedClass = isSelected ? 'tablink--selected' : '';
 	return $('<button>')
 		.addClass(`tablink ${selectedClass}`)
@@ -237,19 +237,19 @@ function ActionsPlans_CreateTabLink(id, text, isSelected, onClick) {
 		.click(onClick);
 }
 
-function ActionsPlans_OwnPlans_OnClick() {
+function ActionsSummaries_OwnPlans_OnClick() {
 	console.log('Own Plans - clicked!');
 }
 
-function ActionsPlans_AreaPlans_OnClick() {
+function ActionsSummaries_AreaPlans_OnClick() {
 	console.log('Area Plans - clicked!');
 }
 
-function ActionsPlans_SharedPlans_OnClick() {
+function ActionsSummaries_SharedPlans_OnClick() {
 	console.log('Shared Plans - clicked!');
 }
 
-function ActionsPlans_HandleSwitchClick(selectorObj) {
+function ActionsSummaries_HandleSwitchClick(selectorObj) {
 	let currentSwitchVal = State_Get(selectorObj.parameterName);
 
 	if (currentSwitchVal != selectorObj.selectorElementValue) {
@@ -261,13 +261,13 @@ function ActionsPlans_HandleSwitchClick(selectorObj) {
 				$(labelsForInput[i]).toggleClass('label-checked');
 			}
 
-			ActionsPlans_UpdateItemsTable();
+			ActionsSummaries_UpdateItemsTable();
 		}
 	}
 }
 
-function ActionsPlans_UpdateItemsTable() {
-	let dt = ActionsPlans_GetItemsTable();
+function ActionsSummaries_UpdateItemsTable() {
+	let dt = ActionsSummaries_GetItemsTable();
 
 	$('#items-table-actionsplans_wrapper').html(dt.Html);
 
@@ -275,7 +275,7 @@ function ActionsPlans_UpdateItemsTable() {
 		eval(dt.ScriptCode);
 	}
 
-	ActionsPlans_AddTabSelectors();
+	ActionsSummaries_AddTabSelectors();
 }
 
 
