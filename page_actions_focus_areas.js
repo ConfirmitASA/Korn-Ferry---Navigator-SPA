@@ -231,7 +231,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
                 </div>
                 <div id="${focusAreaId}_limit-confirmation" class="focus-area-card_confirmation confirmation__hidden">
                     <div class="confirmation_content">
-                        <div class="confirmation_text">${meta.Labels['labels.DeletePlanConfirmation'].Label}</div>
+                        <div class="confirmation_text">${meta.Labels['labels.ActionsLimitReached'].Label}</div>
                         <div class="confirmation_controls">
                             <div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.Cancel'].Label}</div>
                         </div>
@@ -280,7 +280,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
 
     ActionFocusAreas_RenderSelectedActions(focusAreaId);
     ActionsFocusAreas_HandleTagClick($(`#focusArea-${focusAreaId} .ap-tag`));
-    ActionsFocusAreas_HandleRemovingFocusArea($(`#focusArea-${focusAreaId} .fa-card-header_remove`), $(`#focusArea-${focusAreaId} .confirmation-button__agree`), $(`#focusArea-${focusAreaId} .confirmation-button__close`));
+    ActionsFocusAreas_HandleRemovingFocusArea(focusAreaId);
     ActionFocusAreas_HandleWorkOnThisButtonClick($(`#focusArea-${focusAreaId} .focus-area-info_work-button`));
     ActionFocusAreas_HandleActionTitleClick($(`#focusArea-${focusAreaId} .recommended-action_title`));
     ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, $(`#focusArea-${focusAreaId} .action-plan_submit`))
@@ -289,6 +289,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_HandleAddOwnActionButtonClick($(`#focusArea-${focusAreaId} .selected-actions_add`));
     ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusAreaId} .plan-column`));
     ActionFocusAreas_HandleShareSwitchClick(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}`, focusAreaId);
+    ActionFocusAreas_HandleCancelButtonOnLimitActionsConfirmation(focusAreaId);
 
 }
 
@@ -525,6 +526,7 @@ function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
         $(focusAreaCard).find('.focus-area-info_work-button').first().show();
     });
 }
+
 function ActionFocusAreas_HandleCloseButtonClick(buttons) {
     buttons.click(function (event) {
         let actionPlanContainer = $(this).parent().parent();
@@ -578,11 +580,11 @@ function ActionsFocusAreas_HandleTagClick(tagElements) {
     });
 }
 
-function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, noButton) {
-    trashCanElements.click(function (event) {
+function ActionsFocusAreas_HandleRemovingFocusArea(focusAreaId) {
+    $(`#focusArea-${focusAreaId} .fa-card-header_remove`).click(function (event) {
         let cardToRemove = $(this).parent().parent();
 
-        let confirmationBox = $(cardToRemove).find('.focus-area-card_confirmation').first();
+        let confirmationBox = $(cardToRemove).find(`#${focusAreaId}_remove-confirmation`).first();
         if (!!confirmationBox) {
             if ($(confirmationBox).hasClass('confirmation__hidden')) {
                 $(confirmationBox).removeClass('confirmation__hidden');
@@ -590,8 +592,8 @@ function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, 
         }
     });
 
-    yesButton.click(function (event) {
-        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+    $(`#${focusAreaId}_remove-confirmation .confirmation-button__agree`).click(function (event) {
+        let confirmationBox = $(this).parents(`#${focusAreaId}_remove-confirmation`).first();
         if (!!confirmationBox) {
             $(confirmationBox).addClass('confirmation__hidden');
 
@@ -608,12 +610,20 @@ function ActionsFocusAreas_HandleRemovingFocusArea(trashCanElements, yesButton, 
         }
     });
 
-    noButton.click(function (event) {
-        let confirmationBox = $(this).parents('.focus-area-card_confirmation').first();
+    $(`#${focusAreaId}_remove-confirmation .confirmation-button__close`).click(function (event) {
+        let confirmationBox = $(this).parents(`#${focusAreaId}_remove-confirmation`).first();
         if (!!confirmationBox) {
             $(confirmationBox).addClass('confirmation__hidden');
         }
     });
+}
+
+function ActionFocusAreas_GetNextActionId(focusAreaCard) {
+    let alreadyAddedActions = Array.prototype.slice.call($(focusAreaCard).find('.selected-action'));
+    let idOfLastAddedActionInTheList = alreadyAddedActions.length > 0 ? $(alreadyAddedActions[alreadyAddedActions.length - 1]).attr('id').split('_') : null;
+    let nextAddedActionId = !!idOfLastAddedActionInTheList ? parseInt(idOfLastAddedActionInTheList[idOfLastAddedActionInTheList.length - 1]) + 1 : 0;
+
+    return nextAddedActionId;
 }
 
 function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
@@ -626,31 +636,42 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
         let action = $(this).parents('.recommended-action').first();
         let actionId = action.attr('id');
 
-        let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
-
         let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
+        let numberOfActions = !!focusAreaActions ? Object.keys(focusAreaActions).length : 0;
+        let nextAddedActionId = ActionFocusAreas_GetNextActionId(focusAreaCard);
 
-        let metaActionId = actionId.split('_').slice(0, 2).join('_');
-        let metaActionOrderNumber = actionId.split('_')[2];
-        let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
-        let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
+        if(numberOfActions < 10) {
+            let dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 14);
 
-        let newActionId = actionId + '_' +(!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
-        //let newOrderId = actionId + '_selected_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
-        let newActionObj = {
-            /*orderId: actionId + '_selected_' + Object.keys(focusAreaActions).length,*/
-            actionTitle: newActionTitle,
-            actionText: newActionText,
-            actionStatus: 'NotStarted',
-            actionDueDate: dueDate.toDateString(),
-            actionOwner: data.User.FirstName,
-            isFromRecommended: true
+            let metaActionId = actionId.split('_').slice(0, 2).join('_');
+            let metaActionOrderNumber = actionId.split('_')[2];
+            let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
+            let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
+
+            let newActionId = actionId + '_' + nextAddedActionId;
+            //let newOrderId = actionId + '_selected_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
+            let newActionObj = {
+                /*orderId: actionId + '_selected_' + Object.keys(focusAreaActions).length,*/
+                actionTitle: newActionTitle,
+                actionText: newActionText,
+                actionStatus: 'NotStarted',
+                actionDueDate: dueDate.toDateString(),
+                actionOwner: data.User.FirstName,
+                isFromRecommended: true
+            }
+
+            FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionId, newActionObj);
+            FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
+            ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionId, newActionObj, newActionId);
+        } else {
+            let confirmationBox = $(focusAreaCard).find(`#${focusAreaCardID}_limit-confirmation`).first();
+            if (!!confirmationBox) {
+                if ($(confirmationBox).hasClass('confirmation__hidden')) {
+                    $(confirmationBox).removeClass('confirmation__hidden');
+                }
+            }
         }
-
-        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newActionId, newActionObj);
-        FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
-        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newActionId, newActionObj, newActionId);
     });
 }
 
@@ -664,14 +685,14 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
         let focusAreaCardID = focusAreaCard.attr('id').split('-')[1];
 
         let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
-
         let numberOfActions = !!focusAreaActions ? Object.keys(focusAreaActions).length : 0;
+        let nextAddedActionId = ActionFocusAreas_GetNextActionId(focusAreaCard);
 
         if(numberOfActions < 10) {
             let dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 14);
 
-            let newOrderId = 'OwnAction_' + focusAreaCardID + '_' + numberOfActions;
+            let newOrderId = 'OwnAction_' + focusAreaCardID + '_' + nextAddedActionId;
             let newActionObj = {
                 actionTitle: 'newActionTitle',
                 actionText: 'newActionText',
@@ -685,8 +706,24 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
             FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
             ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newOrderId, newActionObj, newOrderId);
         } else {
-
+            let confirmationBox = $(focusAreaCard).find(`#${focusAreaCardID}_limit-confirmation`).first();
+            if (!!confirmationBox) {
+                if ($(confirmationBox).hasClass('confirmation__hidden')) {
+                    $(confirmationBox).removeClass('confirmation__hidden');
+                }
+            }
         }
+    });
+}
+
+function ActionFocusAreas_HandleCancelButtonOnLimitActionsConfirmation(focusAreaId) {
+    $(`#${focusAreaId}_limit-confirmation .confirmation-button__close`).click(function (event) {
+        let confirmationBox = $(this).parents(`#${focusAreaId}_limit-confirmation`).first();
+
+        if (!!confirmationBox) {
+            $(confirmationBox).addClass('confirmation__hidden');
+        }
+
     });
 }
 
