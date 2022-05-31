@@ -81,9 +81,13 @@ function ActionFocusAreas_RenderFocusAreaList() {
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
 
     let index = 0;
+    let currentUserName = data.User.FirstName + ' ' + data.User.LastName;
 
     for(let focusArea in addedFocusAreas) {
-        ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, dimensionsData);
+        if(addedFocusAreas[focusArea].planOwner === currentUserName) {
+            ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, dimensionsData);
+        }
+
         index++;
     }
 }
@@ -216,12 +220,20 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
                         </div>
                     </div>                   
                 </div>
-                <div class="focus-area-card_confirmation confirmation__hidden">
+                <div id="${focusAreaId}_remove-confirmation" class="focus-area-card_confirmation confirmation__hidden">
                     <div class="confirmation_content">
                         <div class="confirmation_text">${meta.Labels['labels.DeletePlanConfirmation'].Label}</div>
                         <div class="confirmation_controls">
                             <div class="confirmation-button confirmation-button__agree">${meta.Labels['buttons.Yes'].Label}</div>
                             <div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.No'].Label}</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="${focusAreaId}_limit-confirmation" class="focus-area-card_confirmation confirmation__hidden">
+                    <div class="confirmation_content">
+                        <div class="confirmation_text">${meta.Labels['labels.DeletePlanConfirmation'].Label}</div>
+                        <div class="confirmation_controls">
+                            <div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.Cancel'].Label}</div>
                         </div>
                     </div>
                 </div>
@@ -651,24 +663,30 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
         let focusAreaCard = $(this).parents('.focus-area-card').first();
         let focusAreaCardID = focusAreaCard.attr('id').split('-')[1];
 
-        let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
-
         let focusAreaActions = FocusAreas_GetActionsInActionPlan(focusAreaCardID);
 
-        let newOrderId = 'OwnAction_' + focusAreaCardID + '_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
-        let newActionObj = {
-            actionTitle: 'newActionTitle',
-            actionText: 'newActionText',
-            actionStatus: 'NotStarted',
-            actionDueDate: dueDate.toDateString(),
-            actionOwner: data.User.FirstName,
-            isFromRecommended: false
-        }
+        let numberOfActions = !!focusAreaActions ? Object.keys(focusAreaActions).length : 0;
 
-        FocusAreas_AddActionsToActionPlan(focusAreaCardID, newOrderId, newActionObj);
-        FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
-        ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newOrderId, newActionObj, newOrderId);
+        if(numberOfActions < 10) {
+            let dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 14);
+
+            let newOrderId = 'OwnAction_' + focusAreaCardID + '_' + numberOfActions;
+            let newActionObj = {
+                actionTitle: 'newActionTitle',
+                actionText: 'newActionText',
+                actionStatus: 'NotStarted',
+                actionDueDate: dueDate.toDateString(),
+                actionOwner: data.User.FirstName,
+                isFromRecommended: false
+            }
+
+            FocusAreas_AddActionsToActionPlan(focusAreaCardID, newOrderId, newActionObj);
+            FocusAreas_UpdateActionPlan(focusAreaCardID, 'planLastUpdatedDate', (new Date()).toDateString());
+            ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, newOrderId, newActionObj, newOrderId);
+        } else {
+
+        }
     });
 }
 

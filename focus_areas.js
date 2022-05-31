@@ -49,7 +49,7 @@ function FocusAreas_AddItem(itemId, newItemObj) {
         newFocusArea.planDueDate = dueDate.toDateString();
         newFocusArea.planCreatedDate = (new Date()).toDateString();
         newFocusArea.planLastUpdatedDate = (new Date()).toDateString();
-        newFocusArea.planOwner = data.User.FirstName;
+        newFocusArea.planOwner = data.User.FirstName + ' ' + data.User.LastName;
         newFocusArea.planNode = data.User.PersonalizedReportBase;
         newFocusArea.planIsSubmitted = false;
         newFocusArea.planIsShared = false;
@@ -79,7 +79,7 @@ function FocusAreas_UpdateActionInActionPlan(itemId, actionId, actionSetting, ac
         if(FocusAreas[itemId].planActions.hasOwnProperty(actionId)) {
             FocusAreas[itemId].planActions[actionId][actionSetting] = actionValue;
         } else {
-            throw new Error(`Action ${actionOrderId} you're trying to update does not exist in this action plan for ${itemId}`);
+            throw new Error(`Action ${actionId} you're trying to update does not exist in this action plan for ${itemId}`);
         }
     } else {
         throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
