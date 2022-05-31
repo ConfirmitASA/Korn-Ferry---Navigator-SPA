@@ -134,6 +134,7 @@ function ActionsStatistics_Render() {
 function ActionStatistics_CreatedDateByPlanChart_HandleSelectorChange(selectorObj) {
     State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
     let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();
+
     ActionsStatistics_DrawCreatedDateByPlanCountsChart('createdDateByPlanCountsChart', createdDateByPlanCountsChartData);
 }
 
@@ -260,7 +261,11 @@ function ActionStatistics_GetPlansByCurrentStatusChartData() {
 }
 
 function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartData) {
-    if(chartData.categories.length > 0) {
+    let indexOfNotZero = chartData.series.data.findIndex((dataPoint) => {
+        return dataPoint > 0;
+    });
+
+    if(chartData.categories.length > 0 && indexOfNotZero >= 0) {
         Highcharts.chart(containerId, {
             chart: {
                 type: 'line',
