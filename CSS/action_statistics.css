@@ -78,3 +78,6 @@
 .statistics-tile__with-charts {
     min-height: 200px;
 }
+#createdDateByPlanCountsTile .selector-label {
+    width: 15%;
+}

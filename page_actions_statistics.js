@@ -54,6 +54,7 @@ function ActionsStatistics_Page() {
             <div id="statChartsContainer" class="statistics-container_row">
                 <div id="createdDateByPlanCountsTile" class="statistics-tile statistics-tile__with-charts">
                     <div class="statistics-tile_title">${meta.Labels['labels.CreatedDateByPlanCounts'].Label}</div>
+                    ${ActionsStatistics_GetDateRangeDropdownHTML()}
                     <div class="statistics-tile_chart-container">
                         <div id="createdDateByPlanCountsChart"></div>
                     </div>
@@ -74,8 +75,20 @@ function ActionsStatistics_Page() {
     }
 };
 
+function ActionsStatistics_GetDateRangeDropdownHTML() {
+    return Component_Dropdown(
+        'daterange',
+        meta.Labels['labels.DateRange'].Label,
+        'date-range-dropdown',
+        '',
+        ParamValues_ActionsStatistics_DateRange()
+    );
+}
+
 
 function ActionsStatistics_Render() {
+
+    console.log('Render');
 
     let [numberOfOwners, numberOfPlans, numberOfActions] = ActionStatistics_GetStatData();
 
@@ -104,8 +117,24 @@ function ActionsStatistics_Render() {
     let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();
     ActionsStatistics_DrawCreatedDateByPlanCountsChart('createdDateByPlanCountsChart', createdDateByPlanCountsChartData);
 
+    $('#date-range-dropdown').change(function() {
+        let dateRangeElementValue = $(this).val();
+        let selectorObj = {
+            selectorElementValue: dateRangeElementValue,
+            parameterName: 'daterange'
+        }
+
+        ActionStatistics_CreatedDateByPlanChart_HandleSelectorChange(selectorObj);
+    });
+
     let plansByCurrentStatusChartData = ActionStatistics_GetPlansByCurrentStatusChartData();
     ActionStatistics_DrawPlansByCurrentStatusChart('plansByCurrentStatusChart', plansByCurrentStatusChartData)
+}
+
+function ActionStatistics_CreatedDateByPlanChart_HandleSelectorChange(selectorObj) {
+    State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
+    let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();
+    ActionsStatistics_DrawCreatedDateByPlanCountsChart('createdDateByPlanCountsChart', createdDateByPlanCountsChartData);
 }
 
 function ActionStatistics_GetStatData() {
@@ -159,27 +188,28 @@ function ActionStatistics_GetCreatedDateByPlanCountsChartData() {
                 dates[createdDate_Clear] = 1;
             }
         }
-    };
+    }
+
+    console.log(dates);
+
+    let dateRangeSelected = State_Get('daterange');
+    switch (dateRangeSelected) {
+        case 'LastWeek': {
+            dates = ActionStatistics_FilterDates_LastWeek(dates);
+            break;
+        }
+        case 'LastMonth': {
+            dates = ActionStatistics_FilterDates_LastMonth(dates);
+            break;
+        }
+        case 'LastQuarter': {
+            dates = ActionStatistics_FilterDates_LastQuarter(dates);
+            break;
+        }
+    }
 
     chartData.categories = Object.keys(dates);
-    chartData.categories.sort((a,b) => {
-        let aDate = new Date(a);
-        let bDate = new Date(b);
-
-        if (aDate < bDate) {
-            return -1;
-        }
-
-        if (aDate > bDate) {
-            return 1;
-        }
-
-        return 0;
-    });
-
-    for(let i = 0; i < chartData.categories.length; i++) {
-        chartData.series.data[i] = dates[chartData.categories[i]];
-    }
+    chartData.series.data = Object.values(dates);
 
     return chartData;
 }
@@ -336,4 +366,118 @@ function ActionStatistics_DrawPlansByCurrentStatusChart(containerId, chartData) 
     } else {
         $('#plansByCurrentStatusChart').html(meta.Labels['labels.NoDataToDisplay'].Label);
     }
+}
+
+function ActionStatistics_FilterDates_LastWeek(dates) {
+    let dateAWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+    let today = new Date();
+    let filtered = Object.entries(dates).filter(([key, value]) => new Date(key) > dateAWeekAgo && new Date(key) <= today);
+
+    filtered.sort((a, b) => {
+        let aDate = new Date(a[0]);
+        let bDate = new Date(b[0]);
+
+        if (aDate < bDate) {
+            return -1;
+        }
+
+        if (aDate > bDate) {
+            return 1;
+        }
+
+        return 0;
+    });
+
+    return Object.fromEntries(filtered);
+}
+
+function ActionStatistics_FilterDates_LastMonth(dates) {
+    let today = new Date();
+    today.setHours(0,0,0,0);
+    let dateAMonthAgo = ActionStatistics_GetDateAMonthBefore(today);
+    let lastMonthDates = Object.entries(dates).filter(([key, value]) => new Date(key) >= dateAMonthAgo);
+    let weeks = {};
+    let startDate = new Date(dateAMonthAgo);
+    let endDate = new Date(dateAMonthAgo.setDate(dateAMonthAgo.getDate() + 6));
+    while(startDate <= today) {
+        endDate = endDate > today ? new Date(today) : endDate;
+        let entries = lastMonthDates.filter(([key, value]) => new Date(key).setHours(0,0,0,0) >= startDate && new Date(key) <= endDate);
+        let count = ActionStatistics_AggregatePlansByDate(entries);
+        weeks[ActionStatistics_GetWeekName(startDate, endDate)] = count;
+
+        startDate = new Date(endDate.setDate(endDate.getDate() + 1));
+        endDate.setDate(startDate.getDate() + 6);
+    }
+
+    return weeks;
+}
+
+//March 31 -> Feb 28
+function ActionStatistics_GetDateAMonthBefore(date) {
+    date = new Date(date);
+    const month = date.getMonth();
+    date.setMonth(date.getMonth() - 1);
+    while (date.getMonth() === month) {
+        date.setDate(date.getDate() - 1);
+    }
+    return date;
+}
+
+function ActionStatistics_AggregatePlansByDate(entries) {
+    let plansCount = 0;
+    for (let i = 0; i < entries.length; i++) {
+        plansCount += entries[i][1];
+    }
+
+    return plansCount;
+}
+
+function ActionStatistics_GetWeekName(startDate, endDate) {
+    return startDate.toString().split(' ').slice(1, 4).join(' ') + ' -</br>' +
+        endDate.toString().split(' ').slice(1, 4).join(' ');
+}
+
+function ActionStatistics_FilterDates_LastQuarter(dates) {
+    let result = {};
+
+    //Current month
+    let today = new Date();
+    let firstDayOfThisMonth = new Date(today.getFullYear(), today.getMonth());
+    let thisMonthEntries = Object.entries(dates).filter(([key, value]) => new Date(key) >= firstDayOfThisMonth && new Date(key) <= new Date()); //Array of arrays [date, #]
+
+    //previous month
+    let firstDayOfPreviousMonth = ActionStatistics_GetDateAMonthBefore(firstDayOfThisMonth);
+    let previousMonthEntries = Object.entries(dates).filter(([key, value]) => new Date(key) >= firstDayOfPreviousMonth && new Date(key) < firstDayOfThisMonth); //Array of arrays [date, #]
+
+    //3 month ago
+    let firstDayOfThirdMonth = ActionStatistics_GetDateAMonthBefore(firstDayOfPreviousMonth);
+    let thirdMonthEntries = Object.entries(dates).filter(([key, value]) => new Date(key) >= firstDayOfThirdMonth && new Date(key) < firstDayOfPreviousMonth); //Array of arrays [date, #]
+
+    result[ActionStatistics_GetMonthName(firstDayOfThirdMonth)] = ActionStatistics_AggregatePlansByDate(thirdMonthEntries);
+    result[ActionStatistics_GetMonthName(firstDayOfPreviousMonth)] = ActionStatistics_AggregatePlansByDate(previousMonthEntries);
+    result[ActionStatistics_GetMonthName(firstDayOfThisMonth)] = ActionStatistics_AggregatePlansByDate(thisMonthEntries);
+
+    return result;
+}
+
+function ActionStatistics_GetMonthName(date) {
+    return date.toString().split(' ').slice(1, 2).join(' ');
+}
+
+/* For development testing only */
+var fakeDatesForTesting = createFakeFocusAreasWithCreationDates();
+function createFakeFocusAreasWithCreationDates() {
+    const plansCount = 100;
+    let result = {};
+    for (let i = 0; i < plansCount; i++) {
+        result[i] = {
+            'planIsSubmitted': true,
+            'planCreatedDate': getRandomDate(new Date(2022, 2, 1), new Date()).toString().split(' ').slice(0, 4).join(' ')
+        }
+    }
+
+    return result;
+}
+function getRandomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }

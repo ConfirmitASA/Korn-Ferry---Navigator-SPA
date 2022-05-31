@@ -123,3 +123,13 @@ function ParamValues_OnOff() {
 
 	return param_values;
 }
+
+function ParamValues_ActionsStatistics_DateRange() {
+	var param_values = [];
+
+	param_values.push ( {Code: 'LastWeek', Label: meta.Labels["labels.LastWeek"].Label} );
+	param_values.push ( {Code: 'LastMonth', Label: meta.Labels["labels.LastMonth"].Label} );
+	param_values.push ( {Code: 'LastQuarter', Label: meta.Labels["labels.LastQuarter"].Label} );
+
+	return param_values;
+}
