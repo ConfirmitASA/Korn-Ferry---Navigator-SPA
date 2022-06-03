@@ -56,6 +56,7 @@ function FocusAreas_AddItem(itemId, newItemObj) {
 
         FocusAreas[itemId] = newFocusArea;
     }
+    ActionFocusAreas_SaveChanges(itemId);
 }
 
 function FocusAreas_UpdateActionPlan(itemId, actionPlanSetting, actionPlanValue) {
@@ -97,6 +98,7 @@ function FocusAreas_GetActionsInActionPlan(itemId) {
 
 function FocusAreas_RemoveItem(idToRemove) {
     if(FocusAreas_IsItemAlreadyAdded(idToRemove)) {
+        ActionFocusAreas_SaveChanges(idToRemove, structuredClone(FocusAreas[idToRemove]), '0');
         delete FocusAreas[idToRemove];
     } else {
         throw new Error(`Item ${idToRemove} you requested to delete does not exist in the Focus Areas list`);

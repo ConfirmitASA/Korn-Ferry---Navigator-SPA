@@ -290,7 +290,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusAreaId} .plan-column`));
     ActionFocusAreas_HandleShareSwitchClick(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}`, focusAreaId);
     ActionFocusAreas_HandleCancelButtonOnLimitActionsConfirmation(focusAreaId);
-
+    ActionFocusAreas_SubscribeToSaveChanges(focusAreaId);
 }
 
 function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
@@ -1017,5 +1017,79 @@ function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
     rowdata.push({ Label: actionButton, ClassName: 'numeric-cell' });
 
     return rowdata;
+}
+
+
+function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') {
+    var survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
+    var form_data = {};
+
+    form_data = {
+        owner_id: focusArea.planOwner,
+        item_id: focusAreaId,
+        active_flag: activeFlag.toString(),
+        is_dimension: focusArea.isDimension ? '1' : '0',
+        page_source_id: focusArea.pageSourceId,
+        importance: focusArea.importance ? '1' : '0',
+        involvement: focusArea.involvement ? '1' : '0',
+        cost: focusArea.cost ? '1' : '0',
+        plan_name: focusArea.planName,
+        plan_notes: focusArea.planNotes,
+        plan_status: focusArea.planStatus,
+        plan_due_date: focusArea.planDueDate,
+        plan_created_date: focusArea.planCreatedDate,
+        plan_last_updated_date: focusArea.planLastUpdatedDate,
+        plan_owner: focusArea.planOwner,
+        plan_node: focusArea.planNode,
+        plan_is_submitted: focusArea.planIsSubmitted ? '1' : '0',
+        plan_is_shared: focusArea.planIsShared ? '1' : '0'
+    };
+
+    console.log(form_data);
+
+    var start_date = new Date();
+
+    $.ajax({
+        url : survey_url,
+        type: "POST",
+        data : form_data,
+        success: function(data, textStatus, jqXHR)
+        {
+            console.log('From server: ' + data);
+            console.log('Time [ms] = ' + (new Date() - start_date ));
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            $('#records').text( 'ERROR: ' + errorThrown );
+        }
+    });
+}
+
+function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
+    $(`#focusArea-${focusAreaId} .ap-tag`).on('click', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#plan-name-${focusAreaId}`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#plan-notes-${focusAreaId}`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#${focusAreaId}_status-dropdown`).change(function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#${focusAreaId}_datepicker`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}-left`).on('click', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}-right`).on('click', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
+    $(`#focusArea-${focusAreaId} .action-plan_submit`).on('click', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId);
+    });
 }
 
