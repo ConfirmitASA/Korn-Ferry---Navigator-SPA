@@ -1,4 +1,4 @@
-function Component_HierarchyPicker( ) {
+function Component_HierarchyPicker() {
 
     var branch_name = data.User.PersonalizedReportBaseText; // "North America";
 
@@ -13,6 +13,9 @@ function Component_HierarchyPicker( ) {
         : Math.round(100 * completed_surveys/invite_count) + '%';
 
     var o = [];
+
+    var completes = completed_surveys.toLocaleString();
+    var invites = invite_count.toLocaleString();
     o.push (
 	`
     <style>
@@ -33,9 +36,15 @@ function Component_HierarchyPicker( ) {
         max-height: 41px;
         z-index: 1;
     }
-
     .hierarchy:hover {
         background-color: #c0c0c0;
+    }
+
+    .dd-search-input {
+        text-align: start !important;
+    }
+    .dd-noresults {
+        text-align: start;
     }
     </style>
 
@@ -49,24 +58,24 @@ function Component_HierarchyPicker( ) {
             white-space: nowrap;
             TEXT-ALIGN: CENTER;
             font-weight: 400;
+            margin: auto;
         ">
             ${branch_name}
         </div>
 
         <span style="
             font-size: 6px;
-            margin-right: 8px;
             position: relative;
             top: -5px;
             text-transform: uppercase;
-            font-weight: 300;
+            font-weight: 4300;
             display: block;
-            padding: 4px 0 0 0;
+            padding: 6px 0 0 0;
             TEXT-ALIGN: CENTER;
-            color: #666;
-            font-size: 8px;
+            color: #343434;
+            font-size: 9px;
         ">
-            ${rr_label} (${completed_surveys}/${invite_count})
+            ${rr_label} (${completes}/${invites})
             <span style="
                 FONT-SIZE: 12PX;
                 padding-right: 6px;
@@ -117,6 +126,34 @@ function Component_HierarchyPicker( ) {
                 $('#fullpath-container').css('display', 'none');
             }
         );
+
+
+        document.addEventListener("DOMContentLoaded", function() {  
+            var ddTarget = document.querySelector("div[id$='drilldown_container']");
+            var observer = new MutationObserver( function(mutations) {
+                    if (document.querySelector('.dd-cancel') != null) {
+                        observer.disconnect();
+                        document.querySelector('.dd-button-select').innerText = '${meta.Labels["buttons.Apply"].Label}'; 
+                        document.querySelector('.dd-cancel').innerText = '${meta.Labels["buttons.Cancel"].Label}';
+                        document.querySelector('.dd-search-input').placeholder = '${meta.Labels["labels.Search"].Label}';
+                        document.querySelector('a[title="Top"]').innerText = '${meta.Labels["labels.top"].Label}';
+                        document.querySelector('.dd-search-input').dir = 'auto';
+
+                        var SearchList = document.querySelector(".dd-items");
+                        var observerSearchList = new MutationObserver( function(items) {
+                            items.forEach(function(item) {
+                                if (item.addedNodes.length != 0 && item.addedNodes[0].className == 'dd-noresults') {
+                                    document.querySelector('.dd-noresults').innerText = '${meta.Labels["labels.NoDataToDisplay"].Label}';
+                                }
+                            });
+                        });
+                        var SLcfg = { childList: true, subtree: true };
+                        observerSearchList.observe(SearchList, SLcfg);
+                    } 
+            });
+            var config = { childList: true, subtree: true };
+            observer.observe(ddTarget, config);
+        });
 
     </script>
         `
