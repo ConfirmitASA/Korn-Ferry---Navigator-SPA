@@ -101,17 +101,17 @@ function ActionsStatistics_Render() {
     $('#numberOfActions').html(numberOfActions);
 
     $('#ownersShowButton').click(() => {
-        $('#submenuitem-GroupActions-ActionsPlans').click();
+        $('#submenuitem-GroupActions-ActionsSummaries').click();
     });
 
     $('#plansShowButton').click(() => {
         State_Set('showactions', 'Off');
-        $('#submenuitem-GroupActions-ActionsPlans').click();
+        $('#submenuitem-GroupActions-ActionsSummaries').click();
     });
 
     $('#actionsShowButton').click(() => {
         State_Set('showactions', 'On');
-        $('#submenuitem-GroupActions-ActionsPlans').click();
+        $('#submenuitem-GroupActions-ActionsSummaries').click();
     });
 
     let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();

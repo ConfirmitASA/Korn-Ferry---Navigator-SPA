@@ -500,7 +500,7 @@ b {
     width: 300px;
     height: 420px;
     perspective: 1000px;
-    margin: 0px 40px 0px 0px;
+    margin: 0px 40px 40px 0px;
 }
 
 .flip-card-inner {

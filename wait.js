@@ -65,7 +65,7 @@ function WaitMessage() {
         <h3 class="tip-text" style="padding-bottom: 20px; line-height: 24px; color: black; font-weight: 400">${tip.Text}</h3>
         <p style="color: #999">
         <div style="margin-bottom: 45px"></div>
-        <span class="button-report-ready hidden" id="wait-close">Your Report is ready >></span>
+        <span class="button-report-ready hidden" id="wait-close">${meta.Labels['labels.ReportReady'].Label}</span>
     </div>
 </div>
 

@@ -84,7 +84,7 @@ function TH(cell) {
 	return '<th class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + '>' + cell.Label + '</th>';
 }
 
-function DataTable_ButtonSettings(exportColumns, view_name ) {
+function DataTable_ButtonSettings(exportColumns, view_name, buttons ) {
 
 	// reverse export columns if RTL
 	if ( meta.RTL) exportColumns = exportColumns.reverse();
@@ -121,30 +121,34 @@ function DataTable_ButtonSettings(exportColumns, view_name ) {
 		}`
 		: '';
 
-
-	var buttonSettings = `
-        [
-            {
+	if (buttons == undefined) buttons = {copy: true, excel: true, csv: true, pdf: true};
+	
+	var buttonSettings = `[`;
+	if (buttons.copy) buttonSettings += 	
+            `{
                 extend: 'copyHtml5',
                 text: '${meta.Labels.copy.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
-            }, 
-            {
+            },`;
+	if (buttons.excel) buttonSettings += 	
+            `{
                 extend: 'excelHtml5',
                 text: '${meta.Labels.excel.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
-            }, 
-            {
+            },`;
+	if (buttons.csv) buttonSettings += 	
+            `{
                 extend: 'csvHtml5',
 				charset: 'UTF-8',
 				bom: true,
 				text: '${meta.Labels.csv.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
-            }, 
-            {
+            },`;
+	if (buttons.pdf) buttonSettings += 	
+            `{
                 extend: 'pdfHtml5',
 				orientation: 'landscape',
                 text: '${meta.Labels.pdf.Title}',
@@ -157,8 +161,8 @@ function DataTable_ButtonSettings(exportColumns, view_name ) {
 					columns: [ ${exportColumns.join(',')} ]
 					${modifier}
 				}
-            }, 
-        ],
-    `;
+            },`;
+	buttonSettings += `],`;
+
 	return buttonSettings;
 }

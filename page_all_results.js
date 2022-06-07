@@ -101,7 +101,6 @@ function AllResults_ItemsTable() {
 	headers[0].push( {Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows} )
 
 	var table_data = [];
-	var rowdata = [];
 
 	if (itemgroup=='AllQuestions') {
 		// Question View

@@ -58,7 +58,7 @@ function OpenComments_Render() {
         </div>
     `);
 
-    o.push ( Component_TestDataIndicator ( data.Comments.IsTestData ) );
+    //o.push ( Component_TestDataIndicator ( data.Comments.IsTestData ) );
 
     var dt = OpenComments_VerbatimsTable();
     o.push(dt.Html);
@@ -75,16 +75,12 @@ function OpenComments_Render() {
         // Change Comment Category List
         State_Set('CommentCategory', '-1');
         var options = ParamValues_CommentCategory();
-        var str = '<option value="-1">' + meta.Labels["all"].Label + '</option>';    
+        var str = '<option value="-1">' + meta.Labels["labels.all"].Label + '</option>';    
         for (var i=0; i<options.length; i++)
             str += '<option value="' + options[i].Code + '">' + options[i].Label + '</option>';
         $('#opencomments_category-highlighter-dropdown').html(str);
 
-        var query = {
-            page: 'OpenComments',
-            parameter: 'comment'
-        };
-        Main_SubmitQuery(query);
+        Main_RefreshCurrentPage();
 
     });
 
@@ -94,30 +90,37 @@ function OpenComments_Render() {
         var SelectedOption = $(this).val();
         State_Set('CommentCategory', SelectedOption);
 
-        var query = {
-            page: 'OpenComments',
-            parameter: 'CommentCategory'
-        };
-        Main_SubmitQuery(query);
-        
+        Main_RefreshCurrentPage();
     });
 
 }
 
 function OpenComments_VerbatimsTable() {
-    var comm = State_Get('comment');
-    var cat = State_Get('CommentCategory');
-    var categories = meta.CommentCategories;
+
+    if ( OpenComments_MissingData() ) {
+        return {
+            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
+            ScriptCode: "Main_SubmitQuery ( {Requester: 'OpenComments_VerbatimsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'Comments'}]} );"
+        };
+    }
+
+    var comm = OpenComments_VariableId(); // example: "Comm1"
+    var cat = $('#opencomments_category-highlighter-dropdown').val(); // example: "1"
+    var cat_text = $('#opencomments_category-highlighter-dropdown option:selected').text(); // example: "Quality"
 
     var table_data = [];
     var rowdata = [];
 
-    for (var i in data.Comments[comm]) {
-        var comment = data.Comments[comm][i];
-        if (cat && cat != -1 && cat != comment.Category) continue; 
+    var key = ['COMM', config.CurrentWave, data.User.PersonalizedReportBase, comm.toUpperCase(), Main_FilterHash()].join('.');
+    var records = data.COMM[key];
+
+    for (var i=0; i<records.length; ++i) {
+        var comment = records[i];
+        if (cat && cat != -1 && cat_text != comment.Category) continue; 
+
         var category = (comment.Category == null) 
             ? meta.Labels['labels.NA'].Label
-            : categories[comment.Category].Label;
+            : comment.Category //categories[comment.Category].Label;
 
         var commentHtml = `
         <div>
@@ -176,4 +179,37 @@ function OpenComments_VerbatimsTable() {
 
     return dt;
 
+}
+
+function OpenComments_VariableId() {
+    var v = $('#opencomments_comment-highlighter-dropdown').val();
+
+    if ( v == null) {
+        var keys = Object.keys ( config.comments );
+        if ( keys.length>0 )
+            v = keys[0]; // return first in list
+    }
+
+	return v;
+}
+
+function OpenComments_Key() {
+    return ['COMM', config.CurrentWave, data.User.PersonalizedReportBase,  OpenComments_VariableId().toUpperCase(), Main_FilterHash()].join('.');
+}
+
+function OpenComments_Data() {
+
+    if ( data.COMM == null ) return null;
+
+    var key = OpenComments_Key();
+
+    return data.COMM[key];
+}
+
+function OpenComments_MissingData() {
+    // return true if rendering cannot happen due to missing data
+
+    var is_missing_data = (OpenComments_Data() == null);
+
+    return is_missing_data;
 }

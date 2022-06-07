@@ -44,12 +44,15 @@ const PPTX_CHART_STYLE = {
 	catAxisOrientation: "maxMin",
 	catAxisLabelFontFace: "Arial",
 	catAxisLabelFontSize: 12,
+
+	get catAxisLabelPos() { return meta.RTL ? 'high' : 'nextTo'},
+	
 	valAxisHidden: true,
 	valGridLine: { style: "none" },
 	valAxisMinVal: 0,
 	valAxisMaxVal: 1,
 	dataLabelColor: "FFFFFF",
-	showValue: true				
+	showValue: true	
 };
 const PPTX_CHART_STYLE_COMMENTS = {
 	x: 1.0,
@@ -65,10 +68,12 @@ const PPTX_CHART_STYLE_COMMENTS = {
 	catAxisOrientation: "maxMin",
 	catAxisLabelFontFace: "Arial",
 	catAxisLabelFontSize: 12,
+
 	valAxisHidden: true,
 	valGridLine: { style: "none" },
 	valAxisMinVal: 0,
-	valAxisMaxVal: 100
+	valAxisMaxVal: 100,
+	get valAxisOrientation() { return meta.RTL ? 'maxMin' : 'minMax'},
 };
 const PPTX_TABLE_STYLE = {
 	x: 1.0,
@@ -78,6 +83,25 @@ const PPTX_TABLE_STYLE = {
 	valign: 'middle',
 	border: [0, 0, { pt: '1', color: 'd0d0d0' }, 0]
 };
+
+const PPTX_DIMTABLE_STYLE = {
+	x: 1.0,
+	autoPage: true,
+	autoPageRepeatHeader: true,
+	autoPageLineWeight: 0.5,
+	newSlideStartY: 0.5,
+	autoPageHeaderRows: 2,
+	
+	rowH: 0.5,
+	h: 5.5,
+
+	fontFace: 'Arial',
+	fontSize: 12,
+	align: 'center',
+	valign: 'middle',
+	border: [0, 0, { pt: '1', color: 'd0d0d0' }, 0]
+};
+
 const PPTX_CELL_GREEN = {
 	color: '77bc1f', 
 	bold: true, 
@@ -97,6 +121,8 @@ function Pptx_Generator() {
 
 	pptx.layout = 'LAYOUT_WIDE';
 
+	pptx.rtlMode = meta.RTL ? true : false;
+	
 	// Slide Master
 	var copyChar = unescape('%A9');
 	
@@ -186,48 +212,48 @@ function Pptx_Generator() {
 	// add slides
 	pptx.addSection({ title: "Main section" });
 	
-	Pptx_AddTitleSlide(pptx, meta.SlideTexts.SLIDE_TITLE.info);
-	Pptx_AddSurveyBackgroundSlide(pptx);
-	Pptx_AddHowToReadYourResultsSlide(pptx);	
-	Pptx_AddEngagedPerformanceFrameworkSlide(pptx);
+	Pptx_AddTitleSlide(pptx, meta.SlideTexts.SLIDE_TITLE.info, GetAccess("Title", data.User.Role));
+	Pptx_AddSurveyBackgroundSlide(pptx, GetAccess("SurveyBackground", data.User.Role));
+	Pptx_AddHowToReadYourResultsSlide(pptx, GetAccess("HowToReadResults", data.User.Role));	
+	Pptx_AddEngagedPerformanceFrameworkSlide(pptx, GetAccess("EngagedPerformanceFramework", data.User.Role));
 	
-	Pptx_AddGreenCoverSlide(pptx, meta.SlideTexts.SLIDE_RESSUMMARY.title);
+	Pptx_AddGreenCoverSlide(pptx, meta.SlideTexts.SLIDE_RESSUMMARY.title, GetAccess("KeyMetrics_Cover", data.User.Role));
 
-	Pptx_AddKeyMetricsSlide(pptx);
+	Pptx_AddKeyMetricsSlide(pptx, GetAccess("KeyIndices", data.User.Role));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true);
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement", data.User.Role));
 
-	Pptx_AddKeyDriversSlide(pptx);
+	Pptx_AddKeyDriversSlide(pptx, GetAccess("KeyDrivers", data.User.Role));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true);
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities", data.User.Role));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title);
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title, GetAccess("EP_Cover", data.User.Role));
 
-	Pptx_AddEffectivenessProfileSegmentationSlide(pptx);
-	Pptx_AddEffectivenessProfileDetailSlide(pptx);
+	Pptx_AddEffectivenessProfileSegmentationSlide(pptx, GetAccess("EP_Segmentation", data.User.Role));
+	Pptx_AddEffectivenessProfileDetailSlide(pptx, GetAccess("EP_Detail", data.User.Role));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.SlideTexts.SLIDE_RESDETAIL.title);
+	Pptx_AddGreenCoverSlide(pptx, meta.SlideTexts.SLIDE_RESDETAIL.title, GetAccess("Details_Cover", data.User.Role));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true);
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true, GetAccess("Details_Dimensions", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5", data.User.Role));
 	
-	for (var i in config.comments)
-		Pptx_AddCommentsSlide(pptx, i);
+	for (var i in meta.CommentQuestions)
+		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments", data.User.Role));
 	
-	Pptx_AddTakingAction(pptx);
+	Pptx_AddTakingAction(pptx, GetAccess("TakingAction", data.User.Role));
 	
 		// add charts
 	pptx.addSection({ title: "Appendix" });
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false);
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false);
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false, GetAccess("Charts_Engagement", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false, GetAccess("Charts_Enablement", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false, GetAccess("Charts_Strengths", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false, GetAccess("Charts_Opportunities", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false, GetAccess("Charts_Dimensions", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false, GetAccess("Charts_Top5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false, GetAccess("Charts_Bottom5", data.User.Role));
 
 	pptx.writeFile({
 		fileName: 'Korn Ferry - Employee Engagement'
@@ -235,10 +261,58 @@ function Pptx_Generator() {
 
 }
 
-function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable) {
+// data.User.Role
+function GetAccess(pageID, role) {
+	var access = {
+		Title: ["SUPER", "MANAGER"],
+		SurveyBackground: ["SUPER", "MANAGER"],
+		HowToReadResults: ["SUPER", "MANAGER"],
+		EngagedPerformanceFramework: ["SUPER", "MANAGER"],
+
+		KeyMetrics_Cover: ["SUPER", "MANAGER"],
+		KeyIndices: ["SUPER", "MANAGER"],
+		Engagement: ["SUPER", "MANAGER"],
+		Enablement: ["SUPER", "MANAGER"],
+		KeyDrivers: ["SUPER", "MANAGER"],
+		TeamStrengths: ["SUPER", "MANAGER"],
+		TeamOpportunities: ["SUPER", "MANAGER"],
+
+		EP_Cover: ["SUPER"],
+		EP_Segmentation: ["SUPER"],
+		EP_Detail: ["SUPER"],
+
+		Details_Cover: ["SUPER", "MANAGER"],
+        Details_Dimensions: ["SUPER", "MANAGER"],
+		Details_Top5: ["SUPER", "MANAGER"],
+		Details_Bottom5: ["SUPER", "MANAGER"],
+
+		Comments: ["SUPER"], // several slides
+
+		TakingAction: ["SUPER", "MANAGER"],
+
+		Charts_Engagement: ["SUPER", "MANAGER"],
+		Charts_Enablement: ["SUPER", "MANAGER"],
+		Charts_Strengths: ["SUPER", "MANAGER"],
+		Charts_Opportunities: ["SUPER", "MANAGER"],
+		Charts_Dimensions: ["SUPER", "MANAGER"],
+		Charts_Top5: ["SUPER", "MANAGER"],
+		Charts_Bottom5: ["SUPER", "MANAGER"]
+	}
+ 
+	if (access[pageID].indexOf(role) == -1) {
+	   return false
+	} else {
+	   return true
+	}
+ }
+
+function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access) {
+	if (access == false) return;
 
 	var infoStyle = Object.assign({}, PPTX_INFO_STYLE);
-	var style = Object.assign({}, addTable ? PPTX_TABLE_STYLE : PPTX_CHART_STYLE);
+
+	//var style = Object.assign({}, addTable ? PPTX_TABLE_STYLE : PPTX_CHART_STYLE);
+	var style = Object.assign({}, addTable ? (tableType == 'DIMS' ? PPTX_DIMTABLE_STYLE : PPTX_TABLE_STYLE) : PPTX_CHART_STYLE);
 
 	var section = addTable ? "Main section" : "Appendix";
 	var slide = pptx.addSlide({masterName: "WHITE",  sectionTitle: section});
@@ -270,7 +344,9 @@ function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable) {
 	else style.y = (tableType == 'DIMS') ? 1.1 : 1.5;
 
 	if (addTable) {
-		style.colW = Pptx_ColW();
+		//style.colW = Pptx_ColW();
+		
+		style.colW = meta.RTL ? Pptx_ColWRTL() : Pptx_ColW();
 		slide.addTable(table.rows, style);
 	}
 	else {
@@ -285,6 +361,14 @@ function Pptx_ColW() {
 	var NofCols = comparators ? 4 + comparators.length : 4;
 	var colW = [0.5, 3.0];
 	for (var i = 0; i < NofCols; i++) colW.push(8.0 / NofCols);
+	return colW;
+}
+
+function Pptx_ColWRTL() {
+	var comparators = Main_CompactComparatorSet(); // State_Get('comparators');
+	var NofCols = comparators ? 4 + comparators.length : 4;
+	var colW = [3.0, 0.5];
+	for (var i = 0; i < NofCols; i++) colW.unshift(8.0 / NofCols);
 	return colW;
 }
 
@@ -305,16 +389,26 @@ function Pptx_GenerateTable(tableType) {
 		{ text: meta.Labels["labels.PercentUnfav"].Label, options: { rowspan: NofHeaderRows, color: '#00634f', bold: true } },
 
 	];
+
 	if (NofComparators > 0) {
 		headers.push({ text: meta.Labels["labels.FavvsComparator"].Label, options: { colspan: NofComparators, color: '#00634f', bold: true } });
+
+		if (meta.RTL) headers = headers.reverse();
+
 		table_data.push(headers);
 		var subheaders = [];
 		for (var i = 0; i < NofComparators; i++) {
 			subheaders.push({ text: meta.Comparators[comparators[i]].Label, options: { color: '#00634f', bold: true, border: [{ pt: '1', color: 'd0d0d0' }, 0, { pt: '1', color: 'd0d0d0' }, 0] } });
 		}
+
+        if (meta.RTL) subheaders = subheaders.reverse();
+
 		table_data.push(subheaders);
+	} else {
+		if (meta.RTL) headers = headers.reverse();
+		table_data.push(headers);
 	}
-	else table_data.push(headers);
+
 
 	var NofItems = 0;
 	if (tableType == 'ENG' || tableType == 'ENA') {
@@ -323,6 +417,9 @@ function Pptx_GenerateTable(tableType) {
 			: 'DIM_ENA';
 
 		rowdata = Pptx_AddItemToTable(dimId, true);
+//
+        if (meta.RTL) rowdata = rowdata.reverse();
+//
 		table_data.push(rowdata);
 		NofItems++;
 	}
@@ -364,10 +461,13 @@ function Pptx_GenerateTable(tableType) {
 	for (var i = 0; i < items.length; i++) {
 		var index = (tableType == 'STRENGTHS' || tableType == 'OPPORTUNITIES') ? i + 1 : 0;
 		rowdata = Pptx_AddItemToTable(items[i], tableType == 'DIMS' ? true : false, index);
+//
+        if (meta.RTL) rowdata = rowdata.reverse();
+//
 		table_data.push(rowdata);
 	}
 	NofItems += items.length;
-
+	
 	return { rows: table_data, NofItems: NofItems };
 }
 
@@ -459,18 +559,28 @@ function Pptx_GenerateChartData(table) {
 
 	var startRow = table.rows.length - table.NofItems;
 	for (var i = startRow; i < table.rows.length; i++) {
-		arrChartData[0].labels.push(table.rows[i][1].text);
-		arrChartData[0].values.push(table.rows[i][3].text);
-		arrChartData[1].labels.push(table.rows[i][1].text);
-		arrChartData[1].values.push(table.rows[i][4].text);
-		arrChartData[2].labels.push(table.rows[i][1].text);
-		arrChartData[2].values.push(table.rows[i][5].text);
+        if (meta.RTL) {
+		    arrChartData[0].labels.push(table.rows[i][7].text);
+		    arrChartData[0].values.push(table.rows[i][5].text);
+		    arrChartData[1].labels.push(table.rows[i][7].text);
+		    arrChartData[1].values.push(table.rows[i][4].text);
+		    arrChartData[2].labels.push(table.rows[i][7].text);
+		    arrChartData[2].values.push(table.rows[i][3].text);
+	    } else {
+			arrChartData[0].labels.push(table.rows[i][1].text);
+		    arrChartData[0].values.push(table.rows[i][3].text);
+		    arrChartData[1].labels.push(table.rows[i][1].text);
+		    arrChartData[1].values.push(table.rows[i][4].text);
+		    arrChartData[2].labels.push(table.rows[i][1].text);
+		    arrChartData[2].values.push(table.rows[i][5].text);
+		}
 	}
-
 	return arrChartData;
 }
 
-function Pptx_AddCommentsSlide(pptx, comm) {
+function Pptx_AddCommentsSlide(pptx, comm, access) {
+    if (access == false) return;
+
 	var style = Object.assign({}, PPTX_CHART_STYLE_COMMENTS);
 
 	var slide = pptx.addSlide({ masterName: "WHITE", sectionTitle: "Main section" });
@@ -508,7 +618,8 @@ function Pptx_AddCommentsSlide(pptx, comm) {
 	slide.addChart(pptx.ChartType.bar, arrChartData, style);
 }
 
-function Pptx_AddKeyMetricsSlide(pptx) {
+function Pptx_AddKeyMetricsSlide(pptx, access) {
+	if (access == false) return;
 
 	var external_comparators = [
 		"External.IndustryBenchmark",
@@ -901,7 +1012,9 @@ function GetCardIconOptionsBasedOnDimensionId(dimensionId) {
 }
 }
 
-function Pptx_AddKeyDriversSlide(pptx) {
+function Pptx_AddKeyDriversSlide(pptx, access) {
+	if (access == false) return;
+
 	let keyDriversSlide = pptx.addSlide({
 		masterName: "WHITE",
 		sectionTitle: "Main section"
@@ -1149,7 +1262,9 @@ function Pptx_AddKeyDriversSlide(pptx) {
 	});
 }
 
-function Pptx_AddEffectivenessProfileSegmentationSlide(pptx) {
+function Pptx_AddEffectivenessProfileSegmentationSlide(pptx, access) {
+	if (access == false) return;
+
 	let effectivenessProfileSegmentationSlide = pptx.addSlide({
 		masterName: "WHITE",
 		sectionTitle: "Main section"
@@ -1334,7 +1449,9 @@ function Pptx_AddEffectivenessProfileSegmentationSlide(pptx) {
 	});
 }
 
-function Pptx_AddEffectivenessProfileDetailSlide(pptx) {
+function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
+    if (access == false) return;
+
 	var infoStyle = Object.assign({}, PPTX_INFO_STYLE);
 	infoStyle.h = 0.5;
 
@@ -1528,7 +1645,9 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx) {
 	});
 }
 
-function Pptx_AddGreenCoverSlide(pptx, coverText) {
+function Pptx_AddGreenCoverSlide(pptx, coverText, access) {
+    if (access == false) return;
+
 	let coverSlide = pptx.addSlide({
 		masterName: "GREEN",
 		sectionTitle: "Main section"
@@ -1545,7 +1664,9 @@ function Pptx_AddGreenCoverSlide(pptx, coverText) {
 	})
 }
 
-function Pptx_AddSurveyBackgroundSlide(pptx) {
+function Pptx_AddSurveyBackgroundSlide(pptx, access) {
+    if (access == false) return;
+
 	let slide = pptx.addSlide({
 		masterName: "WHITE2GREEN",
 		sectionTitle: "Main section"
@@ -2133,7 +2254,9 @@ function Pptx_AddHowToReadYourResultsSlide(pptx) {
 	
 }
 
-function Pptx_AddTitleSlide(pptx, TxtObj) {
+function Pptx_AddTitleSlide(pptx, TxtObj, access) {
+	if (access == false) return;
+
 	let slide = pptx.addSlide({
 		masterName: "GREENTITLE",
 		sectionTitle: "Main section"

@@ -138,7 +138,7 @@ function Modal_Render() {
 	$('#master-page-modal-filter').html(`
 			<div class=inner_filter_container>
 				${data_filters_heading}
-				<div style="display: flex; flex-wrap: wrap; max-width: 800px;">
+				<div style="max-height: 300px; overflow: auto; display: flex; flex-wrap: wrap; max-width: 800px;">
 					${o.join('')}
 				</div>
 				${has_data_filters ? '<hr>' : ''}
@@ -207,6 +207,7 @@ function Modal_Render() {
 
 		var query = {
 			page: 'Modal',
+			Requester: 'Modal-#filter-apply-button', 
 			Filters: ModalGetFilters(),
 			EffectivenessByDemo: { Demo: State_Get('demo') },
 			Tables: ['items'],

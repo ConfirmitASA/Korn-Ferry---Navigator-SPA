@@ -40,6 +40,8 @@ function ActionsSummaries_Render() {
         </div>
     `);
 
+	State_Set ( 'actionplans', 'ownplans' );
+
 	let dt = ActionsSummaries_GetItemsTable();
 	o.push ( dt.Html );
 
@@ -85,26 +87,19 @@ function ActionsSummaries_GetItemsTable() {
 
 	// Return Value: {Html: <string>, [ScriptCode: <string>]}
 
-	let NofHeaderRows = 1;
-
 	let headers = [
-		[
-			{ Label: meta.Labels["labels.NameHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: meta.Labels["labels.NotesHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: meta.Labels["labels.StatusHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: meta.Labels["labels.DueDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: meta.Labels["labels.PlanOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-			{ Label: meta.Labels["labels.NOfActions"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
-		]
+		[]
 	];
+	let NofHeaderRows = 1;
 
 	let table_data = [];
 	let showActionsOn = State_Get('showactions') === meta.Labels["labels.On"].Label;
 
-	if(showActionsOn) {
-		table_data = ActionsSummaries_GetActionsTableData();
+
+		if(showActionsOn) {
 		headers = [
 			[
+				{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.PlanTitle"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.ActionTitle"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.ActionText"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
@@ -113,23 +108,41 @@ function ActionsSummaries_GetItemsTable() {
 				{ Label: meta.Labels["labels.PlanOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
 			]
 		];
+		table_data = ActionsSummaries_GetActionsTableData();
 	} else {
+		headers = [
+			[
+				{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.NameHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.NotesHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.StatusHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.DueDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.LastUpdatedDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.PlanOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.NOfActions"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
+			]
+		];
 		table_data = ActionsSummaries_GetPlansTableData();
 	}
 
+	var hideColumns = [0];
 	let columnSettings = `
         'order': [],
         'searchHighlight': true,
+		'columnDefs': [
+			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false }
+		],
     `;
 
-	let exportColumns = [ 0, 1, 2, 3, 4, 5 ];
+	let exportColumns = [];
+	for (var k = 0; k < headers[0].length; k++) exportColumns.push(k); 
 
 	let view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-ActionsSummaries'); /* +
     ' - ' +
     $("#actionsplans-ActionsSummaries-highlighter-dropdown option:selected").text();
     */
 
-	let buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
+	let buttonSettings = DataTable_ButtonSettings(exportColumns, view_name, {copy: true, excel: true, csv: true, pdf: false});
 
 	let dt = Component_DataTable(
 		"items-table-actionsplans",
@@ -164,12 +177,15 @@ function ActionsSummaries_GetPlansTableData() {
 
 		let actionPlan = focusAreas[area];
 
-		if(actionPlan.planIsSubmitted) {
+		if (ActionsSummaries_IsPlanToShow(actionPlan)) {
+			let label = actionPlan.isDimension ? meta.Dimensions[area].Label : meta.Items[area].Label;
 			rowdata = [
+				{Label: label, ClassName: 'text-cell'},
 				{Label: actionPlan.planName, ClassName: 'text-cell'},
 				{Label: actionPlan.planNotes, ClassName: 'text-cell'},
 				{Label: actionPlan.planStatus, ClassName: 'text-cell'},
 				{Label: actionPlan.planDueDate, ClassName: 'text-cell'},
+				{Label: actionPlan.planLastUpdatedDate, ClassName: 'text-cell'},
 				{Label: actionPlan.planOwner, ClassName: 'text-cell'},
 				{
 					Label: !!actionPlan.planActions ? Object.keys(actionPlan.planActions).length : 0,
@@ -193,13 +209,17 @@ function ActionsSummaries_GetActionsTableData() {
 	for(let area in focusAreas) {
 		if (itemId != '' && area!=itemId) continue;
 
-		if(focusAreas[area].planIsSubmitted) {
-			let actions = focusAreas[area].planActions;
+		let actionPlan = focusAreas[area];
+
+		if (ActionsSummaries_IsPlanToShow(actionPlan)) {
+			let actions = actionPlan.planActions;
+			let label = actionPlan.isDimension ? meta.Dimensions[area].Label : meta.Items[area].Label;
 			let rowdata = [];
 
 			for (let action in actions) {
 				rowdata = [
-					{Label: focusAreas[area].planName, ClassName: 'text-cell'},
+					{Label: label, ClassName: 'text-cell'},
+					{Label: actionPlan.planName, ClassName: 'text-cell'},
 					{Label: actions[action].actionTitle, ClassName: 'text-cell'},
 					{Label: actions[action].actionText, ClassName: 'text-cell'},
 					{Label: actions[action].actionStatus, ClassName: 'text-cell'},
@@ -214,18 +234,32 @@ function ActionsSummaries_GetActionsTableData() {
 	return tableData;
 }
 
+function ActionsSummaries_IsPlanToShow(actionPlan) {
+	var plansFilter = State_Get('actionplans');
+	
+	return actionPlan.planIsSubmitted && 
+		(	
+			(plansFilter=='ownplans' && actionPlan.planNode==data.User.PersonalizedReportBase) ||
+			(plansFilter=='areaplans' && true) || // TO DO: change true to hierarchical condition
+			(plansFilter=='sharedplans' && actionPlan.planIsShared)
+		);
+}
+
 function ActionsSummaries_AddTabSelectors() {
 	let dataTable = $('#items-table-actionsplans');
 
 	dataTable.before('<div class="tab"></div>');
 
-	ActionsSummaries_CreateTabLink('actionplans-own', meta.Labels["labels.OwnPlans"].Label, true, ActionsSummaries_OwnPlans_OnClick).appendTo('.tab');
-	ActionsSummaries_CreateTabLink('actionplans-area', meta.Labels["labels.AreaPlans"].Label, false, ActionsSummaries_AreaPlans_OnClick).appendTo('.tab');
-	ActionsSummaries_CreateTabLink('actionplans-shared', meta.Labels["labels.SharedPlans"].Label, false, ActionsSummaries_SharedPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('ownplans-link', meta.Labels["labels.OwnPlans"].Label, ActionsSummaries_OwnPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('areaplans-link', meta.Labels["labels.AreaPlans"].Label, ActionsSummaries_AreaPlans_OnClick).appendTo('.tab');
+	ActionsSummaries_CreateTabLink('sharedplans-link', meta.Labels["labels.SharedPlans"].Label, ActionsSummaries_SharedPlans_OnClick).appendTo('.tab');
+
 }
 
-function ActionsSummaries_CreateTabLink(id, text, isSelected, onClick) {
-	let selectedClass = isSelected ? 'tablink--selected' : '';
+function ActionsSummaries_CreateTabLink(id, text, onClick) {
+	let tabId = id.split('-')[0];
+	var plansFilter = State_Get('actionplans');
+	let selectedClass = (tabId == plansFilter) ? 'tablink--selected' : '';
 	return $('<button>')
 		.addClass(`tablink ${selectedClass}`)
 		.attr('id', id)
@@ -238,15 +272,18 @@ function ActionsSummaries_CreateTabLink(id, text, isSelected, onClick) {
 }
 
 function ActionsSummaries_OwnPlans_OnClick() {
-	console.log('Own Plans - clicked!');
+	State_Set ( 'actionplans', 'ownplans' );
+	ActionsSummaries_UpdateItemsTable();
 }
 
 function ActionsSummaries_AreaPlans_OnClick() {
-	console.log('Area Plans - clicked!');
+	State_Set ( 'actionplans', 'areaplans' );
+	ActionsSummaries_UpdateItemsTable();
 }
 
 function ActionsSummaries_SharedPlans_OnClick() {
-	console.log('Shared Plans - clicked!');
+	State_Set ( 'actionplans', 'sharedplans' );
+	ActionsSummaries_UpdateItemsTable();
 }
 
 function ActionsSummaries_HandleSwitchClick(selectorObj) {

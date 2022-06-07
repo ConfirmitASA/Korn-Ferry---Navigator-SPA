@@ -54,19 +54,6 @@ function EffectivenessProfileBreakdown_HandleSelectorChange(selectorObj) {
 	State_Set(selectorObj.parameterName, selectorObj.selectorElementValue);
 
 	Main_RefreshCurrentPage();
-
-	/*
-	if (selectorObj.parameterName == 'breakby') {
-		var query = {
-			EffectivenessProfileBreakdown: {
-				BreakBy: State_Get('breakby')
-			},
-			parameter: 'breakby'
-		};
-
-		Main_SubmitQuery(query);
-	}
-	*/
 }
 
 function EffectivenessProfileBreakdown_VariableId() {
@@ -98,7 +85,7 @@ function EffectivenessProfileBreakdown_ItemsTable() {
     if ( EffectivenessProfileBreakdown_MissingData() ) {
         return {
             Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {ShowWaitMessage: false, DataRequest:[{ Type: 'EffectivenessProfile.Breakdown', Breakdown:'" + EffectivenessProfileBreakdown_VariableId() + "'}]} );"
+            ScriptCode: "Main_SubmitQuery ( {Requester: 'EffectivenessProfileBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'EffectivenessProfile.Breakdown', Breakdown:'" + EffectivenessProfileBreakdown_VariableId() + "'}]} );"
         };
     }
 

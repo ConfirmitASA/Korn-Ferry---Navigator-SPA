@@ -2,6 +2,12 @@ body {
     border: 0.001px solid transparent;
 }
 
+.flip-icon {
+    position: absolute; 
+    width: 64px; 
+    bottom: 0; 
+    right: 0;
+}
 .left-pane {
     position: fixed;
 }
@@ -213,7 +219,7 @@ a {
 
 .menuitems {
     position: absolute;
-    top: -6px;
+    top: -4px;
     display: flex !important;
     flex-direction: row;
 }

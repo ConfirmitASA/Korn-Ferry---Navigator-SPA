@@ -119,8 +119,8 @@ function KeyMetrics_Render() {
 						<!-- Front -->
 						<div style="background-color:#FFF" id=${dimension_id}_front class="flip-card-front">
 
-							<!-- Flip Icon -->
-							<div style="position: absolute; width: 64px; bottom: 0px; right: 0px;">
+						 
+							<div class="flip-icon">
 								<img src="https://cdn.dribbble.com/users/4155/screenshots/255603/flip.png" class=flipicon>
 							</div>						
 
@@ -589,7 +589,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
             let actionButtonText = isItemAddedAsFocusArea 
-				? `<div class="remove-action_icon">-</div> ${"Selected*"}` 
+				? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}` 
 				: meta.Labels['buttons.TakeAction'].Label;
 
             tmp.push(`
