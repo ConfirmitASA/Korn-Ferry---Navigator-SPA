@@ -68,8 +68,8 @@ function ActionsFocusAreas_Render() {
         ActionFocusAreas_RenderFocusAreaList();
     });
 
+    ActionFocusAreas_SetValues();
     ActionFocusAreas_RenderFocusAreaList();
-
 }
 
 function ActionFocusAreas_RenderFocusAreaList() {
@@ -1066,6 +1066,55 @@ function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') 
     });
 }
 
+function ActionFocusAreas_SetValues() {
+    var survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    var form_data = {};
+
+    form_data = {
+        owner_id: data.User.FirstName + ' ' + data.User.LastName
+    };
+
+    $.ajax({
+        url : survey_url,
+        type: "POST",
+        data : form_data,
+        success: function(data, textStatus, jqXHR)
+        {
+            let dataObj = JSON.parse(data);
+            for (let i = 0; i < dataObj.length; i++) {
+                let focusAreaDataFromServer = dataObj[i];
+                if(focusAreaDataFromServer['active_flag'].toString() === '1') {
+                    let focusAreaId = focusAreaDataFromServer['item_id'];
+                    let focusAreaObj = {};
+                    focusAreaObj['isDimension'] = focusAreaDataFromServer['is_dimension'];
+                    focusAreaObj['pageSourceId'] = focusAreaDataFromServer['page_source_id'];
+                    focusAreaObj['importance'] = focusAreaDataFromServer['importance'];
+                    focusAreaObj['involvement'] = focusAreaDataFromServer['involvement'];
+                    focusAreaObj['cost'] = focusAreaDataFromServer['cost'];
+                    focusAreaObj['planName'] = focusAreaDataFromServer['plan_name'];
+                    focusAreaObj['planNotes'] = focusAreaDataFromServer['plan_notes'];
+                    focusAreaObj['planStatus'] = focusAreaDataFromServer['plan_status'];
+                    focusAreaObj['planDueDate'] = focusAreaDataFromServer['plan_due_date'];
+                    focusAreaObj['planCreatedDate'] = focusAreaDataFromServer['plan_created_date'];
+                    focusAreaObj['planLastUpdatedDate'] = focusAreaDataFromServer['plan_last_updated_date'];
+                    focusAreaObj['planOwner'] = focusAreaDataFromServer['plan_owner'];
+                    focusAreaObj['planNode'] = focusAreaDataFromServer['plan_node'];
+                    focusAreaObj['planIsSubmitted'] = focusAreaDataFromServer['plan_is_submitted'];
+                    focusAreaObj['planIsShared'] = focusAreaDataFromServer['plan_is_shared'];
+                    FocusAreas_AddItem(focusAreaId, focusAreaObj);
+                    FocusAreas_UpdateFocusAreasCounterSpan();
+                    State_Set('actionPlanStatus_' + focusAreaId, focusAreaDataFromServer['plan_status']);
+                    State_Set(`actionPlanShared_${focusAreaId}`, focusAreaDataFromServer['plan_is_shared'].toString() === '0' ? 'Off' : 'On' );
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            $('#records').text( 'ERROR: ' + errorThrown );
+        }
+    });
+}
+
 function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
     $(`#focusArea-${focusAreaId} .ap-tag`).on('click', function (event) {
         ActionFocusAreas_SaveChanges(focusAreaId);
@@ -1092,4 +1141,3 @@ function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
         ActionFocusAreas_SaveChanges(focusAreaId);
     });
 }
-

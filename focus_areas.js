@@ -35,24 +35,24 @@ function FocusAreas_AddItem(itemId, newItemObj) {
     if(!FocusAreas_IsItemAlreadyAdded(itemId)) {
         let newFocusArea = newItemObj;
 
-        newFocusArea.importance = false;
-        newFocusArea.involvement = false;
-        newFocusArea.cost = false;
+        newFocusArea.importance = newItemObj.importance ?? false;
+        newFocusArea.involvement = newItemObj.involvement ?? false;
+        newFocusArea.cost = newItemObj.cost ?? false;
 
         let dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 14);
 
-        newFocusArea.planName = '';
-        newFocusArea.planNotes = '';
+        newFocusArea.planName = newItemObj.planName ?? '';
+        newFocusArea.planNotes = newItemObj.planNotes ?? '';
         newFocusArea.planActions = {}; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
-        newFocusArea.planStatus = 'NotStarted';
-        newFocusArea.planDueDate = dueDate.toDateString();
-        newFocusArea.planCreatedDate = (new Date()).toDateString();
-        newFocusArea.planLastUpdatedDate = (new Date()).toDateString();
-        newFocusArea.planOwner = data.User.FirstName + ' ' + data.User.LastName;
-        newFocusArea.planNode = data.User.PersonalizedReportBase;
-        newFocusArea.planIsSubmitted = false;
-        newFocusArea.planIsShared = false;
+        newFocusArea.planStatus = newItemObj.planStatus ?? 'NotStarted';
+        newFocusArea.planDueDate = newItemObj.planDueDate ?? dueDate.toDateString();
+        newFocusArea.planCreatedDate = newItemObj.planCreatedDate ?? (new Date()).toDateString();
+        newFocusArea.planLastUpdatedDate = newItemObj.planLastUpdatedDate ?? (new Date()).toDateString();
+        newFocusArea.planOwner = newItemObj.planOwner ?? data.User.FirstName + ' ' + data.User.LastName;
+        newFocusArea.planNode = newItemObj.planNode ?? data.User.PersonalizedReportBase;
+        newFocusArea.planIsSubmitted = newItemObj.planIsSubmitted ?? false;
+        newFocusArea.planIsShared = newItemObj.planIsShared ?? false;
 
         FocusAreas[itemId] = newFocusArea;
     }
