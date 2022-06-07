@@ -307,13 +307,14 @@ function KeyMetrics_Render() {
         
         // third card
         let DIM = event.target.id;
-        let DIM_ID = DIM.split('_')[1];
-        if (DIM_ID == 'N65') {
+        let DIM_ID = DIM.split('_more')[0];
+
+        if (DIM_ID !== config.EngagementDimensionId && DIM_ID !== config.EnablementDimensionId) {
+            State_Set ( 'itemgroup', `dimensions.${DIM_ID}`);
+
             var menuitem = document.getElementById('menuitem-GroupExplore');
             menuitem.click();
-            var dropdown = document.getElementById('allresults-itemgroups-highlighter-dropdown');
-            dropdown.options[7].selected = true;
-            console.log(dropdown.options[7]);
+
             return;
         }
 
