@@ -885,50 +885,7 @@ if (meta == null) {
 			}
 		},
 
-			NonStandardQuestions: {
-				"NSQ1": {
-					"Label": "Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.",
-					"Answers": {
-						"1": {
-							"Label": "Q1 Answer A"
-						},
-						"2": {
-							"Label": "Q1 Answer B"
-						},
-						"3": {
-							"Label": "Q1 Answer C"
-						}
-					}
-				},
-				"NSQ2": {
-					"Label": "Please select which of the following are barriers to innovation at the company: (Select all that apply)",
-					"Answers": {
-						"1": {
-							"Label": "Q2 Answer A"
-						},
-						"2": {
-							"Label": "Q2 Answer B"
-						},
-						"3": {
-							"Label": "Q2 Answer C"
-						}
-					}
-				},
-				"NSQ3": {
-					"Label": "How do you prefer to read your emails, reports and books?",
-					"Answers": {
-						"1": {
-							"Label": "Q3 Answer A"
-						},
-						"2": {
-							"Label": "Q3 Answer B"
-						},
-						"3": {
-							"Label": "Q3 Answer C"
-						}
-					}
-				}
-			},
+			NonStandardQuestions: {"NSQ1":{"Label":"How likely is it that you would recommend this company's products and services to family or friends?","Answers":{"1":{"Label":"0 (Not At All Likely)"},"2":{"Label":"1"},"3":{"Label":"2"},"4":{"Label":"3"},"5":{"Label":"4"},"6":{"Label":"5"},"7":{"Label":"6"},"8":{"Label":"7"},"9":{"Label":"8"},"10":{"Label":"9"},"11":{"Label":"10 (Extremely Likely)"}}},"NSQ2":{"Label":"From which of the following sources do you now receive most of your information about what is going on in the company? Rank your top three information sources only.","Answers":{"1":{"Label":"My colleagues"},"2":{"Label":"Bulletin board"},"3":{"Label":"My supervisor"},"4":{"Label":"Company leadership"},"5":{"Label":"Group meetings at our work location"},"6":{"Label":"Newsletter"},"7":{"Label":"Company website"},"8":{"Label":"Company e-mail"},"9":{"Label":"Webcast"}}},"NSQ3":{"Label":"Please select the theme that best describe your comment","Answers":{"1":{"Label":"Confidence in Leadership"},"2":{"Label":"Company Brand"},"3":{"Label":"Customer Focus"},"4":{"Label":"Team work & Collaboration"},"5":{"Label":"People Management"},"6":{"Label":"Positive Work Environment"},"7":{"Label":"Meaningful Work"},"8":{"Label":"Growth Opportunity"},"9":{"Label":"Internal Processes"},"10":{"Label":"Technology & IT Systems"},"11":{"Label":"Other"}}},"NSQ4":{"Label":"Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.","Answers":{"1":{"Label":"Base pay"},"2":{"Label":"Career advancement and development opportunities"},"3":{"Label":"Challenging work"},"4":{"Label":"Collaborative environment"},"5":{"Label":"Community involvement/philanthropy"},"6":{"Label":"Company agility and speed"},"7":{"Label":"Company mission that I believe in"},"8":{"Label":"Core values"},"9":{"Label":"Customer focus"},"10":{"Label":"Empowerment"},"11":{"Label":"Family owned"},"12":{"Label":"Financial strength/stability"},"13":{"Label":"Flexible working conditions"},"14":{"Label":"Health & Retirement benefits"},"15":{"Label":"High-growth company"},"16":{"Label":"Hours worked"},"17":{"Label":"Innovation"},"18":{"Label":"Leadership effectiveness"},"19":{"Label":"Location"},"20":{"Label":"Ongoing feedback provided"},"21":{"Label":"On-the-job training"},"22":{"Label":"Team effectiveness"},"23":{"Label":"Paid time off"},"24":{"Label":"Performance-based variable pay (incentives, bonus, commissions)"},"25":{"Label":"Products that my friends and family respect"},"26":{"Label":"Recognition"},"27":{"Label":"Results-oriented environment"},"28":{"Label":"Safe work environment"},"29":{"Label":"Other"}}},"NSQ5":{"Label":"Please select which of the following are barriers to innovation at the company: (Select all that apply)","Answers":{"1":{"Label":"Technology (tools and systems)"},"2":{"Label":"Approval process"},"3":{"Label":"Work processes"},"4":{"Label":"Decision-making freedom"},"5":{"Label":"Direction from the person to whom I report"},"6":{"Label":"Workload"},"7":{"Label":"Collaboration between groups"},"8":{"Label":"Availability of resources"},"9":{"Label":"Budget"},"10":{"Label":"Physical work space"},"11":{"Label":"Fear of raising ideas"},"12":{"Label":"I am uncertain about how to innovate"}}},"NSQ6":{"Label":"How do you prefer to read your emails, reports and books?","Answers":{"1":{"Label":"Only Online"},"2":{"Label":"Mixed (Print and Online)"},"3":{"Label":"Only Print"},"4":{"Label":"Do Not Know/Not Applicable"}}}},
 			CommentQuestions: {
 				"Comm1": {
 					"Label": "The MAIN thing that makes the Company a great place to work"
@@ -1214,6 +1171,7 @@ if (meta == null) {
 			"labels.NotesHeader": {"Label": "Notes"},
 			"labels.StatusHeader": {"Label": "Status"},
 			"labels.DueDateHeader": {"Label": "Due Date"},
+			"labels.LastUpdatedDateHeader": {"Label": "Last Updated Date"},
 			"labels.PlanOwnerHeader": {"Label": "Plan Owner"},
 			"labels.NOfActions": {"Label": "# of actions"},
 			"labels.PlanTitle": {"Label": "Plan"},
@@ -1238,6 +1196,7 @@ if (meta == null) {
 			"labels.PlansByCurrentStatus": {"Label": "Plans by Current Status"},
 			"labels.SharePlan": {"Label": "Share plan"},
 			"labels.ActionsLimitReached": {"Label": "You've reached the limit of actions you can add to a plan."},
+			"labels.vsCompany": {"Label": "vs. Company"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},
@@ -2039,7 +1998,7 @@ if (meta == null) {
 	}
 
 
-if (data == null) {
+if (data == null && !Main_IsProduction() ) {
 	data = {
 
 		// COMMENT CATEGORIES
@@ -6692,14 +6651,8 @@ if (data == null) {
 			"N": 13092
 		}
 	};
-}
 
-
-// Data object
-
-// User
-if (data.User == null) {
-
+	// User
 	var user = {
 		FirstName: 'FirstName',
 		LastName: 'LastName',
@@ -6711,10 +6664,8 @@ if (data.User == null) {
 
 	data.User = user;
 	data.User.IsTestData = true;
-}
 
-// Report
-if (data.Report == null) {
+	// Report
 	var report = {
 		CurrentLanguage: '9', // English
 		ReportBase: 'TestReportBaseId',
@@ -6722,204 +6673,15 @@ if (data.Report == null) {
 	}
 
 	data.Report = report;
-}
-
-// Comments
-if (data.Comments == null) {
-	var verbatims = {
-		"Comm1": [{
-				"Comment": "Those an equal point no years do. Depend warmth fat but her but played. Shy and subjects wondered trifling pleasant. Prudent cordial comfort do no on colonel as assured chicken. Smart mrs day which begin. Snug do sold mr it if such. ",
-				"Category": "14"
-			},
-			{
-				"Comment": "Bringing so sociable felicity supplied mr. September suspicion far him two acuteness perfectly. Covered as an examine so regular of. Ye astonished friendship remarkably no. Window admire matter praise you bed whence. Delivered ye sportsmen zealously arranging frankness estimable as. Nay any article enabled musical shyness yet sixteen yet blushes. Entire its the did figure wonder off. Agreed joy vanity regret met may ladies oppose who. Mile fail as left as hard eyes. Meet made call in mean four year it to. Prospect so branched wondered sensible of up. For gay consisted resolving pronounce sportsman saw discovery not. Northward or household as conveying we earnestly believing. No in up contrasted discretion inhabiting excellence. Entreaties we collecting unpleasant at everything conviction. Made last it seen went no just when of by. Occasional entreaties comparison me difficulty so themselves. At brother inquiry of offices without do my service. As particular to companions at sentiments. Weather however luckily enquire so certain do. Aware did stood was day under ask. Dearest affixed enquire on explain opinion he. Reached who the mrs joy offices pleased. Towards did colonel article any parties. So by colonel hearted ferrars. Draw from upon here gone add one. He in sportsman household otherwise it perceived instantly. Is inquiry no he several excited am. Called though excuse length ye needed it he having. Whatever throwing we on resolved entrance together graceful. Mrs assured add private married removed believe did she. Not far stuff she think the jokes. Going as by do known noise he wrote round leave. Warmly put branch people narrow see. Winding its waiting yet parlors married own feeling. Marry fruit do spite jokes an times. Whether at it unknown warrant herself winding if. Him same none name sake had post love. An busy feel form hand am up help. Parties it brother amongst an fortune of. Twenty behind wicket why age now itself ten. Full age sex set feel her told. Tastes giving in passed direct me valley as supply. End great stood boy noisy often way taken short. Rent the size our more door. Years no place abode in ﻿no child my. Man pianoforte too solicitude friendship devonshire ten ask. Course sooner its silent but formal she led. Extensive he assurance extremity at breakfast. Dear sure ye sold fine sell on. Projection at up connection literature insensible motionless projecting.",
-				"Category": null
-			},
-			{
-				"Comment": "Comment about Resources",
-				"Category": "3"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Confidence in Leaders",
-				"Category": "10"
-			},
-			{
-				"Comment": "Comment about Clear & Promising Direction",
-				"Category": "12"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Employee Enablement",
-				"Category": "2"
-			},
-			{
-				"Comment": "Comment about Authority & Empowerment",
-				"Category": "4"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Quality & Customer Focus",
-				"Category": "7"
-			},
-			{
-				"Comment": "Comment about Resources",
-				"Category": "3"
-			},
-			{
-				"Comment": "Comment about Confidence in Leaders",
-				"Category": "10"
-			},
-			{
-				"Comment": "Comment about Respect & Recognition",
-				"Category": "5"
-			},
-			{
-				"Comment": "Comment about Clear & Promising Direction",
-				"Category": "12"
-			},
-			{
-				"Comment": "Comment about Training",
-				"Category": "11"
-			},
-			{
-				"Comment": "Comment about Resources",
-				"Category": "3"
-			},
-			{
-				"Comment": "Comment about Pay & Benefits",
-				"Category": "14"
-			},
-			{
-				"Comment": "Comment about Quality & Customer Focus",
-				"Category": "7"
-			},
-			{
-				"Comment": "Comment about Employee Enablement",
-				"Category": "2"
-			},
-			{
-				"Comment": "Comment about Employee Engagement",
-				"Category": "1"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Respect & Recognition",
-				"Category": "5"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Employee Engagement",
-				"Category": "1"
-			},
-			{
-				"Comment": "Comment about Pay & Benefits",
-				"Category": "14"
-			},
-			{
-				"Comment": "Comment about Authority & Empowerment",
-				"Category": "4"
-			},
-			{
-				"Comment": "Comment about Confidence in Leaders",
-				"Category": "10"
-			},
-			{
-				"Comment": "Comment about Employee Enablement",
-				"Category": "2"
-			},
-			{
-				"Comment": "Comment about Confidence in Leaders",
-				"Category": "10"
-			},
-			{
-				"Comment": "Comment about Respect & Recognition",
-				"Category": "5"
-			},
-			{
-				"Comment": "Comment about Employee Engagement",
-				"Category": "1"
-			},
-			{
-				"Comment": "Comment about Employee Enablement",
-				"Category": "2"
-			},
-			{
-				"Comment": "Comment about Training",
-				"Category": "11"
-			},
-			{
-				"Comment": "Comment about Quality & Customer Focus",
-				"Category": "7"
-			},
-			{
-				"Comment": "Comment about Pay & Benefits",
-				"Category": "14"
-			},
-			{
-				"Comment": "Comment about Quality & Customer Focus",
-				"Category": "7"
-			},
-			{
-				"Comment": "Comment about Employee Enablement",
-				"Category": "2"
-			},
-			{
-				"Comment": "Comment about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment about Work, Structure, & Process",
-				"Category": "13"
-			},
-			{
-				"Comment": "Comment about Training",
-				"Category": "11"
-			}
-		],
-		"Comm2": [{
-				"Comment": "Comment2 about Pay & Benefits",
-				"Category": "14"
-			},
-			{
-				"Comment": "Comment2 about Collaboration",
-				"Category": "6"
-			},
-			{
-				"Comment": "Comment2 about Work, Structure, & Process",
-				"Category": "13"
-			}
-		]
-	};
-
-	data.Comments = verbatims;
-}
-
-/*
-if (data.CommentCategories == null) {
-	data.CommentCategories = TestData_fillCommentCategoriesData();
-}
-*/
 
 
-if (!Main_IsProduction()) {
 
-	// Strengths & Opp
+	// NSQ
+	var tmp = {"NSQ.2020.389.0":{"NSQ1":{"N":15814,"Dist":{"1":{"N":243},"2":{"N":86},"3":{"N":127},"4":{"N":253},"5":{"N":354},"6":{"N":1239},"7":{"N":1118},"8":{"N":2476},"9":{"N":3013},"10":{"N":1869},"11":{"N":5036}}},"NSQ2":{"CAT":{"1":{"N":782,"C":419},"2":{"N":2540,"C":503},"3":{"N":9510,"C":3815},"4":{"N":3009,"C":808},"5":{"N":4096,"C":499},"6":{"N":1952,"C":280},"7":{"N":5886,"C":1033},"8":{"N":13613,"C":7342},"9":{"N":6054,"C":1115}}},"NSQ3":{"CAT":{"1":{"N":11578,"C":4079},"2":{"N":11578,"C":2147},"3":{"N":11578,"C":2131},"4":{"N":11578,"C":2155},"5":{"N":11578,"C":223},"6":{"N":11578,"C":2361},"7":{"N":11578,"C":244},"8":{"N":11578,"C":214},"9":{"N":11578,"C":0},"10":{"N":11578,"C":428},"11":{"N":11578,"C":226}}},"NSQ4":{"CAT":{"1":{"N":10613,"C":1699},"2":{"N":10613,"C":1287},"3":{"N":10613,"C":1405},"4":{"N":10613,"C":796},"5":{"N":10613,"C":1599},"6":{"N":10613,"C":873},"7":{"N":10613,"C":1027},"8":{"N":10613,"C":963},"9":{"N":10613,"C":1321},"10":{"N":10613,"C":877},"11":{"N":10613,"C":861},"12":{"N":10613,"C":1226},"13":{"N":10613,"C":852},"14":{"N":10613,"C":1432},"15":{"N":10613,"C":1810},"16":{"N":10613,"C":1623},"17":{"N":10613,"C":1531},"18":{"N":10613,"C":1952},"19":{"N":10613,"C":916},"20":{"N":10613,"C":1459},"21":{"N":10613,"C":1876},"22":{"N":10613,"C":1962},"23":{"N":10613,"C":1280},"24":{"N":10613,"C":1183},"25":{"N":10613,"C":1476},"26":{"N":10613,"C":1645},"27":{"N":10613,"C":1246},"28":{"N":10613,"C":1547},"29":{"N":10613,"C":987}}},"NSQ5":{"CAT":{"1":{"N":13795,"C":3319},"2":{"N":13795,"C":3291},"3":{"N":13795,"C":4278},"4":{"N":13795,"C":2189},"5":{"N":13795,"C":4450},"6":{"N":13795,"C":3250},"7":{"N":13795,"C":1113},"8":{"N":13795,"C":2207},"9":{"N":13795,"C":4387},"10":{"N":13795,"C":6633},"11":{"N":13795,"C":3182},"12":{"N":13795,"C":3214}}},"NSQ6":{"N":14873,"Dist":{"1":{"N":6550},"2":{"N":1884},"3":{"N":5493},"4":{"N":946}}}}};
+	for (var key in tmp) data[key] = tmp[key];
+
+
+	// SO
 
 	data['SO.2020.389.0'] = {
 		"S": ["CP11", "AV15", "WS03", "TR01", "AV09"],
@@ -10609,7 +10371,7 @@ if (!Main_IsProduction()) {
 	for (var key in tmp) data[key] = tmp[key];
 
 
-	// Items Breakdown
+	// ITEMSX Breakdown
 
 	var tmp = {
 		"ITEMSX.2020.389.0.AGE": {
@@ -29412,7 +29174,7 @@ if (!Main_IsProduction()) {
 	for (var key in tmp) data[key] = tmp[key];
 
 
-	// ENPS Breakdown
+	// ENPSX Breakdown
 
 	var tmp = {
 		"ENPSX.2020.389.0.AGE": {
@@ -29654,7 +29416,7 @@ if (!Main_IsProduction()) {
 	};
 	for (var key in tmp) data[key] = tmp[key];
 
-	// EP Breakdown
+	// EPX Breakdown
 
 	var tmp = {
 		"EPX.2020.389.0.GENDER": {
@@ -29927,28 +29689,31 @@ if (!Main_IsProduction()) {
 	for (var key in tmp) data[key] = tmp[key];
 
 
-}
+	// NX
+	var tmp = {"NX.2020.389.0.GENDER":{"410":{"N":3986},"420":{"N":3967},"430":{"N":3923},"440":{"N":3938}}};
+	for (var key in tmp) data[key] = tmp[key];
 
+	var tmp = {"NX.2020.389.0.AGE":{"651":{"N":2678},"652":{"N":2642},"653":{"N":2697},"654":{"N":2615},"655":{"N":2604},"656":{"N":2578}}};
+	for (var key in tmp) data[key] = tmp[key];
 
-/*
-if (data.Strengths == null) {
+	// N
+	var tmp = {"N.2020.389.0":{"N":15814}};
+	for (var key in tmp) data[key] = tmp[key];
+	
+	// Metrics
+	var metrics = ['DIM_ENG', 'DIM_ENA', 'DIM_N65'];
+	data.Metrics = metrics;
 
-	var strengths = ['RE01', 'DM02', 'RC01', 'TW06', 'QS01'];
-	var opportunities = ['PE06', 'SD04', 'PE03', 'OM12', 'QS16'];
-
-	data.Strengths = {
-		Items: strengths
+	// KDA
+	data['KDA.2020.389'] = {
+		"DIM_ENG": ["AV15", "SD03", "VC04", "SR05", "SD05"],
+		"DIM_ENA": ["AV15", "DM02", "RC01", "AV09", "VC04"]
 	};
 
-	data.Opportunities = {
-		Items: opportunities
-	};
 
-}
-*/
 
-// Filters
-if (data.Filters == null) {
+
+	// Filters
 	data.Filters = {
 		Items: {
 			"Gender": {
@@ -30052,47 +29817,15 @@ if (data.Filters == null) {
 	};
 
 	data.Filters.IsTestData = true;
+
 }
 
-/*
-// ENPS
-if (data.ENPS == null) {
-	data.ENPS = TestData_ENPS();
-}
-*/
 
-// EffectivenessProfile
-if (data.EffectivenessProfile == null) {
-
-	var ep = {
-		LeastEffective: 24,
-		Detached: 9,
-		Frustrated: 12,
-		MostEffective: 55
-	};
-
-	data.EffectivenessProfile = ep;
-}
-
-// EffectivenessByDemo
-if (data.EffectivenessByDemo == null) {
-	data.EffectivenessByDemo = TestData_EffectivenessByDemo(State_Get(
-		'demo'));
-}
 // Metrics
 
 if (data.Metrics == null) {
 
 	if (!Main_IsProduction()) {
-		var metrics = ['DIM_ENG', 'DIM_ENA', 'DIM_N65'];
-
-		data.Metrics = metrics;
-
-		// KDA
-		data['KDA.2020.389'] = {
-			"DIM_ENG": ["AV15", "SD03", "VC04", "SR05", "SD05"],
-			"DIM_ENA": ["AV15", "DM02", "RC01", "AV09", "VC04"]
-		};
 	}
 }
 
@@ -30252,56 +29985,6 @@ if (data.Questions == null) {
 	}
 
 	data.Questions = questionsData;
-}
-
-if (data.NonStandardQuestions == null) {
-
-	var NonStandardQuestions = {
-		"NSQ1": {
-			"1": {
-				N: 1294,
-				Pct: 18
-			},
-			"2": {
-				N: 1394,
-				Pct: 14
-			},
-			"3": {
-				N: 1214,
-				Pct: 24
-			},
-		},
-		"NSQ2": {
-			"1": {
-				N: 1294,
-				Pct: 18
-			},
-			"2": {
-				N: 1394,
-				Pct: 18
-			},
-			"3": {
-				N: 1214,
-				Pct: 24
-			},
-		},
-		"NSQ3": {
-			"1": {
-				N: 1294,
-				Pct: 18
-			},
-			"2": {
-				N: 1394,
-				Pct: 14
-			},
-			"3": {
-				N: 1214,
-				Pct: 24
-			},
-		},
-	};
-
-	data.NonStandardQuestions = NonStandardQuestions;
 }
 
 

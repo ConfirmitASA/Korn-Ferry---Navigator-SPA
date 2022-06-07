@@ -56,14 +56,6 @@ function ResultsBreakdown_Render() {
 		var SelectedOption = $(this).val();
 		State_Set('item', SelectedOption);
 
-		/*
-		var query = {
-			page: 'ResultsBreakdown',
-			parameter: 'item'
-		};
-		Main_SubmitQuery(query);
-		*/
-
 		Main_RefreshCurrentPage();
 	});
 
@@ -72,14 +64,6 @@ function ResultsBreakdown_Render() {
 		// Save Selection
 		var SelectedOption = $(this).val();
 		State_Set('breakby', SelectedOption);
-
-		/*
-		var query = {
-			page: 'ResultsBreakdown',
-			parameter: 'breakby'
-		};
-		Main_SubmitQuery(query);
-		*/
 
 		Main_RefreshCurrentPage();
 	});
@@ -98,7 +82,7 @@ function ResultsBreakdown_ItemsTable() {
     if ( ResultsBreakdown_MissingData() ) {
         return {
             Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + ResultsBreakdown_VariableId() + "'}]} );"
+            ScriptCode: "Main_SubmitQuery ( {Requester: 'ResultsBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + ResultsBreakdown_VariableId() + "'}]} );"
         };
     }
 

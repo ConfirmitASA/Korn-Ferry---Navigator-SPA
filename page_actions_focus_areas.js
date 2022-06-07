@@ -37,7 +37,7 @@ function ActionsFocusAreas_Render() {
         <div id="AddActionWindow" class="focus-area-card_addaction" style="display:none;">
             <div class="addaction_content">
                 <div class="addaction_table">${dt.Html}</div>
-                <button id="AddActionWindow_CloseButton" class="close_addaction_button">X</button>
+                <div id="AddActionWindow_CloseButton" class="close_addaction_button">X</div>
             </div>
         </div>
     `;
@@ -80,36 +80,71 @@ function ActionFocusAreas_RenderFocusAreaList() {
     let itemsData = Main_CurrentItemsData_WithFilter();
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
 
+    var company_overall_items_key = Main_GetKeyWithFilter(
+        'ITEMS',
+        config.CurrentWave,
+        meta.Hierarchy.TopNode.Id
+    );
+
+    var company_overall_items_data = data[ company_overall_items_key ];
+
+    var company_overall_dimensions_key = Main_GetKeyWithFilter(
+        'DIMS',
+        config.CurrentWave,
+        meta.Hierarchy.TopNode.Id
+    );
+
+    var company_overall_dimensions_data = data[ company_overall_dimensions_key ];
+
+
     let index = 0;
     let currentUserName = data.User.FirstName + ' ' + data.User.LastName;
 
     for(let focusArea in addedFocusAreas) {
         if(addedFocusAreas[focusArea].planOwner === currentUserName) {
-            ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, dimensionsData);
+            ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, company_overall_items_data, dimensionsData, company_overall_dimensions_data);
         }
 
         index++;
     }
 }
 
-function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsData, dimensionsData) {
+function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsData, company_overall_items_data, dimensionsData, company_overall_dimensions_data) {
     let o = [];
 
     let focusAreaLabel = '';
     let favScore = '';
     let recommendedActions = [];
+    let diff = '';
 
     if (focusArea.isDimension) {
+
+        // Dimension handler
+
         focusAreaLabel = Main_GetDimensionText(focusAreaId);
-        favScore = Utils_FormatPctOutput(dimensionsData[focusAreaId].Dist.Fav);
+        let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
+        favScore = Utils_FormatPctOutput( favScoreRaw );
+
+        let favScoreOverallRaw = company_overall_dimensions_data[focusAreaId].Dist.Fav;
+        diff = (favScoreRaw - favScoreOverallRaw);
 
         recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
     } else {
+
+        // Item handler
+
         focusAreaLabel = Main_GetQuestionText(focusAreaId);
 
         let pct_distribution = Utils_CountsToPercents(itemsData[focusAreaId].Dist);
-        favScore = Utils_FormatPctOutput(pct_distribution.Fav);
+        let favScoreRaw = pct_distribution.Fav;
+        
+        favScore = Utils_FormatPctOutput(favScoreRaw);
 
+        let company_overall_pct_distribution = Utils_CountsToPercents(company_overall_items_data[focusAreaId].Dist);
+        let favScoreOverallRaw = company_overall_pct_distribution.Fav;
+
+        diff = (favScoreRaw - favScoreOverallRaw);
+        
         recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
 
         if (recommendedActions.length == 0) {
@@ -136,6 +171,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     );
 
 
+
     o.push(`
             <div id="focusArea-${focusAreaId}" class="focus-area-card">
                 <div class="focus-area-card_header">
@@ -151,7 +187,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
                         <div class="focus-area-info_rec-number">
                             ${recommendedActions.length == 0 ? meta.Labels['labels.NoRecommendationsAvailable'].Label : recommendedActions.length + ' ' + meta.Labels['labels.RecommendationsAvailable'].Label}
                         </div>
-                        <div class="focus-area-info_comparator">${'-13 vs. Company'}</div>                      
+                        <div class="focus-area-info_comparator">${ (isNaN(diff) ? '-' : (diff>0 ? '+' + diff : diff))} ${meta.Labels['labels.vsCompany'].Label}</div>                      
                     </div>
                     <div class="focus-area-info_controls">
                         <div class="focus-area-info_tags">

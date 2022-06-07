@@ -561,11 +561,13 @@ function Main_GetInitialQuery() {
 
 function Main_SubmitInitialQuery() {
 	// Happens on the intial page load only
-	Main_SubmitQuery(  Main_GetInitialQuery() );
+	var q = Main_GetInitialQuery();
+	q.Requester = 'Main_SubmitInitialQuery';
+	Main_SubmitQuery( q );
 }
 
 function Main_SubmitDefaultQuery() {
-	Main_SubmitQuery({ShowWaitMessage: false});
+	Main_SubmitQuery({Requester: 'Main_SubmitDefaultQuery', ShowWaitMessage: false});
 }
 
 function Main_SubmitQuery ( query ) {

@@ -194,9 +194,11 @@ function ENPSScore_Render() {
              <div class="detractor-border"></div>
              <div class="detractor-border"></div>
           </div>
+          <!--
           <div class="column-wrapper">
           ${columns}
           </div>
+          -->
           <div class="number-wrapper">
              <div class="number">10</div>
              <div class="number">9</div>

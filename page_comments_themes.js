@@ -44,14 +44,6 @@ function CommentsThemes_Render() {
         State_Set('comment', SelectedOption);
 
         Main_RefreshCurrentPage();
-
-        /*
-        var query = {
-            page: 'CommentsThemes',
-            parameter: 'comment'
-        };
-        Main_SubmitQuery(query);
-        */
     });
 
 }

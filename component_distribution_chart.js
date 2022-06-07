@@ -28,8 +28,12 @@ function Component_DistributionChartStacked( distribution, ChartStyle ) {
 
 function Component_DistributionChartBar( value ) {
 
+	if ( value == null ) value = 0;
+	
 	var style = config.styles.DistributionChart_onecolor;
-	var distribution_chart = '<div class="table-barchart" style="background-color: ' + style.bgcolor + '; color: ' + style.color + '; width: ' + value + '%;"><span>' + '&nbsp;' + '</span></div>'
+	var distribution_chart = '<div class="table-barchart" style="background-color: ' + style.bgcolor + '; color: ' + style.color + '; width: ' + value + '%;">' + 
+		'<span>' + '&nbsp;' + '</span>' + 
+		'</div>'
 
 	return distribution_chart;
 }

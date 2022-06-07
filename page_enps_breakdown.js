@@ -58,13 +58,6 @@ function ENPSBreakdown_Render() {
         State_Set('breakby', SelectedOption);
 
         Main_RefreshCurrentPage();
-        /*
-        var query = {
-            page: 'ENPSBreakdown',
-            parameter: 'breakby'
-        };
-        Main_SubmitQuery(query);
-        */
     });
 
 
@@ -99,7 +92,7 @@ function ENPSBreakdown_ItemsTable() {
     if ( ENPSBreakdown_MissingData() ) {
         return {
             Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {ShowWaitMessage: false, DataRequest:[{ Type: 'ENPS.Breakdown', Breakdown:'" + ENPSBreakdown_VariableId() + "'}]} );"
+            ScriptCode: "Main_SubmitQuery ( {Requester: 'ENPSBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ENPS.Breakdown', Breakdown:'" + ENPSBreakdown_VariableId() + "'}]} );"
         };
     }
 

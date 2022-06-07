@@ -44,12 +44,7 @@ function NonStandardQuestions_Render() {
         var SelectedOption = $(this).val();
         State_Set('NonStandardQuestions', SelectedOption);
 
-        var query = {
-            page: 'NonStandardQuestions',
-            parameter: 'NonStandardQuestions'
-        };
-        Main_SubmitQuery(query);
-
+        Main_RefreshCurrentPage();
     });
 
 }
@@ -57,9 +52,25 @@ function NonStandardQuestions_Render() {
 function NonStandardQuestions_ItemsTable() {
     // Return Value: {Html: <string>, [ScriptCode: <string>]}
 
-    var nsq = State_Get('NonStandardQuestions');
+    if ( NonStandardQuestions_MissingData()) {
+        return {
+            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
+            ScriptCode: "Main_SubmitQuery ( {Requester: 'NonStandardQuestions_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'NSQ'}]} );"
+        };
+
+    }
+
+	var formatter = Utils_FormatOutput;    
+    var nsq = NonStandardQuestions_VariableId();
+    if (nsq == null) return '';
+
     var question = meta.NonStandardQuestions[nsq];
-    var questionData = data.NonStandardQuestions[nsq];
+
+    var key = Main_GetKeyWithFilter ( 'NSQ', config.CurrentWave, data.User.PersonalizedReportBase );
+    var nsq_data = data[key];
+    var questionData = nsq_data[nsq];
+
+    var is_multi = (questionData.CAT != null);
 
     var headers = [
         [
@@ -73,12 +84,31 @@ function NonStandardQuestions_ItemsTable() {
     var table_data = [];
     var rowdata = [];
 
+
     for (var j in question.Answers) {
+
+        if ( is_multi ) {
+            // MULTI
+            var item = questionData.CAT[j]
+            var n = item.C;
+            var valid_n = item.N;
+
+        }
+        else {
+            // SINGLE
+            var n = questionData.Dist[j].N;
+            var valid_n = questionData.N;
+        }
+
+        var pct = (valid_n == 0 || valid_n == null)
+            ? null
+            : Math.round ( 100*n/valid_n);
+
         rowdata = [
             {Label: question.Answers[j].Label, ClassName: 'text-cell'},
-            {Label: questionData[j].N, ClassName: 'numeric-cell'},
-            {Label: questionData[j].Pct, ClassName: 'numeric-cell distribution-cell'},
-            {Label: Component_DistributionChartBar(questionData[j].Pct), datasort: questionData[j].Pct,  ClassName: 'text-cell'}
+            {Label: formatter(n), ClassName: 'numeric-cell'},
+            {Label: formatter(pct), ClassName: 'numeric-cell distribution-cell'},
+            {Label: Component_DistributionChartBar( pct ), datasort: pct,  ClassName: 'text-cell'}
         ];
         table_data.push(rowdata);
     }
@@ -92,10 +122,7 @@ function NonStandardQuestions_ItemsTable() {
 
     var exportColumns = [ 0, 1, 2 ];
 
-    var view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-NonStandardQuestions'); /* + 
-    ' - ' +
-    $("#nonstandardquestions-NonStandardQuestions-highlighter-dropdown option:selected").text();
-    */
+    var view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-NonStandardQuestions');
    
     var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
 
@@ -112,4 +139,25 @@ function NonStandardQuestions_ItemsTable() {
     );
 
     return dt;
+}
+
+function NonStandardQuestions_VariableId() {
+    return $('#nonstandardquestions-NonStandardQuestions-highlighter-dropdown').val();
+}
+
+function NonStandardQuestions_Key() {
+    return Main_GetKeyWithFilter( 'NSQ', config.CurrentWave, data.User.PersonalizedReportBase );
+}
+
+function NonStandardQuestions_Data() {
+    var key = NonStandardQuestions_Key();
+    return data[key];
+}
+
+function NonStandardQuestions_MissingData() {
+    // return true if rendering cannot happen due to missing data
+
+    var is_missing_data = (NonStandardQuestions_Data() == null);
+
+    return is_missing_data;
 }

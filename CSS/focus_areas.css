@@ -500,7 +500,10 @@
     top: -10px;
     right: -10px;
     font-size: 16px;
-    display: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 #items-table-addaction_filter {
