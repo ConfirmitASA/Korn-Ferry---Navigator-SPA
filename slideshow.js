@@ -169,8 +169,8 @@ function Slideshow_RenderIframe() {
 }
 
 function Slideshow_RenderSlides() {
-    var slides = ["WELCOME", "KEYINDICES", "KEYDRIVERS", "STRENGTHS", "OPPORTUNITIES", "DIMS", "NEXTSTEPS"];
-    var o = [];
+    let slides = ["WELCOME", "KEYINDICES", "KEYDRIVERS", "STRENGTHS", "OPPORTUNITIES", "DIMS", "NEXTSTEPS"];
+    let o = [];
     for (const key in slides) {
         o.push(`
             <section>
@@ -268,28 +268,28 @@ function Slideshow_RenderSlideContent(slide) {
 }
 
 function Slideshow_RenderKeyIndices() {
-    var o = [];
+    let o = [];
 
-    var current_dimensions_key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase);
-    var current_dimensions = data[current_dimensions_key];
-    var comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
+    let current_dimensions_key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase);
+    let current_dimensions = data[current_dimensions_key];
+    let comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
 
-    var comparators = Main_CompactComparatorSet();
-    var comparators_data = Main_ComparatorsData_WithFilter();
+    let comparators = Main_CompactComparatorSet();
+    let comparators_data = Main_ComparatorsData_WithFilter();
 
-    var metrics = data.Metrics;
+    let metrics = data.Metrics;
 
-    for (var i = 0; i < metrics.length; i++) {
-        var dimension_id = metrics[i];
-        var current_score = current_dimensions[dimension_id].Dist.Fav;
-        var comparator_score = comparator_dimensions[dimension_id].Dist.Fav;
-        var scoreLabel = meta.Labels['labels.Favorable'].Label;
-        var scoreValue = Utils_FormatPctOutput(current_score);
+    for (let i = 0; i < metrics.length; i++) {
+        let dimension_id = metrics[i];
+        let current_score = current_dimensions[dimension_id].Dist.Fav;
+        let comparator_score = comparator_dimensions[dimension_id].Dist.Fav;
+        let scoreLabel = meta.Labels['labels.Favorable'].Label;
+        let scoreValue = Utils_FormatPctOutput(current_score);
 
-        var arrowClass = '';
-        var vsTrendValue = Utils_Diff(current_score, comparator_score);
+        let arrowClass = '';
+        let vsTrendValue = Utils_Diff(current_score, comparator_score);
 
-        var has_trend = !(current_score == null || comparator_score == null);
+        let has_trend = !(current_score == null || comparator_score == null);
 
         if (vsTrendValue > 0) {
             arrowClass = 'green-arrow';
@@ -301,17 +301,17 @@ function Slideshow_RenderKeyIndices() {
             }
         }
 
-        var comparators_scores = "";
-        for (var k = 0; k < comparators.length; k++) {
-            var c = comparators[k];
-            var type = c.split('.')[0]; // "Internal" or "External"
+        let comparators_scores = "";
+        for (let k = 0; k < comparators.length; k++) {
+            let c = comparators[k];
+            let type = c.split('.')[0]; // "Internal" or "External"
 
             if (type == "External") {
 
-                var comparator_data = comparators_data[c];
+                let comparator_data = comparators_data[c];
 
                 // Check if external norm exists for this dimension
-                var comparator_fav = (
+                let comparator_fav = (
                     comparator_data == null
                     ||
                     comparator_data.Dimensions == null
@@ -389,7 +389,7 @@ function Slideshow_RenderKeyDrivers() {
     let kdInfoTextFirstParSplitByENG = meta.SlideTexts.SLIDE_KEYDRIVERS.info[0].split('[ENG]');
     let kdInfoTextFirstParSplitByENA = kdInfoTextFirstParSplitByENG[1].split('[ENA]');
 
-    var infotext = `
+    let infotext = `
         <p>
             ${kdInfoTextFirstParSplitByENG[0]}
             <span style="color: #006550; font-weight: bold;">${meta.SlideTexts.SLIDE_KEYDRIVERS.LabelEmployeeEngagement}</span>
@@ -402,7 +402,7 @@ function Slideshow_RenderKeyDrivers() {
         <p>${meta.SlideTexts.SLIDE_KEYDRIVERS.info[3]}</p>
     `;
 
-    var html = `
+    let html = `
         <table width="100%" style="font-size: 14px; margin-top: 20px;"><tbody valign="top"><tr>
         <td width="50%">
             <div style="font-size: 16px; margin-left: -10px;">${infotext}</div>
@@ -437,26 +437,27 @@ function Slideshow_RenderKeyDrivers() {
 }
 
 function Slideshow_MetricDrivers(dimension_id) {
-    var tmp = [];
+    let tmp = [];
 
-    var current_items = Main_CurrentItemsData_WithFilter();
+    let current_items = Main_CurrentItemsData_WithFilter();
 
 
     tmp.push('<table style="width: 100%" class=items>');
 
-    var kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
-    var kda = data[kda_key];
-    var drivers = kda[dimension_id];
+    let kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
+    let kda = data[kda_key];
+    let drivers = kda[dimension_id];
+
     if (drivers == null) drivers = [];
 
-    var drivers = drivers.slice(0, 2); //todo
+    drivers = drivers.slice(0, 2); //todo
 
     if (!!meta.Dimensions[dimension_id].Items) {
-        for (var j = 0; j < 2 && j < drivers.length; j++) {
-            var item_id = drivers[j]; // example: "AV01"
-            var pct_distribution = Utils_CountsToPercents(current_items[item_id].Dist);
-            var scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
-            var item_dimension_id = Main_GetDimensionIdByItemId(item_id);
+        for (let j = 0; j < 2 && j < drivers.length; j++) {
+            let item_id = drivers[j]; // example: "AV01"
+            let pct_distribution = Utils_CountsToPercents(current_items[item_id].Dist);
+            let scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
+            let item_dimension_id = Main_GetDimensionIdByItemId(item_id);
 
             tmp.push(`
 				<tr class=itemrow style="height: 50px !important">
@@ -483,19 +484,19 @@ function Slideshow_MetricDrivers(dimension_id) {
     /*
     tmp.push('<div class=items>');
 
-    var kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
-    var kda = data[kda_key];
-    var drivers = kda[dimension_id];
+    let kda_key = Main_GetKey('KDA', config.CurrentWave, data.User.PersonalizedReportBase);
+    let kda = data[kda_key];
+    let drivers = kda[dimension_id];
     if (drivers == null) drivers = [];
 
-    var drivers = drivers.slice(0, 2); //todo
+    let drivers = drivers.slice(0, 2); //todo
 
     if (!!meta.Dimensions[dimension_id].Items) {
-        for (var j = 0; j < 2 && j < drivers.length; j++) {
-            var item_id = drivers[j]; // example: "AV01"
-            var pct_distribution = Utils_CountsToPercents(current_items[item_id].Dist);
-            var scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
-            var item_dimension_id = Main_GetDimensionIdByItemId(item_id);
+        for (let j = 0; j < 2 && j < drivers.length; j++) {
+            let item_id = drivers[j]; // example: "AV01"
+            let pct_distribution = Utils_CountsToPercents(current_items[item_id].Dist);
+            let scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
+            let item_dimension_id = Main_GetDimensionIdByItemId(item_id);
             tmp.push(`
                 <div class=itemrow>
                     <div style="font-size: 10px; padding-top: 10px; padding-bottom: 8px; color: #666; text-transform: uppercase">
@@ -517,16 +518,16 @@ function Slideshow_MetricDrivers(dimension_id) {
 }
 
 function Slideshow_RenderItemsTable(tableType) {
-    var table_data = [];
-    var rowdata = [];
+    let table_data = [];
+    let rowdata = [];
 
-    var comparators = Main_CompactComparatorSet();
-    var NofComparators = comparators ? comparators.length : 0;
-    var NofHeaderRows = (NofComparators > 0) ? 2 : 1;
+    let comparators = Main_CompactComparatorSet();
+    let NofComparators = comparators ? comparators.length : 0;
+    let NofHeaderRows = (NofComparators > 0) ? 2 : 1;
 
-    var is_all_dimensions_view = (tableType == 'DIMS');
+    let is_all_dimensions_view = (tableType == 'DIMS');
 
-    var headers = [
+    let headers = [
         []
     ];
 
@@ -554,23 +555,26 @@ function Slideshow_RenderItemsTable(tableType) {
         headers[0].push(
             { Label: meta.Labels["labels.FavvsComparator"].Label, ClassName: 'numeric-cell', colspan: NofComparators }
         );
-        var subheaders = [];
-        for (var i = 0; i < NofComparators; i++) {
+        let subheaders = [];
+        for (let i = 0; i < NofComparators; i++) {
             subheaders.push({ Label: meta.Comparators[comparators[i]].Label, ClassName: 'numeric-cell' });
         }
         headers.push(subheaders);
     }
 
-    var items = [];
+    let items = [];
+    let so_key;
+    let so;
+
     switch (tableType) {
         case 'STRENGTHS':
-            var so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
-            var so = data[so_key];
+            so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
+            so = data[so_key];
             items = so.S;
             break;
         case 'OPPORTUNITIES':
-            var so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
-            var so = data[so_key];
+            so_key = Main_GetKeyWithFilter('SO', config.CurrentWave, data.User.PersonalizedReportBase);
+            so = data[so_key];
             items = so.O;
             break;
         case 'DIMS':
@@ -579,24 +583,24 @@ function Slideshow_RenderItemsTable(tableType) {
             break;
     }
     if (tableType == 'STRENGTHS' || tableType == 'OPPORTUNITIES') {
-        for (var i = 0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             table_data.push( Slideshow_AddItemToTable(items[i], is_all_dimensions_view, i+1) );
         }
     }
     if (tableType == 'DIMS') {
         rowdata=[{ Label: meta.SlideTexts["SLIDE_DIMS"].LabelMostFav, ClassName: 'rowheader-cell', colspan: 2 }];
         table_data.push(rowdata);
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             table_data.push( Slideshow_AddItemToTable(items[i], is_all_dimensions_view) );
         }
         rowdata=[{ Label: meta.SlideTexts["SLIDE_DIMS"].LabelLeastFav, ClassName: 'rowheader-cell', colspan: 2 }];
         table_data.push(rowdata);
-        for (var i = items.length-1; i >= items.length-5; i--) {
+        for (let i = items.length-1; i >= items.length-5; i--) {
             table_data.push( Slideshow_AddItemToTable(items[i], is_all_dimensions_view) );
         }
     }
 
-    var dt = Component_DataTable(
+    let dt = Component_DataTable(
         "items-table-slideshow-" + tableType,
         "items-table-slideshow",
         headers,
@@ -609,31 +613,31 @@ function Slideshow_RenderItemsTable(tableType) {
 }
 
 function Slideshow_AddItemToTable(itemId, is_all_dimensions_view, index) {
-    var formatter = Utils_FormatOutput;
+    let formatter = Utils_FormatOutput;
 
-    var comparators = Main_CompactComparatorSet();
-    var NofComparators = comparators ? comparators.length : 0;
-    var comparators_data = Main_ComparatorsData_WithFilter();
+    let comparators = Main_CompactComparatorSet();
+    let NofComparators = comparators ? comparators.length : 0;
+    let comparators_data = Main_ComparatorsData_WithFilter();
 
-    var current_data = is_all_dimensions_view
+    let current_data = is_all_dimensions_view
         ? Main_CurrentDimensionsData_WithFilter()
         : Main_CurrentItemsData_WithFilter();
 
-    var obj = current_data[itemId]; // Either Item or Dimension
+    let obj = current_data[itemId]; // Either Item or Dimension
 
-    var label = is_all_dimensions_view
+    let label = is_all_dimensions_view
         ? meta.Dimensions[itemId].Label
         : meta.Items[itemId].Label;
 
-    var id = is_all_dimensions_view
+    let id = is_all_dimensions_view
         ? '&#9674;' // diamond symbol
         : index;
 
-    var pct_dist = is_all_dimensions_view
+    let pct_dist = is_all_dimensions_view
         ? obj.Dist // dimensions already store rounded percentages in the distribution
         : Utils_CountsToPercents(obj.Dist);
 
-    var rowdata = [];
+    let rowdata = [];
 
     rowdata.push(
         { Label: id, ClassName: 'id-cell' },
@@ -657,13 +661,13 @@ function Slideshow_AddItemToTable(itemId, is_all_dimensions_view, index) {
         { Label: Component_DistributionChartStacked(pct_dist), datasort: pct_dist.Fav, ClassName: 'text-cell' }
     );
 
-    for (var k = 0; k < NofComparators; k++) {
-        var comparator_id = comparators[k];
-        var comparator_data = comparators_data[comparator_id];
-        var comparator_data_itemsdata = is_all_dimensions_view ? comparator_data.Dimensions : comparator_data.Items;
+    for (let k = 0; k < NofComparators; k++) {
+        let comparator_id = comparators[k];
+        let comparator_data = comparators_data[comparator_id];
+        let comparator_data_itemsdata = is_all_dimensions_view ? comparator_data.Dimensions : comparator_data.Items;
 
-        var value;
-        var sigClassname;
+        let value;
+        let sigClassname;
 
         if (
             comparator_data == null
@@ -676,7 +680,7 @@ function Slideshow_AddItemToTable(itemId, is_all_dimensions_view, index) {
             sigClassname = '';
         }
         else {
-            var sig_test = Utils_SigTest(obj, comparator_data_itemsdata[itemId], 'Fav', is_all_dimensions_view);
+            let sig_test = Utils_SigTest(obj, comparator_data_itemsdata[itemId], 'Fav', is_all_dimensions_view);
             sigClassname = sig_test.IsSignificant
                 ? (sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
                 : '';
