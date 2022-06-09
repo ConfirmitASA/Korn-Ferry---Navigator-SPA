@@ -27,7 +27,7 @@ function ActionsFocusAreas_Page() {
 
 function ActionsFocusAreas_Render() {
 
-    var dt = ActionFocusAreas_RenderAddActionTable();
+    let dt = ActionFocusAreas_RenderAddActionTable();
 
     let addNewFocusAreaHTML = `
         <div id="AddActionWindow_Button" class="add-focus-areas-buttons-container">
@@ -80,21 +80,21 @@ function ActionFocusAreas_RenderFocusAreaList() {
     let itemsData = Main_CurrentItemsData_WithFilter();
     let dimensionsData = Main_CurrentDimensionsData_WithFilter();
 
-    var company_overall_items_key = Main_GetKeyWithFilter(
+    let company_overall_items_key = Main_GetKeyWithFilter(
         'ITEMS',
         config.CurrentWave,
         meta.Hierarchy.TopNode.Id
     );
 
-    var company_overall_items_data = data[ company_overall_items_key ];
+    let company_overall_items_data = data[ company_overall_items_key ];
 
-    var company_overall_dimensions_key = Main_GetKeyWithFilter(
+    let company_overall_dimensions_key = Main_GetKeyWithFilter(
         'DIMS',
         config.CurrentWave,
         meta.Hierarchy.TopNode.Id
     );
 
-    var company_overall_dimensions_data = data[ company_overall_dimensions_key ];
+    let company_overall_dimensions_data = data[ company_overall_dimensions_key ];
 
 
     let index = 0;
@@ -375,7 +375,7 @@ function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
 
 function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
     planColumnForProgressBar.click(function (e) {
-        var elem = e.target;
+        let elem = e.target;
         while (elem.id.indexOf('innerblock') == -1) {
             elem = elem.parentElement;
         }
@@ -387,30 +387,32 @@ function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
 function ActionFocusAreas_GetRecommendedActions(s) {
     // s is a string that can be either a dimension reference ("DIM_N51"), or an item reference ("TR04")
 
-    var o = {}; // recommended actions
+    let o = {}; // recommended actions
 
     // Extract matching elements
-    for (var key in meta.Labels) {
+    for (let key in meta.Labels) {
 
         // example keys: "RecommendedActions_DIM_N51.text_0", "RecommendedActions_TR04.text_0"
 
-        var parts = key.split('_');
+        let parts = key.split('_');
         if (parts[0] == 'Actions') {
+
+            let tmp;
 
             switch (parts[1]) {
 
                 case 'DIM':
                     // this is a dimension
                     // example: "Actions_DIM_N51.text_0"
-                    var tmp = key.split('.'); // example: ["Actions_DIM_N51", "text_0"]
+                    tmp = key.split('.'); // example: ["Actions_DIM_N51", "text_0"]
                     if (tmp.length == 2) {
-                        var dimension_id = tmp[0].slice(8); // example: "DIM_N51"
+                        let dimension_id = tmp[0].slice(8); // example: "DIM_N51"
                         if (dimension_id == s) {
                             // We found a matching entry
 
-                            var tmp2 = tmp[1].split('_'); // example: ["text", "0"]
-                            var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
-                            var index = tmp2[1]; // example: "0"
+                            let tmp2 = tmp[1].split('_'); // example: ["text", "0"]
+                            let property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
+                            let index = tmp2[1]; // example: "0"
 
                             if (o[index] == null) {
                                 o[index] = {};
@@ -425,15 +427,15 @@ function ActionFocusAreas_GetRecommendedActions(s) {
                 default:
                     // this is an item
                     // example: "Actions_TR04.text_0"
-                    var tmp = key.split('.'); // example: ["Actions_TR04", "text_0"]
+                    tmp = key.split('.'); // example: ["Actions_TR04", "text_0"]
                     if (tmp.length == 2) {
-                        var item_id = tmp[0].slice(8); // example: "TR04"
+                        let item_id = tmp[0].slice(8); // example: "TR04"
                         if (item_id == s) {
                             // We found a matching entry
 
-                            var tmp2 = tmp[1].split('_'); // example: ["text", "0"]
-                            var property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
-                            var index = tmp2[1]; // example: "0"
+                            let tmp2 = tmp[1].split('_'); // example: ["text", "0"]
+                            let property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
+                            let index = tmp2[1]; // example: "0"
 
                             if (o[index] == null) {
                                 o[index] = {};
@@ -449,8 +451,8 @@ function ActionFocusAreas_GetRecommendedActions(s) {
     }
 
     // Turn into array
-    var actions = [];
-    for (var key in o) {
+    let actions = [];
+    for (let key in o) {
         actions.push(o[key]);
     }
 
@@ -957,31 +959,31 @@ function ActionFocusAreas_RenderSelectedActions(itemId) {
 }
 
 function ActionFocusAreas_RenderAddActionTable() {
-    var current_items = Main_CurrentItemsData_WithFilter();
-    var current_dimensions = Main_CurrentDimensionsData_WithFilter();
+    let current_items = Main_CurrentItemsData_WithFilter();
+    let current_dimensions = Main_CurrentDimensionsData_WithFilter();
 
     // temp code until the Source property is removed
     if (current_items.hasOwnProperty("Source"))
         delete current_items.Source;
 
-    var headers = [[
+    let headers = [[
         { Label: "", ClassName: 'text-cell', rowspan: 1 },
         { Label: "# ", ClassName: 'id-cell', rowspan: 1 },
         { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: 1 },
         { Label: meta.Labels["labels.PercentFav"].Label, ClassName: 'numeric-cell distribution-cell', rowspan: 1 },
         { Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: 1 }
     ]];
-    var table_data = [];
+    let table_data = [];
 
     // Some type of Dimension View
-    var counter = 0;
-    for (var i in current_dimensions) {
-        var sort_dId = counter < 10 ? '0' + counter : counter;
-        var sort_qId = sort_dId + '_';
+    let counter = 0;
+    for (let i in current_dimensions) {
+        let sort_dId = counter < 10 ? '0' + counter : counter;
+        let sort_qId = sort_dId + '_';
         table_data.push(ActionFocusAreas_AddItemToTable(i, true, sort_dId));
         // Add Questions from this Dimension
-        var dimItems = meta.Dimensions[i].Items;
-        for (var j = 0; j < dimItems.length; j++) {
+        let dimItems = meta.Dimensions[i].Items;
+        for (let j = 0; j < dimItems.length; j++) {
             // Check if question exists in data (this is only a temp problem with test data, in real life we shouldn't have to do this test)
             if (current_items[dimItems[j]] != null) {
                 table_data.push(ActionFocusAreas_AddItemToTable(dimItems[j], false, sort_qId));
@@ -990,7 +992,7 @@ function ActionFocusAreas_RenderAddActionTable() {
         counter++;
     }
 
-    var columnSettings = `
+    let columnSettings = `
 		'orderFixed': [ 0, 'asc' ],
 		'order': [ 1, 'asc' ],
 		'columnDefs': [
@@ -1001,7 +1003,7 @@ function ActionFocusAreas_RenderAddActionTable() {
         'searchHighlight': true,
 	`;
 
-    var dt = Component_DataTable(
+    let dt = Component_DataTable(
         "items-table-addaction",
         "",
         headers,
@@ -1016,27 +1018,27 @@ function ActionFocusAreas_RenderAddActionTable() {
 }
 
 function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
-    var formatter = Utils_FormatOutput;
+    let formatter = Utils_FormatOutput;
 
-    var current_data = isDimension
+    let current_data = isDimension
         ? Main_CurrentDimensionsData_WithFilter()
         : Main_CurrentItemsData_WithFilter();
 
-    var obj = current_data[itemId]; // Either Item or Dimension
+    let obj = current_data[itemId]; // Either Item or Dimension
 
-    var label = isDimension
+    let label = isDimension
         ? '<b>' + meta.Dimensions[itemId].Label + '</b>'
         : meta.Items[itemId].Label;
 
-    var id = isDimension
+    let id = isDimension
         ? '&#9674;' // diamond symbol
         : obj.QNo;
 
-    var pct_dist = isDimension
+    let pct_dist = isDimension
         ? obj.Dist // dimensions already store rounded percentages in the distribution
         : Utils_CountsToPercents(obj.Dist);
 
-    var rowdata = [];
+    let rowdata = [];
     rowdata.push(
         { Label: sortId, ClassName: 'id-cell' },
         { Label: id, ClassName: 'id-cell' },
@@ -1057,9 +1059,9 @@ function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
 
 
 function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') {
-    var survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    let survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
     focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
-    var form_data = {};
+    let form_data = {};
 
     form_data = {
         owner_id: focusArea.planOwner,
@@ -1084,7 +1086,7 @@ function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') 
 
     console.log(form_data);
 
-    var start_date = new Date();
+    let start_date = new Date();
 
     $.ajax({
         url : survey_url,
@@ -1103,8 +1105,8 @@ function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') 
 }
 
 function ActionFocusAreas_SetValues() {
-    var survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
-    var form_data = {};
+    let survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    let form_data = {};
 
     form_data = {
         owner_id: data.User.FirstName + ' ' + data.User.LastName

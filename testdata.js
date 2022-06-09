@@ -1197,6 +1197,7 @@ if (meta == null) {
 			"labels.SharePlan": {"Label": "Share plan"},
 			"labels.ActionsLimitReached": {"Label": "You've reached the limit of actions you can add to a plan."},
 			"labels.vsCompany": {"Label": "vs. Company"},
+			"labels.top": {"Label": "Top"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},
