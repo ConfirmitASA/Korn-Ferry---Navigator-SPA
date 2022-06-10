@@ -17,7 +17,7 @@ function Component_HierarchyPicker() {
     var completes = completed_surveys.toLocaleString();
     var invites = invite_count.toLocaleString();
     o.push (
-	`
+        `
     <style>
 
     .hierarchy {
@@ -136,7 +136,6 @@ function Component_HierarchyPicker() {
                         document.querySelector('.dd-button-select').innerText = '${meta.Labels["buttons.Apply"].Label}'; 
                         document.querySelector('.dd-cancel').innerText = '${meta.Labels["buttons.Cancel"].Label}';
                         document.querySelector('.dd-search-input').placeholder = '${meta.Labels["labels.Search"].Label}';
-                        document.querySelector('a[title="Top"]').innerText = '${meta.Labels["labels.top"].Label}';
                         document.querySelector('.dd-search-input').dir = 'auto';
 
                         var SearchList = document.querySelector(".dd-items");
@@ -149,6 +148,16 @@ function Component_HierarchyPicker() {
                         });
                         var SLcfg = { childList: true, subtree: true };
                         observerSearchList.observe(SearchList, SLcfg);
+                        
+                        var ddHeader = document.querySelector(".dd-header");
+                        var observerHeaderList = new MutationObserver( function(items) {
+                                if (document.querySelector('a[title="Top"]') != null) {
+                                    document.querySelector('a[title="Top"]').innerText = '${meta.Labels["labels.top"].Label}';
+                                }
+                        });
+                        var headercfg = { childList: true };
+                        observerHeaderList.observe(ddHeader, headercfg);
+                        
                     } 
             });
             var config = { childList: true, subtree: true };

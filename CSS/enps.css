@@ -16,9 +16,9 @@
 .enps {
     display: flex;
     flex-direction: column;
-    height: 150px; 
-    background-color: lightslategrey; 
-    font-size: 20px; 
+    height: 150px;
+    background-color: lightslategrey;
+    font-size: 20px;
     text-align: center;
     vertical-align: middle;
     color: white;
@@ -33,6 +33,7 @@
     font-size: 40px;
     margin-top: 4px;
     margin-bottom: 10px;
+    direction: ltr !important;
 }
 
 .qtext {
@@ -53,8 +54,8 @@
     color: white;
     margin: 0;
     border: 0;
-    font-size: 12px; 
-    width: 33.4%; 
+    font-size: 12px;
+    width: 33.4%;
     display: table-cell;
     padding: 20px;
 }
@@ -98,8 +99,8 @@
     color: #696969;
     margin: 0;
     border: 0;
-    font-size: 12px; 
-    width: 33.3%; 
+    font-size: 12px;
+    width: 33.3%;
     display: table-cell;
     padding: 10px;
 }
@@ -122,7 +123,7 @@
 }
 
 .enps-flip-card-back {
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
     border: 1px solid #d0d0d0;
 }
 
@@ -141,8 +142,8 @@
     background-size: 64px 50px;
     cursor: pointer;
     width: 64px;
-    height: 50px; 
-    position: absolute; 
+    height: 50px;
+    position: absolute;
     bottom: 0px;
     right: 0px;
     opacity: 0.2;
@@ -160,8 +161,8 @@
 
 .enps-flip-card-inner__hover {
     transform: rotateY(10deg);
-	transition: transform 0.2s;
-	
+    transition: transform 0.2s;
+
 }
 
 
@@ -192,13 +193,13 @@
     font-size: 10px;
     text-align: center;
     opacity: 0;
-    
+
     color: white;
     padding-bottom: 15px;
 }
 /*
 .enps, .enps-distribution {
-    filter: drop-shadow(0 1rem 2rem #999);    
+    filter: drop-shadow(0 1rem 2rem #999);
 }
 */
 button {
@@ -223,7 +224,7 @@ button {
     overflow: auto;
 }
 
-.enps-comparators-card { 
+.enps-comparators-card {
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -265,61 +266,62 @@ button.dt-button {
     margin-bottom: 20px;
     height: 115px;
     border-collapse: collapse;
-    
-  }
 
-  .enps-trend-wrapper {
-     margin-bottom: 10px;
-     width: 460px;
-  }
+}
 
-  .enps-trend-label, .enps-trend-arrow, .enps-trend-promoters, .enps-trend-math, .enps-trend-detractors, .enps-trend-enps {
+.enps-trend-wrapper {
+    margin-bottom: 10px;
+    width: 460px;
+}
+
+.enps-trend-label, .enps-trend-arrow, .enps-trend-promoters, .enps-trend-math, .enps-trend-detractors, .enps-trend-enps {
     display: table-cell;
-    height: 70px; 
+    height: 70px;
     color: #FFF;
     font-size: 20px;
     font-weight: normal;
     text-align: center;
     line-height: 30px;
     vertical-align: middle;
-  }
-  
-  .enps-trend-label {
+}
+
+.enps-trend-label {
     background-color: #d0d0d0;
     width: 130px;
     padding: 5px;
     font-size: 16px;
     line-height: 16px;
-  }
-  
-  .enps-trend-arrow {
+}
+
+.enps-trend-arrow {
     width: 0px;
     height: 0px;
     border-top: 35px solid transparent;
     border-bottom: 35px solid transparent;
     border-left: 20px solid #d0d0d0;
-  }
-  
-  .enps-trend-promoters {
+}
+
+.enps-trend-promoters {
     background-color: #77bc1f;
     width: 70px;
-  }
-  
-  .enps-trend-math {
+}
+
+.enps-trend-math {
     width: 30px;
     color: #696969;
     padding: 0px;
-  }
-  
-  .enps-trend-detractors {
+}
+
+.enps-trend-detractors {
     background-color: #d30f1d;
     width: 70px;
-  }
-  
-  .enps-trend-enps {
-      background-color: lightslategrey;
-      width: 70px;
-  }
+}
+
+.enps-trend-enps {
+    background-color: lightslategrey;
+    width: 70px;
+    direction: ltr !important;
+}
 
 
 .separator-cell {
@@ -334,8 +336,8 @@ button.dt-button {
     flex-direction: row;
     width: 440px;
     margin: auto;
- }
- .nps-block {
+}
+.nps-block {
     width: 60px;
     background-color: lightslategrey;
     color: #FFF;
@@ -345,9 +347,9 @@ button.dt-button {
     font-weight: bold;
     height: 50px;
     line-height: 50px;
- }
- 
- .math-block {
+}
+
+.math-block {
     width: 40px;
     background-color: #FFF;
     color: lightslategrey;
@@ -356,8 +358,8 @@ button.dt-button {
     font-weight: bold;
     height: 50px;
     line-height: 50px;
- }
- .promoters-block {
+}
+.promoters-block {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -367,8 +369,8 @@ button.dt-button {
     text-align: center;
     font-weight: bold;
     height: 50px;
- }
- .detractors-block {
+}
+.detractors-block {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -378,21 +380,21 @@ button.dt-button {
     text-align: center;
     font-weight: bold;
     height: 50px;
- }
- 
- .white-text {
+}
+
+.white-text {
     color: #FFF;
     height: 20px;
     font-size: 14px;
     margin-top: 5px;
- }
- .gray-text {
+}
+.gray-text {
     color: darkslategrey;
     height: 20px;
     font-size: 12px;
- }
- 
- .grid-wrapper {
+}
+
+.grid-wrapper {
     background-color: #e2e6f6;
     width: 450px;
     height: 180px;
@@ -400,78 +402,78 @@ button.dt-button {
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
-    -webkit-box-shadow: 5px 5px 10px 0px #777777; 
+    -webkit-box-shadow: 5px 5px 10px 0px #777777;
     box-shadow: 5px 5px 10px 0px #cbcbcb;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
     padding: 20px;
- }
- 
- .formula-block-wrapper {
+}
+
+.formula-block-wrapper {
     width: 500px;
- }
- 
- .detractors-grid-wrapper {
+}
+
+.detractors-grid-wrapper {
     width: 60%;
- }
- .passives-grid-wrapper {
+}
+.passives-grid-wrapper {
     width: 16%;
- }
- .promoters-grid-wrapper {
+}
+.promoters-grid-wrapper {
     width: 24%;
- }
- 
- .detractors-grid-lowerlabel, .detractors-grid-upperlabel {
+}
+
+.detractors-grid-lowerlabel, .detractors-grid-upperlabel {
     text-align: left;
     font-size: 13px;
     color: #d30f1d;
     font-weight: bold;
- }
- .detractors-grid-lowerlabel {
+}
+.detractors-grid-lowerlabel {
     color: darkslategrey;
- }
- 
- .passives-grid-lowerlabel, .passives-grid-upperlabel  {
+}
+
+.passives-grid-lowerlabel, .passives-grid-upperlabel  {
     text-align: center;
     font-size: 13px;
     color: orange;
     font-weight: bold;
- }
- .passives-grid-lowerlabel {
+}
+.passives-grid-lowerlabel {
     color: darkslategrey;
- 
- }
- .promoters-grid-lowerlabel, .promoters-grid-upperlabel {
+
+}
+.promoters-grid-lowerlabel, .promoters-grid-upperlabel {
     text-align: right;
     font-size: 13px;
     color: green;
     font-weight: bold;
- }
- .promoters-grid-lowerlabel {
+}
+.promoters-grid-lowerlabel {
     color: darkslategrey;
- }
- 
- .detractors-grid-upperlabel, .passives-grid-upperlabel, .promoters-grid-upperlabel {
+}
+
+.detractors-grid-upperlabel, .passives-grid-upperlabel, .promoters-grid-upperlabel {
     margin-bottom: 10px;
     margin-top: 15px;
     text-transform: uppercase;
- }
- 
- .detractors-grid, .passives-grid, .promoters-grid {
+}
+
+.detractors-grid, .passives-grid, .promoters-grid {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
- }
- 
- .passives-grid {
+}
+
+.passives-grid {
     justify-content: center;
- }
- .promoters-grid {
+}
+.promoters-grid {
     justify-content: right;
- }
- 
- .detractors-grid-item {
+}
+
+.detractors-grid-item {
     width: 28px;
     height: 40px;
     background-color: #FFF;
@@ -483,9 +485,9 @@ button.dt-button {
     margin-right: 3px;
     border: 1px solid #c0c0c0;
     border-radius: 5px;
- }
- 
- .passives-grid-item {
+}
+
+.passives-grid-item {
     width: 28px;
     height: 40px;
     background-color: #FFF;
@@ -497,9 +499,9 @@ button.dt-button {
     margin-right: 3px;
     border: 1px solid #c0c0c0;
     border-radius: 5px;
- }
- 
- .promoters-grid-item {
+}
+
+.promoters-grid-item {
     width: 28px;
     height: 40px;
     background-color: #FFF;
@@ -511,12 +513,12 @@ button.dt-button {
     margin-right: 3px;
     border: 1px solid #c0c0c0;
     border-radius: 5px;
- }
+}
 .enps-smile-promoter {
     color: #77bc1f;
     width: 40px;
     font-size: 36px !important;
- }
+}
 .enps-smile-passive {
     color: orange;
     width: 40px;

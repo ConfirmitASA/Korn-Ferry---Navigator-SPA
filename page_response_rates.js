@@ -2,15 +2,13 @@
 
 function ResponseRates_Page() {
 	return {
-		Label: 'Response Rates',
+		Label: meta.Labels['ResponseRates'].Title,
 
-		LeftPane: `
-		<p>A Response Rate of 90% or above is considered good.</p>
-		`,
-		
+		LeftPane: meta.Labels['ResponseRates'].Label,
+
 		RightPane:
 			Component_TestDataIndicator ( true ) +
-		`
+			`
 		<div class="view-mode">
 			<section class="widgets__wrapper">
 
@@ -22,14 +20,14 @@ function ResponseRates_Page() {
 							<table id="accordionTable" class="treetable items-table dataTable no-footer">
 								<thead class="TableRow" id="accordionHeader">
 									<tr class="TableRow" id="accordionHeader">
-										<th class="text-cell" style="text-align:left !important; min-width:200px !important;">Report Group</th>
-										<th class="text-cell">Invited</th>
-										<th class="text-cell">Respondents</th>
-										<th class="text-cell">Response Rate</th>
-										<th class="text-cell">Rollup</th>
+										<th class="text-cell" style="text-align:left !important; min-width:200px !important;">${meta.Labels['ResponseRatesTexts.reportgroup'].Label}</th>
+										<th class="text-cell">${meta.Labels['ResponseRatesTexts.invited'].Label}</th>
+										<th class="text-cell">${meta.Labels['ResponseRatesTexts.respondents'].Label}</th>
+										<th class="text-cell">${meta.Labels['ResponseRatesTexts.responserate'].Label}</th>
+										<th class="text-cell">${meta.Labels['ResponseRatesTexts.rollup'].Label}</th>
 										<th class="workId hideable noexport" style="display:none">Work Unit Id</th>
 										<th class="parentId hideable noexport" style="display:none">Parent Id</th>
-										<th class="managerName hideable noexport" style="display:none">ManagerName</th>
+										<th class="managerName hideable noexport" style="display:none">Manager Name</th>
 										<th class="searchCol noexport" style="display:none">Report Group Search Column</th>
 										<th class="indexCol noexport" style="display:none">Hierarchy Index</th>
 									</tr>
@@ -43,9 +41,9 @@ function ResponseRates_Page() {
 			</section>
 		</div>
 		`,
-		
+
 		ClassName: 'response-rate-container',
-        Style: null,
+		Style: null,
 		ShowFilterSummary: false
 	}
 }
@@ -77,7 +75,7 @@ function ResponseRates_Render() {
 			tableRow += '<td class="managerName hideable" style="display:none">' + item[item.length - 1] + '</td>';
 			$("#AccordionContent").append(tableRow);
 		});
-		
+
 		$("#accordionTable").treetable({
 			expandable: true,
 			clickableNodeNames: true,
@@ -97,7 +95,7 @@ function ResponseRates_Render() {
 				var val = $("#accordionTable").treetable("expandNode", item);
 			});
 		}
-			
+
 		$("#ShowFull").click(function(e) {
 			e.preventDefault();
 			$('#viewmode').prop('checked', false);
@@ -127,7 +125,7 @@ function ResponseRates_Render() {
 				var item = this.id.replace("node_", "");
 				$("#accordionTable").treetable("expandNode", item);
 			});
-		});	
+		});
 	}
 }
 

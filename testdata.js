@@ -147,7 +147,7 @@ function TestData_fillComparatorsData() {
 	var comparatorsExtended = [];
 	for (var i in meta.Comparators) {
 		if ((!!comparators && comparators.some(el => el == i)) || (config
-				.comparators.some(el => el == i)))
+			.comparators.some(el => el == i)))
 			comparatorsExtended.push(i);
 	}
 	if (comparatorsExtended.length == 0) return;
@@ -414,9 +414,9 @@ if (meta == null) {
 			"TR04": {
 				"Label": "New employees receive the training they need to do their jobs well.",
 				"RecommendedActions": [{
-						'Title': 'Seek guidance',
-						'Text': 'Seek internal guidance from Human Resources about external training programme.'
-					},
+					'Title': 'Seek guidance',
+					'Text': 'Seek internal guidance from Human Resources about external training programme.'
+				},
 					{
 						'Title': 'Make it personal',
 						'Text': 'Have a one-on-one conversation with your team members to assess what training has been most valuable and what future training they need and why.'
@@ -442,9 +442,9 @@ if (meta == null) {
 			"SD03": {
 				"Label": "I have a good understanding of the company's strategic priorities and goals.",
 				"RecommendedActions": [{
-						'Title': 'Share the big picture',
-						'Text': "Set frequent team meetings and start with a Strategy Section in the agenda.<br>Explain the current strategy and goals of the company and relate the larger strategy to your business unit and team's strategy and goals."
-					},
+					'Title': 'Share the big picture',
+					'Text': "Set frequent team meetings and start with a Strategy Section in the agenda.<br>Explain the current strategy and goals of the company and relate the larger strategy to your business unit and team's strategy and goals."
+				},
 					{
 						'Title': 'Align individual and company targets',
 						'Text': "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."
@@ -518,9 +518,9 @@ if (meta == null) {
 			"PE01": {
 				"Label": "I have a good understanding of my work group's goals and objectives.",
 				"RecommendedActions": [{
-						'Title': 'Align individual and company targets',
-						'Text': "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."
-					},
+					'Title': 'Align individual and company targets',
+					'Text': "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."
+				},
 					{
 						'Title': 'Tell good stories',
 						'Text': "Communicate successes on a regular basis. Choose a format (Friday newsletters, weekly quizzes, 1-2-1, intranet communication) and include financial successes but don't focus exclusively on them.<br>Invite members of the team to talk about what they've done well recently."
@@ -618,9 +618,9 @@ if (meta == null) {
 				Items: ['OM12', 'OM01', 'OM11', 'OS02', 'OM06'],
 				"Label": "Employee Engagement",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -637,9 +637,9 @@ if (meta == null) {
 				Items: ['WE12', 'JS05', 'JS02', 'WE08'],
 				"Label": "Employee Enablement",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -652,9 +652,9 @@ if (meta == null) {
 				Items: ['RE01', 'WS03', 'DC11', 'SP04', 'WK01'],
 				"Label": "Resources",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #2',
-						'Text': 'Recommended action #2 text'
-					},
+					'Title': 'Recommended action #2',
+					'Text': 'Recommended action #2 text'
+				},
 					{
 						'Title': 'Recommended action #3',
 						'Text': 'Recommended action #3 text'
@@ -667,9 +667,9 @@ if (meta == null) {
 				Items: ['DM02', 'VC04', 'IV04', 'DM18'],
 				"Label": "Authority & Empowerment",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -686,9 +686,9 @@ if (meta == null) {
 				Items: ['RC01', 'ER01', 'WL01', 'GP10', 'DI03', 'WK02'],
 				"Label": "Respect & Recognition",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -705,9 +705,9 @@ if (meta == null) {
 				Items: ['TW06', 'TW04', 'GP09', 'TW02', 'DC08'],
 				"Label": "Collaboration",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -724,9 +724,9 @@ if (meta == null) {
 				Items: ['QS01', 'QS16', 'QS03', 'QS02', 'OM04', 'QS09'],
 				"Label": "Quality & Customer Focus",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -743,9 +743,9 @@ if (meta == null) {
 				Items: ['PE09', 'PE06', 'PE03', 'CP14', 'PE10', 'PE21'],
 				"Label": "Performance Management",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -762,9 +762,9 @@ if (meta == null) {
 				Items: ['AV15', 'SP12', 'AV09', 'AV01', 'AV08'],
 				"Label": "Development Opportunities",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -783,9 +783,9 @@ if (meta == null) {
 				],
 				"Label": "Confidence in Leaders",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -802,9 +802,9 @@ if (meta == null) {
 				Items: ['TR09', 'TR01', 'TR04', 'SP47'],
 				"Label": "Training",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -821,9 +821,9 @@ if (meta == null) {
 				Items: ['SD04', 'GP07', 'SD05', 'SD03', 'GP03', 'PE01'],
 				"Label": "Clear & Promising Direction",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -840,9 +840,9 @@ if (meta == null) {
 				Items: ['IV02', 'WE01', 'ST01', 'DM04', 'WS01', 'DC09'],
 				"Label": "Work, Structure, & Process",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -859,9 +859,9 @@ if (meta == null) {
 				Items: ['CP11', 'CP12', 'BN01', 'BN04', 'CP16'],
 				"Label": "Pay & Benefits",
 				"RecommendedActions": [{
-						'Title': 'Recommended action #1',
-						'Text': 'Recommended action #1 text'
-					},
+					'Title': 'Recommended action #1',
+					'Text': 'Recommended action #1 text'
+				},
 					{
 						'Title': 'Recommended action #2',
 						'Text': 'Recommended action #2 text'
@@ -885,169 +885,169 @@ if (meta == null) {
 			}
 		},
 
-			NonStandardQuestions: {"NSQ1":{"Label":"How likely is it that you would recommend this company's products and services to family or friends?","Answers":{"1":{"Label":"0 (Not At All Likely)"},"2":{"Label":"1"},"3":{"Label":"2"},"4":{"Label":"3"},"5":{"Label":"4"},"6":{"Label":"5"},"7":{"Label":"6"},"8":{"Label":"7"},"9":{"Label":"8"},"10":{"Label":"9"},"11":{"Label":"10 (Extremely Likely)"}}},"NSQ2":{"Label":"From which of the following sources do you now receive most of your information about what is going on in the company? Rank your top three information sources only.","Answers":{"1":{"Label":"My colleagues"},"2":{"Label":"Bulletin board"},"3":{"Label":"My supervisor"},"4":{"Label":"Company leadership"},"5":{"Label":"Group meetings at our work location"},"6":{"Label":"Newsletter"},"7":{"Label":"Company website"},"8":{"Label":"Company e-mail"},"9":{"Label":"Webcast"}}},"NSQ3":{"Label":"Please select the theme that best describe your comment","Answers":{"1":{"Label":"Confidence in Leadership"},"2":{"Label":"Company Brand"},"3":{"Label":"Customer Focus"},"4":{"Label":"Team work & Collaboration"},"5":{"Label":"People Management"},"6":{"Label":"Positive Work Environment"},"7":{"Label":"Meaningful Work"},"8":{"Label":"Growth Opportunity"},"9":{"Label":"Internal Processes"},"10":{"Label":"Technology & IT Systems"},"11":{"Label":"Other"}}},"NSQ4":{"Label":"Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.","Answers":{"1":{"Label":"Base pay"},"2":{"Label":"Career advancement and development opportunities"},"3":{"Label":"Challenging work"},"4":{"Label":"Collaborative environment"},"5":{"Label":"Community involvement/philanthropy"},"6":{"Label":"Company agility and speed"},"7":{"Label":"Company mission that I believe in"},"8":{"Label":"Core values"},"9":{"Label":"Customer focus"},"10":{"Label":"Empowerment"},"11":{"Label":"Family owned"},"12":{"Label":"Financial strength/stability"},"13":{"Label":"Flexible working conditions"},"14":{"Label":"Health & Retirement benefits"},"15":{"Label":"High-growth company"},"16":{"Label":"Hours worked"},"17":{"Label":"Innovation"},"18":{"Label":"Leadership effectiveness"},"19":{"Label":"Location"},"20":{"Label":"Ongoing feedback provided"},"21":{"Label":"On-the-job training"},"22":{"Label":"Team effectiveness"},"23":{"Label":"Paid time off"},"24":{"Label":"Performance-based variable pay (incentives, bonus, commissions)"},"25":{"Label":"Products that my friends and family respect"},"26":{"Label":"Recognition"},"27":{"Label":"Results-oriented environment"},"28":{"Label":"Safe work environment"},"29":{"Label":"Other"}}},"NSQ5":{"Label":"Please select which of the following are barriers to innovation at the company: (Select all that apply)","Answers":{"1":{"Label":"Technology (tools and systems)"},"2":{"Label":"Approval process"},"3":{"Label":"Work processes"},"4":{"Label":"Decision-making freedom"},"5":{"Label":"Direction from the person to whom I report"},"6":{"Label":"Workload"},"7":{"Label":"Collaboration between groups"},"8":{"Label":"Availability of resources"},"9":{"Label":"Budget"},"10":{"Label":"Physical work space"},"11":{"Label":"Fear of raising ideas"},"12":{"Label":"I am uncertain about how to innovate"}}},"NSQ6":{"Label":"How do you prefer to read your emails, reports and books?","Answers":{"1":{"Label":"Only Online"},"2":{"Label":"Mixed (Print and Online)"},"3":{"Label":"Only Print"},"4":{"Label":"Do Not Know/Not Applicable"}}}},
-			CommentQuestions: {
-				"Comm1": {
-					"Label": "The MAIN thing that makes the Company a great place to work"
-				},
-				"Comm2": {
-					"Label": "The MAIN thing that would make us more productive"
-				}
+		NonStandardQuestions: {"NSQ1":{"Label":"How likely is it that you would recommend this company's products and services to family or friends?","Answers":{"1":{"Label":"0 (Not At All Likely)"},"2":{"Label":"1"},"3":{"Label":"2"},"4":{"Label":"3"},"5":{"Label":"4"},"6":{"Label":"5"},"7":{"Label":"6"},"8":{"Label":"7"},"9":{"Label":"8"},"10":{"Label":"9"},"11":{"Label":"10 (Extremely Likely)"}}},"NSQ2":{"Label":"From which of the following sources do you now receive most of your information about what is going on in the company? Rank your top three information sources only.","Answers":{"1":{"Label":"My colleagues"},"2":{"Label":"Bulletin board"},"3":{"Label":"My supervisor"},"4":{"Label":"Company leadership"},"5":{"Label":"Group meetings at our work location"},"6":{"Label":"Newsletter"},"7":{"Label":"Company website"},"8":{"Label":"Company e-mail"},"9":{"Label":"Webcast"}}},"NSQ3":{"Label":"Please select the theme that best describe your comment","Answers":{"1":{"Label":"Confidence in Leadership"},"2":{"Label":"Company Brand"},"3":{"Label":"Customer Focus"},"4":{"Label":"Team work & Collaboration"},"5":{"Label":"People Management"},"6":{"Label":"Positive Work Environment"},"7":{"Label":"Meaningful Work"},"8":{"Label":"Growth Opportunity"},"9":{"Label":"Internal Processes"},"10":{"Label":"Technology & IT Systems"},"11":{"Label":"Other"}}},"NSQ4":{"Label":"Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.","Answers":{"1":{"Label":"Base pay"},"2":{"Label":"Career advancement and development opportunities"},"3":{"Label":"Challenging work"},"4":{"Label":"Collaborative environment"},"5":{"Label":"Community involvement/philanthropy"},"6":{"Label":"Company agility and speed"},"7":{"Label":"Company mission that I believe in"},"8":{"Label":"Core values"},"9":{"Label":"Customer focus"},"10":{"Label":"Empowerment"},"11":{"Label":"Family owned"},"12":{"Label":"Financial strength/stability"},"13":{"Label":"Flexible working conditions"},"14":{"Label":"Health & Retirement benefits"},"15":{"Label":"High-growth company"},"16":{"Label":"Hours worked"},"17":{"Label":"Innovation"},"18":{"Label":"Leadership effectiveness"},"19":{"Label":"Location"},"20":{"Label":"Ongoing feedback provided"},"21":{"Label":"On-the-job training"},"22":{"Label":"Team effectiveness"},"23":{"Label":"Paid time off"},"24":{"Label":"Performance-based variable pay (incentives, bonus, commissions)"},"25":{"Label":"Products that my friends and family respect"},"26":{"Label":"Recognition"},"27":{"Label":"Results-oriented environment"},"28":{"Label":"Safe work environment"},"29":{"Label":"Other"}}},"NSQ5":{"Label":"Please select which of the following are barriers to innovation at the company: (Select all that apply)","Answers":{"1":{"Label":"Technology (tools and systems)"},"2":{"Label":"Approval process"},"3":{"Label":"Work processes"},"4":{"Label":"Decision-making freedom"},"5":{"Label":"Direction from the person to whom I report"},"6":{"Label":"Workload"},"7":{"Label":"Collaboration between groups"},"8":{"Label":"Availability of resources"},"9":{"Label":"Budget"},"10":{"Label":"Physical work space"},"11":{"Label":"Fear of raising ideas"},"12":{"Label":"I am uncertain about how to innovate"}}},"NSQ6":{"Label":"How do you prefer to read your emails, reports and books?","Answers":{"1":{"Label":"Only Online"},"2":{"Label":"Mixed (Print and Online)"},"3":{"Label":"Only Print"},"4":{"Label":"Do Not Know/Not Applicable"}}}},
+		CommentQuestions: {
+			"Comm1": {
+				"Label": "The MAIN thing that makes the Company a great place to work"
 			},
+			"Comm2": {
+				"Label": "The MAIN thing that would make us more productive"
+			}
+		},
 
-			CommentCategories: {
-				"1": {
-					"Label": "Authority & Empowerment"
-				},
-				"2": {
-					"Label": "Clear & Promising Direction"
-				},
-				"3": {
-					"Label": "Collaboration"
-				},
-				"4": {
-					"Label": "Confidence in Leaders"
-				},
-				"5": {
-					"Label": "Development Opportunities"
-				},
-				"6": {
-					"Label": "Employee Enablement"
-				},
-				"7": {
-					"Label": "Employee Engagement"
-				},
-				"8": {
-					"Label": "Pay & Benefits"
-				},
-				"9": {
-					"Label": "Performance Management"
-				},
-				"10": {
-					"Label": "Quality & Customer Focus"
-				},
-				"11": {
-					"Label": "Resources"
-				},
-				"12": {
-					"Label": "Respect & Recognition"
-				},
-				"13": {
-					"Label": "Training"
-				},
-				"14": {
-					"Label": "Work, Structure, & Process"
-				}
+		CommentCategories: {
+			"1": {
+				"Label": "Authority & Empowerment"
 			},
+			"2": {
+				"Label": "Clear & Promising Direction"
+			},
+			"3": {
+				"Label": "Collaboration"
+			},
+			"4": {
+				"Label": "Confidence in Leaders"
+			},
+			"5": {
+				"Label": "Development Opportunities"
+			},
+			"6": {
+				"Label": "Employee Enablement"
+			},
+			"7": {
+				"Label": "Employee Engagement"
+			},
+			"8": {
+				"Label": "Pay & Benefits"
+			},
+			"9": {
+				"Label": "Performance Management"
+			},
+			"10": {
+				"Label": "Quality & Customer Focus"
+			},
+			"11": {
+				"Label": "Resources"
+			},
+			"12": {
+				"Label": "Respect & Recognition"
+			},
+			"13": {
+				"Label": "Training"
+			},
+			"14": {
+				"Label": "Work, Structure, & Process"
+			}
+		},
 
 
-			Demographics: {
-				"Gender": {
-					"Label": "Gender",
-					"Answers": {
-						"410": {
-							"Label": "Male"
-						},
-						"420": {
-							"Label": "Female"
-						},
-						"430": {
-							"Label": "Other/non-binary"
-						},
-						"440": {
-							"Label": "Prefer not to say"
-						}
-					}
-				},
-				"Age": {
-					"Label": "Age",
-					"Answers": {
-						"651": {
-							"Label": "Under 20"
-						},
-						"652": {
-							"Label": "20 to 29"
-						},
-						"653": {
-							"Label": "30 to 39"
-						},
-						"654": {
-							"Label": "40 to 49"
-						},
-						"655": {
-							"Label": "50 to 59"
-						},
-						"656": {
-							"Label": "Over 59"
-						}
-					}
-				},
-				"Tenure": {
-					"Label": "Tenure",
-					"Answers": {
-						"701": {
-							"Label": "Less than 1 year"
-						},
-						"702": {
-							"Label": "1 year to less than 2 years"
-						},
-						"703": {
-							"Label": "2 years to less than 5 years"
-						},
-						"704": {
-							"Label": "5 years to less than 10 years"
-						},
-						"705": {
-							"Label": "10 years or more"
-						}
-					}
-				},
-				"UnionNon": {
-					"Label": "Union/Non-Union",
-					"Answers": {
-						"631": {
-							"Label": "Union"
-						},
-						"632": {
-							"Label": "Non-Union"
-						}
-					}
-				},
-				"Wage_Status": {
-					"Label": "Wage_Status",
-					"Answers": {
-						"641": {
-							"Label": "Hourly"
-						},
-						"642": {
-							"Label": "Salaried"
-						}
+		Demographics: {
+			"Gender": {
+				"Label": "Gender",
+				"Answers": {
+					"410": {
+						"Label": "Male"
+					},
+					"420": {
+						"Label": "Female"
+					},
+					"430": {
+						"Label": "Other/non-binary"
+					},
+					"440": {
+						"Label": "Prefer not to say"
 					}
 				}
 			},
-
-
-			Comparators: {
-				//"Internal.trend2020": { Label: "Trend 2020" },
-				"Internal.Wave:2019": {
-					Label: "Trend 2019"
-				},
-				"Internal.Wave:2018": {
-					Label: "Trend 2018"
-				},
-				"Internal.parent": {
-					Label: "Parent"
-				},
-				"Internal.total": {
-					Label: "Total Company"
-				},
-				"External.IndustryBenchmark": {
-					Label: "Industry Benchmark"
-				},
-				"External.HighPerformers": {
-					Label: "High Performers"
-				},
+			"Age": {
+				"Label": "Age",
+				"Answers": {
+					"651": {
+						"Label": "Under 20"
+					},
+					"652": {
+						"Label": "20 to 29"
+					},
+					"653": {
+						"Label": "30 to 39"
+					},
+					"654": {
+						"Label": "40 to 49"
+					},
+					"655": {
+						"Label": "50 to 59"
+					},
+					"656": {
+						"Label": "Over 59"
+					}
+				}
 			},
+			"Tenure": {
+				"Label": "Tenure",
+				"Answers": {
+					"701": {
+						"Label": "Less than 1 year"
+					},
+					"702": {
+						"Label": "1 year to less than 2 years"
+					},
+					"703": {
+						"Label": "2 years to less than 5 years"
+					},
+					"704": {
+						"Label": "5 years to less than 10 years"
+					},
+					"705": {
+						"Label": "10 years or more"
+					}
+				}
+			},
+			"UnionNon": {
+				"Label": "Union/Non-Union",
+				"Answers": {
+					"631": {
+						"Label": "Union"
+					},
+					"632": {
+						"Label": "Non-Union"
+					}
+				}
+			},
+			"Wage_Status": {
+				"Label": "Wage_Status",
+				"Answers": {
+					"641": {
+						"Label": "Hourly"
+					},
+					"642": {
+						"Label": "Salaried"
+					}
+				}
+			}
+		},
+
+
+		Comparators: {
+			//"Internal.trend2020": { Label: "Trend 2020" },
+			"Internal.Wave:2019": {
+				Label: "Trend 2019"
+			},
+			"Internal.Wave:2018": {
+				Label: "Trend 2018"
+			},
+			"Internal.parent": {
+				Label: "Parent"
+			},
+			"Internal.total": {
+				Label: "Total Company"
+			},
+			"External.IndustryBenchmark": {
+				Label: "Industry Benchmark"
+			},
+			"External.HighPerformers": {
+				Label: "High Performers"
+			},
+		},
 		Labels: {
 			"menu": {"Id": "menu", "Title": "", "Label": ""},
 			"menu.Home": {"Label": "Home"},
@@ -1157,13 +1157,13 @@ if (meta == null) {
 			"labels.Name": {"Label": "Name:"},
 			"labels.Notes": {"Label": "Notes:"},
 			"labels.ActionPlanDetails": {"Label": "Action Plan Details"},
-            "labels.Status": {"Label": "Status:"},
+			"labels.Status": {"Label": "Status:"},
 			"labels.NotStarted": {"Label": "Not Started"},
 			"labels.Started": {"Label": "Started"},
 			"labels.OnHold": {"Label": "On Hold"},
 			"labels.Complete": {"Label": "Complete"},
-            "labels.DueDate": {"Label": "Due Date:"},
-            "labels.PlanOwner": {"Label": "Plan Owner:"},
+			"labels.DueDate": {"Label": "Due Date:"},
+			"labels.PlanOwner": {"Label": "Plan Owner:"},
 			"labels.ActionOwner": {"Label": "Action Owner:"},
 			"labels.DeletePlanConfirmation": {"Label": "Are you sure you want to delete this plan?"},
 			"labels.DeleteActionConfirmation": {"Label": "Are you sure you want to delete this action?"},
@@ -1409,6 +1409,11 @@ if (meta == null) {
 			"ENPSTexts.ENPSPromotersScaleDesc": {"Label": "i.e. 9 & 10 scores"},
 			"ENPSTexts.ENPSDetractorsScaleDesc": {"Label": "i.e. 0 & 6 scores"},
 			"ENPSTexts.ENPSN": {"Label": "N="},
+			"ResponseRatesTexts.reportgroup": {"Label": "Report Group"},
+			"ResponseRatesTexts.invited": {"Label": "Invited"},
+			"ResponseRatesTexts.respondents": {"Label": "Respondents"},
+			"ResponseRatesTexts.responserate": {"Label": "Response Rate"},
+			"ResponseRatesTexts.rollup": {"Label": "Rollup"},
 			"KeyMetrics": {
 				"Id": "KeyMetrics",
 				"Title": "Key Metrics",
@@ -1656,347 +1661,347 @@ if (meta == null) {
 			"Actions_PE01.title_2": {"Label": "Be the change"},
 			"Actions_PE01.text_2": {"Label": "Download and read Korn Ferry's thought leadership piece urging leaders to <a href='https://infokf.kornferry.com/Be_the_change.html?utm_source=website&utm_medium=banner&utm_term=&utm_content=%20&utm_campaign=19-11-GBL-Culture-Transformation' target='_blank'>Be the Change</a>"}
 		},
-			Buttons: {
-				"Apply": {
-					"Label": "Apply"
-				},
-				"Cancel": {
-					"Label": "Cancel"
-				},
-				"Clear": {
-					"Label": "Clear"
-				},
-				"Download": {
-					"Label": "Download"
-				},
-				"Slideshow": {
-					"Label": "Slideshow"
-				},
-				"Start": {
-					"Label": "Start Exploring"
-				},
-				"More": {
-					"Label": "More"
-				},
-				"Maintain": {
-					"Label": "Take Action to Maintain"
-				},
-				"Improve": {
-					"Label": "Take Action to Improve"
-				},
+		Buttons: {
+			"Apply": {
+				"Label": "Apply"
+			},
+			"Cancel": {
+				"Label": "Cancel"
+			},
+			"Clear": {
+				"Label": "Clear"
+			},
+			"Download": {
+				"Label": "Download"
+			},
+			"Slideshow": {
+				"Label": "Slideshow"
+			},
+			"Start": {
+				"Label": "Start Exploring"
+			},
+			"More": {
+				"Label": "More"
+			},
+			"Maintain": {
+				"Label": "Take Action to Maintain"
+			},
+			"Improve": {
+				"Label": "Take Action to Improve"
+			},
 
 
-				"TakeAction": {
-					"Label": "Take Action"
-				},
-				"WorkOnThis": {
-					"Label": "Work on this >>"
-				},
-				"AddToActionPlan": {
-					"Label": "+ Add to Action Plan"
-				},
-				"AddOwnAction": {
-					"Label": "+ Add Own Action"
-				},
-				"RemoveFromActionPlan": {
-					"Label": "- Remove from Action Plan"
-				},
-				"Submit": {
-					"Label": "Submit"
-				},
-				"Close": {
-					"Label": "Close"
-				}
+			"TakeAction": {
+				"Label": "Take Action"
 			},
-			ExportButtons: {
-				"copy": {
-					"Label": "Copy",
-					"FileName": "Data export"
-				},
-				"excel": {
-					"Label": "Excel",
-					"FileName": "Data export"
-				},
-				"csv": {
-					"Label": "CSV",
-					"FileName": "Data export"
-				},
-				"pdf": {
-					"Label": "PDF",
-					"FileName": "Data export"
-				}
+			"WorkOnThis": {
+				"Label": "Work on this >>"
 			},
-			WelcomePage: {
-				"Title": "Welcome",
-				"Label": `
+			"AddToActionPlan": {
+				"Label": "+ Add to Action Plan"
+			},
+			"AddOwnAction": {
+				"Label": "+ Add Own Action"
+			},
+			"RemoveFromActionPlan": {
+				"Label": "- Remove from Action Plan"
+			},
+			"Submit": {
+				"Label": "Submit"
+			},
+			"Close": {
+				"Label": "Close"
+			}
+		},
+		ExportButtons: {
+			"copy": {
+				"Label": "Copy",
+				"FileName": "Data export"
+			},
+			"excel": {
+				"Label": "Excel",
+				"FileName": "Data export"
+			},
+			"csv": {
+				"Label": "CSV",
+				"FileName": "Data export"
+			},
+			"pdf": {
+				"Label": "PDF",
+				"FileName": "Data export"
+			}
+		},
+		WelcomePage: {
+			"Title": "Welcome",
+			"Label": `
 				<p style="font-size: medium;"><b>Make better decisions and drive meaningful change by understanding your people and their experience.</b></p>
              	<p>Use this report to explore how people feel, what motivates them and what actions you can take to make your team and the organisation a better place to work.</p>
             	<p></p>
 			`,
-				"LabelFooter": "High-level results are only a click away.",
-				"TitleSummary": "I just want the summary",
-				"LabelSummary": "Your summary report available for instant view or download.",
-				"TitleDetails": "I want all the details",
-				"LabelDetails": "Explore detailed results for your people and plan your next steps.",
-				"Footer": "This website is managed by Korn Ferry, commissioned by your organization to administer this survey on its behalf <a href=\"https://www.kornferry.com/\" target=\"_new\">www.kornferry.com</a>. Korn Ferry protects individual respondent confidentiality by only reporting results data in an aggregated format. Korn Ferry will only show aggregated results data for group sizes at or above the minimum number of respondents agreed with your organization. As a user of this website, you are responsible for handling all survey results data with due care and attention and in accordance with your organization`s information security standards and policies.",
-			},
-			SlideshowPage: {
-				"Title": "Slideshow",
-				"Label": `
+			"LabelFooter": "High-level results are only a click away.",
+			"TitleSummary": "I just want the summary",
+			"LabelSummary": "Your summary report available for instant view or download.",
+			"TitleDetails": "I want all the details",
+			"LabelDetails": "Explore detailed results for your people and plan your next steps.",
+			"Footer": "This website is managed by Korn Ferry, commissioned by your organization to administer this survey on its behalf <a href=\"https://www.kornferry.com/\" target=\"_new\">www.kornferry.com</a>. Korn Ferry protects individual respondent confidentiality by only reporting results data in an aggregated format. Korn Ferry will only show aggregated results data for group sizes at or above the minimum number of respondents agreed with your organization. As a user of this website, you are responsible for handling all survey results data with due care and attention and in accordance with your organization`s information security standards and policies.",
+		},
+		SlideshowPage: {
+			"Title": "Slideshow",
+			"Label": `
 				<p>The slideshow contains a curated set of slides based on the survey findings.</p>
 				<p>The same content is available as a downloadable PowerPoint presentation.</p>
 			`,
-				"Start": "Start Slideshow >"
+			"Start": "Start Slideshow >"
+		},
+		EffectivenessProfileTexts: {
+			"MostEffective": "These employees are the key to driving better organizational performance.",
+			"Detached": "These employees may need additional alignment or leadership in order to become effective.",
+			"LeastEffective": "These employees can become a drag on the organization if they are not turned towards effectiveness.",
+			"Frustrated": "Productivity issues can cause these employees to disengage or leave your company."
+		},
+		ENPSTexts: {
+			"ENPSCardFrontTitle": {
+				"Label": "Your ENPS Score"
 			},
-			EffectivenessProfileTexts: {
-				"MostEffective": "These employees are the key to driving better organizational performance.",
-				"Detached": "These employees may need additional alignment or leadership in order to become effective.",
-				"LeastEffective": "These employees can become a drag on the organization if they are not turned towards effectiveness.",
-				"Frustrated": "Productivity issues can cause these employees to disengage or leave your company."
+			"ENPSCardBackTitle": {
+				"Label": "Number of ENPS respondents"
 			},
-			ENPSTexts: {
-				"ENPSCardFrontTitle": {
-					"Label": "Your ENPS Score"
-				},
-				"ENPSCardBackTitle": {
-					"Label": "Number of ENPS respondents"
-				},
-				"ENPSQuestionLabel": {
-					"Label": "How likely is it that you would recommend our products / services to a friend or colleague?"
-				},
-				"ENPSPromotersDesc": {
-					"Label": "Employees who are likely to recommend you"
-				},
-				"ENPSPassivesDesc": {
-					"Label": "Employees with no strong feelings one way or the other"
-				},
-				"ENPSDetractorsDesc": {
-					"Label": "Employees who are unwilling to recommend you or will possibly speak unfavorably about you"
-				},
-				"ENPSPromotersScale": {
-					"Label": "Extremely likely"
-				},
-				"ENPSPassivesScale": {
-					"Label": "Neutral"
-				},
-				"ENPSDetractorsScale": {
-					"Label": "Not at all likely"
-				},
-				"ENPSPromotersScaleDesc": {
-					"Label": "i.e. 9 & 10 scores"
-				},
-				"ENPSDetractorsScaleDesc": {
-					"Label": "i.e. 0 & 6 scores"
-				},
+			"ENPSQuestionLabel": {
+				"Label": "How likely is it that you would recommend our products / services to a friend or colleague?"
 			},
-			SlideTexts: {
+			"ENPSPromotersDesc": {
+				"Label": "Employees who are likely to recommend you"
+			},
+			"ENPSPassivesDesc": {
+				"Label": "Employees with no strong feelings one way or the other"
+			},
+			"ENPSDetractorsDesc": {
+				"Label": "Employees who are unwilling to recommend you or will possibly speak unfavorably about you"
+			},
+			"ENPSPromotersScale": {
+				"Label": "Extremely likely"
+			},
+			"ENPSPassivesScale": {
+				"Label": "Neutral"
+			},
+			"ENPSDetractorsScale": {
+				"Label": "Not at all likely"
+			},
+			"ENPSPromotersScaleDesc": {
+				"Label": "i.e. 9 & 10 scores"
+			},
+			"ENPSDetractorsScaleDesc": {
+				"Label": "i.e. 0 & 6 scores"
+			},
+		},
+		SlideTexts: {
 
-				'SLIDE_WELCOME': {
-					'title': 'Welcome to your team survey results summary',
-					'info': [
-						'This slideshow feature allows you to get a first look at your team survey results. In this summary you will get a chance to understand...',
-						'How your team is performing in the areas your organisation feels are most important',
-						"The areas your team responses have indicated as 'areas to celebrate'",
-						"The areas your team responses have indicated as 'areas for future focus'",
-						"An overview of your team's responses by category or dimension",
-						'Some ideas on what to do next'
-					]
-				},
-				'SLIDE_NEXTSTEPS': {
-					'title': 'Next Steps',
-					'info': [
-						'Making the best use of this useful feedback...',
-						'Take the time to <b>get deeper into your results using the online dashboard</b>, taking note of any questions you might have and adding questions or dimensions to your Actions as focus areas.',
-						'<b>Download the PowerPoint summary</b> as a tool to share the results with your team - running through the results and eliciting their thoughts on the data will increase engagement with the process and inspire ideas for action.',
-						'Build out your <b>action plan using the online tool</b> and be sure to see the actions through.'
-					]
-				},
-
-
-
-
-				'SLIDE_ENG': {
-					'title': 'Employee Engagement: Results Details',
-					'info': [
-						"Engagement measures commitment to the company and extra effort employees are willing to put in for the good of the organisation",
-						"The Engagement score is calculated as an average of the favourable scores from questions shown below"
-					]
-				},
-				'SLIDE_ENA': {
-					'title': 'Employee Enablement: Results Details',
-					'info': [
-						"Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.",
-						"The Enablement score is calculated as an average of the favourable scores from questions shown below."
-					]
-				},
-				'SLIDE_STRENGTHS': {
-					'title': 'Team Strengths: Areas to Celebrate',
-					'info': [
-						"This page helps you focus on come of the most important survey results for your work group. Keep doing these well.",
-						"Questions are categorised as 'strengths' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
-					]
-				},
-				'SLIDE_OPPORTUNITIES': {
-					'title': 'Team Opportunities: Areas to Focus',
-					'info': [
-						"This page helps you focus on come of the most important survey results for your work group. Focus on improving these.",
-						"Questions are categorised as 'opportunities' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
-					]
-				},
-
-				'SLIDE_DIMS': {
-					'title': 'Dimension Overview',
-					'info': [
-						"Here is an overview of the most favourable and least favourable dimensions"
-					],
-					"LabelMostFav": "Most favourable dimensions",
-					"LabelLeastFav": "Least favourable dimensions"
-				},
+			'SLIDE_WELCOME': {
+				'title': 'Welcome to your team survey results summary',
+				'info': [
+					'This slideshow feature allows you to get a first look at your team survey results. In this summary you will get a chance to understand...',
+					'How your team is performing in the areas your organisation feels are most important',
+					"The areas your team responses have indicated as 'areas to celebrate'",
+					"The areas your team responses have indicated as 'areas for future focus'",
+					"An overview of your team's responses by category or dimension",
+					'Some ideas on what to do next'
+				]
+			},
+			'SLIDE_NEXTSTEPS': {
+				'title': 'Next Steps',
+				'info': [
+					'Making the best use of this useful feedback...',
+					'Take the time to <b>get deeper into your results using the online dashboard</b>, taking note of any questions you might have and adding questions or dimensions to your Actions as focus areas.',
+					'<b>Download the PowerPoint summary</b> as a tool to share the results with your team - running through the results and eliciting their thoughts on the data will increase engagement with the process and inspire ideas for action.',
+					'Build out your <b>action plan using the online tool</b> and be sure to see the actions through.'
+				]
+			},
 
 
-				'SLIDE_TOP5': {
-					'title': 'Top 5 Questions',
-					'info': []
-				},
-				'SLIDE_BOTTOM5': {
-					'title': 'Bottom 5 Questions',
-					'info': []
-				},
-				'SLIDE_COMMENTS': {
-					'title': 'Open-Ended Comment Themes',
-					'info': []
-				},
-				'SLIDE_KEYINDICES': {
-					'title': "Key Indices",
-					'info': [
-						"These metrics are what drive success in your organisation.",
-						"See the summary below for your teams performance on these metrics."
-					]
-				},
-				'SLIDE_KEYDRIVERS': {
-					'title': 'Key Drivers',
-					'info': [
-						"Key Driver Analysis determines which question items within a survey questionnaire most strongly influence or predict a dependent variable (in this case, the dependent variables are [ENG] and [ENA]).",
-						"Using key driver analysis, we can help answer the question: \"Where should I focus attention first in order to have the best chance of improving engagement and enablement in my organisation?\"",
-						"Results can give managers an alternative lens for understanding the culture of their organisations.",
-						"Key Driver Analysis results can be used to drive targeted Action Planning process."
-					],
-					"LabelEmployeeEngagement": "Employee Engagement",
-					"LabelEmployeeEnablement": "Employee Enablement",
-					"LabelTop2KeyDriversOf": "Top 2 Key Drivers of"
-				},
-				'SLIDE_EPSEGMENTATION': {
-					'title': 'Effectiveness Profile - Segmentation',
-					'info': [
-						"The [ENGFRAMEWORK] clusters employees into four distinct segments, based on relative levels of Engagement and Enablement in comparison to Korn Ferry\'s global benchmark.",
-						"The segmentation is designed to guide targeted action efforts.",
-						"For example, when employees are [FRUSTRATED] action should focus on implementing counter measures to organizational barriers that hinder performance and productivity.",
-						"When [DETACHMENT] is present, employees are likely to be disconnected for the organizations mission and purpose and question their long term prospects at the company."
-					],
-					"LabelHigh": "High",
-					"LabelLow": "Low",
-					"LabelDetachedExplanation": "Enabled, but not engaged",
-					"LabelMostEffectiveExplanation": "Engaged and enabled",
-					"LabelLeastEffectiveExplanation": "Neither engaged nor enabled",
-					"LabelFrustratedExplanation": "Engaged, but not enabled",
-					"LabelDetachment": "Detachment",
-					"LabelEngagedPerformanceFramework": "Engaged Performance[TM] Framework"
-				},
-				'SLIDE_EPDETAIL': {
-					'title': 'Effectiveness Profile: Detail',
-					'info': [
-						"These metrics are what drive success in your organisation."
-					]
-				},
-				'SLIDE_RESSUMMARY': {
-					'title': 'Results Summary',
-					'info': []
-				},
-				'SLIDE_RESDETAIL': {
-					'title': 'Results in Detail',
-					'info': []
-				},
-				'SLIDE_ENGFRAMEWORK': {
-					'title': 'Engaged Performance[TM] Framework',
-					'info': [
-						'1. Clear and promising direction',
-						'2. Confidence in leaders',
-						'3. Quality and customer focus',
-						'4. Respect and recognition',
-						'5. Development opportunities',
-						'6. Pay and benefits',
-						'7. Performance management',
-						'8. Authority and empowerment',
-						'9. Resources',
-						'10. Training',
-						'11. Collaboration',
-						'12. Work, structure and process'
-					],
-					'LabelPerformanceDrivers': 'Performance drivers configured to each client\'s business priorities',
-					'LabelEngagedPerformance': 'Engaged Performance',
-					'LabelEngagementInfo': 'Committed and loyal people, willing to go the extra mile',
-					'LabelEnablementInfo': 'The right people in the right roles, in an enabling work environment',
-					'LabelOperationalExcellence': 'Operational excellence',
-					'LabelCustomerLoyalty': 'Customer loyalty',
-					'LabelFinancialPerformance': 'Financial performance',
-					'LabelAttractTalent': 'Attract and retain talent',
-					'LabelStrongBrand': 'Strong employer brand'
-				},
-				'SLIDE_SURVEYBACKGROUND': {
-					'title': 'Survey Background',
-					'info': [
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-						'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-						'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-						'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-					],
-					'LabelNoResponses': 'No. responses:',
-					'LabelRespRate': 'Response rate:'
-				},
-				'SLIDE_TAKEACTION': {
-					'title': 'Taking Action',
-					'LeftSideContent': '"Organizations rated the highest by employees for acting on survey feedback outperform others on financial performance."',
-					'RightSideContent': [
-						'To drive effective change through your results...',
-						'Be realistic, focus on [2-3 areas of action] only to increase your chances of success',
-						'[Do not overlook strengths] - sometimes a good action plan can be about maintaining a strong score',
-						'Focus on high priority areas that are [within your control]',
-						'Make sure the actions address the [root cause] - think about the reasons why this issue has come about',
-					]
-				},
-				'SLIDE_HOWTOREAD': {
-					'title': 'How to Read Your Results',
-					'info': [
-						'The five-point scale is classified into favourable, neutral and unfavourable',
-						'Example table:',
-						'A star denotes statistically significant difference vs comparison (green font for positive; red font for negative)'
-					],
-					'LabelStronglyAgree': 'Strongly agree',
-					'LabelAgree': 'Agree',
-					'LabelNeither': 'Neither agree nor disagree',
-					'LabelDisagree': 'Disagree',
-					'LabelStronglyDisagree': 'Strongly disagree',
-					'LabelClearStrength': 'Clear strength',
-					'LabelModerateStrength': 'Moderate strength',
-					'LabelWarningSign': 'Warning sign',
-					'LabelRedFlag': 'Red flag',
-					'LabelClearStrengthPercent': '>80% favourable',
-					'LabelModerateStrengthPercent': '65-80% favourable',
-					'LabelWarningSignPercent': '<60% favourable or >20% unfavourable',
-					'LabelRedFlagPercent': '<50% favourable or >30% unfavourable'
-				},
-				'SLIDE_TITLE': {
-					'title': 'Title Slide',
-					'info': [
-						'#survey name#',
-						'#client#',
-						'Results for: #team name#'
-					]
-				}
+
+
+			'SLIDE_ENG': {
+				'title': 'Employee Engagement: Results Details',
+				'info': [
+					"Engagement measures commitment to the company and extra effort employees are willing to put in for the good of the organisation",
+					"The Engagement score is calculated as an average of the favourable scores from questions shown below"
+				]
+			},
+			'SLIDE_ENA': {
+				'title': 'Employee Enablement: Results Details',
+				'info': [
+					"Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.",
+					"The Enablement score is calculated as an average of the favourable scores from questions shown below."
+				]
+			},
+			'SLIDE_STRENGTHS': {
+				'title': 'Team Strengths: Areas to Celebrate',
+				'info': [
+					"This page helps you focus on come of the most important survey results for your work group. Keep doing these well.",
+					"Questions are categorised as 'strengths' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
+				]
+			},
+			'SLIDE_OPPORTUNITIES': {
+				'title': 'Team Opportunities: Areas to Focus',
+				'info': [
+					"This page helps you focus on come of the most important survey results for your work group. Focus on improving these.",
+					"Questions are categorised as 'opportunities' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
+				]
+			},
+
+			'SLIDE_DIMS': {
+				'title': 'Dimension Overview',
+				'info': [
+					"Here is an overview of the most favourable and least favourable dimensions"
+				],
+				"LabelMostFav": "Most favourable dimensions",
+				"LabelLeastFav": "Least favourable dimensions"
+			},
+
+
+			'SLIDE_TOP5': {
+				'title': 'Top 5 Questions',
+				'info': []
+			},
+			'SLIDE_BOTTOM5': {
+				'title': 'Bottom 5 Questions',
+				'info': []
+			},
+			'SLIDE_COMMENTS': {
+				'title': 'Open-Ended Comment Themes',
+				'info': []
+			},
+			'SLIDE_KEYINDICES': {
+				'title': "Key Indices",
+				'info': [
+					"These metrics are what drive success in your organisation.",
+					"See the summary below for your teams performance on these metrics."
+				]
+			},
+			'SLIDE_KEYDRIVERS': {
+				'title': 'Key Drivers',
+				'info': [
+					"Key Driver Analysis determines which question items within a survey questionnaire most strongly influence or predict a dependent variable (in this case, the dependent variables are [ENG] and [ENA]).",
+					"Using key driver analysis, we can help answer the question: \"Where should I focus attention first in order to have the best chance of improving engagement and enablement in my organisation?\"",
+					"Results can give managers an alternative lens for understanding the culture of their organisations.",
+					"Key Driver Analysis results can be used to drive targeted Action Planning process."
+				],
+				"LabelEmployeeEngagement": "Employee Engagement",
+				"LabelEmployeeEnablement": "Employee Enablement",
+				"LabelTop2KeyDriversOf": "Top 2 Key Drivers of"
+			},
+			'SLIDE_EPSEGMENTATION': {
+				'title': 'Effectiveness Profile - Segmentation',
+				'info': [
+					"The [ENGFRAMEWORK] clusters employees into four distinct segments, based on relative levels of Engagement and Enablement in comparison to Korn Ferry\'s global benchmark.",
+					"The segmentation is designed to guide targeted action efforts.",
+					"For example, when employees are [FRUSTRATED] action should focus on implementing counter measures to organizational barriers that hinder performance and productivity.",
+					"When [DETACHMENT] is present, employees are likely to be disconnected for the organizations mission and purpose and question their long term prospects at the company."
+				],
+				"LabelHigh": "High",
+				"LabelLow": "Low",
+				"LabelDetachedExplanation": "Enabled, but not engaged",
+				"LabelMostEffectiveExplanation": "Engaged and enabled",
+				"LabelLeastEffectiveExplanation": "Neither engaged nor enabled",
+				"LabelFrustratedExplanation": "Engaged, but not enabled",
+				"LabelDetachment": "Detachment",
+				"LabelEngagedPerformanceFramework": "Engaged Performance[TM] Framework"
+			},
+			'SLIDE_EPDETAIL': {
+				'title': 'Effectiveness Profile: Detail',
+				'info': [
+					"These metrics are what drive success in your organisation."
+				]
+			},
+			'SLIDE_RESSUMMARY': {
+				'title': 'Results Summary',
+				'info': []
+			},
+			'SLIDE_RESDETAIL': {
+				'title': 'Results in Detail',
+				'info': []
+			},
+			'SLIDE_ENGFRAMEWORK': {
+				'title': 'Engaged Performance[TM] Framework',
+				'info': [
+					'1. Clear and promising direction',
+					'2. Confidence in leaders',
+					'3. Quality and customer focus',
+					'4. Respect and recognition',
+					'5. Development opportunities',
+					'6. Pay and benefits',
+					'7. Performance management',
+					'8. Authority and empowerment',
+					'9. Resources',
+					'10. Training',
+					'11. Collaboration',
+					'12. Work, structure and process'
+				],
+				'LabelPerformanceDrivers': 'Performance drivers configured to each client\'s business priorities',
+				'LabelEngagedPerformance': 'Engaged Performance',
+				'LabelEngagementInfo': 'Committed and loyal people, willing to go the extra mile',
+				'LabelEnablementInfo': 'The right people in the right roles, in an enabling work environment',
+				'LabelOperationalExcellence': 'Operational excellence',
+				'LabelCustomerLoyalty': 'Customer loyalty',
+				'LabelFinancialPerformance': 'Financial performance',
+				'LabelAttractTalent': 'Attract and retain talent',
+				'LabelStrongBrand': 'Strong employer brand'
+			},
+			'SLIDE_SURVEYBACKGROUND': {
+				'title': 'Survey Background',
+				'info': [
+					'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+					'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+					'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+					'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				],
+				'LabelNoResponses': 'No. responses:',
+				'LabelRespRate': 'Response rate:'
+			},
+			'SLIDE_TAKEACTION': {
+				'title': 'Taking Action',
+				'LeftSideContent': '"Organizations rated the highest by employees for acting on survey feedback outperform others on financial performance."',
+				'RightSideContent': [
+					'To drive effective change through your results...',
+					'Be realistic, focus on [2-3 areas of action] only to increase your chances of success',
+					'[Do not overlook strengths] - sometimes a good action plan can be about maintaining a strong score',
+					'Focus on high priority areas that are [within your control]',
+					'Make sure the actions address the [root cause] - think about the reasons why this issue has come about',
+				]
+			},
+			'SLIDE_HOWTOREAD': {
+				'title': 'How to Read Your Results',
+				'info': [
+					'The five-point scale is classified into favourable, neutral and unfavourable',
+					'Example table:',
+					'A star denotes statistically significant difference vs comparison (green font for positive; red font for negative)'
+				],
+				'LabelStronglyAgree': 'Strongly agree',
+				'LabelAgree': 'Agree',
+				'LabelNeither': 'Neither agree nor disagree',
+				'LabelDisagree': 'Disagree',
+				'LabelStronglyDisagree': 'Strongly disagree',
+				'LabelClearStrength': 'Clear strength',
+				'LabelModerateStrength': 'Moderate strength',
+				'LabelWarningSign': 'Warning sign',
+				'LabelRedFlag': 'Red flag',
+				'LabelClearStrengthPercent': '>80% favourable',
+				'LabelModerateStrengthPercent': '65-80% favourable',
+				'LabelWarningSignPercent': '<60% favourable or >20% unfavourable',
+				'LabelRedFlagPercent': '<50% favourable or >30% unfavourable'
+			},
+			'SLIDE_TITLE': {
+				'title': 'Title Slide',
+				'info': [
+					'#survey name#',
+					'#client#',
+					'Results for: #team name#'
+				]
 			}
-
 		}
+
 	}
+}
 
 
 if (data == null && !Main_IsProduction() ) {
@@ -29700,7 +29705,7 @@ if (data == null && !Main_IsProduction() ) {
 	// N
 	var tmp = {"N.2020.389.0":{"N":15814}};
 	for (var key in tmp) data[key] = tmp[key];
-	
+
 	// Metrics
 	var metrics = ['DIM_ENG', 'DIM_ENA', 'DIM_N65'];
 	data.Metrics = metrics;
@@ -29720,9 +29725,9 @@ if (data == null && !Main_IsProduction() ) {
 			"Gender": {
 				"Label": "Gender",
 				"Answers": [{
-						"Code": "410",
-						"Label": "Male"
-					},
+					"Code": "410",
+					"Label": "Male"
+				},
 					{
 						"Code": "420",
 						"Label": "Female"
@@ -29740,9 +29745,9 @@ if (data == null && !Main_IsProduction() ) {
 			"Age": {
 				"Label": "Age",
 				"Answers": [{
-						"Code": "651",
-						"Label": "Under 20"
-					},
+					"Code": "651",
+					"Label": "Under 20"
+				},
 					{
 						"Code": "652",
 						"Label": "20 to 29"
@@ -29768,9 +29773,9 @@ if (data == null && !Main_IsProduction() ) {
 			"Tenure": {
 				"Label": "Tenure",
 				"Answers": [{
-						"Code": "701",
-						"Label": "Less than 1 year"
-					},
+					"Code": "701",
+					"Label": "Less than 1 year"
+				},
 					{
 						"Code": "702",
 						"Label": "1 year to less than 2 years"
@@ -29792,9 +29797,9 @@ if (data == null && !Main_IsProduction() ) {
 			"UnionNon": {
 				"Label": "Union/Non-Union",
 				"Answers": [{
-						"Code": "631",
-						"Label": "Union"
-					},
+					"Code": "631",
+					"Label": "Union"
+				},
 					{
 						"Code": "632",
 						"Label": "Non-Union"
@@ -29804,9 +29809,9 @@ if (data == null && !Main_IsProduction() ) {
 			"Wage_Status": {
 				"Label": "Wage Status",
 				"Answers": [{
-						"Code": "641",
-						"Label": "Hourly"
-					},
+					"Code": "641",
+					"Label": "Hourly"
+				},
 					{
 						"Code": "642",
 						"Label": "Salaried"
