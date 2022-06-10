@@ -26,7 +26,6 @@ function ActionsFocusAreas_Page() {
 
 
 function ActionsFocusAreas_Render() {
-
     let dt = ActionFocusAreas_RenderAddActionTable();
 
     let addNewFocusAreaHTML = `
@@ -67,7 +66,6 @@ function ActionsFocusAreas_Render() {
         document.getElementById("AddActionWindow").style.display = "none";
         ActionFocusAreas_RenderFocusAreaList();
     });
-
     ActionFocusAreas_SetValues();
     ActionFocusAreas_RenderFocusAreaList();
 }
@@ -295,6 +293,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
             if (!!date) {
                 let newDate = new Date(date);
                 FocusAreas_UpdateActionPlan(focusAreaId, 'planDueDate', newDate.toDateString());
+                ActionFocusAreas_SaveChanges(focusAreaId);
             }
         },
         dateFormat: config.ActionPlannerDateFormat
@@ -326,7 +325,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_HandleProgressBar($(`#focusArea-${focusAreaId} .plan-column`));
     ActionFocusAreas_HandleShareSwitchClick(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}`, focusAreaId);
     ActionFocusAreas_HandleCancelButtonOnLimitActionsConfirmation(focusAreaId);
-    ActionFocusAreas_SubscribeToSaveChanges(focusAreaId);
+    ActionFocusAreas_SubscribeFocusAreaToSaveChanges(focusAreaId);
 }
 
 function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
@@ -834,6 +833,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, actionId, 
                 if (!!date) {
                     let newDate = new Date(date);
                     FocusAreas_UpdateActionInActionPlan(focusAreaCardID, orderId, 'actionDueDate', newDate.toDateString());
+                    ActionFocusAreas_SaveChanges(focusAreaCardID, orderId);
                 }
             },
             dateFormat: config.ActionPlannerDateFormat
@@ -891,7 +891,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, actionId, 
         });
 
         ActionFocusAreas_HandleRemovingAction(focusAreaCardID, orderId, $(`#${orderId} .action_remove-icon`), $(`#${orderId} .confirmation-button__agree`), $(`#${orderId} .confirmation-button__close`))
-
+        ActionFocusAreas_SubscribeActionToSaveChanges(focusAreaCardID, orderId);
     }
 
 }
@@ -1058,33 +1058,49 @@ function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
 }
 
 
-function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') {
+function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFlag = '1') {
     let survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
     focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
     let form_data = {};
 
-    form_data = {
-        owner_id: focusArea.planOwner,
-        item_id: focusAreaId,
-        active_flag: activeFlag.toString(),
-        is_dimension: focusArea.isDimension ? '1' : '0',
-        page_source_id: focusArea.pageSourceId,
-        importance: focusArea.importance ? '1' : '0',
-        involvement: focusArea.involvement ? '1' : '0',
-        cost: focusArea.cost ? '1' : '0',
-        plan_name: focusArea.planName,
-        plan_notes: focusArea.planNotes,
-        plan_status: focusArea.planStatus,
-        plan_due_date: focusArea.planDueDate,
-        plan_created_date: focusArea.planCreatedDate,
-        plan_last_updated_date: focusArea.planLastUpdatedDate,
-        plan_owner: focusArea.planOwner,
-        plan_node: focusArea.planNode,
-        plan_is_submitted: focusArea.planIsSubmitted ? '1' : '0',
-        plan_is_shared: focusArea.planIsShared ? '1' : '0'
-    };
-
-    console.log(form_data);
+    if(!actionId) {
+        form_data = {
+            owner_id: focusArea.planOwner,
+            item_id: focusAreaId,
+            active_flag: activeFlag.toString(),
+            is_dimension: focusArea.isDimension ? '1' : '0',
+            page_source_id: focusArea.pageSourceId,
+            importance: focusArea.importance ? '1' : '0',
+            involvement: focusArea.involvement ? '1' : '0',
+            cost: focusArea.cost ? '1' : '0',
+            plan_name: focusArea.planName,
+            plan_notes: focusArea.planNotes,
+            plan_status: focusArea.planStatus,
+            plan_due_date: focusArea.planDueDate,
+            plan_created_date: focusArea.planCreatedDate,
+            plan_last_updated_date: focusArea.planLastUpdatedDate,
+            plan_owner: focusArea.planOwner,
+            plan_node: focusArea.planNode,
+            plan_is_submitted: focusArea.planIsSubmitted ? '1' : '0',
+            plan_is_shared: focusArea.planIsShared ? '1' : '0',
+            is_action: '0',
+            focus_area_id: focusAreaId
+        };
+    } else {
+        const actionObj = focusArea.planActions[actionId];
+        form_data = {
+            owner_id: focusArea.planOwner,
+            item_id: actionId,
+            active_flag: activeFlag.toString(),
+            action_title: actionObj.actionTitle,
+            action_text: actionObj.actionText,
+            action_status: actionObj.actionStatus,
+            action_due_date: actionObj.actionDueDate,
+            action_owner: actionObj.actionOwner,
+            is_action: '1',
+            focus_area_id: focusAreaId
+        };
+    }
 
     let start_date = new Date();
 
@@ -1099,7 +1115,7 @@ function ActionFocusAreas_SaveChanges(focusAreaId, focusArea, activeFlag = '1') 
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            $('#records').text( 'ERROR: ' + errorThrown );
+            console.log( 'ERROR: ' + errorThrown );
         }
     });
 }
@@ -1111,7 +1127,6 @@ function ActionFocusAreas_SetValues() {
     form_data = {
         owner_id: data.User.FirstName + ' ' + data.User.LastName
     };
-
     $.ajax({
         url : survey_url,
         type: "POST",
@@ -1119,41 +1134,67 @@ function ActionFocusAreas_SetValues() {
         success: function(data, textStatus, jqXHR)
         {
             let dataObj = JSON.parse(data);
+            let actions = {};
             for (let i = 0; i < dataObj.length; i++) {
-                let focusAreaDataFromServer = dataObj[i];
-                if(focusAreaDataFromServer['active_flag'].toString() === '1') {
-                    let focusAreaId = focusAreaDataFromServer['item_id'];
-                    let focusAreaObj = {};
-                    focusAreaObj['isDimension'] = focusAreaDataFromServer['is_dimension'];
-                    focusAreaObj['pageSourceId'] = focusAreaDataFromServer['page_source_id'];
-                    focusAreaObj['importance'] = focusAreaDataFromServer['importance'];
-                    focusAreaObj['involvement'] = focusAreaDataFromServer['involvement'];
-                    focusAreaObj['cost'] = focusAreaDataFromServer['cost'];
-                    focusAreaObj['planName'] = focusAreaDataFromServer['plan_name'];
-                    focusAreaObj['planNotes'] = focusAreaDataFromServer['plan_notes'];
-                    focusAreaObj['planStatus'] = focusAreaDataFromServer['plan_status'];
-                    focusAreaObj['planDueDate'] = focusAreaDataFromServer['plan_due_date'];
-                    focusAreaObj['planCreatedDate'] = focusAreaDataFromServer['plan_created_date'];
-                    focusAreaObj['planLastUpdatedDate'] = focusAreaDataFromServer['plan_last_updated_date'];
-                    focusAreaObj['planOwner'] = focusAreaDataFromServer['plan_owner'];
-                    focusAreaObj['planNode'] = focusAreaDataFromServer['plan_node'];
-                    focusAreaObj['planIsSubmitted'] = focusAreaDataFromServer['plan_is_submitted'];
-                    focusAreaObj['planIsShared'] = focusAreaDataFromServer['plan_is_shared'];
-                    FocusAreas_AddItem(focusAreaId, focusAreaObj);
-                    FocusAreas_UpdateFocusAreasCounterSpan();
-                    State_Set('actionPlanStatus_' + focusAreaId, focusAreaDataFromServer['plan_status']);
-                    State_Set(`actionPlanShared_${focusAreaId}`, focusAreaDataFromServer['plan_is_shared'].toString() === '0' ? 'Off' : 'On' );
+                let dataObjItem = dataObj[i];
+                if(dataObjItem['active_flag'].toString() === '1') {
+                    let itemId = dataObjItem['item_id'];
+                    if(dataObjItem['is_action'].toString() === '0') {
+                        let focusAreaObj = {};
+                        focusAreaObj['isDimension'] = dataObjItem['is_dimension'];
+                        focusAreaObj['pageSourceId'] = dataObjItem['page_source_id'];
+                        focusAreaObj['importance'] = dataObjItem['importance'];
+                        focusAreaObj['involvement'] = dataObjItem['involvement'];
+                        focusAreaObj['cost'] = dataObjItem['cost'];
+                        focusAreaObj['planName'] = dataObjItem['plan_name'];
+                        focusAreaObj['planNotes'] = dataObjItem['plan_notes'];
+                        focusAreaObj['planStatus'] = dataObjItem['plan_status'];
+                        focusAreaObj['planDueDate'] = dataObjItem['plan_due_date'];
+                        focusAreaObj['planCreatedDate'] = dataObjItem['plan_created_date'];
+                        focusAreaObj['planLastUpdatedDate'] = dataObjItem['plan_last_updated_date'];
+                        focusAreaObj['planOwner'] = dataObjItem['plan_owner'];
+                        focusAreaObj['planNode'] = dataObjItem['plan_node'];
+                        focusAreaObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'];
+                        focusAreaObj['planIsShared'] = dataObjItem['plan_is_shared'];
+                        FocusAreas_AddItem(itemId, focusAreaObj, false);
+                        FocusAreas_UpdateFocusAreasCounterSpan();
+                        State_Set('actionPlanStatus_' + itemId, dataObjItem['plan_status']);
+                        State_Set(`actionPlanShared_${itemId}`, dataObjItem['plan_is_shared'].toString() === '0' ? 'Off' : 'On' );
+                    } else {
+                        //store actions and add them only when all saved plans were added
+                        //in case action comes before corresponding plan were added
+                        let actionObj = {};
+                        actionObj['actionTitle'] = dataObjItem['action_title'];
+                        actionObj['actionText'] = dataObjItem['action_text'];
+                        actionObj['actionStatus'] = dataObjItem['action_status'];
+                        actionObj['actionDueDate'] = dataObjItem['action_due_date'];
+                        actionObj['actionOwner'] = dataObjItem['action_owner'];
+                        const actionPlanId = dataObjItem['focus_area_id'];
+                        actions[itemId] = {
+                            actionObj: actionObj,
+                            actionPlanId: actionPlanId
+                        }
+                    }
                 }
+            }
+            //now, after all saved plans were added, add actions
+            for (let actionId in actions) {
+                let actionItem = actions[actionId];
+                if(!FocusAreas_IsItemAlreadyAdded(actionItem.actionPlanId)) {
+                    continue;
+                }
+                FocusAreas_AddActionsToActionPlan(actionItem.actionPlanId, actionId, actionItem.actionObj, false);
+                State_Set('actionStatus_' + actionId, actionItem.actionObj['actionStatus']);
             }
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            $('#records').text( 'ERROR: ' + errorThrown );
+            console.log( 'ERROR: ' + errorThrown );
         }
     });
 }
 
-function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
+function ActionFocusAreas_SubscribeFocusAreaToSaveChanges(focusAreaId) {
     $(`#focusArea-${focusAreaId} .ap-tag`).on('click', function (event) {
         ActionFocusAreas_SaveChanges(focusAreaId);
     });
@@ -1166,9 +1207,6 @@ function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
     $(`#${focusAreaId}_status-dropdown`).change(function (event) {
         ActionFocusAreas_SaveChanges(focusAreaId);
     });
-    $(`#${focusAreaId}_datepicker`).on('focusout', function (event) {
-        ActionFocusAreas_SaveChanges(focusAreaId);
-    });
     $(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}-left`).on('click', function (event) {
         ActionFocusAreas_SaveChanges(focusAreaId);
     });
@@ -1178,4 +1216,22 @@ function ActionFocusAreas_SubscribeToSaveChanges(focusAreaId) {
     $(`#focusArea-${focusAreaId} .action-plan_submit`).on('click', function (event) {
         ActionFocusAreas_SaveChanges(focusAreaId);
     });
+    // due date input is subscribed within datepicker's onSelect
 }
+
+function ActionFocusAreas_SubscribeActionToSaveChanges(focusAreaId, actionId) {
+    $(`#${actionId} .action-title_text__editable`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId, actionId);
+    });
+    $(`#${actionId} .selected-action_text__editable`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId, actionId);
+    });
+    $(`#${actionId}_owner`).on('focusout', function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId, actionId);
+    });
+    $(`#${actionId}_status-dropdown`).change(function (event) {
+        ActionFocusAreas_SaveChanges(focusAreaId, actionId);
+    });
+    // due date input is subscribed within datepicker's onSelect
+}
+
