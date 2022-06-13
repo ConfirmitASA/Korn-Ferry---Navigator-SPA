@@ -29996,6 +29996,7 @@ if (data.Questions == null) {
 
 var config = {
 
+	ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
 
 	Norms: {
 		Codes: ['AllCompany_A_17TO19_Avg', 'HP_A_17TO19_Avg']

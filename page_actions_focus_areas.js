@@ -1059,7 +1059,7 @@ function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
 
 
 function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFlag = '1') {
-    let survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    let survey_url = config.ActionPlannerUrl;
     focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
     let form_data = {};
 
@@ -1121,7 +1121,7 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
 }
 
 function ActionFocusAreas_SetValues() {
-    let survey_url = 'https://survey.us.confirmit.com/wix/p429903166529.aspx';
+    let survey_url = config.ActionPlannerUrl;
     let form_data = {};
 
     form_data = {
