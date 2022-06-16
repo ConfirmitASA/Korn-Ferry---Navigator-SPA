@@ -3,6 +3,8 @@ var FocusAreas = {};
 /*let focusAreaItem = itemId: ('id') {
     isDimension: false,
     pageSourceId: '',
+    favScore: '',
+    diffVsCompany: '',
     importance: false,
     involvement: false,
     cost: false
@@ -34,6 +36,9 @@ function FocusAreas_IsItemAlreadyAdded(itemId) {
 function FocusAreas_AddItem(itemId, newItemObj, saveChanges = true) {
     if(!FocusAreas_IsItemAlreadyAdded(itemId)) {
         let newFocusArea = newItemObj;
+
+        newFocusArea.favScore = newItemObj.favScore ?? '';
+        newFocusArea.diffVsCompany = newItemObj.diffVsCompany ?? '';
 
         newFocusArea.importance = newItemObj.importance ?? false;
         newFocusArea.involvement = newItemObj.involvement ?? false;

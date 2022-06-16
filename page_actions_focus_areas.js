@@ -120,11 +120,6 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
         // Dimension handler
 
         focusAreaLabel = Main_GetDimensionText(focusAreaId);
-        let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
-        favScore = Utils_FormatPctOutput( favScoreRaw );
-
-        let favScoreOverallRaw = company_overall_dimensions_data[focusAreaId].Dist.Fav;
-        diff = (favScoreRaw - favScoreOverallRaw);
 
         recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
     } else {
@@ -133,16 +128,6 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
 
         focusAreaLabel = Main_GetQuestionText(focusAreaId);
 
-        let pct_distribution = Utils_CountsToPercents(itemsData[focusAreaId].Dist);
-        let favScoreRaw = pct_distribution.Fav;
-        
-        favScore = Utils_FormatPctOutput(favScoreRaw);
-
-        let company_overall_pct_distribution = Utils_CountsToPercents(company_overall_items_data[focusAreaId].Dist);
-        let favScoreOverallRaw = company_overall_pct_distribution.Fav;
-
-        diff = (favScoreRaw - favScoreOverallRaw);
-        
         recommendedActions = ActionFocusAreas_GetRecommendedActions(focusAreaId);
 
         if (recommendedActions.length == 0) {
@@ -151,6 +136,17 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
             recommendedActions = ActionFocusAreas_GetRecommendedActions(dimensionIdForCurrentItem);
         }
 
+    }
+
+    if (focusArea.planIsSubmitted) {
+        favScore = focusArea.favScore;
+        diff = focusArea.diffVsCompany;
+    } else {
+        favScore = ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea, dimensionsData, itemsData);
+        FocusAreas_UpdateActionPlan(focusAreaId,'favScore', favScore);
+        diff = ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea, dimensionsData,
+            company_overall_dimensions_data, itemsData, company_overall_items_data);
+        FocusAreas_UpdateActionPlan(focusAreaId,'diffVsCompany', diff);
     }
 
     let actionPlan_dropdown = Component_Dropdown(
@@ -326,6 +322,42 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_HandleShareSwitchClick(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}`, focusAreaId);
     ActionFocusAreas_HandleCancelButtonOnLimitActionsConfirmation(focusAreaId);
     ActionFocusAreas_SubscribeFocusAreaToSaveChanges(focusAreaId);
+}
+
+function ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea, dimensionsData, itemsData) {
+    let favScore = '';
+
+    if (focusArea.isDimension) {
+        let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
+        favScore = Utils_FormatPctOutput(favScoreRaw);
+    } else {
+        let pct_distribution = Utils_CountsToPercents(itemsData[focusAreaId].Dist);
+        let favScoreRaw = pct_distribution.Fav;
+
+        favScore = Utils_FormatPctOutput(favScoreRaw);
+    }
+
+    return favScore;
+}
+
+function ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea, dimensionsData, company_overall_dimensions_data, itemsData, company_overall_items_data) {
+    let diff = '';
+    if (focusArea.isDimension) {
+        let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
+
+        let favScoreOverallRaw = company_overall_dimensions_data[focusAreaId].Dist.Fav;
+        diff = (favScoreRaw - favScoreOverallRaw);
+    } else {
+        let pct_distribution = Utils_CountsToPercents(itemsData[focusAreaId].Dist);
+        let favScoreRaw = pct_distribution.Fav;
+
+        let company_overall_pct_distribution = Utils_CountsToPercents(company_overall_items_data[focusAreaId].Dist);
+        let favScoreOverallRaw = company_overall_pct_distribution.Fav;
+
+        diff = (favScoreRaw - favScoreOverallRaw);
+    }
+
+    return diff;
 }
 
 function ActionFocusAreas_HandleShareSwitchClick(switchId, focusAreaId) {
@@ -561,6 +593,8 @@ function ActionFocusAreas_HandleSubmitButtonClick(focusAreaId, buttons) {
 
         $(actionPlanContainer).addClass('action-plan__collapsed');
         $(focusAreaCard).find('.focus-area-info_work-button').first().show();
+
+        ActionFocusAreas_SaveChanges(focusAreaId);
     });
 }
 
@@ -1070,6 +1104,8 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
             active_flag: activeFlag.toString(),
             is_dimension: focusArea.isDimension ? '1' : '0',
             page_source_id: focusArea.pageSourceId,
+            fav_score: focusArea.favScore,
+            diff_vs_company: focusArea.diffVsCompany,
             importance: focusArea.importance ? '1' : '0',
             involvement: focusArea.involvement ? '1' : '0',
             cost: focusArea.cost ? '1' : '0',
@@ -1143,6 +1179,8 @@ function ActionFocusAreas_SetValues() {
                         let focusAreaObj = {};
                         focusAreaObj['isDimension'] = dataObjItem['is_dimension'];
                         focusAreaObj['pageSourceId'] = dataObjItem['page_source_id'];
+                        focusAreaObj['favScore'] = dataObjItem['fav_score'];
+                        focusAreaObj['diffVsCompany'] = dataObjItem['diff_vs_company'];
                         focusAreaObj['importance'] = dataObjItem['importance'];
                         focusAreaObj['involvement'] = dataObjItem['involvement'];
                         focusAreaObj['cost'] = dataObjItem['cost'];
