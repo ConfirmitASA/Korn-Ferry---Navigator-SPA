@@ -92,6 +92,10 @@
     vertical-align: top;
 }
 
+.strengths-and-opportunities-top-3-nodata {
+    text-align: center;
+}
+
 #strengths-and-opportunities-data-container .item-row:not(:last-child) {
     border-bottom: 1px #000 solid;
 }

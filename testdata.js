@@ -946,6 +946,7 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"labels.ReportTotal": {"Label": "Report Total"},
 			"labels.Strengths": {"Label": "Strengths"},
 			"labels.Opportunities": {"Label": "Opportunities"},
+			"labels.NoDataToDisplay": {"Label": "No data to display"},
 			"labels.DataFilters": {"Label": "Data Filters"},
 			"labels.InternalComparators": {"Label": "Internal Comparators"},
 			"labels.ExternalComparators": {"Label": "External Comparators"},

@@ -34,27 +34,27 @@ function StrengthsAndOpportunities_Render() {
 
     o.push('<div id="strengthsAndOpportunitiesCardRow" class="card-row">')
 
-    let noData = `<div class="strengths-and-opportunities-top-3-nodata">${'No data to display*' /*'meta.Labels.NoDataToDisplay.Label'*/}</div>`;
-  
+    let noData = `<div class="strengths-and-opportunities-top-3-nodata">${meta.Labels['labels.NoDataToDisplay'].Label}</div>`;
+
     //add strengths card - top 3 items
     let strengths = StrengthsAndOpportunities_getTopNItems(3, 'Strengths');
     o.push(`
 			<div id="Strengths_card" class="strength flip-card static-card">
 					<div id="Strengths_front" class="flip-card-front">
 					    <div class="card-label">${meta.Labels['labels.Strengths'].Label}</div>
-					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Strengths')}</div>
+					    <div class="card-top3-items">${strengths ?? noData}</div>
 					    <div id="Strengths_more" class="details-link">${meta.Labels['buttons.More'].Label}</div>
 					</div>
 			</div>
 		`);
 
     //add opportunities card - top 3 items
-    let oppts = StrengthsAndOpportunities_getTopNItems(3, 'Opportunities');
+    let opportunities = StrengthsAndOpportunities_getTopNItems(3, 'Opportunities');
     o.push(`
 			<div id="Opportunities_card" class="opportunity flip-card static-card">
 					<div id="Opportunities_front" class="flip-card-front">
 					    <div class="card-label">${meta.Labels['labels.Opportunities'].Label}</div>
-					    <div class="card-top3-items">${StrengthsAndOpportunities_getTopNItems(3, 'Opportunities')}</div>
+					    <div class="card-top3-items">${opportunities ?? noData}</div>
 					    <div id="Opportunities_more" class="details-link">${meta.Labels['buttons.More'].Label}</div>
 					</div>
 			</div>
