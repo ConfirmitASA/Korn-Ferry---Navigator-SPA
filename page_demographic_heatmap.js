@@ -17,6 +17,10 @@ function DemographicHeatmap_Page() {
     };
 }
 
+function DemographicHeatmap_PageId() {
+    return 'submenuitem-GroupExplore-DemographicHeatmap';
+}
+
 function DemographicHeatmap_Render() {
     var o = [];
 
@@ -98,6 +102,7 @@ function DemographicHeatmap_Render() {
     // Change Handler: Demographic Dropdown Selection
     $('#Demographic-Heatmap-breakby-dropdown').change(function () {
         var breakbyElementValue = $(this).val();
+        State_Set ('breakby', breakbyElementValue);
         var selectorObj = {
             selectorElementValue: breakbyElementValue,
             parameterName: 'breakby'
@@ -283,8 +288,8 @@ function DemographicHeatmap_GetItemsTable() {
 
     if ( DemographicHeatmap_MissingData() ) {
         return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'DemographicHeatmap_GetItemsTable', ShowWaitMessage: false, DataRequest:[{Type: 'N'}, { Type: 'N.Breakdown', Breakdown:'" + DemographicHeatmap_VariableId() + "'}, { Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + DemographicHeatmap_VariableId() + "'}]} );"
+            Html: Main_Loader(),
+            ScriptCode: "if (DemographicHeatmap_PageId() == State_GetCurrentPageId() ) Main_SubmitQuery ( {Requester: 'DemographicHeatmap_GetItemsTable', ShowWaitMessage: false, DataRequest:[{Type: 'N'}, { Type: 'N.Breakdown', Breakdown:'" + DemographicHeatmap_VariableId() + "'}, { Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + DemographicHeatmap_VariableId() + "'}]} );"
         };
     }
 
@@ -300,16 +305,16 @@ function DemographicHeatmap_GetItemsTable() {
     var item_data = Main_CurrentItemsData_WithFilter();
 
 
-    var breakbyVar = State_Get('breakby');
+    var breakbyVar = DemographicHeatmap_VariableId(); //State_Get('breakby');
     var metricVar = State_Get('metric');
     var comparatorsVar = State_Get('display_comparators');
 
     var breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Answers);
 
     var key = Main_GetKeyWithFilter(
-        'N', 
-        config.CurrentWave, 
-        meta.Hierarchy.TopNode.Id 
+        'N',
+        config.CurrentWave,
+        meta.Hierarchy.TopNode.Id
     ); // example: "N.2020.389.0"
 
     var n = data[key].N;
@@ -357,13 +362,13 @@ function DemographicHeatmap_GetItemsTable() {
 
         for (var j in itemOptions) {
             table_data.push(
-                    DemographicHeatmap_GetItemRowData(
-                    i, 
-                    dimensionOptions[i], 
-                    itemOptions[j], 
-                    breakByAnswerIds, 
-                    metricVar, 
-                    comparatorsVar, 
+                DemographicHeatmap_GetItemRowData(
+                    i,
+                    dimensionOptions[i],
+                    itemOptions[j],
+                    breakByAnswerIds,
+                    metricVar,
+                    comparatorsVar,
                     addedItems
                 )
             );
@@ -372,8 +377,8 @@ function DemographicHeatmap_GetItemsTable() {
     }
 
     var numsortColumns = [];
-	var LastColIndex = 6 + breakByAnswerIds;
-	for (var k = 6; k <= LastColIndex ; k++) numsortColumns.push(k);
+    var LastColIndex = 6 + breakByAnswerIds;
+    for (var k = 6; k <= LastColIndex ; k++) numsortColumns.push(k);
 
     var columnSettings = `
 			'columnDefs': [
@@ -392,12 +397,12 @@ function DemographicHeatmap_GetItemsTable() {
     }
 
 
-	var view_name = [
-		Main_GetPageLabel ('#submenuitem-GroupExplore-DemographicHeatmap'),  // Page Name
-		$('#Demographic-Heatmap-breakby-dropdown option:selected').text(), // Selected breakdown variable label
+    var view_name = [
+        Main_GetPageLabel ('#submenuitem-GroupExplore-DemographicHeatmap'),  // Page Name
+        $('#Demographic-Heatmap-breakby-dropdown option:selected').text(), // Selected breakdown variable label
         $('#Demographic-Heatmap-metric-switch input[value=' + state.Parameters.metric + ']').prev().text(), // example: "% Favorable"
         $('#Demographic-Heatmap-display_comparators-switch input[value=' + state.Parameters.display_comparators + ']').prev().text() // example: "Absolute Value"
-	].join(' - ');
+    ].join(' - ');
 
     var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
 
@@ -421,7 +426,8 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
 
 
     // Overall Dimension score (no breakout)
-    var dimensions_data = Main_CurrentDimensionsData_WithFilter();
+    var key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, meta.Hierarchy.TopNode.Id);
+    var dimensions_data = data[key];
     var overall_data = dimensions_data[dimensionId];
     var dist = overall_data.Dist;
 
@@ -438,7 +444,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
         { Label: '1', ClassName: 'text-cell dimension-row-cell' },
         { Label: '&#9674;', ClassName: 'numeric-cell dimension-row-cell' },
         { Label: meta.Dimensions[dimensionId].Label, ClassName: 'text-cell dimension-row-cell' },
-        { Label: totalColumnRowValue, ClassName: 'numeric-cell dimension-row-cell' }
+        { Label: Utils_FormatOutput(totalColumnRowValue), ClassName: 'numeric-cell dimension-row-cell' }
     ];
 
 
@@ -462,10 +468,10 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
         var cellData = DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall_data, breakdown_dimension_data, true);
 
         row_data.push(
-            { 
-                Label: cellData.value, 
-                ClassName: 'numeric-cell dimension-row-cell ' + cellData.class, 
-                datasort: cellData.datasortValue 
+            {
+                Label: cellData.value,
+                ClassName: 'numeric-cell dimension-row-cell ' + cellData.class,
+                datasort: cellData.datasortValue
             }
         );
     }
@@ -476,7 +482,11 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
 function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
     var totalColumnRowValue;
 
-    var items_data = Main_CurrentItemsData_WithFilter();
+    var key = Main_GetKeyWithFilter('ITEMS', config.CurrentWave, meta.Hierarchy.TopNode.Id);
+    var items_data = data[key];
+
+    Main_AssignQNo ( items_data );
+
     var overall_data = items_data[itemId];
     var dist = Utils_CountsToPercents ( overall_data.Dist );
 
@@ -497,7 +507,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
         { Label: isExclusiveItem.length > 0 ? '0' : '1', ClassName: 'text-cell item-row-cell' },
         { Label: items_data[itemId].QNo, ClassName: 'numeric-cell item-row-cell' },
         { Label: meta.Items[itemId].Label, ClassName: 'text-cell item-row-cell' },
-        { Label: totalColumnRowValue, ClassName: 'numeric-cell item-row-cell' }
+        { Label: Utils_FormatOutput(totalColumnRowValue), ClassName: 'numeric-cell item-row-cell' }
     ];
 
 
@@ -521,10 +531,10 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
         var cellData = DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall_data, breakdown_item_data, false);
 
         row_data.push(
-            { 
-                Label: cellData.value, 
-                ClassName: 'numeric-cell dimension-item-cell ' + cellData.class, 
-                datasort: cellData.datasortValue 
+            {
+                Label: cellData.value,
+                ClassName: 'numeric-cell dimension-item-cell ' + cellData.class,
+                datasort: cellData.datasortValue
             }
         );
     }
@@ -544,7 +554,7 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall, comp
     switch ( metricVar ) {
         case 'PercentFavorable': property = 'Fav'; break;
         case 'PercentUnfavorable': property = 'Unfav'; break;
-    }    
+    }
 
     if (
         overall == null
@@ -559,7 +569,7 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall, comp
         var sig_test = Utils_SigTest( comp, overall, property, isDimension);
         sigClassname = sig_test.IsSignificant
             ? (
-                sig_test.Diff > 0 
+                sig_test.Diff > 0
                     ? (property == 'Fav' ? 'cell-green' : 'cell-red')
                     : (property == 'Fav' ? 'cell-red' : 'cell-green')
             )
@@ -570,14 +580,14 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall, comp
             : (
                 // Add Plus sign if this is a positive differnece and we are reporting on diff to total
                 (sig_test.Diff) > 0 && (comparatorsVar == 'DifferencetoTotal')
-                    ? '+' 
+                    ? '+'
                     : ''
             ) +
 
             // Value (diff or absolute)
-            (comparatorsVar == 'AbsoluteValue' 
-                ? isDimension ? comp.Dist[property] : Utils_CountsToPercents ( comp.Dist )[property]
-                : sig_test.Diff
+            (comparatorsVar == 'AbsoluteValue'
+                    ? isDimension ? comp.Dist[property] : Utils_CountsToPercents ( comp.Dist )[property]
+                    : sig_test.Diff
             ) +
 
             // Add SigTest indicator if applicable
@@ -594,20 +604,20 @@ function DemographicHeatmap_SetCellData(metricVar, comparatorsVar, overall, comp
 
 
 function DemographicHeatmap_VariableId() {
-    return $('#Demographic-Heatmap-breakby-dropdown').val();    
+    return $('#Demographic-Heatmap-breakby-dropdown').val();
 }
 
 function DemographicHeatmap_Keys() {
     return [
-        Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId()),
-        Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId())
+        Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get('breakby')),
+        Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get('breakby'))
     ];
 }
 
 function DemographicHeatmap_Data() {
     var keys = DemographicHeatmap_Keys();
     var o = [];
-    for (var i=0; i<keys.length; ++i) 
+    for (var i=0; i<keys.length; ++i)
         o.push ( data[keys[i]] );
 
     return o;

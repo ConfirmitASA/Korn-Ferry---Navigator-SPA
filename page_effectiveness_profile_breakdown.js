@@ -9,11 +9,15 @@ function EffectivenessProfileBreakdown_Page() {
 		RightPane: `
 		<div class="effectiveness-breakdown-container"></div>
 		`,
-		
+
 		ClassName: 'effectiveness-container',
 		Style: null,
 		ShowFilterSummary: true
 	};
+}
+
+function EffectivenessProfileBreakdown_PageId() {
+	return "submenuitem-GroupHeadlines-EffectivenessProfileBreakdown";
 }
 
 function EffectivenessProfileBreakdown_Render() {
@@ -40,6 +44,8 @@ function EffectivenessProfileBreakdown_Render() {
 	// Change Handler: Demographic Dropdown Selection
 	$('#effectiveness-breakdown-dropdown').change( function() {
 		var breakbyElementValue = $(this).val();
+		State_Set ('breakby', breakbyElementValue);
+
 		var selectorObj = {
 			selectorElementValue: breakbyElementValue,
 			parameterName: 'breakby'
@@ -57,42 +63,42 @@ function EffectivenessProfileBreakdown_HandleSelectorChange(selectorObj) {
 }
 
 function EffectivenessProfileBreakdown_VariableId() {
-    return $('#effectiveness-breakdown-dropdown').val();
+	return $('#effectiveness-breakdown-dropdown').val();
 }
 
 function EffectivenessProfileBreakdown_Key() {
-    return Main_GetKeyWithFilter( 'EPX', config.CurrentWave, data.User.PersonalizedReportBase, EffectivenessProfileBreakdown_VariableId() );
+	return Main_GetKeyWithFilter( 'EPX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get ('breakby') );
 }
 
 function EffectivenessProfileBreakdown_Data() {
-    var key = EffectivenessProfileBreakdown_Key();
-    var segments = data[key];
+	var key = EffectivenessProfileBreakdown_Key();
+	var segments = data[key];
 
-    return segments;
+	return segments;
 }
 
 function EffectivenessProfileBreakdown_MissingData() {
-    // return true if rendering cannot happen due to missing data
+	// return true if rendering cannot happen due to missing data
 
-    var is_missing_data = (EffectivenessProfileBreakdown_Data() == null);
+	var is_missing_data = (EffectivenessProfileBreakdown_Data() == null);
 
-    return is_missing_data;
+	return is_missing_data;
 }
 
 
 function EffectivenessProfileBreakdown_ItemsTable() {
 
-    if ( EffectivenessProfileBreakdown_MissingData() ) {
-        return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'EffectivenessProfileBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'EffectivenessProfile.Breakdown', Breakdown:'" + EffectivenessProfileBreakdown_VariableId() + "'}]} );"
-        };
-    }
+	if ( EffectivenessProfileBreakdown_MissingData() ) {
+		return {
+			Html: Main_Loader(),
+			ScriptCode: "if ( EffectivenessProfileBreakdown_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'EffectivenessProfileBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'EffectivenessProfile.Breakdown', Breakdown:'" + EffectivenessProfileBreakdown_VariableId() + "'}]} );"
+		};
+	}
 
 	var o = [];
 
-    var breakdown_variable_label = $('#effectiveness-breakdown-dropdown option:selected').text();
-	
+	var breakdown_variable_label = $('#effectiveness-breakdown-dropdown option:selected').text();
+
 	var headers = [[
 		{Label: breakdown_variable_label, ClassName: 'text-cell', colspan: 1, rowspan: 1},
 		{Label: meta.Labels['labels.ValidN'].Label, ClassName: 'numeric-cell', colspan: 1, rowspan: 1},
@@ -105,21 +111,21 @@ function EffectivenessProfileBreakdown_ItemsTable() {
 
 	var table_data = [];
 	let formatter = Utils_FormatOutput;
-    var breakdown_variable_id = EffectivenessProfileBreakdown_VariableId();
-    var segments = EffectivenessProfileBreakdown_Data();
+	var breakdown_variable_id = EffectivenessProfileBreakdown_VariableId();
+	var segments = EffectivenessProfileBreakdown_Data();
 
-    if ( segments != null ) {
+	if ( segments != null ) {
 
 
-        for (var segment_code in segments) {  // example: segment_code = "410" (for Gender>Male)
-            var segment_data = segments[segment_code];
+		for (var segment_code in segments) {  // example: segment_code = "410" (for Gender>Male)
+			var segment_data = segments[segment_code];
 
-            var dist = Utils_CountsToPercents ( segment_data.Dist );
+			var dist = Utils_CountsToPercents ( segment_data.Dist );
 
-            var option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
-            var label = (option == null)
-                ? NOT_AVAILABLE
-                : option.Label;
+			var option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
+			var label = (option == null)
+				? NOT_AVAILABLE
+				: option.Label;
 
 			if (!segment_data.hasOwnProperty('N'))
 				segment_data.N = Utils_Count ( segment_data.Dist );
@@ -130,7 +136,7 @@ function EffectivenessProfileBreakdown_ItemsTable() {
 				percent_distribution,
 				"DistributionChart_EffectivenessProfile"
 			);
-			
+
 			var row_data = [
 				{ Label: label, ClassName: 'text-cell' },
 				{ Label: formatter(segment_data.N), ClassName: 'numeric-cell' },

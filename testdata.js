@@ -1,201 +1,12 @@
+
 function TestData_Hash() {
 	return 'TEST';
 }
 
-function TestData_ENPS() {
-	var testdata = {
-		IsTestData: true,
-		Distribution: {
-			Promoters: Math.round(Math.random() * 1000),
-			Detractors: Math.round(Math.random() * 500),
-			Neutrals: Math.round(Math.random() * 500)
-		},
-		DimensionID: 'DIM_NPS'
-	};
-
-	return testdata;
-}
-
-function TestData_EffectivenessByDemo() {
-	var breakByVariable = State_Get('breakby');
-
-	if (!breakByVariable) {
-		breakByVariable = ParamValues_BreakBy()[0].Code;
-	}
-
-	var testdata = {
-		Demo: breakByVariable,
-		Distribution: {
-			LeastEffective: [],
-			Detached: [],
-			Frustrated: [],
-			MostEffective: []
-		}
-	}
-
-	if (breakByVariable != null && breakByVariable != '-1') {
-
-		var breakByOptions = meta.Demographics[breakByVariable].Options;
-
-		for (var i in breakByOptions) {
-			testdata.Distribution.LeastEffective.push(parseInt(Math.random() *
-				100));
-			testdata.Distribution.Detached.push(parseInt(Math.random() * 100));
-			testdata.Distribution.Frustrated.push(parseInt(Math.random() *
-				100));
-			testdata.Distribution.MostEffective.push(parseInt(Math.random() *
-				100));
-		}
-	}
-
-	return testdata;
-}
-
-function TestData_getBreakByData(breakByVariable) {
-	var breakByData = {};
-	breakByData.Variable = breakByVariable;
-	breakByData.Options = {};
-
-	var breakByOptions = meta.Demographics[breakByVariable].Options;
-
-	for (var i in breakByOptions) {
-		var rnd = Math.floor(Math.random() * 10);
-		var rnd2 = Math.floor(Math.random() * 2);
-		var tmpBreakByData = {
-			N: 15792 + rnd,
-			Distribution: {
-				Fav: 87 + rnd,
-				Neu: 10 - rnd,
-				Unfav: 2
-			},
-			get NPS() {
-				return this.Distribution.Fav - this.Distribution.Unfav
-			},
-			vsTotal: {
-				Fav: String(5 - rnd) + (rnd2 ? '' : ' *'),
-				Neu: String(10 - rnd),
-				Unfav: String(0 - rnd) + (rnd2 ? '' : ' *')
-			}
-		}
-		breakByData.Options[i] = tmpBreakByData;
-	}
-
-	return breakByData;
-}
-
-function TestData_fillBreakByData() {
-	var breakByVariable = State_Get('breakby');
-
-	if (!breakByVariable) {
-		breakByVariable = ParamValues_BreakBy()[0].Code;
-	}
-
-	for (var i in data.Items) {
-		var testBreakByData = TestData_getBreakByData(breakByVariable);
-		data.Items[i].BreakBy = testBreakByData;
-	}
-	for (var i in data.Dimensions) {
-		var testBreakByData = TestData_getBreakByData(breakByVariable);
-		data.Dimensions[i].BreakBy = testBreakByData;
-	}
-}
-
-function TestData_getComparatorsData(comparators) {
-	var comparatorsData = {};
-
-	for (var i = 0; i < comparators.length; i++) {
-		var rnd = Math.floor(Math.random() * 10);
-		var rnd2 = Math.floor(Math.random() * 2);
-		var rnd3 = Math.floor(Math.random() * 2);
-		var tmpComparatorsData = {
-			Label: meta.Comparators[comparators[i]].Label,
-			Value: (rnd2 ? '' : '-') + (25 + rnd) + (rnd3 ? '' : ' *'),
-			Distribution: {
-				Fav: rnd + 60,
-				Neu: rnd,
-				Unfav: rnd - 5
-			},
-			get NPS() {
-				return this.Distribution.Fav - this.Distribution.Unfav
-			},
-		}
-		comparatorsData[comparators[i]] = tmpComparatorsData;
-	}
-
-	return comparatorsData;
-}
-
-function TestData_getComparatorsDataForEffectivenessProfile(comparators) {
-	var comparatorsData = {};
-
-	for (var i = 0; i < comparators.length; i++) {
-		var tmpComparatorsData = {
-			LeastEffective: (parseInt(Math.random() * 100)),
-			Detached: (parseInt(Math.random() * 100)),
-			Frustrated: (parseInt(Math.random() * 100)),
-			MostEffective: (parseInt(Math.random() * 100))
-		}
-		comparatorsData[comparators[i]] = tmpComparatorsData;
-	}
-
-	return comparatorsData;
-}
-
-function TestData_fillComparatorsData() {
-	var comparators = State_Get('comparators');
-
-	var comparatorsExtended = [];
-	for (var i in meta.Comparators) {
-		if ((!!comparators && comparators.some(el => el == i)) || (config
-			.comparators.some(el => el == i)))
-			comparatorsExtended.push(i);
-	}
-	if (comparatorsExtended.length == 0) return;
-
-	for (var i in data.Items) {
-		var testComparatorsData = TestData_getComparatorsData(
-			comparatorsExtended);
-		data.Items[i].Comparators = testComparatorsData;
-		for (var j in data.Items[i].BreakBy.Options) {
-			data.Items[i].BreakBy.Options[j].Comparators = testComparatorsData;
-		}
-	}
-
-	for (var i in data.Dimensions) {
-		var testComparatorsData = TestData_getComparatorsData(
-			comparatorsExtended);
-		data.Dimensions[i].Comparators = testComparatorsData;
-		for (var j in data.Dimensions[i].BreakBy.Options) {
-			data.Dimensions[i].BreakBy.Options[j].Comparators =
-				testComparatorsData;
-		}
-	}
-
-	data.EffectivenessProfile.Comparators =
-		TestData_getComparatorsDataForEffectivenessProfile(comparators);
-}
-
-function TestData_fillCommentCategoriesData() {
-	var catData = {};
-	for (var i in meta.CommentCategories) {
-		var catList = meta.CommentCategories[i];
-		var catListData = {};
-		for (var j in catList) {
-			var rnd = Math.floor(Math.random() * 30);
-			var commData = {
-				N: rnd + 100,
-				Pct: rnd
-			};
-			catListData[j] = commData;
-		}
-		catData[i] = catListData;
-	}
-	return catData;
-}
 
 // Meta: Menu, Page Text Labels, etc
 
-if (meta == null) {
+if (meta == null) { // && !Main_IsProduction()) {
 
 	meta = {
 
@@ -207,7 +18,19 @@ if (meta == null) {
 
 		Hierarchy: {
 			Map: {389: {ParentId: -1}},
-			TopNode: {Id: 389}
+			TopNode: {
+				Id: 389,
+				ParentId: -1,
+				Children: [
+					{
+						Id: 390,
+						Label: "2nd Level",
+						Children: [],
+						ParentId: 389
+					}
+				],
+				Label: "Company Overall"
+			}
 		},
 
 		VisiblePages: ["Intro", "Home", "Slideshow", "GroupHeadlines",
@@ -266,6 +89,7 @@ if (meta == null) {
 				Text: "Organizations rated the highest by employees for acting on survey feedback outperform others on financial performance."
 			}
 		],
+
 		Items: {
 			"RE01": {
 				"Label": "I have the resources I need to do my job effectively.",
@@ -886,6 +710,7 @@ if (meta == null) {
 		},
 
 		NonStandardQuestions: {"NSQ1":{"Label":"How likely is it that you would recommend this company's products and services to family or friends?","Answers":{"1":{"Label":"0 (Not At All Likely)"},"2":{"Label":"1"},"3":{"Label":"2"},"4":{"Label":"3"},"5":{"Label":"4"},"6":{"Label":"5"},"7":{"Label":"6"},"8":{"Label":"7"},"9":{"Label":"8"},"10":{"Label":"9"},"11":{"Label":"10 (Extremely Likely)"}}},"NSQ2":{"Label":"From which of the following sources do you now receive most of your information about what is going on in the company? Rank your top three information sources only.","Answers":{"1":{"Label":"My colleagues"},"2":{"Label":"Bulletin board"},"3":{"Label":"My supervisor"},"4":{"Label":"Company leadership"},"5":{"Label":"Group meetings at our work location"},"6":{"Label":"Newsletter"},"7":{"Label":"Company website"},"8":{"Label":"Company e-mail"},"9":{"Label":"Webcast"}}},"NSQ3":{"Label":"Please select the theme that best describe your comment","Answers":{"1":{"Label":"Confidence in Leadership"},"2":{"Label":"Company Brand"},"3":{"Label":"Customer Focus"},"4":{"Label":"Team work & Collaboration"},"5":{"Label":"People Management"},"6":{"Label":"Positive Work Environment"},"7":{"Label":"Meaningful Work"},"8":{"Label":"Growth Opportunity"},"9":{"Label":"Internal Processes"},"10":{"Label":"Technology & IT Systems"},"11":{"Label":"Other"}}},"NSQ4":{"Label":"Please review the list below and select up to 5 areas that are most important to you in your career when deciding to stay or join a new company.","Answers":{"1":{"Label":"Base pay"},"2":{"Label":"Career advancement and development opportunities"},"3":{"Label":"Challenging work"},"4":{"Label":"Collaborative environment"},"5":{"Label":"Community involvement/philanthropy"},"6":{"Label":"Company agility and speed"},"7":{"Label":"Company mission that I believe in"},"8":{"Label":"Core values"},"9":{"Label":"Customer focus"},"10":{"Label":"Empowerment"},"11":{"Label":"Family owned"},"12":{"Label":"Financial strength/stability"},"13":{"Label":"Flexible working conditions"},"14":{"Label":"Health & Retirement benefits"},"15":{"Label":"High-growth company"},"16":{"Label":"Hours worked"},"17":{"Label":"Innovation"},"18":{"Label":"Leadership effectiveness"},"19":{"Label":"Location"},"20":{"Label":"Ongoing feedback provided"},"21":{"Label":"On-the-job training"},"22":{"Label":"Team effectiveness"},"23":{"Label":"Paid time off"},"24":{"Label":"Performance-based variable pay (incentives, bonus, commissions)"},"25":{"Label":"Products that my friends and family respect"},"26":{"Label":"Recognition"},"27":{"Label":"Results-oriented environment"},"28":{"Label":"Safe work environment"},"29":{"Label":"Other"}}},"NSQ5":{"Label":"Please select which of the following are barriers to innovation at the company: (Select all that apply)","Answers":{"1":{"Label":"Technology (tools and systems)"},"2":{"Label":"Approval process"},"3":{"Label":"Work processes"},"4":{"Label":"Decision-making freedom"},"5":{"Label":"Direction from the person to whom I report"},"6":{"Label":"Workload"},"7":{"Label":"Collaboration between groups"},"8":{"Label":"Availability of resources"},"9":{"Label":"Budget"},"10":{"Label":"Physical work space"},"11":{"Label":"Fear of raising ideas"},"12":{"Label":"I am uncertain about how to innovate"}}},"NSQ6":{"Label":"How do you prefer to read your emails, reports and books?","Answers":{"1":{"Label":"Only Online"},"2":{"Label":"Mixed (Print and Online)"},"3":{"Label":"Only Print"},"4":{"Label":"Do Not Know/Not Applicable"}}}},
+
 		CommentQuestions: {
 			"Comm1": {
 				"Label": "The MAIN thing that makes the Company a great place to work"
@@ -939,7 +764,6 @@ if (meta == null) {
 				"Label": "Work, Structure, & Process"
 			}
 		},
-
 
 		Demographics: {
 			"Gender": {
@@ -1026,7 +850,6 @@ if (meta == null) {
 			}
 		},
 
-
 		Comparators: {
 			//"Internal.trend2020": { Label: "Trend 2020" },
 			"Internal.Wave:2019": {
@@ -1048,6 +871,7 @@ if (meta == null) {
 				Label: "High Performers"
 			},
 		},
+
 		Labels: {
 			"menu": {"Id": "menu", "Title": "", "Label": ""},
 			"menu.Home": {"Label": "Home"},
@@ -1079,9 +903,12 @@ if (meta == null) {
 			"menu.ActionsSharedPlans": {"Label": "Shared Plans"},
 			"menu.ActionsStatistics": {"Label": "Statistics"},
 			"menu.LogOut": {"Label": "Log Out"},
+			"labels.vsCompany": {"Id": "vsCompany", "Title": "vs. company", Label: "vs. company"},
+			"labels.top": {"Id": "top", "Title": "Top", "Label": "Top"},
 			"labels": {"Id": "labels", "Title": "", "Label": ""},
 			"labels.Dimension": {"Label": "Dimension"},
 			"labels.AllDimensions": {"Label": "All Dimensions"},
+
 			"labels.AllQuestions": {"Label": "All Questions"},
 			"labels.AllQuestionsOrdByDimension": {"Label": "All Questions ordered by dimension"},
 			"labels.Question": {"Label": "Question"},
@@ -1196,8 +1023,6 @@ if (meta == null) {
 			"labels.PlansByCurrentStatus": {"Label": "Plans by Current Status"},
 			"labels.SharePlan": {"Label": "Share plan"},
 			"labels.ActionsLimitReached": {"Label": "You've reached the limit of actions you can add to a plan."},
-			"labels.vsCompany": {"Label": "vs. Company"},
-			"labels.top": {"Label": "Top"},
 			"buttons": {"Id": "buttons", "Title": "", "Label": ""},
 			"buttons.Apply": {"Label": "Apply"},
 			"buttons.Cancel": {"Label": "Cancel"},
@@ -1409,11 +1234,6 @@ if (meta == null) {
 			"ENPSTexts.ENPSPromotersScaleDesc": {"Label": "i.e. 9 & 10 scores"},
 			"ENPSTexts.ENPSDetractorsScaleDesc": {"Label": "i.e. 0 & 6 scores"},
 			"ENPSTexts.ENPSN": {"Label": "N="},
-			"ResponseRatesTexts.reportgroup": {"Label": "Report Group"},
-			"ResponseRatesTexts.invited": {"Label": "Invited"},
-			"ResponseRatesTexts.respondents": {"Label": "Respondents"},
-			"ResponseRatesTexts.responserate": {"Label": "Response Rate"},
-			"ResponseRatesTexts.rollup": {"Label": "Rollup"},
 			"KeyMetrics": {
 				"Id": "KeyMetrics",
 				"Title": "Key Metrics",
@@ -1661,6 +1481,7 @@ if (meta == null) {
 			"Actions_PE01.title_2": {"Label": "Be the change"},
 			"Actions_PE01.text_2": {"Label": "Download and read Korn Ferry's thought leadership piece urging leaders to <a href='https://infokf.kornferry.com/Be_the_change.html?utm_source=website&utm_medium=banner&utm_term=&utm_content=%20&utm_campaign=19-11-GBL-Culture-Transformation' target='_blank'>Be the Change</a>"}
 		},
+
 		Buttons: {
 			"Apply": {
 				"Label": "Apply"
@@ -1713,6 +1534,7 @@ if (meta == null) {
 				"Label": "Close"
 			}
 		},
+
 		ExportButtons: {
 			"copy": {
 				"Label": "Copy",
@@ -1731,13 +1553,14 @@ if (meta == null) {
 				"FileName": "Data export"
 			}
 		},
+
 		WelcomePage: {
 			"Title": "Welcome",
 			"Label": `
-				<p style="font-size: medium;"><b>Make better decisions and drive meaningful change by understanding your people and their experience.</b></p>
-             	<p>Use this report to explore how people feel, what motivates them and what actions you can take to make your team and the organisation a better place to work.</p>
-            	<p></p>
-			`,
+            <p style="font-size: medium;"><b>Make better decisions and drive meaningful change by understanding your people and their experience.</b></p>
+            <p>Use this report to explore how people feel, what motivates them and what actions you can take to make your team and the organisation a better place to work.</p>
+            <p></p>
+        `,
 			"LabelFooter": "High-level results are only a click away.",
 			"TitleSummary": "I just want the summary",
 			"LabelSummary": "Your summary report available for instant view or download.",
@@ -1745,20 +1568,23 @@ if (meta == null) {
 			"LabelDetails": "Explore detailed results for your people and plan your next steps.",
 			"Footer": "This website is managed by Korn Ferry, commissioned by your organization to administer this survey on its behalf <a href=\"https://www.kornferry.com/\" target=\"_new\">www.kornferry.com</a>. Korn Ferry protects individual respondent confidentiality by only reporting results data in an aggregated format. Korn Ferry will only show aggregated results data for group sizes at or above the minimum number of respondents agreed with your organization. As a user of this website, you are responsible for handling all survey results data with due care and attention and in accordance with your organization`s information security standards and policies.",
 		},
+
 		SlideshowPage: {
 			"Title": "Slideshow",
 			"Label": `
-				<p>The slideshow contains a curated set of slides based on the survey findings.</p>
-				<p>The same content is available as a downloadable PowerPoint presentation.</p>
-			`,
+            <p>The slideshow contains a curated set of slides based on the survey findings.</p>
+            <p>The same content is available as a downloadable PowerPoint presentation.</p>
+        `,
 			"Start": "Start Slideshow >"
 		},
+
 		EffectivenessProfileTexts: {
 			"MostEffective": "These employees are the key to driving better organizational performance.",
 			"Detached": "These employees may need additional alignment or leadership in order to become effective.",
 			"LeastEffective": "These employees can become a drag on the organization if they are not turned towards effectiveness.",
 			"Frustrated": "Productivity issues can cause these employees to disengage or leave your company."
 		},
+
 		ENPSTexts: {
 			"ENPSCardFrontTitle": {
 				"Label": "Your ENPS Score"
@@ -1794,6 +1620,7 @@ if (meta == null) {
 				"Label": "i.e. 0 & 6 scores"
 			},
 		},
+
 		SlideTexts: {
 
 			'SLIDE_WELCOME': {
@@ -6662,6 +6489,7 @@ if (data == null && !Main_IsProduction() ) {
 	var user = {
 		FirstName: 'FirstName',
 		LastName: 'LastName',
+		Username: 'username',
 		Email: 'email',
 		Roles: ['role1', 'role2'],
 		PersonalizedReportBase: 389,
@@ -6680,7 +6508,12 @@ if (data == null && !Main_IsProduction() ) {
 
 	data.Report = report;
 
+	// RRX
 
+	var tmp = {
+		'RRX.2020.389': {"OrgCode":{"1":{"N":3,"C":3},"2":{"N":24,"C":23},"3":{"N":58,"C":55},"4":{"N":6,"C":5},"5":{"N":11,"C":11},"6":{"N":8,"C":6},"7":{"N":4,"C":4},"8":{"N":4,"C":3},"9":{"N":1,"C":1},"10":{"N":10,"C":8},"11":{"N":3,"C":3},"12":{"N":6,"C":4},"13":{"N":58,"C":58},"14":{"N":5,"C":4},"15":{"N":19,"C":19},"16":{"N":30,"C":24},"17":{"N":84,"C":68},"18":{"N":6,"C":6},"19":{"N":5,"C":5},"20":{"N":25,"C":23},"21":{"N":3,"C":2},"22":{"N":0,"C":0},"23":{"N":4,"C":4},"24":{"N":4,"C":4},"25":{"N":7,"C":5},"26":{"N":39,"C":34},"27":{"N":1,"C":1},"28":{"N":2,"C":1},"29":{"N":0,"C":0},"30":{"N":3,"C":2},"31":{"N":1,"C":1},"32":{"N":3,"C":3},"33":{"N":0,"C":0},"34":{"N":3,"C":2},"35":{"N":3,"C":3},"36":{"N":2,"C":2},"37":{"N":21,"C":21},"38":{"N":20,"C":18},"39":{"N":11,"C":8},"40":{"N":4,"C":4},"41":{"N":5,"C":4},"42":{"N":31,"C":28},"43":{"N":5,"C":4},"44":{"N":3,"C":3},"45":{"N":4,"C":3},"46":{"N":7,"C":7},"47":{"N":4,"C":3},"48":{"N":70,"C":57},"49":{"N":1,"C":1},"50":{"N":3,"C":3},"51":{"N":6,"C":6},"52":{"N":3,"C":3},"53":{"N":5,"C":5},"54":{"N":5,"C":4},"55":{"N":0,"C":0},"56":{"N":2,"C":2},"57":{"N":2,"C":1},"58":{"N":3,"C":3},"59":{"N":10,"C":10},"60":{"N":2,"C":1},"61":{"N":19,"C":19},"62":{"N":77,"C":67},"63":{"N":18,"C":16},"64":{"N":161,"C":161},"65":{"N":17,"C":17},"66":{"N":167,"C":143},"67":{"N":0,"C":0},"68":{"N":10,"C":10},"69":{"N":2,"C":2},"70":{"N":176,"C":176},"71":{"N":13,"C":12},"72":{"N":4,"C":3},"73":{"N":2,"C":2},"74":{"N":1,"C":1},"75":{"N":4,"C":3},"76":{"N":4,"C":4},"77":{"N":7,"C":7},"78":{"N":2,"C":1},"79":{"N":58,"C":48},"80":{"N":25,"C":24},"81":{"N":3,"C":3},"82":{"N":10,"C":10},"83":{"N":14,"C":14},"84":{"N":15,"C":15},"85":{"N":5,"C":4},"86":{"N":17,"C":16},"87":{"N":7,"C":6},"88":{"N":7,"C":5},"89":{"N":47,"C":45},"90":{"N":0,"C":0},"91":{"N":3,"C":2},"92":{"N":0,"C":0},"93":{"N":1,"C":1},"94":{"N":2,"C":1},"95":{"N":1,"C":1},"96":{"N":2,"C":1},"97":{"N":5,"C":5},"98":{"N":2,"C":2},"99":{"N":0,"C":0},"100":{"N":3,"C":3},"101":{"N":0,"C":0},"102":{"N":1,"C":1},"103":{"N":3,"C":3},"104":{"N":10,"C":8},"105":{"N":132,"C":115},"106":{"N":2,"C":1},"107":{"N":144,"C":143},"108":{"N":22,"C":19},"109":{"N":123,"C":111},"110":{"N":14,"C":12},"111":{"N":7,"C":6},"112":{"N":0,"C":0},"113":{"N":17,"C":15},"114":{"N":9,"C":8},"115":{"N":252,"C":215},"116":{"N":23,"C":21},"117":{"N":8,"C":8},"118":{"N":1,"C":1},"119":{"N":4,"C":3},"120":{"N":11,"C":9},"121":{"N":14,"C":14},"122":{"N":6,"C":6},"123":{"N":3,"C":2},"124":{"N":6,"C":6},"125":{"N":3,"C":3},"126":{"N":3,"C":3},"127":{"N":6,"C":6},"128":{"N":6,"C":6},"129":{"N":2,"C":1},"130":{"N":16,"C":16},"131":{"N":0,"C":0},"132":{"N":18,"C":16},"133":{"N":8,"C":8},"134":{"N":2,"C":1},"135":{"N":2,"C":2},"136":{"N":3,"C":2},"137":{"N":1,"C":1},"138":{"N":0,"C":0},"139":{"N":2,"C":2},"140":{"N":2,"C":1},"141":{"N":21,"C":20},"142":{"N":2,"C":2},"143":{"N":0,"C":0},"144":{"N":0,"C":0},"145":{"N":2,"C":1},"146":{"N":3,"C":3},"147":{"N":1,"C":1},"148":{"N":2,"C":2},"149":{"N":4,"C":3},"150":{"N":8,"C":7},"151":{"N":14,"C":11},"152":{"N":2,"C":2},"153":{"N":3,"C":2},"154":{"N":4,"C":4},"155":{"N":6,"C":5},"156":{"N":3,"C":3},"157":{"N":21,"C":21},"158":{"N":12,"C":12},"159":{"N":10,"C":10},"160":{"N":3,"C":3},"161":{"N":3,"C":3},"162":{"N":0,"C":0},"163":{"N":2,"C":2},"164":{"N":3,"C":2},"165":{"N":8,"C":7},"166":{"N":10,"C":10},"167":{"N":4,"C":4},"168":{"N":12,"C":10},"169":{"N":4,"C":4},"170":{"N":23,"C":20},"171":{"N":3,"C":2},"172":{"N":1,"C":1},"173":{"N":2,"C":1},"174":{"N":6,"C":6},"175":{"N":29,"C":26},"176":{"N":6,"C":5},"177":{"N":4,"C":3},"178":{"N":7,"C":5},"179":{"N":5,"C":5},"180":{"N":11,"C":10},"181":{"N":4,"C":4},"182":{"N":4,"C":3},"183":{"N":1,"C":1},"184":{"N":2,"C":1},"185":{"N":1,"C":1},"186":{"N":0,"C":0},"187":{"N":1,"C":1},"188":{"N":6,"C":4},"189":{"N":6,"C":6},"190":{"N":12,"C":9},"191":{"N":4,"C":4},"192":{"N":13,"C":11},"193":{"N":2,"C":1},"194":{"N":2,"C":2},"195":{"N":0,"C":0},"196":{"N":2,"C":2},"197":{"N":2,"C":1},"198":{"N":1,"C":1},"199":{"N":6,"C":4},"200":{"N":1,"C":1},"201":{"N":14,"C":12},"202":{"N":2,"C":1},"203":{"N":1,"C":1},"204":{"N":2,"C":2},"205":{"N":2,"C":1},"206":{"N":2,"C":1},"207":{"N":3,"C":3},"208":{"N":14,"C":14},"209":{"N":7,"C":7},"210":{"N":0,"C":0},"211":{"N":1,"C":1},"212":{"N":2,"C":1},"213":{"N":0,"C":0},"214":{"N":3,"C":3},"215":{"N":10,"C":10},"216":{"N":0,"C":0},"217":{"N":11,"C":9},"218":{"N":8,"C":8},"219":{"N":1,"C":1},"220":{"N":90,"C":81},"221":{"N":26,"C":23},"222":{"N":13,"C":11},"223":{"N":3,"C":3},"224":{"N":22,"C":16},"225":{"N":1,"C":1},"226":{"N":3,"C":2},"227":{"N":6,"C":5},"228":{"N":28,"C":24},"229":{"N":8,"C":7},"230":{"N":52,"C":45},"231":{"N":5,"C":5},"232":{"N":10,"C":8},"233":{"N":27,"C":26},"234":{"N":7,"C":7},"235":{"N":6,"C":4},"236":{"N":3,"C":3},"237":{"N":5,"C":5},"238":{"N":2,"C":2},"239":{"N":8,"C":8},"240":{"N":3,"C":3},"241":{"N":11,"C":9},"242":{"N":18,"C":18},"243":{"N":23,"C":23},"244":{"N":13,"C":12},"245":{"N":15,"C":14},"246":{"N":0,"C":0},"247":{"N":1,"C":1},"248":{"N":3,"C":2},"249":{"N":1,"C":1},"250":{"N":0,"C":0},"251":{"N":5,"C":4},"252":{"N":11,"C":8},"253":{"N":0,"C":0},"254":{"N":3,"C":3},"255":{"N":79,"C":79},"256":{"N":229,"C":214},"257":{"N":9,"C":9},"258":{"N":720,"C":672},"259":{"N":184,"C":172},"260":{"N":197,"C":197},"261":{"N":128,"C":118},"262":{"N":465,"C":411},"263":{"N":43,"C":43},"264":{"N":174,"C":164},"265":{"N":308,"C":258},"266":{"N":388,"C":388},"267":{"N":180,"C":159},"268":{"N":562,"C":489},"269":{"N":0,"C":0},"270":{"N":20,"C":20},"271":{"N":0,"C":0},"272":{"N":28,"C":22},"273":{"N":3,"C":3},"274":{"N":3,"C":2},"275":{"N":1,"C":1},"276":{"N":2,"C":1},"277":{"N":0,"C":0},"278":{"N":0,"C":0},"279":{"N":4,"C":4},"280":{"N":61,"C":53},"281":{"N":560,"C":442},"282":{"N":134,"C":134},"283":{"N":25,"C":22},"284":{"N":303,"C":240},"285":{"N":165,"C":149},"286":{"N":156,"C":130},"287":{"N":55,"C":42},"288":{"N":327,"C":327},"289":{"N":20,"C":20},"290":{"N":74,"C":66},"291":{"N":66,"C":62},"292":{"N":165,"C":143},"293":{"N":26,"C":22},"294":{"N":339,"C":305},"295":{"N":9,"C":8},"296":{"N":17,"C":14},"297":{"N":4,"C":4},"298":{"N":149,"C":140},"299":{"N":0,"C":0},"300":{"N":44,"C":38},"301":{"N":14,"C":11},"302":{"N":76,"C":75},"303":{"N":7,"C":7},"304":{"N":23,"C":20},"305":{"N":20,"C":20},"306":{"N":24,"C":21},"307":{"N":0,"C":0},"308":{"N":0,"C":0},"309":{"N":156,"C":137},"310":{"N":543,"C":495},"311":{"N":1,"C":1},"312":{"N":0,"C":0},"313":{"N":0,"C":0},"314":{"N":5,"C":4},"315":{"N":6,"C":5},"316":{"N":3,"C":3},"317":{"N":3,"C":2},"318":{"N":26,"C":24},"319":{"N":0,"C":0},"320":{"N":4,"C":4},"321":{"N":3,"C":2},"322":{"N":8,"C":8},"323":{"N":2,"C":1},"324":{"N":5,"C":4},"325":{"N":8,"C":6},"326":{"N":21,"C":20},"327":{"N":1,"C":1},"328":{"N":4,"C":3},"329":{"N":5,"C":4},"330":{"N":0,"C":0},"331":{"N":3,"C":3},"332":{"N":2,"C":1},"333":{"N":2,"C":2},"334":{"N":2,"C":1},"335":{"N":0,"C":0},"336":{"N":0,"C":0},"337":{"N":3,"C":3},"338":{"N":4,"C":3},"339":{"N":6,"C":6},"340":{"N":0,"C":0},"341":{"N":1,"C":1},"342":{"N":2,"C":2},"343":{"N":0,"C":0},"344":{"N":2,"C":1},"345":{"N":1,"C":1},"346":{"N":2,"C":1},"347":{"N":5,"C":5},"348":{"N":13,"C":12},"349":{"N":319,"C":319},"350":{"N":58,"C":58},"351":{"N":71,"C":65},"352":{"N":8,"C":8},"353":{"N":22,"C":20},"354":{"N":11,"C":11},"355":{"N":3,"C":3},"356":{"N":128,"C":128},"357":{"N":7,"C":5},"358":{"N":2,"C":2},"359":{"N":3,"C":3},"360":{"N":6,"C":5},"361":{"N":1,"C":1},"362":{"N":423,"C":347},"363":{"N":18,"C":17},"364":{"N":39,"C":31},"365":{"N":23,"C":21},"366":{"N":139,"C":139},"367":{"N":25,"C":25},"368":{"N":3,"C":2},"369":{"N":94,"C":94},"370":{"N":13,"C":12},"371":{"N":53,"C":41},"372":{"N":52,"C":49},"373":{"N":111,"C":101},"374":{"N":191,"C":191},"375":{"N":37,"C":37},"376":{"N":1355,"C":1190},"377":{"N":91,"C":87},"378":{"N":220,"C":215},"379":{"N":156,"C":137},"380":{"N":630,"C":630},"381":{"N":33,"C":32},"382":{"N":276,"C":245},"383":{"N":3,"C":3},"384":{"N":490,"C":478},"385":{"N":792,"C":759},"386":{"N":142,"C":142},"387":{"N":115,"C":111},"388":{"N":962,"C":901},"389":{"N":17275,"C":15814},"390":{"N":1583,"C":1446},"391":{"N":196,"C":184},"392":{"N":231,"C":198},"393":{"N":16,"C":13},"394":{"N":187,"C":162},"395":{"N":10,"C":10},"396":{"N":30,"C":28},"397":{"N":666,"C":627},"398":{"N":11,"C":10},"399":{"N":217,"C":198},"400":{"N":3,"C":2},"401":{"N":11,"C":9},"402":{"N":5,"C":5},"403":{"N":5401,"C":4922},"404":{"N":4,"C":4},"405":{"N":763,"C":682},"406":{"N":81,"C":76},"407":{"N":59,"C":53},"408":{"N":7,"C":6},"409":{"N":3,"C":3},"410":{"N":41,"C":34},"411":{"N":91,"C":87},"412":{"N":78,"C":68},"413":{"N":60,"C":50},"414":{"N":47,"C":39},"415":{"N":5,"C":4},"416":{"N":2,"C":1},"417":{"N":42,"C":40},"418":{"N":0,"C":0},"419":{"N":272,"C":236},"420":{"N":128,"C":121},"421":{"N":49,"C":42},"422":{"N":3,"C":3},"423":{"N":3666,"C":3373},"424":{"N":3130,"C":2749},"425":{"N":2415,"C":2104},"426":{"N":83,"C":74},"427":{"N":22,"C":18},"428":{"N":7161,"C":6697},"429":{"N":18,"C":15},"430":{"N":647,"C":636},"431":{"N":892,"C":787},"432":{"N":5604,"C":5259}}}
+	};
+	for (var key in tmp) data[key] = tmp[key];
 
 	// NSQ
 	var tmp = {"NSQ.2020.389.0":{"NSQ1":{"N":15814,"Dist":{"1":{"N":243},"2":{"N":86},"3":{"N":127},"4":{"N":253},"5":{"N":354},"6":{"N":1239},"7":{"N":1118},"8":{"N":2476},"9":{"N":3013},"10":{"N":1869},"11":{"N":5036}}},"NSQ2":{"CAT":{"1":{"N":782,"C":419},"2":{"N":2540,"C":503},"3":{"N":9510,"C":3815},"4":{"N":3009,"C":808},"5":{"N":4096,"C":499},"6":{"N":1952,"C":280},"7":{"N":5886,"C":1033},"8":{"N":13613,"C":7342},"9":{"N":6054,"C":1115}}},"NSQ3":{"CAT":{"1":{"N":11578,"C":4079},"2":{"N":11578,"C":2147},"3":{"N":11578,"C":2131},"4":{"N":11578,"C":2155},"5":{"N":11578,"C":223},"6":{"N":11578,"C":2361},"7":{"N":11578,"C":244},"8":{"N":11578,"C":214},"9":{"N":11578,"C":0},"10":{"N":11578,"C":428},"11":{"N":11578,"C":226}}},"NSQ4":{"CAT":{"1":{"N":10613,"C":1699},"2":{"N":10613,"C":1287},"3":{"N":10613,"C":1405},"4":{"N":10613,"C":796},"5":{"N":10613,"C":1599},"6":{"N":10613,"C":873},"7":{"N":10613,"C":1027},"8":{"N":10613,"C":963},"9":{"N":10613,"C":1321},"10":{"N":10613,"C":877},"11":{"N":10613,"C":861},"12":{"N":10613,"C":1226},"13":{"N":10613,"C":852},"14":{"N":10613,"C":1432},"15":{"N":10613,"C":1810},"16":{"N":10613,"C":1623},"17":{"N":10613,"C":1531},"18":{"N":10613,"C":1952},"19":{"N":10613,"C":916},"20":{"N":10613,"C":1459},"21":{"N":10613,"C":1876},"22":{"N":10613,"C":1962},"23":{"N":10613,"C":1280},"24":{"N":10613,"C":1183},"25":{"N":10613,"C":1476},"26":{"N":10613,"C":1645},"27":{"N":10613,"C":1246},"28":{"N":10613,"C":1547},"29":{"N":10613,"C":987}}},"NSQ5":{"CAT":{"1":{"N":13795,"C":3319},"2":{"N":13795,"C":3291},"3":{"N":13795,"C":4278},"4":{"N":13795,"C":2189},"5":{"N":13795,"C":4450},"6":{"N":13795,"C":3250},"7":{"N":13795,"C":1113},"8":{"N":13795,"C":2207},"9":{"N":13795,"C":4387},"10":{"N":13795,"C":6633},"11":{"N":13795,"C":3182},"12":{"N":13795,"C":3214}}},"NSQ6":{"N":14873,"Dist":{"1":{"N":6550},"2":{"N":1884},"3":{"N":5493},"4":{"N":946}}}}};
@@ -29717,8 +29550,6 @@ if (data == null && !Main_IsProduction() ) {
 	};
 
 
-
-
 	// Filters
 	data.Filters = {
 		Items: {
@@ -29827,179 +29658,15 @@ if (data == null && !Main_IsProduction() ) {
 }
 
 
-// Metrics
-
-if (data.Metrics == null) {
-
-	if (!Main_IsProduction()) {
-	}
-}
-
-
-
-if (data.Questions == null) {
-	var questionsData = {
-		'Hierarchy': {
-			N: 12345,
-			Options: {
-				'1a': {
-					N: 551
-				},
-				'1b': {
-					N: 552
-				},
-				'1c': {
-					N: 553
-				}
-			}
-		},
-		'Gender': {
-			N: 12345,
-			Options: {
-				'410': {
-					N: 555
-				},
-				'420': {
-					N: 555
-				},
-				'430': {
-					N: 555
-				},
-				'440': {
-					N: 555
-				}
-			}
-		},
-		'Age': {
-			N: 12345,
-			Options: {
-				'651': {
-					N: 555
-				},
-				'652': {
-					N: 555
-				},
-				'653': {
-					N: 555
-				},
-				'654': {
-					N: 555
-				},
-				'655': {
-					N: 555
-				},
-				'656': {
-					N: 555
-				}
-			}
-		},
-		'Tenure': {
-			N: 12345,
-			Options: {
-				'701': {
-					N: 555
-				},
-				'702': {
-					N: 555
-				},
-				'703': {
-					N: 555
-				},
-				'704': {
-					N: 555
-				},
-				'705': {
-					N: 555
-				}
-			}
-		},
-		'UnionNon': {
-			N: 12345,
-			Options: {
-				'631': {
-					N: 555
-				},
-				'632': {
-					N: 555
-				}
-			}
-		},
-		'Wage_Status': {
-			N: 12345,
-			Options: {
-				'641': {
-					N: 555
-				},
-				'642': {
-					N: 555
-				}
-			}
-		},
-		"Test": {
-			N: 12345,
-			Options: {
-				651: {
-					N: 555
-				},
-				652: {
-					N: 551
-				},
-				653: {
-					N: 552
-				},
-				654: {
-					N: 553
-				},
-				656: {
-					N: 554
-				},
-				657: {
-					N: 555
-				},
-				658: {
-					N: 556
-				},
-				659: {
-					N: 557
-				},
-				6510: {
-					N: 558
-				},
-				6551: {
-					N: 559
-				},
-				6512: {
-					N: 5551
-				},
-				6523: {
-					N: 5552
-				},
-				6534: {
-					N: 5553
-				},
-				6545: {
-					N: 5554
-				},
-				6556: {
-					N: 5555
-				},
-				6567: {
-					N: 5556
-				}
-			}
-		}
-	}
-
-	data.Questions = questionsData;
-}
-
-
 var config = {
 
 	ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
 
 	Norms: {
-		Codes: ['AllCompany_A_17TO19_Avg', 'HP_A_17TO19_Avg']
+		Codes: [
+			'AllCompany_A_17TO19_Avg',
+			'HP_A_17TO19_Avg'
+		]
 	},
 
 	CurrentWave: '2020',
@@ -30013,18 +29680,12 @@ var config = {
 		Suffix: ' *'
 	},
 
-	comparators: ['Internal.Wave:2019', 'External.IndustryBenchmark',
+	comparators: [
+		'Internal.Wave:2019',
+		'External.IndustryBenchmark',
 		'External.HighPerformers'
 	],
 
-	comments: {
-		"Comm1": {
-			CategoryList: "Comm1Theme"
-		},
-		"Comm2": {
-			CategoryList: "Comm2Theme"
-		},
-	},
 
 	EngagementDimensionId: "DIM_ENG",
 	EnablementDimensionId: "DIM_ENA",
@@ -30045,16 +29706,14 @@ var config = {
 		DistributionChart_onecolor: {
 			bgcolor: '#00b4eb', //'rgb(0, 180, 235)',
 			color: 'white'
-		},
+		}
 	},
 
 	ActionPlannerDateFormat: "yy-mm-dd",
 	LimitActionsPerPlan: 10
 };
 
+// Designates which comparators should be checked by default
 if (!('comparators' in state.Parameters)) {
 	State_Set('comparators', config.comparators);
 }
-
-TestData_fillBreakByData();
-TestData_fillComparatorsData();

@@ -15,6 +15,10 @@ function ResultsBreakdown_Page() {
 
 }
 
+function ResultsBreakdown_PageId() {
+	return 'submenuitem-GroupExplore-ResultsBreakdown';
+}
+
 function ResultsBreakdown_Render() {
 
 	var o = [];
@@ -71,7 +75,7 @@ function ResultsBreakdown_Render() {
 }
 
 function ResultsBreakdown_VariableId() {
-    //return $('#resultsbreakdown-breakby-highlighter-dropdown').val();
+	//return $('#resultsbreakdown-breakby-highlighter-dropdown').val();
 	return $('#resultsbreakdown-breakby-highlighter-dropdown').val();
 }
 
@@ -79,12 +83,12 @@ function ResultsBreakdown_ItemsTable() {
 	// Return Value: {Html: <string>, [ScriptCode: <string>]}
 
 
-    if ( ResultsBreakdown_MissingData() ) {
-        return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'ResultsBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + ResultsBreakdown_VariableId() + "'}]} );"
-        };
-    }
+	if ( ResultsBreakdown_MissingData() ) {
+		return {
+			Html: Main_Loader(),
+			ScriptCode: "if (ResultsBreakdown_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'ResultsBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + ResultsBreakdown_VariableId() + "'}]} );"
+		};
+	}
 
 
 	var formatter = Utils_FormatOutput;
@@ -128,7 +132,7 @@ function ResultsBreakdown_ItemsTable() {
 	var rowdata = [];
 	var item = {};
 
-	var breakdown_variable_id = ResultsBreakdown_VariableId();
+	var breakdown_variable_id = State_Get('breakby'); //ResultsBreakdown_VariableId();
 
 	if (breakdown_variable_id == null ) return '';
 
@@ -162,10 +166,10 @@ function ResultsBreakdown_ItemsTable() {
 			if (itemId) dist = Utils_CountsToPercents ( dist );
 
 			var opt = meta.Demographics[breakdown_variable_id].Answers[j];
-            var label = (opt == null)
-                ? NOT_AVAILABLE
-                : opt.Label;
-				
+			var label = (opt == null)
+				? NOT_AVAILABLE
+				: opt.Label;
+
 			rowdata = [
 				{ Label: '0_', ClassName: 'id-cell' },
 				{ Label: label, ClassName: 'text-cell' },
@@ -196,7 +200,8 @@ function ResultsBreakdown_ItemsTable() {
 					sigClassname = '';
 				}
 				else {
-					var sig_test = Utils_SigTest ( option, comparator_data[type][item_id], 'Fav' );
+					var is_pct_distribution = dimensionId ? true : false;
+					var sig_test = Utils_SigTest ( option, comparator_data[type][item_id], 'Fav', is_pct_distribution );
 					sigClassname = sig_test.IsSignificant
 						? ( sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
 						: '';
@@ -231,17 +236,17 @@ function ResultsBreakdown_ItemsTable() {
 	`;
 
 
-    var view_name = [
+	var view_name = [
 		Main_GetPageLabel ('#submenuitem-GroupExplore-ResultsBreakdown'),
 		$('#resultsbreakdown-items-highlighter-dropdown option:selected').text(),
-		$('#resultsbreakdown-breakby-highlighter-dropdown option:selected').text()		
+		$('#resultsbreakdown-breakby-highlighter-dropdown option:selected').text()
 	].join(' - ');
 
 	var exportColumns = [];
 	for (var k = 1; k < 6; k++) exportColumns.push(k);
 	for (var k = 7; k < 7+NofComparators; k++) exportColumns.push(k);
 
-    var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
+	var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
 
 	var dt = Component_DataTable(
 		"items-table-resultsbreakdown",
@@ -259,19 +264,19 @@ function ResultsBreakdown_ItemsTable() {
 }
 
 function ResultsBreakdown_Key() {
-    return Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, ResultsBreakdown_VariableId() );
+	return Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get ('breakby') );
 }
 
 function ResultsBreakdown_Data() {
-    var key = ResultsBreakdown_Key();
+	var key = ResultsBreakdown_Key();
 
-    return data[key];
+	return data[key];
 }
 
 function ResultsBreakdown_MissingData() {
-    // return true if rendering cannot happen due to missing data
+	// return true if rendering cannot happen due to missing data
 
-    var is_missing_data = (ResultsBreakdown_Data() == null);
+	var is_missing_data = (ResultsBreakdown_Data() == null);
 
-    return is_missing_data;
+	return is_missing_data;
 }

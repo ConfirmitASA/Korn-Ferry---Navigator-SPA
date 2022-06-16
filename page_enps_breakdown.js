@@ -13,6 +13,10 @@ function ENPSBreakdown_Page() {
     };
 }
 
+function ENPSBreakdown_PageId() {
+    return 'submenuitem-GroupEnps-ENPSBreakdown';
+}
+
 function ENPSBreakdown_Render() {
 
     var o = [];
@@ -68,7 +72,7 @@ function ENPSBreakdown_VariableId() {
 }
 
 function ENPSBreakdown_Key() {
-    return Main_GetKeyWithFilter( 'ENPSX', config.CurrentWave, data.User.PersonalizedReportBase, ENPSBreakdown_VariableId() );
+    return Main_GetKeyWithFilter( 'ENPSX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get ('breakby') );
 }
 
 function ENPSBreakdown_Data() {
@@ -91,8 +95,8 @@ function ENPSBreakdown_ItemsTable() {
 
     if ( ENPSBreakdown_MissingData() ) {
         return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'ENPSBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ENPS.Breakdown', Breakdown:'" + ENPSBreakdown_VariableId() + "'}]} );"
+            Html: Main_Loader(),
+            ScriptCode: "if (ENPSBreakdown_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'ENPSBreakdown_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'ENPS.Breakdown', Breakdown:'" + ENPSBreakdown_VariableId() + "'}]} );"
         };
     }
 
@@ -146,8 +150,8 @@ function ENPSBreakdown_ItemsTable() {
                 Detractors: dist.Detractors
             };
 
-			if (!segment_data.hasOwnProperty('N'))
-				segment_data.N = Utils_Count ( segment_data.Dist );
+            if (!segment_data.hasOwnProperty('N'))
+                segment_data.N = Utils_Count ( segment_data.Dist );
 
             rowdata = [
                 { Label: '2', ClassName: 'id-cell' },
@@ -163,7 +167,7 @@ function ENPSBreakdown_ItemsTable() {
             table_data.push(rowdata);
         }
     }
-    
+
     var hideColumns = [0];
 
     var columnSettings = `
@@ -182,7 +186,7 @@ function ENPSBreakdown_ItemsTable() {
         Main_GetPageLabel ('#submenuitem-GroupEnps-ENPSBreakdown'),  // Page Name
         $('#enps-breakdown-dropdown option:selected').text() // Selected breakdown variable label
     ].join(' - ');
-   
+
 
     var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
 

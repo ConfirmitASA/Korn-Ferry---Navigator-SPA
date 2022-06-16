@@ -7,51 +7,38 @@ function OpenComments_Page() {
         RightPane: `
         <div id="opencomments_table-container"></div>
         `,
-        
+
         ClassName: 'opencomments_container',
         Style: null,
-		ShowFilterSummary: true        
+        ShowFilterSummary: true
     };
 }
 
-function OpenComments_HasData() {
-    /*
-    
-    Check to see if the data needed to render the page is present.
-    
-    COMM.Comm1 = {
-        "<WaveId>.<NodeId>.<FilterHash>": [
-            {
-                Comment: "...",
-                Cat: "3"
-            }
-        ];
-    }
-
-    */
+function OpenComments_PageId() {
+    return 'submenuitem-GroupComments-OpenComments';
 }
 
 function OpenComments_Render() {
-   
+
     var o = [];
 
-	var Comment_dropdown = Component_Dropdown(
-		'comment',
-		meta.Labels["labels.SelectQuestion"].Label,
-		'opencomments_comment-highlighter-dropdown',
-		'',
-		ParamValues_Comment()
-	);
+    var Comment_dropdown = Component_Dropdown(
+        'comment',
+        meta.Labels["labels.SelectQuestion"].Label,
+        'opencomments_comment-highlighter-dropdown',
+        '',
+        ParamValues_Comment()
+    );
 
-	var Category_dropdown = Component_Dropdown(
-		'CommentCategory',
-		meta.Labels['labels.SelectTheme'].Label,
-		'opencomments_category-highlighter-dropdown',
-		meta.Labels['labels.all'].Label,
-		ParamValues_CommentCategory()
-	);
+    var Category_dropdown = Component_Dropdown(
+        'CommentCategory',
+        meta.Labels['labels.SelectTheme'].Label,
+        'opencomments_category-highlighter-dropdown',
+        meta.Labels['labels.all'].Label,
+        ParamValues_CommentCategory()
+    );
 
-	o.push(`
+    o.push(`
         <div class="selector-group">
             ${Comment_dropdown}
             ${Category_dropdown}
@@ -75,7 +62,7 @@ function OpenComments_Render() {
         // Change Comment Category List
         State_Set('CommentCategory', '-1');
         var options = ParamValues_CommentCategory();
-        var str = '<option value="-1">' + meta.Labels["labels.all"].Label + '</option>';    
+        var str = '<option value="-1">' + meta.Labels["labels.all"].Label + '</option>';
         for (var i=0; i<options.length; i++)
             str += '<option value="' + options[i].Code + '">' + options[i].Label + '</option>';
         $('#opencomments_category-highlighter-dropdown').html(str);
@@ -99,8 +86,8 @@ function OpenComments_VerbatimsTable() {
 
     if ( OpenComments_MissingData() ) {
         return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'OpenComments_VerbatimsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'Comments'}]} );"
+            Html: Main_Loader(),
+            ScriptCode: "if (OpenComments_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'OpenComments_VerbatimsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'Comments'}]} );"
         };
     }
 
@@ -116,9 +103,9 @@ function OpenComments_VerbatimsTable() {
 
     for (var i=0; i<records.length; ++i) {
         var comment = records[i];
-        if (cat && cat != -1 && cat_text != comment.Category) continue; 
+        if (cat && cat != -1 && cat_text != comment.Category) continue;
 
-        var category = (comment.Category == null) 
+        var category = (comment.Category == null)
             ? meta.Labels['labels.NA'].Label
             : comment.Category //categories[comment.Category].Label;
 
@@ -135,10 +122,10 @@ function OpenComments_VerbatimsTable() {
         ];
         table_data.push(rowdata);
     }
-    
+
     var hdr = {
-        Label: meta.Labels['labels.Comments'].Label + " (" + table_data.length + "): " + $('#opencomments_comment-highlighter-dropdown option:selected').text(), 
-        ClassName: 'text-cell' 
+        Label: meta.Labels['labels.Comments'].Label + " (" + table_data.length + "): " + $('#opencomments_comment-highlighter-dropdown option:selected').text(),
+        ClassName: 'text-cell'
     };
 
     var headers = [
@@ -148,7 +135,7 @@ function OpenComments_VerbatimsTable() {
             { Label: meta.Labels["labels.Theme"].Label, ClassName: 'text-cell' }
         ]
     ];
-    
+
     var columnSettings = `
         'order': [],
 		'columnDefs': [
@@ -162,9 +149,9 @@ function OpenComments_VerbatimsTable() {
     ' - ' +
     $('#opencomments_comment-highlighter-dropdown option:selected').text();
     */
-   
+
     var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
- 
+
     var dt = Component_DataTable(
         "items-table-opencomments",
         "items-table",
@@ -190,7 +177,7 @@ function OpenComments_VariableId() {
             v = keys[0]; // return first in list
     }
 
-	return v;
+    return v;
 }
 
 function OpenComments_Key() {

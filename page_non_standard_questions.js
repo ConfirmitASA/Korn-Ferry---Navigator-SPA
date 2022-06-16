@@ -15,6 +15,10 @@ function NonStandardQuestions_Page() {
 
 }
 
+function NonStandardQuestions_PageId() {
+    return 'submenuitem-GroupExplore-NonStandardQuestions';
+}
+
 function NonStandardQuestions_Render() {
 
     var o = [];
@@ -54,13 +58,13 @@ function NonStandardQuestions_ItemsTable() {
 
     if ( NonStandardQuestions_MissingData()) {
         return {
-            Html: '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">Loading...</div>', 
-            ScriptCode: "Main_SubmitQuery ( {Requester: 'NonStandardQuestions_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'NSQ'}]} );"
+            Html: Main_Loader(),
+            ScriptCode: "if (NonStandardQuestions_PageId() == State_GetCurrentPageId() ) Main_SubmitQuery ( {Requester: 'NonStandardQuestions_ItemsTable', ShowWaitMessage: false, DataRequest:[{ Type: 'NSQ'}]} );"
         };
 
     }
 
-	var formatter = Utils_FormatOutput;    
+    var formatter = Utils_FormatOutput;
     var nsq = NonStandardQuestions_VariableId();
     if (nsq == null) return '';
 
@@ -123,7 +127,7 @@ function NonStandardQuestions_ItemsTable() {
     var exportColumns = [ 0, 1, 2 ];
 
     var view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-NonStandardQuestions');
-   
+
     var buttonSettings = DataTable_ButtonSettings(exportColumns, view_name);
 
     var dt = Component_DataTable(
