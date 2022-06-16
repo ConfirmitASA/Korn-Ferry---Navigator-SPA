@@ -103,7 +103,7 @@ function FocusAreas_GetActionsInActionPlan(itemId) {
 
 function FocusAreas_RemoveItem(idToRemove) {
     if(FocusAreas_IsItemAlreadyAdded(idToRemove)) {
-        ActionFocusAreas_SaveChanges(idToRemove, null, structuredClone(FocusAreas[idToRemove]), '0');
+        ActionFocusAreas_SaveChanges(idToRemove, null, $.extend({}, FocusAreas[idToRemove]), '0');
         const actions = FocusAreas[idToRemove].planActions;
         for (let actionId in actions) {
             FocusAreas_RemoveActionFromActionPlan(idToRemove, actionId);
@@ -117,7 +117,7 @@ function FocusAreas_RemoveItem(idToRemove) {
 function FocusAreas_RemoveActionFromActionPlan(itemId, actionOrderId) {
     if (FocusAreas_IsItemAlreadyAdded(itemId)) {
         if(FocusAreas[itemId].planActions.hasOwnProperty(actionOrderId)) {
-            ActionFocusAreas_SaveChanges(itemId, actionOrderId, structuredClone(FocusAreas[itemId]), '0');
+            ActionFocusAreas_SaveChanges(itemId, actionOrderId, $.extend({}, FocusAreas[itemId]), '0');
             delete FocusAreas[itemId].planActions[actionOrderId];
         } else {
             throw new Error(`Action ${actionOrderId} you're trying to update does not exist in this action plan for ${itemId}`);
