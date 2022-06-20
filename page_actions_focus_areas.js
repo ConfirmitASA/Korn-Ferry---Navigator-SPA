@@ -159,7 +159,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index) {
                         <div class="focus-area-info_rec-number">
                             ${recommendedActions.length == 0 ? meta.Labels['labels.NoRecommendationsAvailable'].Label : recommendedActions.length + ' ' + meta.Labels['labels.RecommendationsAvailable'].Label}
                         </div>
-                        <div class="focus-area-info_comparator">${ (isNaN(diff) ? '-' : (diff>0 ? '+' + diff : diff))} ${meta.Labels['labels.vsCompany'].Label}</div>                      
+                        <div class="focus-area-info_comparator">${ (isNaN(favScore.replace('%', '')) ? '-' : (diff>0 ? '+' + diff : diff))} ${meta.Labels['labels.vsCompany'].Label}</div>                      
                     </div>
                     <div class="focus-area-info_controls">
                         <div class="focus-area-info_tags">
