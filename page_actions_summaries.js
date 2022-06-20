@@ -241,7 +241,7 @@ function ActionsSummaries_IsPlanToShow(actionPlan) {
 	
 	return actionPlan.planIsSubmitted && 
 		(	
-			(plansFilter=='ownplans' && actionPlan.planNode==data.User.PersonalizedReportBase) ||
+			(plansFilter=='ownplans' && actionPlan.planOwner == data.User.FirstName + ' ' + data.User.LastName) ||
 			(plansFilter=='areaplans' && true) || // TO DO: change true to hierarchical condition
 			(plansFilter=='sharedplans' && actionPlan.planIsShared)
 		);
