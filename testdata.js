@@ -1000,6 +1000,7 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"labels.DueDateHeader": {"Label": "Due Date"},
 			"labels.LastUpdatedDateHeader": {"Label": "Last Updated Date"},
 			"labels.PlanOwnerHeader": {"Label": "Plan Owner"},
+			"labels.AreaHeader": {"Label": "Area"},
 			"labels.NOfActions": {"Label": "# of actions"},
 			"labels.PlanTitle": {"Label": "Plan"},
 			"labels.ActionTitle": {"Label": "Action"},

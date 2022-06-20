@@ -119,6 +119,7 @@ function ActionsSummaries_GetItemsTable() {
 				{ Label: meta.Labels["labels.DueDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.LastUpdatedDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.PlanOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: meta.Labels["labels.AreaHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.NOfActions"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
 			]
 		];
@@ -187,6 +188,7 @@ function ActionsSummaries_GetPlansTableData() {
 				{Label: actionPlan.planDueDate, ClassName: 'text-cell'},
 				{Label: actionPlan.planLastUpdatedDate, ClassName: 'text-cell'},
 				{Label: actionPlan.planOwner, ClassName: 'text-cell'},
+				{Label: meta.Hierarchy.Map[actionPlan.planNode].Label, ClassName: 'text-cell'},
 				{
 					Label: !!actionPlan.planActions ? Object.keys(actionPlan.planActions).length : 0,
 					ClassName: 'text-cell'
