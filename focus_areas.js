@@ -37,8 +37,8 @@ function FocusAreas_AddItem(itemId, newItemObj, saveChanges = true) {
     if(!FocusAreas_IsItemAlreadyAdded(itemId)) {
         let newFocusArea = newItemObj;
 
-        newFocusArea.favScore = newItemObj.favScore ?? '';
-        newFocusArea.diffVsCompany = newItemObj.diffVsCompany ?? '';
+        newFocusArea.favScore = newItemObj.favScore ?? ActionFocusAreas_CalculateFavScore(itemId, newItemObj);
+        newFocusArea.diffVsCompany = newItemObj.diffVsCompany ?? ActionFocusAreas_CalculateDiffVsCompany(itemId, newItemObj);
 
         newFocusArea.importance = newItemObj.importance ?? false;
         newFocusArea.involvement = newItemObj.involvement ?? false;

@@ -74,40 +74,19 @@ function ActionFocusAreas_RenderFocusAreaList() {
     $('#FocusAreasList').html('');
 
     let addedFocusAreas = FocusAreas_GetFocusAreas();
-
-    let itemsData = Main_CurrentItemsData_WithFilter();
-    let dimensionsData = Main_CurrentDimensionsData_WithFilter();
-
-    let company_overall_items_key = Main_GetKeyWithFilter(
-        'ITEMS',
-        config.CurrentWave,
-        meta.Hierarchy.TopNode.Id
-    );
-
-    let company_overall_items_data = data[ company_overall_items_key ];
-
-    let company_overall_dimensions_key = Main_GetKeyWithFilter(
-        'DIMS',
-        config.CurrentWave,
-        meta.Hierarchy.TopNode.Id
-    );
-
-    let company_overall_dimensions_data = data[ company_overall_dimensions_key ];
-
-
     let index = 0;
     let currentUserName = data.User.FirstName + ' ' + data.User.LastName;
 
     for(let focusArea in addedFocusAreas) {
         if(addedFocusAreas[focusArea].planOwner === currentUserName) {
-            ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index, itemsData, company_overall_items_data, dimensionsData, company_overall_dimensions_data);
+            ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index);
         }
 
         index++;
     }
 }
 
-function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsData, company_overall_items_data, dimensionsData, company_overall_dimensions_data) {
+function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index) {
     let o = [];
 
     let focusAreaLabel = '';
@@ -142,10 +121,9 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
         favScore = focusArea.favScore;
         diff = focusArea.diffVsCompany;
     } else {
-        favScore = ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea, dimensionsData, itemsData);
+        favScore = ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea);
         FocusAreas_UpdateActionPlan(focusAreaId,'favScore', favScore);
-        diff = ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea, dimensionsData,
-            company_overall_dimensions_data, itemsData, company_overall_items_data);
+        diff = ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea);
         FocusAreas_UpdateActionPlan(focusAreaId,'diffVsCompany', diff);
     }
 
@@ -324,8 +302,12 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index, itemsDa
     ActionFocusAreas_SubscribeFocusAreaToSaveChanges(focusAreaId);
 }
 
-function ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea, dimensionsData, itemsData) {
+function ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea) {
     let favScore = '';
+
+    let itemsData = Main_CurrentItemsData_WithFilter();
+    let dimensionsData = Main_CurrentDimensionsData_WithFilter();
+    focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
 
     if (focusArea.isDimension) {
         let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
@@ -340,8 +322,28 @@ function ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea, dimensionsDa
     return favScore;
 }
 
-function ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea, dimensionsData, company_overall_dimensions_data, itemsData, company_overall_items_data) {
+function ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea) {
     let diff = '';
+
+    let itemsData = Main_CurrentItemsData_WithFilter();
+    let dimensionsData = Main_CurrentDimensionsData_WithFilter();
+
+    let company_overall_items_key = Main_GetKeyWithFilter(
+        'ITEMS',
+        config.CurrentWave,
+        meta.Hierarchy.TopNode.Id
+    );
+
+    let company_overall_items_data = data[ company_overall_items_key ];
+
+    let company_overall_dimensions_key = Main_GetKeyWithFilter(
+        'DIMS',
+        config.CurrentWave,
+        meta.Hierarchy.TopNode.Id
+    );
+
+    let company_overall_dimensions_data = data[ company_overall_dimensions_key ];
+    focusArea = focusArea ?? FocusAreas_GetFocusAreas()[focusAreaId];
     if (focusArea.isDimension) {
         let favScoreRaw = dimensionsData[focusAreaId].Dist.Fav;
 
