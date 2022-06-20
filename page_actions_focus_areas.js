@@ -117,15 +117,8 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index) {
 
     }
 
-    if (focusArea.planIsSubmitted) {
-        favScore = focusArea.favScore;
-        diff = focusArea.diffVsCompany;
-    } else {
-        favScore = ActionFocusAreas_CalculateFavScore(focusAreaId, focusArea);
-        FocusAreas_UpdateActionPlan(focusAreaId,'favScore', favScore);
-        diff = ActionFocusAreas_CalculateDiffVsCompany(focusAreaId, focusArea);
-        FocusAreas_UpdateActionPlan(focusAreaId,'diffVsCompany', diff);
-    }
+    favScore = focusArea.favScore;
+    diff = focusArea.diffVsCompany;
 
     let actionPlan_dropdown = Component_Dropdown(
         'actionPlanStatus_' + focusAreaId,
