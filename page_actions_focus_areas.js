@@ -407,7 +407,7 @@ function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
             elem = elem.parentElement;
         }
         //$(".selected-progress-sign").css('color', '#c0c0c0');
-        $('#' + elem.id + " .selected-progress-sign").css('color', '#77bc1f');
+        $('#' + elem.id + " .selected-progress-sign").css('color', '#00634f');
     });
 }
 
