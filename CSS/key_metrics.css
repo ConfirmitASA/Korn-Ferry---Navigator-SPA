@@ -42,3 +42,11 @@
 
 .trend-indicator-line {}
 .trend-indicator-text {}
+
+.scoreback_label {
+    font-size: 20px;
+    text-align: end;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+}

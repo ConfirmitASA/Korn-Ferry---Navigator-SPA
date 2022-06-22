@@ -82,6 +82,7 @@
 .numeric-cell {
     text-align: center;
     direction: ltr;
+    min-width: 45px;
 }
 
 .text-cell {
@@ -94,7 +95,7 @@
 }
 
 .distribution-cell {
-    width: 30px;
+    min-width: 45px;
 }
 
 th {
@@ -851,9 +852,6 @@ b {
     background-color: white;
     padding-bottom: 30px;
     margin-top: 20px;
-}
-
-.response-rate-container {
 }
 
 .flip-card-container {

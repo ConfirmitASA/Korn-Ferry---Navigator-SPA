@@ -47,7 +47,7 @@ function ENPSScore_Render() {
     let formatter = Utils_FormatOutput;
     let formatterPct = Utils_FormatPctOutput;
 
-    let enpsScore = pct_promoters - pct_detractors;
+    let enpsScore = (pct_promoters == null || pct_detractors == null) ? null : pct_promoters - pct_detractors;
 
     o.push (`
 

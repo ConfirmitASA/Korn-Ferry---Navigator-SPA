@@ -396,8 +396,9 @@ function KeyMetrics_Render() {
 					${meta.Dimensions[metric_id].Label}
 				</div>
 
-				<!--Metric Description -->
+				<!-- Metric Description label missing
 				${meta.Dimensions[metric_id].KeyMetric_MoreCardText}
+                -->
 
 				<!-- Details -->
 				${KeyMetrics_CardDetailsMain(metric_id)}
