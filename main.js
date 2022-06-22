@@ -33,13 +33,13 @@ function Main_Run() {
 
 		// download default Roboto font from cdnjs.com
 		Roboto: {
-			normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
-			bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-			italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-			bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+		  normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+		  bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+		  italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+		  bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
 		}
 	};
-
+ 
 	Main_RenderHierarchyPicker();
 	Main_RenderPagesContainer();
 
@@ -47,20 +47,20 @@ function Main_Run() {
 }
 
 function Main_GetDimensionIdByItemId ( item_id ) {
-	if ( item_to_dimension_map == null ) {
-		var map = {};
+    if ( item_to_dimension_map == null ) {
+        var map = {};        
 
-		for (var dimension_id in meta.Dimensions) {
-			var d = meta.Dimensions[dimension_id];
-			for (var i=0; i<d.Items.length; ++i) {
-				var id = d.Items[i];
-				map[id] = dimension_id;
-			}
-		}
+        for (var dimension_id in meta.Dimensions) {
+            var d = meta.Dimensions[dimension_id];
+            for (var i=0; i<d.Items.length; ++i) {
+                var id = d.Items[i];
+                map[id] = dimension_id;
+            }
+        }        
 
-		item_to_dimension_map = map;
-	}
-	return item_to_dimension_map[ item_id ];
+        item_to_dimension_map = map;
+    }
+    return item_to_dimension_map[ item_id ];
 }
 
 function Main_GetPageLabel (id) {
@@ -106,7 +106,7 @@ function Main_RenderPagesContainer() {
 }
 
 function Main_RenderHierarchyPicker() {
-	$('#hierarchy-picker-container').html (
+	$('#hierarchy-picker-container').html ( 
 		Component_HierarchyPicker()
 	);
 
@@ -138,7 +138,7 @@ function Main_AddHierarchyEventListeners() {
 			$('#hierarchypicker').addClass('displaynone');
 			WaitMessage();
 		});
-
+	
 		// Cancel link
 		$('.dd-cancel').click( function () {
 			console.log ('Button click: Cancel Hierarchy');
@@ -162,7 +162,7 @@ function Main_FullPath() {
 	var node_id = data.User.PersonalizedReportBase;
 	var reached_top = false;
 	var labels = [];
-
+	
 	while ( !reached_top ) {
 		var node = meta.Hierarchy.Map[ node_id ];
 		var label = node.Label;
@@ -170,7 +170,7 @@ function Main_FullPath() {
 		node_id = node.ParentId;
 		if ( node_id == '-1') reached_top = true;
 	}
-
+	
 	return ( labels.reverse().join(' > '));
 }
 
@@ -190,7 +190,7 @@ function Main_GetKey ( data_type, wave_id, node_id ) {
 		data_type,
 		wave_id,
 		node_id
-	].join('.');
+	].join('.');	
 }
 
 function Main_HashCode ( s ) {
@@ -221,7 +221,7 @@ function Main_FilterHash(breakdown_variable_id, code){
 	}
 
 	var filter = codes.join(',');
-	var hash = Main_HashCode ( filter );
+    var hash = Main_HashCode ( filter );
 
 	return hash;
 }
@@ -230,9 +230,9 @@ function Main_CurrentHashWithDemos() {
 
 	if (typeof production === 'undefined') return TestData_Hash();
 
-	var filters = ModalGetFilters();
+    var filters = ModalGetFilters();
 	var report_base = data.User.PersonalizedReportBase;
-	var hash_w_demos = Main_HashCode ( report_base + ':' + filters );
+    var hash_w_demos = Main_HashCode ( report_base + ':' + filters );
 
 	return hash_w_demos;
 }
@@ -346,7 +346,7 @@ function Main_Menitem_Click() {
 	page.css('visibility', 'visible');
 	page.velocity('fadeIn');
 
-
+	
 	// example: Click on [menuitem-Comments] -> Click the first [submenuitem-Comments-*]
 	var id = 'sub' + $(this).attr('id');
 	var found = false;
@@ -496,7 +496,7 @@ function Main_TrimQuery ( query ) {
 	var hash_w_demos = Main_CurrentHashWithDemos();
 
 	if ( dr != null ) {
-
+		
 		for (var i=0; i<dr.length; ++i) {
 			var request = dr[i];
 			var exists = false;
@@ -535,7 +535,7 @@ function Main_UpdateRequest(){
 		Filters: State_Get('filter'),
 		DataRequest: Main_DefaultDataRequest()
 	};
-
+	
 	var query = $('#submitbutton').find('input').last();
 	var s  = JSON.stringify ( q );
 	query.val ( s );
@@ -553,12 +553,12 @@ function Main_DefaultDataRequest() {
 		{ Type: "ENPS.Overall"},
 		{ Type: "EffectivenessProfile.Overall"},
 		{ Type: "CommentCategories.Overall"}
-
+		
 	];
 }
 
 function Main_GetInitialQuery() {
-	return {IsInitialJsonRequest: true, IsInitialLoad: true,  DataRequest:[{ Type: "ResponseRate.Overall"}]};
+	return {IsInitialJsonRequest: true, IsInitialLoad: true,  DataRequest:[{ Type: "ResponseRate.Overall"}]}; 
 }
 
 function Main_SubmitInitialQuery() {
@@ -590,7 +590,7 @@ function Main_SubmitQuery ( query ) {
 
 	try {
 		// these next two functions live in the Report Master
-		Query( query );
+		Query( query ); 
 		mySubmit( query.IsInitialJsonRequest, query.ShowWaitMessage );
 		data.isTestData = false;
 	}
@@ -703,7 +703,7 @@ function Main_RenderPageContents() {
 
 
 	console.log ('Main_RenderPageContents - BEGIN');
-
+	
 	var p;
 	for (var i=0; i<meta.Menu.length; ++i) {
 		var item = meta.Menu[i];
@@ -724,16 +724,16 @@ function Main_IsRTL() {
 }
 
 function Main_Loader( prevent_overlay ) {
-	return '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">' +
-		(prevent_overlay ? '' : '<script>$("#master-page-modal-spinner-container").fadeIn();</script>') +
-		'Loading...</div>';
+	return '<div class="loader" style="right: unset; position: relative;top: -50px; overflow: hidden; float: left;">' + 
+	(prevent_overlay ? '' : '<script>$("#master-page-modal-spinner-container").fadeIn();</script>') + 
+	'Loading...</div>';
 }
 
 function Main_RenderMenu() {
 	var o = [];
 
-	o.push (
-		`
+	o.push ( 
+`
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script>
@@ -844,17 +844,17 @@ function myFunction() {
   }
   </style>
 `
-
+		
 	);
 
 
 	o.push ( '<div class=menuitems>' );
-	o.push (
+	o.push ( 
 		`
 		<div class="menuicon" onclick="myFunction()">
 			<i class="fa fa-bars"></i>
 		</div>
-		`
+		`		
 	);
 
 
@@ -880,7 +880,7 @@ function myFunction() {
 					var subitem = item.Submenu[j];
 
 					if (meta.VisiblePages.includes(subitem.Code)) {
-
+			   
 						o2.push('<div class="submenuitem" id="submenuitem-' + item.Code + '-' + subitem.Code + '">' + subitem.Label + '</div>');
 						sections.push(
 							'<div class="section" id="section-' + item.Code + '-' + subitem.Code + '"></div>\n'
@@ -891,8 +891,8 @@ function myFunction() {
 				$('#page-' + item.Code).find('.submenu').html(o2.join(''));
 				$('#page-' + item.Code).find('.sections').html(sections.join(''));
 			}
-
-
+																 
+																		
 		}
 
 	}
@@ -962,11 +962,11 @@ function Main_CurrentItemsData_WithFilter() {
 }
 
 function Main_PreviousItemsData_WithFilter() {
-	return data[Main_GetKeyWithFilter('ITEMS', config.PreviousWave, data.User.PersonalizedReportBase)];
+    return data[Main_GetKeyWithFilter('ITEMS', config.PreviousWave, data.User.PersonalizedReportBase)];
 }
 
 function Main_CurrentDimensionsData_WithFilter() {
-	return data[Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase)];
+    return data[Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase)];
 }
 
 function Main_CompactComparatorSet() {
@@ -1018,7 +1018,7 @@ function Main_CompactComparatorSet() {
 }
 
 function Main_PreviousDimensionsData_WithFilter() {
-	return data[Main_GetKeyWithFilter('DIMS', config.PreviousWave, data.User.PersonalizedReportBase)];
+    return data[Main_GetKeyWithFilter('DIMS', config.PreviousWave, data.User.PersonalizedReportBase)];
 }
 
 function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id, code ) {
@@ -1052,14 +1052,14 @@ function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id
 				var tmp = parts[1].split(':');
 				var wave_id;
 				var node_id;
-
+			
 				switch ( tmp.length ) {
 
 					case 1:
 						// Internal.parent
 						// Internal.total
 						wave_id = config.CurrentWave;
-
+						
 						switch ( tmp[0] ) {
 
 							case 'total':
@@ -1118,7 +1118,7 @@ function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id
 
 				// need to understand how this mapping is supposed to work
 				var benchmark_id;
-
+			
 				switch ( parts[1] ) {
 
 					case 'IndustryBenchmark':
@@ -1172,7 +1172,7 @@ function Main_TestQuery( query ) {
 	var current_page_id = State_GetCurrentPageId();
 	if ( current_page_id != null )
 		current_page_id = current_page_id.split('-').pop();
-
+	
 	switch ( current_page_id ) {
 
 
@@ -1180,11 +1180,11 @@ function Main_TestQuery( query ) {
 			var key = EffectivenessProfileBreakdown_Key();
 			if (data[key] == null) {
 				var breakdown_variable_id = EffectivenessProfileBreakdown_VariableId();
-
+				
 				var tmp = {};
 				var codes = meta.Demographics[breakdown_variable_id].Options;
 				for (var code in codes) {
-					tmp[code] = {N: 100, Dist: {MostEffective: 20, Frustrated: 10, Detached: 40, LeastEffective: 30}};
+					tmp[code] = {N: 100, Dist: {MostEffective: 20, Frustrated: 10, Detached: 40, LeastEffective: 30}};				
 				}
 
 				data[key] = tmp;
@@ -1196,18 +1196,18 @@ function Main_TestQuery( query ) {
 			var key = ENPSBreakdown_Key();
 			if (data[key] == null) {
 				var breakdown_variable_id = ENPSBreakdown_VariableId();
-
+				
 				var tmp = {};
 				var codes = meta.Demographics[breakdown_variable_id].Options;
 				for (var code in codes) {
-					tmp[code] = {N: 100, Dist: {Detractors: 20, Neutrals: 10, Promoters: 70}};
+					tmp[code] = {N: 100, Dist: {Detractors: 20, Neutrals: 10, Promoters: 70}};				
 				}
 
 				data[key] = tmp;
 			}
 			break;
 
-	}
+	} 
 
 	if (query.parameter=='breakby') {
 		TestData_fillBreakByData();
@@ -1240,19 +1240,19 @@ function Main_ExtendDataTableSorting() {
 		},
 
 	});
-
+	   
 }
 
-$(document).ready(function () {
 
-	Main_RenderMenu();
-	Main_RenderPageContents();
-	Main_TextSubstitution();
-	Main_UpdateFullPath();
-
-	Main_ExtendDataTableSorting();
-
-	// Preload Images; upon completion will execute Main_PreloadComplete() and run Render Functions
-	Main_PreloadImages();
-
+YUI().use('*', function(Y) {
+    Y.on("load", function (e) {
+	   Main_Run();
+	   Main_RenderMenu();
+	   Main_RenderPageContents();
+	   Main_TextSubstitution();
+	   Main_UpdateFullPath();
+	   Main_ExtendDataTableSorting();
+	   // Preload Images; upon completion will execute Main_PreloadComplete() and run Render Functions
+	   Main_PreloadImages();
+	}, Y.config.win);
 });
