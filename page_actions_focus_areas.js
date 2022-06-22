@@ -160,6 +160,7 @@ function ActionFocusAreas_RenderFocusArea(focusAreaId, focusArea, index) {
                             <div class="ap-tag ${focusArea.involvement ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__involvement"></div>
                             <div class="ap-tag ${focusArea.cost ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__cost"></div>
                         </div>
+                        <div class="focus-area-info_area">${meta.Labels['labels.Area'].Label} ${meta.Hierarchy.Map[focusArea.planNode].Label}</div>
                         <div class="focus-area-info_work-button">${meta.Buttons.WorkOnThis.Label}</div> 
                     </div>
                     <div class="action-plan action-plan__collapsed">

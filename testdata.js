@@ -977,6 +977,7 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"labels.Add": {"Label": "add"},
 			"labels.NoRecommendationsAvailable": {"Label": "No recommendation/s available"},
 			"labels.RecommendationsAvailable": {"Label": "recommendation/s available"},
+			"labels.Area": {"Label": "Area:"},
 			"labels.FocusOn": {"Label": "Focus on:"},
 			"labels.RecommendedActions": {"Label": "Recommended Actions:"},
 			"labels.ActionPlan": {"Label": "Action Plan"},
