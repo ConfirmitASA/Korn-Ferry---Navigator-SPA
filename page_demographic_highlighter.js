@@ -1,20 +1,20 @@
 // Demographic Highlighter
 
 function DemographicHighlighter_Page() {
-	return {
-		Label: meta.Labels.DemographicHighlighter.Title,
+    return {
+        Label: meta.Labels.DemographicHighlighter.Title,
 
-		LeftPane: meta.Labels.DemographicHighlighter.Label,
+        LeftPane: meta.Labels.DemographicHighlighter.Label,
 
-		RightPane: `
+        RightPane: `
 			<div id="demographic-highlighter-details">
 			</div>
         `,
 
-		ClassName: 'demographic-highlighter-container',
-		Style: null,
+        ClassName: 'demographic-highlighter-container',
+        Style: null,
 		ShowFilterSummary: true
-	};
+    };
 }
 
 function DemographicHighlighter_PageId() {
@@ -23,7 +23,7 @@ function DemographicHighlighter_PageId() {
 
 function DemographicHighlighter_Render() {
 
-	var o = [];
+    var o = [];
 
 	var items_dropdown = Component_Dropdown(
 		'item',
@@ -72,51 +72,43 @@ function DemographicHighlighter_Render() {
 		o.push(basisForComparison_dropdown);
 	}
 
-	var selectedDemographic = State_Get('breakby');
-	var selectedBasis = State_Get('basisForComparison');
+    var selectedDemographic = State_Get('breakby');
+    var selectedBasis = State_Get('basisForComparison');
 	var selectedItemId = State_Get('item');
 
 
-	if ( DemographicHighlighter_MissingData() ) {
-		var x = {
-			Html: Main_Loader(),
-			ScriptCode: "if ( DemographicHighlighter_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'DemographicHighlighter_Render', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + DemographicHighlighter_VariableId() + "'}]} );"
-		};
+	
 
-		$('.demographic-highlighter-card-wrapper').html(
-			x.Html
-		);
-
-		eval ( x.ScriptCode );
-
-	}
-	else {
-
-		var demographicHighlighterCards = DemographicHighlighter_CreateCards(selectedDemographic, selectedItemId, selectedBasis);
+		var dh = DemographicHighlighter_CreateCards(selectedDemographic, selectedItemId, selectedBasis);
 
 		o.push ( `
 				${items_dropdown}			
 			</div>
 			<div class="demographic-highlighter-card-wrapper dropshadow">
-				${demographicHighlighterCards}
-			</div>
-		`);
+			`);
+		o.push(dh.Html);		
+		o.push(`</div>`);	
+		
 
 		$('#demographic-highlighter-details').html(
 			o.join('')
 		);
+
+		if (!!dh.ScriptCode) {
+			eval(dh.ScriptCode);
+		}
 
 		// Animation
 		$('#demographic-highlighter-card__positive, #demographic-highlighter-card__negative').css('opacity', 0);
 
 		$('#demographic-highlighter-card__positive').velocity(
 			{opacity: 1, transform: "scale(1)"},
-			{duration: 500, delay: 500}
+			{duration: 200, delay: 200}
 		);
 
 		$('#demographic-highlighter-card__negative').velocity(
 			{opacity: 1, transform: "scale(1)"},
-			{duration: 500, delay: 1000}
+			{duration: 200, delay: 400}
 		);
 
 		$('#demographic_highlighter-breakby-dropdown').change( function() {
@@ -151,10 +143,17 @@ function DemographicHighlighter_Render() {
 				DemographicHighlighter_HandleSelectorChange(selectorObj);
 			});
 		}
-	}
+	
 }
 
 function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
+
+	if ( DemographicHighlighter_MissingData() ) {
+		return {
+			Html: Main_Loader(), 
+			ScriptCode: "if ( DemographicHighlighter_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'DemographicHighlighter_Render', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + DemographicHighlighter_VariableId() + "'}]} );"
+		};
+	}
 
 	var parts = item.split('.'); // example: ['dimension', 'DIM_ENG']
 
@@ -175,17 +174,17 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 	var positiveCard = [];
 	var negativeCard = [];
 
-	positiveCard.push('<div class="demographic-highlighter-card" id="demographic-highlighter-card__positive">');
-	negativeCard.push('<div class="demographic-highlighter-card" id="demographic-highlighter-card__negative">');
+    positiveCard.push('<div class="demographic-highlighter-card" id="demographic-highlighter-card__positive">');
+    negativeCard.push('<div class="demographic-highlighter-card" id="demographic-highlighter-card__negative">');
 
-	positiveCard.push('<div class="demographic-highlighter-card__header"><div class="thumbs-up"></div><div class="demographic-highlighter-card__title">' + meta.Labels['labels.PositiveDifferencesTo'].Label + ' ' + meta.Labels['labels.' + basisForComparison].Label + '</div></div>');
-	negativeCard.push('<div class="demographic-highlighter-card__header"><div class="thumbs-down"></div><div class="demographic-highlighter-card__title">' + meta.Labels['labels.NegativeDifferencesTo'].Label + ' ' + meta.Labels['labels.' + basisForComparison].Label + '</div></div>');
+    positiveCard.push('<div class="demographic-highlighter-card__header"><div class="thumbs-up"></div><div class="demographic-highlighter-card__title">' + meta.Labels['labels.PositiveDifferencesTo'].Label + ' ' + meta.Labels['labels.' + basisForComparison].Label + '</div></div>');
+    negativeCard.push('<div class="demographic-highlighter-card__header"><div class="thumbs-down"></div><div class="demographic-highlighter-card__title">' + meta.Labels['labels.NegativeDifferencesTo'].Label + ' ' + meta.Labels['labels.' + basisForComparison].Label + '</div></div>');
 
-	positiveCard.push('<div class="demographic-highlighter-card__body">');
-	negativeCard.push('<div class="demographic-highlighter-card__body">');
+    positiveCard.push('<div class="demographic-highlighter-card__body">');
+    negativeCard.push('<div class="demographic-highlighter-card__body">');
 
-	positiveCard.push('<table class="demographic-highlighter-card__items"><tbody>');
-	negativeCard.push('<table class="demographic-highlighter-card__items"><tbody>');
+    positiveCard.push('<table class="demographic-highlighter-card__items"><tbody>');
+    negativeCard.push('<table class="demographic-highlighter-card__items"><tbody>');
 
 	var positiveIndex = 0;
 	var negativeIndex = 0;
@@ -199,8 +198,8 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 			: Utils_CountsToPercents ( demog_data.Dist );
 		*/
 
-		if(differences[i].Value >= 0) {
-			positiveCard.push(`
+        if(differences[i].Value >= 0) {
+            positiveCard.push(`
             	<tr class="item-row">
 				    <td class="item-number item-row_section">
 						${positiveIndex + 1}
@@ -214,8 +213,8 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 				</tr>
             `);
 			positiveIndex++;
-		} else {
-			negativeCard.push(`
+        } else {
+            negativeCard.push(`
             	<tr class="item-row">
 				    <td class="item-number item-row_section">
 						${negativeIndex + 1}
@@ -229,7 +228,7 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 				</tr>
             `);
 			negativeIndex++;
-		}
+        }
 	}
 
 	if(positiveIndex == 0) {
@@ -252,13 +251,13 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 		`);
 	}
 
-	positiveCard.push('</tbody></table></div></div>');
-	negativeCard.push('</tbody></table></div>');
+    positiveCard.push('</tbody></table></div></div>');
+    negativeCard.push('</tbody></table></div>');
 
-	cardWrapper += positiveCard.join('');
-	cardWrapper += negativeCard.join('');
+    cardWrapper += positiveCard.join('');
+    cardWrapper += negativeCard.join('');
 
-	return cardWrapper;
+	return {Html: cardWrapper};
 }
 
 function DemographicHighlighter_GetDifferences(overall_data, breakdown_data, item_id, is_dimension) {
@@ -269,7 +268,7 @@ function DemographicHighlighter_GetDifferences(overall_data, breakdown_data, ite
 		var sigtest = Utils_SigTest ( comp_data, overall_data, 'Fav', is_dimension);
 
 		if (sigtest.IsSignificant) {
-			differences.push (
+			differences.push ( 
 				{
 					Code: key,
 					Value: sigtest.Diff
@@ -295,63 +294,55 @@ function DemographicHighlighter_HandleSelectorChange(selectorObj) {
 		var selectedBasis = State_Get('basisForComparison');
 		var selectedItemId = State_Get('item');
 
-		if ( DemographicHighlighter_MissingData() ) {
-			var x = {
-				Html: Main_Loader(),
-				ScriptCode: "if ( DemographicHighlighter_PageId() == State_GetCurrentPageId()) Main_SubmitQuery ( {Requester: 'DemographicHighlighter_HandleSelectorChange', ShowWaitMessage: false, DataRequest:[{ Type: 'ItemsAndDimensions.Breakdown', Breakdown:'" + DemographicHighlighter_VariableId() + "'}]} );"
-			};
+		
+		
+			var dh = DemographicHighlighter_CreateCards(selectedDemographic, selectedItemId, selectedBasis);
 
 			$('.demographic-highlighter-card-wrapper').html(
-				x.Html
+				dh.Html
 			);
 
-			eval ( x.ScriptCode );
-
-		}
-		else {
-			var demographicHighlighterCards = DemographicHighlighter_CreateCards(selectedDemographic, selectedItemId, selectedBasis);
-
-			$('.demographic-highlighter-card-wrapper').html(
-				demographicHighlighterCards
-			);
+            if (!!dh.ScriptCode) {
+				eval ( dh.ScriptCode );
+			}
 
 			// Animation
 			$('#demographic-highlighter-card__positive, #demographic-highlighter-card__negative').css('opacity', 0);
 
 			$('#demographic-highlighter-card__positive').velocity(
 				{opacity: 1, transform: "scale(1)"},
-				{duration: 500, delay: 500}
+				{duration: 200, delay: 200}
 			);
 
 			$('#demographic-highlighter-card__negative').velocity(
 				{opacity: 1, transform: "scale(1)"},
-				{duration: 500, delay: 1000}
+				{duration: 200, delay: 400}
 			);
-		}
+		
 	}
 }
 
 function DemographicHighlighter_VariableId() {
-	var x = $('#demographic_highlighter-breakby-dropdown').val();
+	var x = $('#demographic_highlighter-breakby-dropdown').val();    
 	if ( x == null ) x = state.Parameters.breakby;
 
 	return x;
 }
 
 function DemographicHighlighter_Key() {
-	return Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get('breakby') );
+    return Main_GetKeyWithFilter('ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, State_Get('breakby') );
 }
 
 function DemographicHighlighter_Data() {
-	var key = DemographicHighlighter_Key();
+    var key = DemographicHighlighter_Key();
 
-	return data[key];
+    return data[key];
 }
 
 function DemographicHighlighter_MissingData() {
-	// return true if rendering cannot happen due to missing data
+    // return true if rendering cannot happen due to missing data
 
-	var is_missing_data = (DemographicHighlighter_Data() == null);
+    var is_missing_data = (DemographicHighlighter_Data() == null);
 
-	return is_missing_data;
+    return is_missing_data;
 }

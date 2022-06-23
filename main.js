@@ -468,6 +468,8 @@ function Main_PreloadComplete() {
 	// Click on the first menu item
 	$('.page').css('display', 'none');
 	$('.menuitem').first().click();
+
+	if (!Main_IsProduction()) $('#master-page-modal-spinner-container').css('display', 'none' );
 }
 
 function Main_ScrollToTop(){
@@ -1243,16 +1245,33 @@ function Main_ExtendDataTableSorting() {
 	   
 }
 
+if (Main_IsProduction()) {
 
-YUI().use('*', function(Y) {
-    Y.on("load", function (e) {
-	   Main_Run();
-	   Main_RenderMenu();
-	   Main_RenderPageContents();
-	   Main_TextSubstitution();
-	   Main_UpdateFullPath();
-	   Main_ExtendDataTableSorting();
-	   // Preload Images; upon completion will execute Main_PreloadComplete() and run Render Functions
-	   Main_PreloadImages();
-	}, Y.config.win);
-});
+    YUI().use('*', function(Y) {
+        Y.on("load", function (e) {
+	        Main_Run();
+	        Main_RenderMenu();
+	        Main_RenderPageContents();
+	        Main_TextSubstitution();
+	        Main_UpdateFullPath();
+	        Main_ExtendDataTableSorting();
+	        // Preload Images; upon completion will execute Main_PreloadComplete() and run Render Functions
+	        Main_PreloadImages();
+	    }, Y.config.win);
+    });
+
+} else {
+
+	$(document).ready(function () {
+
+		Main_Run();
+		Main_RenderMenu();
+		Main_RenderPageContents();
+		Main_TextSubstitution();
+		Main_UpdateFullPath();
+		Main_ExtendDataTableSorting();
+		// Preload Images; upon completion will execute Main_PreloadComplete() and run Render Functions
+		Main_PreloadImages();
+	
+	});
+}

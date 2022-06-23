@@ -14,7 +14,6 @@ function ShowWaitCloseButton() {
 
     $('.loader').hide();
     $('#wait-heading').velocity('fadeOut');
-
     $('#wait-close').removeClass('hidden');
     $('#wait-close').css('opacity', '0' );
     $('#wait-close').velocity('fadeIn');
