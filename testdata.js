@@ -1006,6 +1006,7 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"labels.PlanTitle": {"Label": "Plan"},
 			"labels.ActionTitle": {"Label": "Action"},
 			"labels.ActionText": {"Label": "Description"},
+			"labels.ActionOwnerHeader": {"Label": "Action Owner"},
 			"labels.ShowActions": {"Label": "Show Actions"},
 			"labels.Checked": {"Label": "Checked"},
 			"labels.Unchecked": {"Label": "Unchecked"},

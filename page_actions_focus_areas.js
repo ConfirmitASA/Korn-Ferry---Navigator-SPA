@@ -1173,13 +1173,13 @@ function ActionFocusAreas_SetValues() {
                     let itemId = dataObjItem['item_id'];
                     if(dataObjItem['is_action'].toString() === '0') {
                         let focusAreaObj = {};
-                        focusAreaObj['isDimension'] = dataObjItem['is_dimension'];
+                        focusAreaObj['isDimension'] = dataObjItem['is_dimension'] !== "0";
                         focusAreaObj['pageSourceId'] = dataObjItem['page_source_id'];
                         focusAreaObj['favScore'] = dataObjItem['fav_score'];
                         focusAreaObj['diffVsCompany'] = dataObjItem['diff_vs_company'];
-                        focusAreaObj['importance'] = dataObjItem['importance'];
-                        focusAreaObj['involvement'] = dataObjItem['involvement'];
-                        focusAreaObj['cost'] = dataObjItem['cost'];
+                        focusAreaObj['importance'] = dataObjItem['importance'] !== "0";
+                        focusAreaObj['involvement'] = dataObjItem['involvement'] !== "0";
+                        focusAreaObj['cost'] = dataObjItem['cost'] !== "0";
                         focusAreaObj['planName'] = dataObjItem['plan_name'];
                         focusAreaObj['planNotes'] = dataObjItem['plan_notes'];
                         focusAreaObj['planStatus'] = dataObjItem['plan_status'];
@@ -1188,8 +1188,8 @@ function ActionFocusAreas_SetValues() {
                         focusAreaObj['planLastUpdatedDate'] = dataObjItem['plan_last_updated_date'];
                         focusAreaObj['planOwner'] = dataObjItem['plan_owner'];
                         focusAreaObj['planNode'] = dataObjItem['plan_node'];
-                        focusAreaObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'];
-                        focusAreaObj['planIsShared'] = dataObjItem['plan_is_shared'];
+                        focusAreaObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'] !== "0";
+                        focusAreaObj['planIsShared'] = dataObjItem['plan_is_shared'] !== "0";
                         FocusAreas_AddItem(itemId, focusAreaObj, false);
                         FocusAreas_UpdateFocusAreasCounterSpan();
                         State_Set('actionPlanStatus_' + itemId, dataObjItem['plan_status']);

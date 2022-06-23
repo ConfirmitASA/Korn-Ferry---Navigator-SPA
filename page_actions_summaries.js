@@ -105,7 +105,7 @@ function ActionsSummaries_GetItemsTable() {
 				{ Label: meta.Labels["labels.ActionText"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.StatusHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.DueDateHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
-				{ Label: meta.Labels["labels.PlanOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
+				{ Label: meta.Labels["labels.ActionOwnerHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
 			]
 		];
 		table_data = ActionsSummaries_GetActionsTableData();
