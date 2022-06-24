@@ -2,6 +2,7 @@
 
 var data;
 var meta;
+var actions;
 var stats = {};
 
 var item_map;
