@@ -66,7 +66,9 @@ function ActionsFocusAreas_Render() {
         document.getElementById("AddActionWindow").style.display = "none";
         ActionFocusAreas_RenderFocusAreaList();
     });
-    ActionFocusAreas_SetValues();
+
+    if ( Object.keys(FocusAreas).length == 0 )  ActionFocusAreas_SetValues();
+
     ActionFocusAreas_RenderFocusAreaList();
 }
 
@@ -1095,7 +1097,7 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
 
     if(!actionId) {
         form_data = {
-            owner_id: focusArea.planOwner,
+            owner_id: data.User.UserId, // focusArea.planOwner,
             item_id: focusAreaId,
             active_flag: activeFlag.toString(),
             is_dimension: focusArea.isDimension ? '1' : '0',
@@ -1121,7 +1123,7 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
     } else {
         const actionObj = focusArea.planActions[actionId];
         form_data = {
-            owner_id: focusArea.planOwner,
+            owner_id: data.User.UserId, // focusArea.planOwner,focusArea.planOwner,
             item_id: actionId,
             active_flag: activeFlag.toString(),
             action_title: actionObj.actionTitle,
@@ -1153,11 +1155,75 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
 }
 
 function ActionFocusAreas_SetValues() {
+
+    if (  actions.Own == null ) return;
+
+    FocusAreas = {};
+
+    let dataObj = actions.Own; // JSON.parse(data);
+
+
+    let own_actions = {};
+    for (let i = 0; i < dataObj.length; i++) {
+        let dataObjItem = dataObj[i];
+        if(dataObjItem['active_flag'].toString() === '1') {
+            let itemId = dataObjItem['item_id'];
+            if(dataObjItem['is_action'].toString() === '0') {
+                let focusAreaObj = {};
+                focusAreaObj['isDimension'] = dataObjItem['is_dimension'] !== "0";
+                focusAreaObj['pageSourceId'] = dataObjItem['page_source_id'];
+                focusAreaObj['favScore'] = dataObjItem['fav_score'];
+                focusAreaObj['diffVsCompany'] = dataObjItem['diff_vs_company'];
+                focusAreaObj['importance'] = dataObjItem['importance'] !== "0";
+                focusAreaObj['involvement'] = dataObjItem['involvement'] !== "0";
+                focusAreaObj['cost'] = dataObjItem['cost'] !== "0";
+                focusAreaObj['planName'] = dataObjItem['plan_name'];
+                focusAreaObj['planNotes'] = dataObjItem['plan_notes'];
+                focusAreaObj['planStatus'] = dataObjItem['plan_status'];
+                focusAreaObj['planDueDate'] = dataObjItem['plan_due_date'];
+                focusAreaObj['planCreatedDate'] = dataObjItem['plan_created_date'];
+                focusAreaObj['planLastUpdatedDate'] = dataObjItem['plan_last_updated_date'];
+                focusAreaObj['planOwner'] = dataObjItem['plan_owner'];
+                focusAreaObj['planNode'] = dataObjItem['plan_node'];
+                focusAreaObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'] !== "0";
+                focusAreaObj['planIsShared'] = dataObjItem['plan_is_shared'] !== "0";
+                FocusAreas_AddItem(itemId, focusAreaObj, false);
+                FocusAreas_UpdateFocusAreasCounterSpan();
+                State_Set('actionPlanStatus_' + itemId, dataObjItem['plan_status']);
+                State_Set(`actionPlanShared_${itemId}`, dataObjItem['plan_is_shared'].toString() === '0' ? 'Off' : 'On' );
+            } else {
+                //store actions and add them only when all saved plans were added
+                //in case action comes before corresponding plan were added
+                let actionObj = {};
+                actionObj['actionTitle'] = dataObjItem['action_title'];
+                actionObj['actionText'] = dataObjItem['action_text'];
+                actionObj['actionStatus'] = dataObjItem['action_status'];
+                actionObj['actionDueDate'] = dataObjItem['action_due_date'];
+                actionObj['actionOwner'] = dataObjItem['action_owner'];
+                const actionPlanId = dataObjItem['focus_area_id'];
+                own_actions[itemId] = {
+                    actionObj: actionObj,
+                    actionPlanId: actionPlanId
+                }
+            }
+        }
+    }
+    //now, after all saved plans were added, add actions
+    for (let actionId in own_actions) {
+        let actionItem = own_actions[actionId];
+        if(!FocusAreas_IsItemAlreadyAdded(actionItem.actionPlanId)) {
+            continue;
+        }
+        FocusAreas_AddActionsToActionPlan(actionItem.actionPlanId, actionId, actionItem.actionObj, false);
+        State_Set('actionStatus_' + actionId, actionItem.actionObj['actionStatus']);
+    }
+
+    /*
     let survey_url = config.ActionPlannerUrl;
     let form_data = {};
 
     form_data = {
-        owner_id: data.User.FirstName + ' ' + data.User.LastName
+        owner_id: data.User.UserId
     };
     $.ajax({
         url : survey_url,
@@ -1226,6 +1292,7 @@ function ActionFocusAreas_SetValues() {
             console.log( 'ERROR: ' + errorThrown );
         }
     });
+    */
 }
 
 function ActionFocusAreas_SubscribeFocusAreaToSaveChanges(focusAreaId) {

@@ -6490,6 +6490,7 @@ if (data == null && !Main_IsProduction() ) {
 
 	// User
 	var user = {
+		UserId: 'userid',
 		FirstName: 'FirstName',
 		LastName: 'LastName',
 		Username: 'username',

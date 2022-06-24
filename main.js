@@ -902,6 +902,8 @@ function myFunction() {
 
 
 	$('.menu').html ( o.join('') );
+	FocusAreas_UpdateFocusAreasCounterSpan();	
+
 }
 
 function Main_Section(id, title, text, html_content, class_name, style, show_filter_summary) {
