@@ -1468,25 +1468,46 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"SLIDE_NEXTSTEPS.info_1": {"Label": "Take the time to <b>get deeper into your results using the online dashboard</b>, taking note of any questions you might have and adding questions or dimensions to your Actions as focus areas."},
 			"SLIDE_NEXTSTEPS.info_2": {"Label": "<b>Download the PowerPoint summary</b> as a tool to share the results with your team - running through the results and eliciting their thoughts on the data will increase engagement with the process and inspire ideas for action."},
 			"SLIDE_NEXTSTEPS.info_3": {"Label": "Build out your <b>action plan using the online tool</b> and be sure to see the actions through."},
-			"Actions_TR04": {"Id": "Actions_TR04", "Title": "", "Label": ""},
-			"Actions_TR04.title_0": {"Label": "Seek guidance"},
-			"Actions_TR04.text_0": {"Label": "Seek internal guidance from Human Resources about external training programme."},
-			"Actions_TR04.title_1": {"Label": "Make it personal"},
-			"Actions_TR04.text_1": {"Label": "Have a one-on-one conversation with your team members to assess what training has been most valuable and what future training they need and why."},
-			"Actions_SD03": {"Id": "Actions_SD03", "Title": "", "Label": ""},
-			"Actions_SD03.title_0": {"Label": "Share the big picture"},
-			"Actions_SD03.text_0": {"Label": "Set frequent team meetings and start with a Strategy Section in the agenda.<br>Explain the current strategy and goals of the company and relate the larger strategy to your business unit and team's strategy and goals."},
-			"Actions_SD03.title_1": {"Label": "Align individual and company targets"},
-			"Actions_SD03.text_1": {"Label": "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."},
-			"Actions_SD03.title_2": {"Label": "Stay alert"},
-			"Actions_SD03.text_2": {"Label": "Whenever there are company announcements, new policies or programs, press releases, etc., make sure to spend time with your employees as soon as possible to discuss them.<br>Encourage a healthy discussion about what has changed, their initial reactions and what it means for each of them."},
-			"Actions_PE01": {"Id": "Actions_PE01", "Title": "", "Label": ""},
-			"Actions_PE01.title_0": {"Label": "Align individual and company targets"},
-			"Actions_PE01.text_0": {"Label": "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."},
-			"Actions_PE01.title_1": {"Label": "Tell good stories"},
-			"Actions_PE01.text_1": {"Label": "Communicate successes on a regular basis. Choose a format (Friday newsletters, weekly quizzes, 1-2-1, intranet communication) and include financial successes but don't focus exclusively on them.<br>Invite members of the team to talk about what they've done well recently."},
-			"Actions_PE01.title_2": {"Label": "Be the change"},
-			"Actions_PE01.text_2": {"Label": "Download and read Korn Ferry's thought leadership piece urging leaders to <a href='https://infokf.kornferry.com/Be_the_change.html?utm_source=website&utm_medium=banner&utm_term=&utm_content=%20&utm_campaign=19-11-GBL-Culture-Transformation' target='_blank'>Be the Change</a>"}
+			"Actions": {
+				"N66_TR04": {
+					"1": {
+						"Title": "Seek guidance",
+						"Label": "Seek internal guidance from Human Resources about external training programme."
+					},
+					"2": {
+						"Title": "Make it personal",
+						"Label": "Have a one-on-one conversation with your team members to assess what training has been most valuable and what future training they need and why."
+					},
+					"3": {
+						"Title": "Be creative",
+						"Label": "Ask your team what they would like to learn and identify training opportunities in other departments that your employees could benefit from. \nUse job-shadowing as an opportunity for training, or consider assigning all new hires an informal functional buddy to assist in the on-boarding process and to fill in the gaps not covered in new hire training."
+					}
+				},
+				"N51_SD03": {
+					"1": {
+						"Title": "Share the big picture",
+						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy to your business unit and team’s strategy and goals.​"
+					},
+					"2": {
+						"Title": "Align individual and company targets",
+						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company’s overall goals and strategy."
+					}
+				},
+				"N51_PE01": {
+					"1": {
+						"Title": "Share the big picture",
+						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy to your business unit and team’s strategy and goals.​"
+					},
+					"2": {
+						"Title": "Align individual and company targets",
+						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company’s overall goals and strategy."
+					},
+					"3": {
+						"Title": "Stay alert",
+						"Label": "Whenever there are company announcements, new policies or programs, press releases, etc., make sure to spend time with your employees as soon as possible to discuss them. \n\nEncourage a healthy discussion about what has changed, their initial reactions and what it means for each of them."
+					}
+				}
+			}
 		},
 
 		Buttons: {

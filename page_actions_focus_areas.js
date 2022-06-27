@@ -413,79 +413,29 @@ function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
     });
 }
 
-function ActionFocusAreas_GetRecommendedActions(s) {
-    // s is a string that can be either a dimension reference ("DIM_N51"), or an item reference ("TR04")
+function ActionFocusAreas_GetRecommendedActions(focusAreaId) {
+    // focusAreaId is a string that can be either a dimension reference ("DIM_N51"), or an item reference ("TR04")
+    let recommendedActionId = '';
 
-    let o = {}; // recommended actions
-
-    // Extract matching elements
-    for (let key in meta.Labels) {
-
-        // example keys: "RecommendedActions_DIM_N51.text_0", "RecommendedActions_TR04.text_0"
-
-        let parts = key.split('_');
-        if (parts[0] == 'Actions') {
-
-            let tmp;
-
-            switch (parts[1]) {
-
-                case 'DIM':
-                    // this is a dimension
-                    // example: "Actions_DIM_N51.text_0"
-                    tmp = key.split('.'); // example: ["Actions_DIM_N51", "text_0"]
-                    if (tmp.length == 2) {
-                        let dimension_id = tmp[0].slice(8); // example: "DIM_N51"
-                        if (dimension_id == s) {
-                            // We found a matching entry
-
-                            let tmp2 = tmp[1].split('_'); // example: ["text", "0"]
-                            let property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
-                            let index = tmp2[1]; // example: "0"
-
-                            if (o[index] == null) {
-                                o[index] = {};
-                            }
-
-                            o[index]['Id'] = tmp[0] + '_' + index;
-                            o[index][property] = meta.Labels[key].Label;
-                        }
-                    }
-                    break;
-
-                default:
-                    // this is an item
-                    // example: "Actions_TR04.text_0"
-                    tmp = key.split('.'); // example: ["Actions_TR04", "text_0"]
-                    if (tmp.length == 2) {
-                        let item_id = tmp[0].slice(8); // example: "TR04"
-                        if (item_id == s) {
-                            // We found a matching entry
-
-                            let tmp2 = tmp[1].split('_'); // example: ["text", "0"]
-                            let property = tmp2[0].charAt(0).toUpperCase() + tmp2[0].slice(1); // example: "Text"
-                            let index = tmp2[1]; // example: "0"
-
-                            if (o[index] == null) {
-                                o[index] = {};
-                            }
-
-                            o[index]['Id'] = tmp[0] + '_' + index;
-                            o[index][property] = meta.Labels[key].Label;
-                        }
-                    }
-                    break;
-            }
-        }
+    if(focusAreaId.split('_')[0] === 'DIM') {
+        //this is a dimension
+        recommendedActionId = focusAreaId;
+    } else {
+        //this is an item
+        let dimensionId = Main_GetDimensionIdByItemId(focusAreaId).replace('DIM_', '');
+        recommendedActionId = dimensionId + '_' + focusAreaId;
     }
-
-    // Turn into array
-    let actions = [];
-    for (let key in o) {
-        actions.push(o[key]);
+    const recommendedActionsObj = meta.Labels.Actions[recommendedActionId];
+    let recommendedActions = [];
+    for (const key in recommendedActionsObj) {
+        const action = recommendedActionsObj[key];
+        recommendedActions.push({
+            'Id': recommendedActionId + '_' + key,
+            'Title': action.Title,
+            'Text': action.Label
+        });
     }
-
-    return actions;
+    return recommendedActions;
 }
 
 function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions, index) {
