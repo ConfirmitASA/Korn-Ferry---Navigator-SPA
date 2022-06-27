@@ -314,7 +314,7 @@ function DemographicHeatmap_GetItemsTable() {
     var key = Main_GetKeyWithFilter(
         'N', 
         config.CurrentWave, 
-        meta.Hierarchy.TopNode.Id 
+        data.User.PersonalizedReportBase // meta.Hierarchy.TopNode.Id 
     ); // example: "N.2020.389.0"
 
     var n = data[key].N;
@@ -327,7 +327,7 @@ function DemographicHeatmap_GetItemsTable() {
             { Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: 2 },
             { Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: 2 },
             { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: meta.Hierarchy.Map[ meta.Hierarchy.TopNode.Id].Label + ' <div class="n-count">(N=' + n + ')</div>', ClassName: 'numeric-cell', colspan: 1, rowspan: 2 },
+            { Label: meta.Hierarchy.Map[ data.User.PersonalizedReportBase /*meta.Hierarchy.TopNode.Id*/].Label + ' <div class="n-count">(N=' + n + ')</div>', ClassName: 'numeric-cell', colspan: 1, rowspan: 2 },
             { Label: meta.Demographics[breakbyVar].Label, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1 }
         ]
     ];
@@ -426,7 +426,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
 
 
     // Overall Dimension score (no breakout)
-    var key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, meta.Hierarchy.TopNode.Id);
+    var key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase /*meta.Hierarchy.TopNode.Id*/);
     var dimensions_data = data[key];
     var overall_data = dimensions_data[dimensionId];
     var dist = overall_data.Dist;
@@ -482,7 +482,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
 function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, breakByAnswerIds, metricVar, comparatorsVar, addedItems) {
     var totalColumnRowValue;
 
-    var key = Main_GetKeyWithFilter('ITEMS', config.CurrentWave, meta.Hierarchy.TopNode.Id);
+    var key = Main_GetKeyWithFilter('ITEMS', config.CurrentWave, data.User.PersonalizedReportBase /*meta.Hierarchy.TopNode.Id*/);
     var items_data = data[key];
 
     Main_AssignQNo ( items_data );
