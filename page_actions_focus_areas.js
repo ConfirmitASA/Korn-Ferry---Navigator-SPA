@@ -665,8 +665,8 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
 
             let metaActionId = actionId.split('_').slice(0, 2).join('_');
             let metaActionOrderNumber = actionId.split('_')[2];
-            let newActionTitle = meta.Labels[metaActionId + '.title_' + metaActionOrderNumber].Label;
-            let newActionText = meta.Labels[metaActionId + '.text_' + metaActionOrderNumber].Label;
+            let newActionTitle = meta.Labels.Actions[metaActionId][metaActionOrderNumber].Title;
+            let newActionText = meta.Labels.Actions[metaActionId][metaActionOrderNumber].Label;
 
             let newActionId = actionId + '_' + nextAddedActionId;
             //let newOrderId = actionId + '_selected_' + (!!focusAreaActions ? Object.keys(focusAreaActions).length : 0);
