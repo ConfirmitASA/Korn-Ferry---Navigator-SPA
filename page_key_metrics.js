@@ -91,12 +91,12 @@ function KeyMetrics_Render() {
                     break;
             }
         } else {
-            scoreType = 'Distribution.Fav'; 
+            scoreType = 'Distribution.Fav';
             scoreLabel = meta.Labels['labels.Favorable'].Label;
             scoreValue = -1; // score not currently available
         }
 
-    
+
         var arrowClass = '';
         var vsTrendValue = Utils_Diff( current_score, comparator_score );
 
@@ -142,7 +142,7 @@ function KeyMetrics_Render() {
 								<table>
 			`);
 
-        
+
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
             var type = c.split('.')[0]; // "Internal" or "External"
@@ -150,7 +150,7 @@ function KeyMetrics_Render() {
             if ( type == "External") {
 
                 var comparator_data = comparators_data[c];
-				
+
                 // Check if external norm exists for this dimension
                 var comparator_fav = (
                     comparator_data == null
@@ -177,7 +177,7 @@ function KeyMetrics_Render() {
         }
 
         //var trend_indicator_description = meta.Labels["TrendIndicator"].Label + ' (vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label + ')'; 
-        var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label; 
+        var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
 
         var more_button_text = meta.Labels['buttons.More'].Label;
 
@@ -235,7 +235,7 @@ function KeyMetrics_Render() {
 							</div>
                             
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${dimension_id == 'DIM_N65' ? meta.Labels['KeyMetrics_MoreCardText.DIM_N65'].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${dimension_id == 'DIM_N65' ? meta.Labels['KeyMetric_MoreCardText.DIM_N65'].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>
@@ -304,7 +304,7 @@ function KeyMetrics_Render() {
 
     // Click: Show Details ("More" button)
     $('.detailslink').click(function (event) {
-        
+
         // third card
         let DIM = event.target.id;
         let DIM_ID = DIM.split('_more')[0];
@@ -396,9 +396,9 @@ function KeyMetrics_Render() {
 					${meta.Dimensions[metric_id].Label}
 				</div>
 
-				<!-- Metric Description label missing
+				
 				${meta.Dimensions[metric_id].KeyMetric_MoreCardText}
-                -->
+                
 
 				<!-- Details -->
 				${KeyMetrics_CardDetailsMain(metric_id)}
@@ -471,7 +471,7 @@ function KeyMetrics_Render() {
         event.preventDefault();
 
         var button_id = $(this).attr('id').split('-');
-		
+
         if($(this).hasClass('add-action')) {
             Utils_SetActionButtonToREMOVE(this, meta.Labels['buttons.Selected'].Label);
 
@@ -591,9 +591,9 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
             //set action button as 'selected' if so
             let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
-            let actionButtonText = isItemAddedAsFocusArea 
-				? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}` 
-				: meta.Labels['buttons.TakeAction'].Label;
+            let actionButtonText = isItemAddedAsFocusArea
+                ? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}`
+                : meta.Labels['buttons.TakeAction'].Label;
 
             tmp.push(`
 				<tr class=itemrow>
