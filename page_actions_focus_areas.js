@@ -909,7 +909,7 @@ function ActionFocusAreas_HandleRemovingAction(focusAreaId, actionId, trashCanEl
 
             let actions = FocusAreas_GetActionsInActionPlan(focusAreaId);
 
-            if (actions.length == 0) {
+            if (Object.keys(actions).length === 0) {
                 $(`#focusArea-${focusAreaId} .selected-actions_container`).addClass('selected-actions_container__hidden');
             }
         }
