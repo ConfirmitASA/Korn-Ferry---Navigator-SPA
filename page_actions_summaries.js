@@ -169,28 +169,27 @@ function ActionsSummaries_GetPlansTableData() {
 	let tableData = [];
 	let rowdata = [];
 
-	let focusAreas = FocusAreas_GetFocusAreas();
+	let focusAreas = RolledUpPlans_GetRolledUpPlans();
 
-	for(let area in focusAreas) {
-		if (itemId !== '' && area !== itemId) {
+	for(let area of focusAreas) {
+		let focusAreaId = area.itemId;
+		if (itemId !== '' && focusAreaId !== itemId) {
 			continue;
 		}
 
-		let actionPlan = focusAreas[area];
-
-		if (ActionsSummaries_IsPlanToShow(actionPlan)) {
-			let label = actionPlan.isDimension ? meta.Dimensions[area].Label : meta.Items[area].Label;
+		if (ActionsSummaries_IsPlanToShow(area)) {
+			let label = area.isDimension ? meta.Dimensions[focusAreaId].Label : meta.Items[focusAreaId].Label;
 			rowdata = [
 				{Label: label, ClassName: 'text-cell'},
-				{Label: actionPlan.planName, ClassName: 'text-cell'},
-				{Label: meta.Hierarchy.Map[actionPlan.planNode].Label, ClassName: 'text-cell'},
-				{Label: actionPlan.planNotes, ClassName: 'text-cell'},
-				{Label: actionPlan.planStatus, ClassName: 'text-cell'},
-				{Label: actionPlan.planDueDate, ClassName: 'text-cell'},
-				{Label: actionPlan.planLastUpdatedDate, ClassName: 'text-cell'},
-				{Label: actionPlan.planOwner, ClassName: 'text-cell'},
+				{Label: area.planName, ClassName: 'text-cell'},
+				{Label: meta.Hierarchy.Map[area.planNode].Label, ClassName: 'text-cell'},
+				{Label: area.planNotes, ClassName: 'text-cell'},
+				{Label: area.planStatus, ClassName: 'text-cell'},
+				{Label: area.planDueDate, ClassName: 'text-cell'},
+				{Label: area.planLastUpdatedDate, ClassName: 'text-cell'},
+				{Label: area.planOwner, ClassName: 'text-cell'},
 				{
-					Label: !!actionPlan.planActions ? Object.keys(actionPlan.planActions).length : 0,
+					Label: !!area.planActions ? Object.keys(area.planActions).length : 0,
 					ClassName: 'text-cell'
 				},
 			];
@@ -206,22 +205,21 @@ function ActionsSummaries_GetActionsTableData() {
 	let itemId = (!item || item == -1) ? '' : item.split('.')[1];
 
 	let tableData = [];
-	let focusAreas = FocusAreas_GetFocusAreas();
+	let focusAreas = RolledUpPlans_GetRolledUpPlans();
 
-	for(let area in focusAreas) {
-		if (itemId != '' && area!=itemId) continue;
+	for(let area of focusAreas) {
+		let focusAreaId = area.itemId;
+		if (itemId != '' && focusAreaId!=itemId) continue;
 
-		let actionPlan = focusAreas[area];
-
-		if (ActionsSummaries_IsPlanToShow(actionPlan)) {
-			let actions = actionPlan.planActions;
-			let label = actionPlan.isDimension ? meta.Dimensions[area].Label : meta.Items[area].Label;
+		if (ActionsSummaries_IsPlanToShow(area)) {
+			let actions = area.planActions;
+			let label = area.isDimension ? meta.Dimensions[focusAreaId].Label : meta.Items[focusAreaId].Label;
 			let rowdata = [];
 
 			for (let action in actions) {
 				rowdata = [
 					{Label: label, ClassName: 'text-cell'},
-					{Label: actionPlan.planName, ClassName: 'text-cell'},
+					{Label: area.planName, ClassName: 'text-cell'},
 					{Label: actions[action].actionTitle, ClassName: 'text-cell'},
 					{Label: actions[action].actionText, ClassName: 'text-cell'},
 					{Label: actions[action].actionStatus, ClassName: 'text-cell'},
@@ -241,7 +239,7 @@ function ActionsSummaries_IsPlanToShow(actionPlan) {
 	
 	return actionPlan.planIsSubmitted && 
 		(	
-			(plansFilter=='ownplans' && actionPlan.planOwner == data.User.FirstName + ' ' + data.User.LastName) ||
+			(plansFilter=='ownplans' && actionPlan.ownerId === data.User.UserId) ||
 			(plansFilter=='areaplans' && true) || // TO DO: change true to hierarchical condition
 			(plansFilter=='sharedplans' && actionPlan.planIsShared)
 		);

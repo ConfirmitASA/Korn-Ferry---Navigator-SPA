@@ -225,7 +225,8 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
 
             let newFocusArea = {
                 isDimension: false,
-                pageSourceId: 'StrengthsAndOpportunities'
+                pageSourceId: 'StrengthsAndOpportunities',
+                ownerId: data.User.UserId
             }
 
             FocusAreas_AddItem(button_id[1], newFocusArea);

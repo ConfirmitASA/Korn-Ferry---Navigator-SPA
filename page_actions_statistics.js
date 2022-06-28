@@ -139,7 +139,7 @@ function ActionStatistics_CreatedDateByPlanChart_HandleSelectorChange(selectorOb
 }
 
 function ActionStatistics_GetStatData() {
-    let focusAreas = FocusAreas_GetFocusAreas();
+    let focusAreas = RolledUpPlans_GetRolledUpPlans();
 
     let numberOfPlans = 0;
     let numberOfActions = 0;
@@ -165,7 +165,7 @@ function ActionStatistics_GetStatData() {
 }
 
 function ActionStatistics_GetCreatedDateByPlanCountsChartData() {
-    let focusAreas = FocusAreas_GetFocusAreas();
+    let focusAreas = RolledUpPlans_GetRolledUpPlans();
 
     let chartData = {
         categories: [],
@@ -216,7 +216,7 @@ function ActionStatistics_GetCreatedDateByPlanCountsChartData() {
 }
 
 function ActionStatistics_GetPlansByCurrentStatusChartData() {
-    let focusAreas = FocusAreas_GetFocusAreas();
+    let focusAreas = RolledUpPlans_GetRolledUpPlans();
 
     let chartData = {
         categories: [

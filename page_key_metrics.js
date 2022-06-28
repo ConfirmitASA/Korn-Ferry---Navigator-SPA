@@ -477,7 +477,8 @@ function KeyMetrics_Render() {
 
             let newFocusArea = {
                 isDimension: false,
-                pageSourceId: 'KeyMetrics'
+                pageSourceId: 'KeyMetrics',
+                ownerId: data.User.UserId
             }
 
             FocusAreas_AddItem(button_id[2], newFocusArea);

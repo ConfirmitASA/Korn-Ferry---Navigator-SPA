@@ -77,10 +77,10 @@ function ActionFocusAreas_RenderFocusAreaList() {
 
     let addedFocusAreas = FocusAreas_GetFocusAreas();
     let index = 0;
-    let currentUserName = data.User.FirstName + ' ' + data.User.LastName;
+    let currentUserId = data.User.UserId;
 
     for(let focusArea in addedFocusAreas) {
-        if(addedFocusAreas[focusArea].planOwner === currentUserName) {
+        if(addedFocusAreas[focusArea].ownerId === currentUserId) {
             ActionFocusAreas_RenderFocusArea(focusArea, addedFocusAreas[focusArea], index);
         }
 
@@ -1082,7 +1082,8 @@ function ActionFocusAreas_SaveChanges(focusAreaId, actionId, focusArea, activeFl
             action_due_date: actionObj.actionDueDate,
             action_owner: actionObj.actionOwner,
             is_action: '1',
-            focus_area_id: focusAreaId
+            focus_area_id: focusAreaId,
+            plan_node: focusArea.planNode
         };
     }
 
@@ -1137,6 +1138,8 @@ function ActionFocusAreas_SetValues() {
                 focusAreaObj['planNode'] = dataObjItem['plan_node'];
                 focusAreaObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'] !== "0";
                 focusAreaObj['planIsShared'] = dataObjItem['plan_is_shared'] !== "0";
+                focusAreaObj['ownerId'] = dataObjItem['owner_id'];
+                focusAreaObj['itemId'] = dataObjItem['item_id'];
                 FocusAreas_AddItem(itemId, focusAreaObj, false);
                 FocusAreas_UpdateFocusAreasCounterSpan();
                 State_Set('actionPlanStatus_' + itemId, dataObjItem['plan_status']);

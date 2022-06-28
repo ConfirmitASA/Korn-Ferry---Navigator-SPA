@@ -18,7 +18,9 @@ var FocusAreas = {};
     planOwner: '',
     planNode: ''
     planIsSubmitted: false,
-    planIsShared: false
+    planIsShared: false,
+    ownerId: '',
+    itemId: ''
 }*/
 
 function FocusAreas_UpdateTagOnFocusArea(itemId, tagName, tagValue) {
@@ -58,6 +60,8 @@ function FocusAreas_AddItem(itemId, newItemObj, saveChanges = true) {
         newFocusArea.planNode = newItemObj.planNode ?? data.User.PersonalizedReportBase;
         newFocusArea.planIsSubmitted = newItemObj.planIsSubmitted ?? false;
         newFocusArea.planIsShared = newItemObj.planIsShared ?? false;
+        newFocusArea.ownerId = newItemObj.ownerId ?? '';
+        newFocusArea.itemId = itemId;
 
         FocusAreas[itemId] = newFocusArea;
     }
@@ -163,7 +167,8 @@ function FocusAreas__handleTableActionIconClick(containerId) {
 
 			let newFocusArea = {
 				isDimension: button_id[0] === 'dimension',
-                pageSourceId: pageId[2]
+                pageSourceId: pageId[2],
+                ownerId: data.User.UserId
 			}
 
 			FocusAreas_AddItem(button_id[1], newFocusArea);
