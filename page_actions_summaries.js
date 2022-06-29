@@ -93,7 +93,7 @@ function ActionsSummaries_GetItemsTable() {
 	let NofHeaderRows = 1;
 
 	let table_data = [];
-	let showActionsOn = State_Get('showactions') === meta.Labels["labels.On"].Label;
+	let showActionsOn = State_Get('showactions') === 'On';
 
 
 		if(showActionsOn) {
