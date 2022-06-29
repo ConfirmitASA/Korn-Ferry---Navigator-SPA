@@ -184,7 +184,7 @@ function ActionsSummaries_GetPlansTableData() {
 				{Label: area.planName, ClassName: 'text-cell'},
 				{Label: meta.Hierarchy.Map[area.planNode].Label, ClassName: 'text-cell'},
 				{Label: area.planNotes, ClassName: 'text-cell'},
-				{Label: area.planStatus, ClassName: 'text-cell'},
+				{Label: meta.Labels['labels.' + area.planStatus].Label, ClassName: 'text-cell'},
 				{Label: area.planDueDate, ClassName: 'text-cell'},
 				{Label: area.planLastUpdatedDate, ClassName: 'text-cell'},
 				{Label: area.planOwner, ClassName: 'text-cell'},
@@ -222,7 +222,7 @@ function ActionsSummaries_GetActionsTableData() {
 					{Label: area.planName, ClassName: 'text-cell'},
 					{Label: actions[action].actionTitle, ClassName: 'text-cell'},
 					{Label: actions[action].actionText, ClassName: 'text-cell'},
-					{Label: actions[action].actionStatus, ClassName: 'text-cell'},
+					{Label: meta.Labels['labels.' + actions[action].actionStatus].Label, ClassName: 'text-cell'},
 					{Label: actions[action].actionDueDate, ClassName: 'text-cell'},
 					{Label: actions[action].actionOwner, ClassName: 'text-cell'}
 				];
