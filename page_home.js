@@ -132,6 +132,9 @@ function Home_Render() {
 
 	// Click Handler: Button: Slideshow
 	$('#action-slideshow').click(function() {
+        var d = document.getElementById("iframe1").contentWindow.document;
+        d.write(Slideshow_RenderIframe());
+	    d.close(); 
         $("#iframe1").fadeIn();
 	    document.getElementById("iframe1").focus();
 	});
@@ -144,10 +147,13 @@ function Home_Render() {
     // Click Handler: PowerPoint generator
     $('#action-powerpoint').click(Pptx_Generator);
 
-    var d = document.getElementById("iframe1").contentWindow.document;
-
-    d.write(Slideshow_RenderIframe());
-	d.close(); 
+    /*
+    $(document).ready( function () {
+      var d = document.getElementById("iframe1").contentWindow.document;
+      d.write(Slideshow_RenderIframe());
+	  d.close(); 
+    });
+    */
 
     </script>
     `;
@@ -157,9 +163,9 @@ $(document).ready( function () {
 
     $(function(){
         $('#video').on('ended', function(){
-          $(this).fadeOut('2000', function(){
-            // on fadeout complete
-         });
+            $(this).fadeOut('2000', function(){
+                // on fadeout complete
+            });
         });
-      });
+    });
 });
