@@ -85,6 +85,9 @@
     position: relative;
     left: 12px;
 }
+html[dir="rtl"] .ap-tag__active:after {
+    right: 12px;
+}
 .focus-area-card_header {
     width: 100%;
     display: flex;
