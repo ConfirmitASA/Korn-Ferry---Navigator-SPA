@@ -102,16 +102,19 @@ function ActionsStatistics_Render() {
 
     $('#ownersShowButton').click(() => {
         $('#submenuitem-GroupActions-ActionsSummaries').click();
+        ActionsSummaries_AreaPlans_OnClick();
     });
 
     $('#plansShowButton').click(() => {
         State_Set('showactions', 'Off');
         $('#submenuitem-GroupActions-ActionsSummaries').click();
+        ActionsSummaries_AreaPlans_OnClick();
     });
 
     $('#actionsShowButton').click(() => {
         State_Set('showactions', 'On');
         $('#submenuitem-GroupActions-ActionsSummaries').click();
+        ActionsSummaries_AreaPlans_OnClick();
     });
 
     let createdDateByPlanCountsChartData = ActionStatistics_GetCreatedDateByPlanCountsChartData();
