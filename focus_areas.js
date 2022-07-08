@@ -340,6 +340,7 @@ function FocusAreas_SetValues() {
                 if(!FocusAreas_IsFocusAreaAlreadyAdded(planKey)) {
                     FocusAreas.push(planObj);
                 }
+                FocusAreas_UpdateFocusAreasCounterSpan();
             } else {
                 let actionObj = {};
                 actionObj['actionTitle'] = dataObjItem['action_title'];
