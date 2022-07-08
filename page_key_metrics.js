@@ -478,14 +478,15 @@ function KeyMetrics_Render() {
             let newFocusArea = {
                 isDimension: false,
                 pageSourceId: 'KeyMetrics',
+                itemId: button_id[2],
                 ownerId: data.User.UserId
             }
 
-            FocusAreas_AddItem(button_id[2], newFocusArea);
+            FocusAreas_AddFocusArea(newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
                 Utils_SetActionButtonToADD(this, meta.Labels['buttons.TakeAction'].Label);
-                FocusAreas_RemoveItem(button_id[2]);
+                FocusAreas_RemoveSelectedFocusArea(button_id[2]);
             }
         }
 
@@ -589,7 +590,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
 
             //check if item has been added to Focus Areas
             //set action button as 'selected' if so
-            let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(item_id);
+            let isItemAddedAsFocusArea = FocusAreas_IsItemSelected(item_id);
             let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action action-button__selected' : 'add-action';
             let actionButtonText = isItemAddedAsFocusArea
                 ? `<div class="remove-action_icon">-</div> ${meta.Labels['labels.Selected'].Label}`

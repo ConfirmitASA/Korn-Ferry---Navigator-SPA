@@ -1,4 +1,4 @@
-var FocusAreas = {};
+var FocusAreas = [];
 
 /*let focusAreaItem = itemId: ('id') {
     isDimension: false,
@@ -19,129 +19,245 @@ var FocusAreas = {};
     planNode: ''
     planIsSubmitted: false,
     planIsShared: false,
-    ownerId: '',
-    itemId: ''
+
+    itemId: '',
+    itemOrderId: '',
+    ownerId: ''
 }*/
 
-function FocusAreas_UpdateTagOnFocusArea(itemId, tagName, tagValue) {
-    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
-        FocusAreas[itemId][tagName] = tagValue;
-    } else {
-        throw new Error(`Item ${itemId} you're trying to update a tag on does not exist in the Focus Areas list`);
-    }
-}
-
-function FocusAreas_IsItemAlreadyAdded(itemId) {
-    return FocusAreas.hasOwnProperty(itemId);
-}
-
-function FocusAreas_AddItem(itemId, newItemObj, saveChanges = true) {
-    if(!FocusAreas_IsItemAlreadyAdded(itemId)) {
-        let newFocusArea = newItemObj;
-
-        newFocusArea.favScore = newItemObj.favScore ?? ActionFocusAreas_CalculateFavScore(itemId, newItemObj);
-        newFocusArea.diffVsCompany = newItemObj.diffVsCompany ?? ActionFocusAreas_CalculateDiffVsCompany(itemId, newItemObj);
-
-        newFocusArea.importance = newItemObj.importance ?? false;
-        newFocusArea.involvement = newItemObj.involvement ?? false;
-        newFocusArea.cost = newItemObj.cost ?? false;
-
-        let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
-
-        newFocusArea.planName = newItemObj.planName ?? '';
-        newFocusArea.planNotes = newItemObj.planNotes ?? '';
-        newFocusArea.planActions = {}; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
-        newFocusArea.planStatus = newItemObj.planStatus ?? 'NotStarted';
-        newFocusArea.planDueDate = newItemObj.planDueDate ?? dueDate.toDateString();
-        newFocusArea.planCreatedDate = newItemObj.planCreatedDate ?? (new Date()).toDateString();
-        newFocusArea.planLastUpdatedDate = newItemObj.planLastUpdatedDate ?? (new Date()).toDateString();
-        newFocusArea.planOwner = newItemObj.planOwner ?? data.User.FirstName + ' ' + data.User.LastName;
-        newFocusArea.planNode = newItemObj.planNode ?? data.User.PersonalizedReportBase;
-        newFocusArea.planIsSubmitted = newItemObj.planIsSubmitted ?? false;
-        newFocusArea.planIsShared = newItemObj.planIsShared ?? false;
-        newFocusArea.ownerId = newItemObj.ownerId ?? '';
-        newFocusArea.itemId = itemId;
-
-        FocusAreas[itemId] = newFocusArea;
-    }
-    if(saveChanges) {
-        ActionFocusAreas_SaveChanges(itemId);
-    }
-}
-
-function FocusAreas_UpdateActionPlan(itemId, actionPlanSetting, actionPlanValue) {
-    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
-        FocusAreas[itemId][actionPlanSetting] = actionPlanValue;
-    } else {
-        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
-    }
-}
-
-function FocusAreas_AddActionsToActionPlan(itemId, actionId, newActionObj, saveChanges = true) {
-    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
-        FocusAreas[itemId].planActions[actionId] = newActionObj;
-        if(saveChanges) {
-            ActionFocusAreas_SaveChanges(itemId, actionId);
-        }
-    } else {
-        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
-    }
-}
-
-function FocusAreas_UpdateActionInActionPlan(itemId, actionId, actionSetting, actionValue) {
-    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
-        if(FocusAreas[itemId].planActions.hasOwnProperty(actionId)) {
-            FocusAreas[itemId].planActions[actionId][actionSetting] = actionValue;
-        } else {
-            throw new Error(`Action ${actionId} you're trying to update does not exist in this action plan for ${itemId}`);
-        }
-    } else {
-        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
-    }
-}
-
-function FocusAreas_GetActionsInActionPlan(itemId) {
-    if(FocusAreas_IsItemAlreadyAdded(itemId)) {
-        return FocusAreas[itemId].planActions;
-    } else {
-        throw new Error(`Item ${itemId} you're trying to actions for for does not exist in the Focus Areas list`);
-    }
-
-}
-
-function FocusAreas_RemoveItem(idToRemove) {
-    if(FocusAreas_IsItemAlreadyAdded(idToRemove)) {
-        ActionFocusAreas_SaveChanges(idToRemove, null, $.extend({}, FocusAreas[idToRemove]), '0');
-        const actions = FocusAreas[idToRemove].planActions;
-        for (let actionId in actions) {
-            FocusAreas_RemoveActionFromActionPlan(idToRemove, actionId);
-        }
-        delete FocusAreas[idToRemove];
-    } else {
-        throw new Error(`Item ${idToRemove} you requested to delete does not exist in the Focus Areas list`);
-    }
-}
-
-function FocusAreas_RemoveActionFromActionPlan(itemId, actionOrderId) {
-    if (FocusAreas_IsItemAlreadyAdded(itemId)) {
-        if(FocusAreas[itemId].planActions.hasOwnProperty(actionOrderId)) {
-            ActionFocusAreas_SaveChanges(itemId, actionOrderId, $.extend({}, FocusAreas[itemId]), '0');
-            delete FocusAreas[itemId].planActions[actionOrderId];
-        } else {
-            throw new Error(`Action ${actionOrderId} you're trying to update does not exist in this action plan for ${itemId}`);
-        }
-    } else {
-        throw new Error(`Item ${itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+function FocusAreas_CreateFocusAreaKey(planId, planOrderId, ownerId) {
+    return {
+        'itemId': planId,
+        'itemOrderId': planOrderId,
+        'ownerId': ownerId
     }
 }
 
 function FocusAreas_GetFocusAreas() {
+    // if(Object.keys(FocusAreas).length === 0) {
+    //     FocusAreas_SetValues();
+    // }
     return FocusAreas;
 }
 
+function FocusAreas_GetNextItemOrderId() {
+    const itemOrderIds = FocusAreas_GetOwnFocusAreas().map(plan => parseInt(plan.itemOrderId));
+    if(itemOrderIds.length === 0) {
+        return '1';
+    }
+
+    const currentMax = itemOrderIds.reduce(function(a, b) {
+        return Math.max(a, b);
+    });
+
+    return (currentMax + 1).toString();
+}
+
+function FocusAreas_GetLastFocusAreaOrderId(planId, ownerId) {
+    const planOrderIds = FocusAreas.filter(plan => plan.itemId === planId && plan.ownerId === ownerId).map(plan => parseInt(plan.itemOrderId));
+    if(planOrderIds.length === 0) {
+        return '-1';
+    }
+
+    return planOrderIds.reduce(function(a, b) {
+        return Math.max(a, b);
+    }).toString();
+}
+
+function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
+    const itemId = newPlanObj.itemId;
+    const ownerId = newPlanObj.ownerId;
+    const itemOrderId = newPlanObj.hasOwnProperty('itemOrderId') ?
+        newPlanObj.itemOrderId : FocusAreas_GetNextItemOrderId();
+
+    const planKey = FocusAreas_CreateFocusAreaKey(itemId, itemOrderId, ownerId);
+
+    if(!FocusAreas_IsFocusAreaAlreadyAdded(planKey)) {
+        let newPlan = newPlanObj;
+
+        newPlan.itemId = itemId;
+        newPlan.itemOrderId = itemOrderId;
+        newPlan.ownerId = ownerId;
+
+        newPlan.favScore = newPlanObj.favScore ?? ActionFocusAreas_CalculateFavScore(newPlan);
+        newPlan.diffVsCompany = newPlanObj.diffVsCompany ?? ActionFocusAreas_CalculateDiffVsCompany(newPlan);
+
+        newPlan.importance = newPlanObj.importance ?? false;
+        newPlan.involvement = newPlanObj.involvement ?? false;
+        newPlan.cost = newPlanObj.cost ?? false;
+
+        let dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 14);
+
+        newPlan.planName = newPlanObj.planName ?? '';
+        newPlan.planNotes = newPlanObj.planNotes ?? '';
+        newPlan.planActions = {}; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
+        newPlan.planStatus = newPlanObj.planStatus ?? 'NotStarted';
+        newPlan.planDueDate = newPlanObj.planDueDate ?? dueDate.toDateString();
+        newPlan.planCreatedDate = newPlanObj.planCreatedDate ?? (new Date()).toDateString();
+        newPlan.planLastUpdatedDate = newPlanObj.planLastUpdatedDate ?? (new Date()).toDateString();
+        newPlan.planOwner = newPlanObj.planOwner ?? data.User.FirstName + ' ' + data.User.LastName;
+        newPlan.planNode = newPlanObj.planNode ?? data.User.PersonalizedReportBase;
+        newPlan.planIsSubmitted = newPlanObj.planIsSubmitted ?? false;
+        newPlan.planIsShared = newPlanObj.planIsShared ?? false;
+
+        FocusAreas.push(newPlan);
+    }
+    if(saveChanges) {
+        FocusAreas_SaveChanges(FocusAreas_GetFocusArea(planKey));
+    }
+}
+
+function FocusAreas_IsFocusAreaAlreadyAdded(planKey) {
+    if(FocusAreas_GetFocusArea(planKey)) {
+        return true;
+    }
+    return  false;
+}
+
+function FocusAreas_IsItemSelected(focusAreaId) {
+    let ownPlans = FocusAreas_GetOwnFocusAreas();
+    return ownPlans.filter(plan => plan.itemId === focusAreaId && !plan.planIsSubmitted).length > 0;
+}
+
+function FocusAreas_DeleteFocusArea(planKey) {
+    let planToDelete = FocusAreas_GetFocusArea(planKey);
+    if(!!planToDelete) {
+        const actions = planToDelete.planActions;
+        for (let actionId in actions) {
+            FocusAreas_DeleteAction(planKey, actionId);
+        }
+        FocusAreas.splice(FocusAreas_GetFocusAreaIndex(planKey), 1);
+
+        FocusAreas_SaveChanges(planToDelete);
+    } else {
+        throw new Error(`Item ${planKey.planId} you requested to delete does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_RemoveSelectedFocusArea(focusAreaId) {
+    const ownerId = data.User.UserId;
+    const planKey = FocusAreas_CreateFocusAreaKey(focusAreaId, FocusAreas_GetLastFocusAreaOrderId(focusAreaId, ownerId), ownerId);
+    FocusAreas_DeleteFocusArea(planKey);
+}
+
+function FocusAreas_GetFocusArea(planKey) {
+    for (let i = 0; i < FocusAreas.length; i++) {
+        let plan = FocusAreas[i];
+        if(plan.itemId === planKey.itemId &&
+            plan.ownerId === planKey.ownerId &&
+            plan.itemOrderId === planKey.itemOrderId
+        )
+        {
+            return plan;
+        }
+    }
+    return null;
+}
+
+function FocusAreas_GetFocusAreaIndex(planKey) {
+    for (let i = 0; i < FocusAreas.length; i++) {
+        let plan = FocusAreas[i];
+        if(plan.itemId === planKey.itemId &&
+            plan.ownerId === planKey.ownerId &&
+            plan.itemOrderId === planKey.itemOrderId
+        )
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function FocusAreas_UpdateTagOnFocusArea(planKey, tagName, tagValue) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        plan[tagName] = tagValue;
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to update a tag on does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_UpdateFocusArea(planKey, actionPlanSetting, actionPlanValue) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        plan[actionPlanSetting] = actionPlanValue;
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_IsOwnFocusArea(plan) {
+    return plan.ownerId === data.User.UserId;
+}
+
+function FocusAreas_GetOwnFocusAreas() {
+    return FocusAreas_GetFocusAreas().filter(plan => FocusAreas_IsOwnFocusArea(plan));
+}
+
+function FocusAreas_GetAction(planKey, actionId) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        if(plan.planActions.hasOwnProperty(actionId)) {
+            return plan.planActions[actionId];
+        } else {
+            return null;
+        }
+    }
+    else {
+        throw new Error(`Item ${planKey.itemId} does not exist in the FocusAreas list`);
+    }
+}
+
+function FocusAreas_GetActionsInFocusArea(planKey) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        return plan.planActions;
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to actions for for does not exist in the Focus Areas list`);
+    }
+
+}
+
+function FocusAreas_AddActionToFocusArea(planKey, newActionObj) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        plan.planActions[newActionObj.itemId] = newActionObj;
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Rolled Up FocusAreas list`);
+    }
+}
+
+function FocusAreas_DeleteAction(planKey, actionOrderId) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        if(plan.planActions.hasOwnProperty(actionOrderId)) {
+            let planToDeleteCopy = $.extend({}, plan.planActions[actionOrderId]);
+            delete plan.planActions[actionOrderId];
+            FocusAreas_SaveChanges(plan, planToDeleteCopy);
+        } else {
+            throw new Error(`Action ${actionOrderId} you're trying to update does not exist in this action plan for ${planKey.itemId}`);
+        }
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
+function FocusAreas_UpdateActionInFocusArea(planKey, actionId, actionSetting, actionValue) {
+    let plan = FocusAreas_GetFocusArea(planKey);
+    if(!!plan) {
+        if(plan.planActions.hasOwnProperty(actionId)) {
+            plan.planActions[actionId][actionSetting] = actionValue;
+        } else {
+            throw new Error(`Action ${actionId} you're trying to update does not exist in this action plan for ${planKey.itemId}`);
+        }
+    } else {
+        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
+    }
+}
+
 function FocusAreas_UpdateFocusAreasCounterSpan() {
-    let numberOfFocusAreas = Object.keys(FocusAreas).length;
+    let numberOfFocusAreas = FocusAreas_GetOwnFocusAreas().length;
 
     if(numberOfFocusAreas > 0) {
         $('#focusAreasCounter').html(numberOfFocusAreas);
@@ -154,32 +270,173 @@ function FocusAreas_UpdateFocusAreasCounterSpan() {
 
 function FocusAreas__handleTableActionIconClick(containerId) {
 
-	$(containerId).find('.action-icon').click(function (event) {
+    $(containerId).find('.action-icon').click(function (event) {
 
-		event.stopPropagation();
-		event.preventDefault();
+        event.stopPropagation();
+        event.preventDefault();
 
-		let button_id = $(this).attr('id').split('-');
+        let button_id = $(this).attr('id').split('-');
         let pageId = $(this).parents('.section').first().attr('id').split('-');
+        const focusAreaId = button_id[1];
+        const ownerId = data.User.UserId;
 
-		if($(this).hasClass('add-action')) {
-			Utils_SetActionIconToREMOVE(this);
+        if ($(this).hasClass('add-action')) {
+            Utils_SetActionIconToREMOVE(this);
 
-			let newFocusArea = {
-				isDimension: button_id[0] === 'dimension',
+            let newFocusArea = {
+                isDimension: button_id[0] === 'dimension',
                 pageSourceId: pageId[2],
-                ownerId: data.User.UserId
-			}
+                itemId: focusAreaId,
+                ownerId: ownerId
+            }
 
-			FocusAreas_AddItem(button_id[1], newFocusArea);
-		} else {
-			if ($(this).hasClass('remove-action')) {
-				Utils_SetActionIconToADD(this);
-				FocusAreas_RemoveItem(button_id[1]);
-			}
-		}
+            FocusAreas_AddFocusArea(newFocusArea);
+        } else {
+            if ($(this).hasClass('remove-action')) {
+                Utils_SetActionIconToADD(this);
+                FocusAreas_RemoveSelectedFocusArea(focusAreaId);
+            }
+        }
 
-		FocusAreas_UpdateFocusAreasCounterSpan();
-	});
+        FocusAreas_UpdateFocusAreasCounterSpan();
+    });
+}
 
+function FocusAreas_SetValues() {
+    if (actions.Rollup === null) return;
+    let dataObj = actions.Rollup;
+
+    let allActions = {};
+    for (let i = 0; i < dataObj.length; i++) {
+        let dataObjItem = dataObj[i];
+        if (dataObjItem['active_flag'].toString() === '1') {
+            let itemId = dataObjItem['item_id'];
+            if (dataObjItem['is_action'].toString() === '0') {
+                let planObj = {};
+                planObj['isDimension'] = dataObjItem['is_dimension'] !== "0";
+                planObj['pageSourceId'] = dataObjItem['page_source_id'];
+                planObj['favScore'] = dataObjItem['fav_score'];
+                planObj['diffVsCompany'] = dataObjItem['diff_vs_company'];
+                planObj['importance'] = dataObjItem['importance'] !== "0";
+                planObj['involvement'] = dataObjItem['involvement'] !== "0";
+                planObj['cost'] = dataObjItem['cost'] !== "0";
+                planObj['planName'] = dataObjItem['plan_name'];
+                planObj['planNotes'] = dataObjItem['plan_notes'];
+                planObj['planStatus'] = dataObjItem['plan_status'];
+                planObj['planDueDate'] = dataObjItem['plan_due_date'];
+                planObj['planCreatedDate'] = dataObjItem['plan_created_date'];
+                planObj['planLastUpdatedDate'] = dataObjItem['plan_last_updated_date'];
+                planObj['planOwner'] = dataObjItem['plan_owner'];
+                planObj['planNode'] = dataObjItem['plan_node'];
+                planObj['planIsSubmitted'] = dataObjItem['plan_is_submitted'] !== "0";
+                planObj['planIsShared'] = dataObjItem['plan_is_shared'] !== "0";
+
+                planObj['itemId'] = dataObjItem['item_id'];
+                planObj['ownerId'] = dataObjItem['owner_id'];
+                planObj['itemOrderId'] = dataObjItem['item_order_id'];
+
+                planObj.planActions = {};
+                const planKey = FocusAreas_CreateFocusAreaKey(planObj.itemId, planObj.itemOrderId, planObj.ownerId);
+                if(!FocusAreas_IsFocusAreaAlreadyAdded(planKey)) {
+                    FocusAreas.push(planObj);
+                }
+            } else {
+                let actionObj = {};
+                actionObj['actionTitle'] = dataObjItem['action_title'];
+                actionObj['actionText'] = dataObjItem['action_text'];
+                actionObj['actionStatus'] = dataObjItem['action_status'];
+                actionObj['actionDueDate'] = dataObjItem['action_due_date'];
+                actionObj['actionOwner'] = dataObjItem['action_owner'];
+
+                actionObj['itemId'] = dataObjItem['item_id'];
+
+                allActions[itemId] = {
+                    actionObj: actionObj,
+                    planKey: FocusAreas_CreateFocusAreaKey(dataObjItem['focus_area_id'], dataObjItem['item_order_id'], dataObjItem['owner_id'])
+                }
+            }
+        }
+    }
+
+    //now, after all saved plans were added, add actions
+    for (let actionId in allActions) {
+        let actionItem = allActions[actionId];
+        FocusAreas_AddActionToFocusArea(actionItem.planKey, actionItem.actionObj);
+    }
+}
+
+function FocusAreas_SaveChanges(planObj, actionObj) {
+    let survey_url = config.ActionPlannerUrl;
+    let form_data = {};
+
+    const planKey = FocusAreas_CreateFocusAreaKey(planObj.itemId, planObj.itemOrderId, planObj.ownerId);
+    let activeFlag;
+
+    if(!actionObj) {
+        activeFlag = FocusAreas_GetFocusArea(planKey) !== null ? '1' : '0';
+        form_data = {
+            owner_id: planKey.ownerId,
+            item_id: planKey.itemId,
+            item_order_id: planKey.itemOrderId.toString(),
+
+            active_flag: activeFlag,
+
+            is_dimension: planObj.isDimension ? '1' : '0',
+            page_source_id: planObj.pageSourceId,
+            fav_score: planObj.favScore,
+            diff_vs_company: planObj.diffVsCompany,
+            importance: planObj.importance ? '1' : '0',
+            involvement: planObj.involvement ? '1' : '0',
+            cost: planObj.cost ? '1' : '0',
+            plan_name: planObj.planName,
+            plan_notes: planObj.planNotes,
+            plan_status: planObj.planStatus,
+            plan_due_date: planObj.planDueDate,
+            plan_created_date: planObj.planCreatedDate,
+            plan_last_updated_date: planObj.planLastUpdatedDate,
+            plan_owner: planObj.planOwner,
+            plan_node: planObj.planNode,
+            plan_is_submitted: planObj.planIsSubmitted ? '1' : '0',
+            plan_is_shared: planObj.planIsShared ? '1' : '0',
+
+            is_action: '0',
+            focus_area_id: planKey.itemId
+        };
+    } else {
+        activeFlag = FocusAreas_GetAction(planKey, actionObj.itemId) !== null ? '1' : '0';
+        form_data = {
+            owner_id: planKey.ownerId,
+            item_id: actionObj.itemId,
+            item_order_id: planKey.itemOrderId.toString(),
+
+            active_flag: activeFlag,
+
+            action_title: actionObj.actionTitle,
+            action_text: actionObj.actionText,
+            action_status: actionObj.actionStatus,
+            action_due_date: actionObj.actionDueDate,
+            action_owner: actionObj.actionOwner,
+            is_action: '1',
+
+            focus_area_id: planKey.itemId,
+            plan_node: planObj.planNode
+        };
+    }
+
+    let start_date = new Date();
+
+    $.ajax({
+        url : survey_url,
+        type: "POST",
+        data : form_data,
+        success: function(data, textStatus, jqXHR)
+        {
+            console.log('From server: ' + data);
+            console.log('Time [ms] = ' + (new Date() - start_date ));
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            console.log( 'ERROR: ' + errorThrown );
+        }
+    });
 }

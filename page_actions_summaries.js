@@ -169,7 +169,7 @@ function ActionsSummaries_GetPlansTableData() {
 	let tableData = [];
 	let rowdata = [];
 
-	let focusAreas = RolledUpPlans_GetRolledUpPlans();
+	let focusAreas = FocusAreas_GetFocusAreas();
 
 	for(let area of focusAreas) {
 		let focusAreaId = area.itemId;
@@ -205,7 +205,7 @@ function ActionsSummaries_GetActionsTableData() {
 	let itemId = (!item || item == -1) ? '' : item.split('.')[1];
 
 	let tableData = [];
-	let focusAreas = RolledUpPlans_GetRolledUpPlans();
+	let focusAreas = FocusAreas_GetFocusAreas();
 
 	for(let area of focusAreas) {
 		let focusAreaId = area.itemId;

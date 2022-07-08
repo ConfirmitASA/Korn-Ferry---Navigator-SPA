@@ -251,7 +251,7 @@ function AllResults_AddItemToTable(itemId, isDimension, sortId) {
 
 	//check if item has been added to Focus Areas
 	//set action icon to remove icon if so
-	let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(itemId);
+	let isItemAddedAsFocusArea = FocusAreas_IsItemSelected(itemId);
 	let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
 	let actionIdDimensionOrQuestion = isDimension ? 'dimension' : 'question';
 	let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "${actionIdDimensionOrQuestion}-${itemId}-button" ></div></div>`;

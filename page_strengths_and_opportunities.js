@@ -176,10 +176,10 @@ function StrengthsAndOpportunities_fillDetailsCard(selectedCardId) {
             allActionButtonsOnCards.forEach((actionButton) => {
                 let button_id = $(actionButton).attr('id').split('-');
 
-                if($(actionButton).hasClass('add-action') && FocusAreas_IsItemAlreadyAdded(button_id[1])) {
+                if($(actionButton).hasClass('add-action') && FocusAreas_IsItemSelected(button_id[1])) {
                     Utils_SetActionButtonToREMOVE(actionButton, meta.Labels['labels.Selected'].Label);
                 } else {
-                    if($(actionButton).hasClass('remove-action') && !FocusAreas_IsItemAlreadyAdded(button_id[1])) {
+                    if($(actionButton).hasClass('remove-action') && !FocusAreas_IsItemSelected(button_id[1])) {
                         let newActionButtonText = '';
 
                         if(button_id[0] === 'Strengths') {
@@ -226,10 +226,11 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
             let newFocusArea = {
                 isDimension: false,
                 pageSourceId: 'StrengthsAndOpportunities',
+                itemId: button_id[1],
                 ownerId: data.User.UserId
             }
 
-            FocusAreas_AddItem(button_id[1], newFocusArea);
+            FocusAreas_AddFocusArea(newFocusArea);
         } else {
             if ($(this).hasClass('remove-action')) {
                 let newActionButtonText = '';
@@ -244,7 +245,7 @@ function StrengthsAndOpportunities_handleActionButtonClick() {
 
                 Utils_SetActionButtonToADD(this, newActionButtonText);
 
-                FocusAreas_RemoveItem(button_id[1]);
+                FocusAreas_RemoveSelectedFocusArea(button_id[1]);
             }
         }
 
@@ -289,7 +290,7 @@ function StrengthsAndOpportunities_getTopNItems(topNItems, cardType) {
 
         //check if item has been added to Focus Areas
         //set action button as 'selected' if so
-        let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(totalItems[i]);
+        let isItemAddedAsFocusArea = FocusAreas_IsItemSelected(totalItems[i]);
         let actionButtonClass = isItemAddedAsFocusArea 
             ? 'remove-action action-button__selected' 
             : 'add-action';
@@ -446,7 +447,7 @@ function StrengthsAndOpportunities_GetItemsTable(cardType) {
 
         //check if item has been added to Focus Areas
         //set action icon to remove icon if so
-        let isItemAddedAsFocusArea = FocusAreas_IsItemAlreadyAdded(items[i]);
+        let isItemAddedAsFocusArea = FocusAreas_IsItemSelected(items[i]);
         let actionButtonClass = isItemAddedAsFocusArea ? 'remove-action table_remove-item-minus-circle' : 'add-action table_add-item-plus-circle__thin';
 
         let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "${cardType}-${items[i]}-button" ></div></div>`;
