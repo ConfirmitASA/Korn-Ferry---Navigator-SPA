@@ -96,7 +96,7 @@ function ActionsSummaries_GetItemsTable() {
 	let showActionsOn = State_Get('showactions') === 'On';
 
 
-		if(showActionsOn) {
+	if(showActionsOn) {
 		headers = [
 			[
 				{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
@@ -128,7 +128,7 @@ function ActionsSummaries_GetItemsTable() {
 
 	var hideColumns = [0];
 	let columnSettings = `
-        'order': [],
+        'order': [[ 5, 'asc' ]],
         'searchHighlight': true,
 		'columnDefs': [
 			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false }
@@ -136,7 +136,7 @@ function ActionsSummaries_GetItemsTable() {
     `;
 
 	let exportColumns = [];
-	for (var k = 0; k < headers[0].length; k++) exportColumns.push(k); 
+	for (var k = 0; k < headers[0].length; k++) exportColumns.push(k);
 
 	let view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-ActionsSummaries'); /* +
     ' - ' +
@@ -183,10 +183,13 @@ function ActionsSummaries_GetPlansTableData() {
 				{Label: label, ClassName: 'text-cell'},
 				{Label: area.planName, ClassName: 'text-cell'},
 				{Label: meta.Hierarchy.Map[area.planNode].Label, ClassName: 'text-cell'},
-				{Label: area.planNotes, ClassName: 'text-cell'},
+				{Label: area.planNotes, ClassName: area.planNotes.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
+						if (area.planNotes.length <= 30) delete this.longstring;
+						return area.planNotes;
+					}},
 				{Label: meta.Labels['labels.' + area.planStatus].Label, ClassName: 'text-cell'},
-				{Label: area.planDueDate, ClassName: 'text-cell'},
-				{Label: area.planLastUpdatedDate, ClassName: 'text-cell'},
+				{Label: area.planDueDate, datasort: dateToMillis(area.planDueDate), ClassName: 'text-cell'},
+				{Label: area.planLastUpdatedDate, datasort: dateToMillis(area.planLastUpdatedDate), ClassName: 'text-cell'},
 				{Label: area.planOwner, ClassName: 'text-cell'},
 				{
 					Label: !!area.planActions ? Object.keys(area.planActions).length : 0,
@@ -220,10 +223,16 @@ function ActionsSummaries_GetActionsTableData() {
 				rowdata = [
 					{Label: label, ClassName: 'text-cell'},
 					{Label: area.planName, ClassName: 'text-cell'},
-					{Label: actions[action].actionTitle, ClassName: 'text-cell'},
-					{Label: actions[action].actionText, ClassName: 'text-cell'},
+					{Label: actions[action].actionTitle, ClassName: actions[action].actionTitle.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
+							if (actions[action].actionTitle.length <= 30) delete this.longstring;
+							return actions[action].actionTitle;
+						}},
+					{Label: actions[action].actionText, ClassName: actions[action].actionText.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
+							if (actions[action].actionText.length <= 30) delete this.longstring;
+							return actions[action].actionText;
+						}},
 					{Label: meta.Labels['labels.' + actions[action].actionStatus].Label, ClassName: 'text-cell'},
-					{Label: actions[action].actionDueDate, ClassName: 'text-cell'},
+					{Label: actions[action].actionDueDate, datasort: dateToMillis(actions[action].actionDueDate), ClassName: 'text-cell'},
 					{Label: actions[action].actionOwner, ClassName: 'text-cell'}
 				];
 				tableData.push(rowdata);
@@ -236,11 +245,11 @@ function ActionsSummaries_GetActionsTableData() {
 
 function ActionsSummaries_IsPlanToShow(actionPlan) {
 	var plansFilter = State_Get('actionplans');
-	
-	return actionPlan.planIsSubmitted && 
-		(	
+
+	return actionPlan.planIsSubmitted &&
+		(
 			(plansFilter=='ownplans' && actionPlan.ownerId === data.User.UserId) ||
-			(plansFilter=='areaplans' && true) || // TO DO: change true to hierarchical condition
+			(plansFilter=='areaplans' && true) ||
 			(plansFilter=='sharedplans' && actionPlan.planIsShared)
 		);
 }
@@ -316,3 +325,7 @@ function ActionsSummaries_UpdateItemsTable() {
 }
 
 
+function dateToMillis(date) {
+	moment.defaultFormat = "ddd MMM DD YYYY";
+	return moment(date, moment.defaultFormat).toDate().getTime()
+}

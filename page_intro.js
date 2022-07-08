@@ -53,8 +53,10 @@ function Intro_Render() {
       </video>
 
       <div class="content">
-          <div style="font-size: 2vw">${meta.Labels['labels.ReportLoading'].Label}</div>
-          <p>${meta.Labels['labels.LoadingData'].Label.split('[BRANCH]').join(data.User.PersonalizedReportBaseText)}</p>
+          <div id="loading-message">
+            <div style="font-size: 2vw">${meta.Labels['labels.ReportLoading'].Label}</div>
+            <p>${meta.Labels['labels.LoadingData'].Label.split('[BRANCH]').join(data.User.PersonalizedReportBaseText)}</p>
+          </div>
           <div class="action button-report-loaded hidden" id="wait-close">${button_text}</div>
         </div>
 
@@ -67,7 +69,8 @@ function Intro_Render() {
         $('.page-header').css('display', 'unset');
         $('.page-header').css('opacity', 1);
         $('#page-Intro').html('');
-        $('#menuitem-Home').click();
+        $('.menuitem').first().next().click(); // either Home or Response Rates
+        //$('#menuitem-Home').click();
       });
 
       $(document).ready (
@@ -79,6 +82,6 @@ function Intro_Render() {
       </script>
     `;
 
-    
-  
+
+
 }

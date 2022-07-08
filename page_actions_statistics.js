@@ -279,10 +279,14 @@ function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartDa
                 text: ''
             },
             xAxis: {
-                categories: chartData.categories
+                categories: chartData.categories,
+                reversed: meta.RTL ? true : false, // rtl
+                labels: {
+                    useHTML: true,
+                }
             },
             yAxis: {
-                reversed: meta.RTL ? true : false, //rtl
+                opposite: meta.RTL ? true : false, // rtl
                 title: {
                     text: ''
                 },
@@ -334,11 +338,12 @@ function ActionStatistics_DrawPlansByCurrentStatusChart(containerId, chartData) 
             },
             xAxis: {
                 categories: chartData.categories,
+                reversed: meta.RTL ? true : false, // rtl
                 crosshair: true
             },
             yAxis: {
                 min: 0,
-                reversed: meta.RTL ? true : false, //rtl
+                opposite: meta.RTL ? true : false, // rtl
                 title: {
                     text: ''
                 },

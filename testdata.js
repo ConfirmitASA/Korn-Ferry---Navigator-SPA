@@ -1507,6 +1507,233 @@ if (meta == null) { // && !Main_IsProduction()) {
 						"Label": "Whenever there are company announcements, new policies or programs, press releases, etc., make sure to spend time with your employees as soon as possible to discuss them. \n\nEncourage a healthy discussion about what has changed, their initial reactions and what it means for each of them."
 					}
 				}
+			},
+			"Actions_TR04": {"Id": "Actions_TR04", "Title": "", "Label": ""},
+			"Actions_TR04.title_0": {"Label": "Seek guidance"},
+			"Actions_TR04.text_0": {"Label": "Seek internal guidance from Human Resources about external training programme."},
+			"Actions_TR04.title_1": {"Label": "Make it personal"},
+			"Actions_TR04.text_1": {"Label": "Have a one-on-one conversation with your team members to assess what training has been most valuable and what future training they need and why."},
+			"Actions_SD03": {"Id": "Actions_SD03", "Title": "", "Label": ""},
+			"Actions_SD03.title_0": {"Label": "Share the big picture"},
+			"Actions_SD03.text_0": {"Label": "Set frequent team meetings and start with a Strategy Section in the agenda.<br>Explain the current strategy and goals of the company and relate the larger strategy to your business unit and team's strategy and goals."},
+			"Actions_SD03.title_1": {"Label": "Align individual and company targets"},
+			"Actions_SD03.text_1": {"Label": "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."},
+			"Actions_SD03.title_2": {"Label": "Stay alert"},
+			"Actions_SD03.text_2": {"Label": "Whenever there are company announcements, new policies or programs, press releases, etc., make sure to spend time with your employees as soon as possible to discuss them.<br>Encourage a healthy discussion about what has changed, their initial reactions and what it means for each of them."},
+			"Actions_PE01": {"Id": "Actions_PE01", "Title": "", "Label": ""},
+			"Actions_PE01.title_0": {"Label": "Align individual and company targets"},
+			"Actions_PE01.text_0": {"Label": "Check in on your team member's performance on a regular basis.<br>In the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company's overall goals and strategy."},
+			"Actions_PE01.title_1": {"Label": "Tell good stories"},
+			"Actions_PE01.text_1": {"Label": "Communicate successes on a regular basis. Choose a format (Friday newsletters, weekly quizzes, 1-2-1, intranet communication) and include financial successes but don't focus exclusively on them.<br>Invite members of the team to talk about what they've done well recently."},
+			"Actions_PE01.title_2": {"Label": "Be the change"},
+			"Actions_PE01.text_2": {"Label": "Download and read Korn Ferry's thought leadership piece urging leaders to <a href='https://infokf.kornferry.com/Be_the_change.html?utm_source=website&utm_medium=banner&utm_term=&utm_content=%20&utm_campaign=19-11-GBL-Culture-Transformation' target='_blank'>Be the Change</a>"},
+			"SlideTexts": {
+
+				'SLIDE_WELCOME': {
+					'title': 'Welcome to your team survey results summary',
+					'info': [
+						'This slideshow feature allows you to get a first look at your team survey results. In this summary you will get a chance to understand...',
+						'How your team is performing in the areas your organisation feels are most important',
+						"The areas your team responses have indicated as 'areas to celebrate'",
+						"The areas your team responses have indicated as 'areas for future focus'",
+						"An overview of your team's responses by category or dimension",
+						'Some ideas on what to do next'
+					]
+				},
+				'SLIDE_NEXTSTEPS': {
+					'title': 'Next Steps',
+					'info': [
+						'Making the best use of this useful feedback...',
+						'Take the time to <b>get deeper into your results using the online dashboard</b>, taking note of any questions you might have and adding questions or dimensions to your Actions as focus areas.',
+						'<b>Download the PowerPoint summary</b> as a tool to share the results with your team - running through the results and eliciting their thoughts on the data will increase engagement with the process and inspire ideas for action.',
+						'Build out your <b>action plan using the online tool</b> and be sure to see the actions through.'
+					]
+				},
+
+
+
+
+				'SLIDE_ENG': {
+					'title': 'Employee Engagement: Results Details',
+					'info': [
+						"Engagement measures commitment to the company and extra effort employees are willing to put in for the good of the organisation",
+						"The Engagement score is calculated as an average of the favourable scores from questions shown below"
+					]
+				},
+				'SLIDE_ENA': {
+					'title': 'Employee Enablement: Results Details',
+					'info': [
+						"Enablement measures the extent to which employee skills and abilities are fully utilised and the support received in getting work done.",
+						"The Enablement score is calculated as an average of the favourable scores from questions shown below."
+					]
+				},
+				'SLIDE_STRENGTHS': {
+					'title': 'Team Strengths: Areas to Celebrate',
+					'info': [
+						"This page helps you focus on come of the most important survey results for your work group. Keep doing these well.",
+						"Questions are categorised as 'strengths' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
+					]
+				},
+				'SLIDE_OPPORTUNITIES': {
+					'title': 'Team Opportunities: Areas to Focus',
+					'info': [
+						"This page helps you focus on come of the most important survey results for your work group. Focus on improving these.",
+						"Questions are categorised as 'opportunities' based on an algorithm combining a number of factors, such as the percentage favourable, percentage unfavourable and how those scores compare to other internal groups and external benchmarks."
+					]
+				},
+
+				'SLIDE_DIMS': {
+					'title': 'Dimension Overview',
+					'info': [
+						"Here is an overview of the most favourable and least favourable dimensions"
+					],
+					"LabelMostFav": "Most favourable dimensions",
+					"LabelLeastFav": "Least favourable dimensions"
+				},
+
+
+				'SLIDE_TOP5': {
+					'title': 'Top 5 Questions',
+					'info': []
+				},
+				'SLIDE_BOTTOM5': {
+					'title': 'Bottom 5 Questions',
+					'info': []
+				},
+				'SLIDE_COMMENTS': {
+					'title': 'Open-Ended Comment Themes',
+					'info': []
+				},
+				'SLIDE_KEYINDICES': {
+					'title': "Key Indices",
+					'info': [
+						"These metrics are what drive success in your organisation.",
+						"See the summary below for your teams performance on these metrics."
+					]
+				},
+				'SLIDE_KEYDRIVERS': {
+					'title': 'Key Drivers',
+					'info': [
+						"Key Driver Analysis determines which question items within a survey questionnaire most strongly influence or predict a dependent variable (in this case, the dependent variables are [ENG] and [ENA]).",
+						"Using key driver analysis, we can help answer the question: \"Where should I focus attention first in order to have the best chance of improving engagement and enablement in my organisation?\"",
+						"Results can give managers an alternative lens for understanding the culture of their organisations.",
+						"Key Driver Analysis results can be used to drive targeted Action Planning process."
+					],
+					"LabelEmployeeEngagement": "Employee Engagement",
+					"LabelEmployeeEnablement": "Employee Enablement",
+					"LabelTop2KeyDriversOf": "Top 2 Key Drivers of"
+				},
+				'SLIDE_EPSEGMENTATION': {
+					'title': 'Effectiveness Profile - Segmentation',
+					'info': [
+						"The [ENGFRAMEWORK] clusters employees into four distinct segments, based on relative levels of Engagement and Enablement in comparison to Korn Ferry\'s global benchmark.",
+						"The segmentation is designed to guide targeted action efforts.",
+						"For example, when employees are [FRUSTRATED] action should focus on implementing counter measures to organizational barriers that hinder performance and productivity.",
+						"When [DETACHMENT] is present, employees are likely to be disconnected for the organizations mission and purpose and question their long term prospects at the company."
+					],
+					"LabelHigh": "High",
+					"LabelLow": "Low",
+					"LabelDetachedExplanation": "Enabled, but not engaged",
+					"LabelMostEffectiveExplanation": "Engaged and enabled",
+					"LabelLeastEffectiveExplanation": "Neither engaged nor enabled",
+					"LabelFrustratedExplanation": "Engaged, but not enabled",
+					"LabelDetachment": "Detachment",
+					"LabelEngagedPerformanceFramework": "Engaged Performance[TM] Framework"
+				},
+				'SLIDE_EPDETAIL': {
+					'title': 'Effectiveness Profile: Detail',
+					'info': [
+						"These metrics are what drive success in your organisation."
+					]
+				},
+				'SLIDE_RESSUMMARY': {
+					'title': 'Results Summary',
+					'info': []
+				},
+				'SLIDE_RESDETAIL': {
+					'title': 'Results in Detail',
+					'info': []
+				},
+				'SLIDE_ENGFRAMEWORK': {
+					'title': 'Engaged Performance[TM] Framework',
+					'info': [
+						'1. Clear and promising direction',
+						'2. Confidence in leaders',
+						'3. Quality and customer focus',
+						'4. Respect and recognition',
+						'5. Development opportunities',
+						'6. Pay and benefits',
+						'7. Performance management',
+						'8. Authority and empowerment',
+						'9. Resources',
+						'10. Training',
+						'11. Collaboration',
+						'12. Work, structure and process'
+					],
+					'LabelPerformanceDrivers': 'Performance drivers configured to each client\'s business priorities',
+					'LabelEngagedPerformance': 'Engaged Performance',
+					'LabelEngagementInfo': 'Committed and loyal people, willing to go the extra mile',
+					'LabelEnablementInfo': 'The right people in the right roles, in an enabling work environment',
+					'LabelOperationalExcellence': 'Operational excellence',
+					'LabelCustomerLoyalty': 'Customer loyalty',
+					'LabelFinancialPerformance': 'Financial performance',
+					'LabelAttractTalent': 'Attract and retain talent',
+					'LabelStrongBrand': 'Strong employer brand',
+					'LabelMeasure': 'What our surveys measure',
+					'LabelAchieve': 'The results they achieve',
+					'LabelVision': 'Vision, strategies'
+				},
+				'SLIDE_SURVEYBACKGROUND': {
+					'title': 'Survey Background',
+					'info': [
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+						'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+						'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+						'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+					],
+					'LabelNoResponses': 'No. responses:',
+					'LabelRespRate': 'Response rate:'
+				},
+				'SLIDE_TAKEACTION': {
+					'title': 'Taking Action',
+					'LeftSideContent': '"Organizations rated the highest by employees for acting on survey feedback outperform others on financial performance."',
+					'RightSideContent': [
+						'To drive effective change through your results...',
+						'Be realistic, focus on [2-3 areas of action] only to increase your chances of success',
+						'[Do not overlook strengths] - sometimes a good action plan can be about maintaining a strong score',
+						'Focus on high priority areas that are [within your control]',
+						'Make sure the actions address the [root cause] - think about the reasons why this issue has come about',
+					]
+				},
+				'SLIDE_HOWTOREAD': {
+					'title': 'How to Read Your Results',
+					'info': [
+						'The five-point scale is classified into favourable, neutral and unfavourable',
+						'Example table:',
+						'A star denotes statistically significant difference vs comparison (green font for positive; red font for negative)'
+					],
+					'LabelStronglyAgree': 'Strongly agree',
+					'LabelAgree': 'Agree',
+					'LabelNeither': 'Neither agree nor disagree',
+					'LabelDisagree': 'Disagree',
+					'LabelStronglyDisagree': 'Strongly disagree',
+					'LabelClearStrength': 'Clear strength',
+					'LabelModerateStrength': 'Moderate strength',
+					'LabelWarningSign': 'Warning sign',
+					'LabelRedFlag': 'Red flag',
+					'LabelClearStrengthPercent': '>80% favourable',
+					'LabelModerateStrengthPercent': '65-80% favourable',
+					'LabelWarningSignPercent': '<60% favourable or >20% unfavourable',
+					'LabelRedFlagPercent': '<50% favourable or >30% unfavourable'
+				},
+				'SLIDE_TITLE': {
+					'title': 'Title Slide',
+					'info': [
+						'#survey name#',
+						'#client#',
+						'Results for: #team name#'
+					]
+				}
 			}
 		},
 
@@ -1800,7 +2027,10 @@ if (meta == null) { // && !Main_IsProduction()) {
 				'LabelCustomerLoyalty': 'Customer loyalty',
 				'LabelFinancialPerformance': 'Financial performance',
 				'LabelAttractTalent': 'Attract and retain talent',
-				'LabelStrongBrand': 'Strong employer brand'
+				'LabelStrongBrand': 'Strong employer brand',
+				'LabelMeasure': 'What our surveys measure',
+				'LabelAchieve': 'The results they achieve',
+				'LabelVision': 'Vision, strategies'
 			},
 			'SLIDE_SURVEYBACKGROUND': {
 				'title': 'Survey Background',

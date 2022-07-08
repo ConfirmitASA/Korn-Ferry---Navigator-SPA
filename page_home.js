@@ -147,14 +147,6 @@ function Home_Render() {
     // Click Handler: PowerPoint generator
     $('#action-powerpoint').click(Pptx_Generator);
 
-    /*
-    $(document).ready( function () {
-      var d = document.getElementById("iframe1").contentWindow.document;
-      d.write(Slideshow_RenderIframe());
-	  d.close(); 
-    });
-    */
-
     </script>
     `;
 }

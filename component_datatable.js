@@ -74,7 +74,8 @@ function TD(cell) {
 	if (cell.colspan == null) cell.colspan = 1;
 	if (cell.rowspan == null) cell.rowspan = 1;
 	var datasort = ('datasort' in cell) ? ' data-sort="'+cell.datasort+'"' : '';
-	return '<td class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + ' ' + datasort + '>' + cell.Label + '</td>';
+	var longstring = ('longstring' in cell) ? ' data-longstring="'+cell.longstring+'"' : '';
+	return '<td class="' + cell.ClassName + '" colspan=' + cell.colspan + ' rowspan=' + cell.rowspan + ' ' + datasort + longstring + '>' + cell.Label + '</td>';
 }
 
 function TH(cell) {
@@ -122,24 +123,24 @@ function DataTable_ButtonSettings(exportColumns, view_name, buttons ) {
 		: '';
 
 	if (buttons == undefined) buttons = {copy: true, excel: true, csv: true, pdf: true};
-	
+
 	var buttonSettings = `[`;
-	if (buttons.copy) buttonSettings += 	
-            `{
+	if (buttons.copy) buttonSettings +=
+		`{
                 extend: 'copyHtml5',
                 text: '${meta.Labels.copy.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             },`;
-	if (buttons.excel) buttonSettings += 	
-            `{
+	if (buttons.excel) buttonSettings +=
+		`{
                 extend: 'excelHtml5',
                 text: '${meta.Labels.excel.Title}',
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             },`;
-	if (buttons.csv) buttonSettings += 	
-            `{
+	if (buttons.csv) buttonSettings +=
+		`{
                 extend: 'csvHtml5',
 				charset: 'UTF-8',
 				bom: true,
@@ -147,8 +148,8 @@ function DataTable_ButtonSettings(exportColumns, view_name, buttons ) {
                 title: decodeURI("${file_name_encoded}"),
                 exportOptions: { columns: [ ${exportColumns.join(',')} ] }
             },`;
-	if (buttons.pdf) buttonSettings += 	
-            `{
+	if (buttons.pdf) buttonSettings +=
+		`{
                 extend: 'pdfHtml5',
 				orientation: 'landscape',
                 text: '${meta.Labels.pdf.Title}',

@@ -70,6 +70,10 @@ function ActionsFocusAreas_Render() {
     if ( FocusAreas_GetFocusAreas().length == 0 )  FocusAreas_SetValues();
 
     ActionFocusAreas_RenderFocusAreaList();
+
+    $(document).ready(function() {
+        maxLength();
+    });
 }
 
 function ActionFocusAreas_RenderFocusAreaList() {
@@ -192,11 +196,11 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
                                         <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
                                         <div class="personal-plan_name">
                                             <label for="plan-name-${cardId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
-                                            <input id="plan-name-${cardId}" type="text" class="plan-name__input" value="${focusArea.planName}">
+                                            <input id="plan-name-${cardId}" type="text" class="plan-name__input" value="${focusArea.planName}" maxlength="50">
                                         </div>
                                         <div class="personal-plan_notes">
                                             <label for="plan-notes-${cardId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
-                                            <textarea id="plan-notes-${cardId}" class="plan-notes__input">${focusArea.planNotes}</textarea>
+                                            <textarea id="plan-notes-${cardId}" class="plan-notes__input" maxlength="2000">${focusArea.planNotes}</textarea>
                                         </div>
                                         <div class="personal-plan_details">
                                             <div class="plan-setting plan_status">
@@ -251,13 +255,13 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
 
     $(`#plan-name-${cardId}`).on('input', function (event) {
         let newPlanName = $(this).val();
-
+        newPlanName = stripHTML(newPlanName);
         FocusAreas_UpdateFocusArea(planKey, 'planName', newPlanName)
     });
 
     $(`#plan-notes-${cardId}`).on('input', function (event) {
         let newPlanNotes = $(this).val();
-
+        newPlanNotes = stripHTML(newPlanNotes);
         FocusAreas_UpdateFocusArea(planKey, 'planNotes', newPlanNotes);
     });
 
@@ -742,6 +746,7 @@ function ActionFocusAreas_HandleAddOwnActionButtonClick(addActionButtons) {
                 }
             }
         }
+        maxLength();
     });
 }
 
@@ -800,7 +805,7 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, planKey, n
                                             </div>
                                             <div class="action-setting selected-action_owner">
                                                 <label class="action-setting_label">${meta.Labels['labels.ActionOwner'].Label}</label>
-                                                <input type="text" id="${actionCardId}_owner" value="${newActionObj.actionOwner}">
+                                                <input type="text" id="${actionCardId}_owner" value="${newActionObj.actionOwner}" maxlength="50">
                                             </div>
                                             <div class="selected-action_remove">
                                                 <div class="action_remove-icon"></div>
@@ -871,14 +876,14 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, planKey, n
 
         //handle actionTitle text change
         $(`#${actionCardId} .action-title_text__editable`).on('input', function (event) {
-            let newTitle = this.textContent;
+            let newTitle = stripHTML(this.textContent);
 
             FocusAreas_UpdateActionInFocusArea(planKey, newActionObj.itemId, 'actionTitle', newTitle);
         });
 
         //handle actionText text change
         $(`#${actionCardId} .selected-action_text__editable`).on('input', function (event) {
-            let newText = this.textContent;
+            let newText = stripHTML(this.textContent);
 
             FocusAreas_UpdateActionInFocusArea(planKey, newActionObj.itemId, 'actionText', newText);
         });
@@ -1113,5 +1118,47 @@ function ActionFocusAreas_GetFocusAreaCardId(focusAreaKey) {
 
 function ActionFocusAreas_GetActionCardId(focusAreaKey, actionId) {
     return actionId.replace(focusAreaKey.itemId, focusAreaKey.itemId + '-' + focusAreaKey.itemOrderId);
+}
+
+function maxLength() {
+    var contentEditables = document.querySelectorAll('[contenteditable]');
+    contentEditables.forEach(function(item) {
+        ['keydown','paste'].forEach( function(event) {
+            item.addEventListener(event, function(e) {
+                var limit = 40;
+                var allowedKeys = false;
+
+                if (e.type === 'keydown') {
+                    allowedKeys = (
+                        e.which === 8 ||  /* BACKSPACE */
+                        e.which === 35 || /* END */
+                        e.which === 36 || /* HOME */
+                        e.which === 37 || /* LEFT */
+                        e.which === 38 || /* UP */
+                        e.which === 39 || /* RIGHT*/
+                        e.which === 40 || /* DOWN */
+                        e.which === 46 || /* DEL*/
+                        e.ctrlKey === true && e.which === 65 || /* CTRL + A */
+                        e.ctrlKey === true && e.which === 88 || /* CTRL + X */
+                        e.ctrlKey === true && e.which === 67 || /* CTRL + C */
+                        e.ctrlKey === true && e.which === 86 || /* CTRL + V */
+                        e.ctrlKey === true && e.which === 90    /* CTRL + Z */
+                    )
+                }
+                if (e.type === 'paste') {
+                    setTimeout(function () {
+                        e.target.innerText = e.target.innerText.slice(0, limit);
+                    });
+                }
+                if (!allowedKeys && e.target.innerText.length >= limit) {
+                    e.preventDefault();
+                }
+            }, false);
+        });
+    })
+}
+function stripHTML(html) {
+    const parseHTML = new DOMParser().parseFromString(html, 'text/html');
+    return parseHTML.body.textContent || '';
 }
 

@@ -13,6 +13,7 @@ function Slideshow_RenderIframe() {
     <style>
         :root {
             --r-link-color: #00634f;
+            --r-background-color: #f0f0f0;
         }
         .reveal ul {
             margin: 0;
@@ -686,3 +687,4 @@ function Slideshow_AddItemToTable(itemId, is_all_dimensions_view, index) {
 
     return rowdata;
 }
+

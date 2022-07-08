@@ -24,3 +24,25 @@
     color: #FFFFFF;
     background-color: #77bc1f;
 }
+
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    max-width: 200px;
+    min-width: 200px;
+}
+.truncate:hover {
+    color: transparent;
+}
+.truncate:hover::before {
+    content: attr(data-longstring);
+    width: fit-content;
+    overflow: initial;
+    text-overflow: initial;
+    white-space: initial;
+    display: inline-block;
+    color: #121821;
+}
