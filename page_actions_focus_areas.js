@@ -67,7 +67,7 @@ function ActionsFocusAreas_Render() {
         ActionFocusAreas_RenderFocusAreaList();
     });
 
-    // if ( Object.keys(FocusAreas).length == 0 )  ActionFocusAreas_SetValues();
+    if ( FocusAreas_GetFocusAreas().length == 0 )  FocusAreas_SetValues();
 
     ActionFocusAreas_RenderFocusAreaList();
 }
@@ -121,6 +121,9 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
     favScore = focusArea.favScore;
     diff = focusArea.diffVsCompany;
 
+    State_Set('actionPlanStatus_' + cardId, focusArea.planStatus);
+    State_Set(`actionPlanShared_${cardId}`, focusArea.planIsShared ? 'On' : 'Off');
+
     let actionPlan_dropdown = Component_Dropdown(
         'actionPlanStatus_' + cardId,
         meta.Labels['labels.Status'].Label,
@@ -135,7 +138,6 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
         `${cardId}_share-switch`,
         ParamValues_OnOff()
     );
-
 
 
     o.push(`
@@ -765,6 +767,8 @@ function ActionFocusAreas_AddActionToActionPlanSection(focusAreaCard, planKey, n
 
         let numberOfActionsInActionPlan = $(actionPlanContainer).find('.selected-action').length;
 
+        State_Set('actionStatus_' + actionCardId, newActionObj.actionStatus);
+
         let actionStatus_dropdown = Component_Dropdown(
             'actionStatus_' + actionCardId,
             meta.Labels['labels.Status'].Label,
@@ -1048,28 +1052,28 @@ function ActionFocusAreas_AddItemToTable(itemId, isDimension, sortId) {
 }
 
 function ActionFocusAreas_SubscribeFocusAreaToSaveChanges(planKey) {
-    const focusAreaId = planKey.itemId + '-' + planKey.itemOrderId;
+    const cardId = ActionFocusAreas_GetFocusAreaCardId(planKey);
     const focusArea = FocusAreas_GetFocusArea(planKey);
 
-    $(`#focusArea-${focusAreaId} .ap-tag`).on('click', function (event) {
+    $(`#focusArea-${cardId} .ap-tag`).on('click', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#plan-name-${focusAreaId}`).on('focusout', function (event) {
+    $(`#plan-name-${cardId}`).on('focusout', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#plan-notes-${focusAreaId}`).on('focusout', function (event) {
+    $(`#plan-notes-${cardId}`).on('focusout', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#${focusAreaId}_status-dropdown`).change(function (event) {
+    $(`#${cardId}_status-dropdown`).change(function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}-left`).on('click', function (event) {
+    $(`#${cardId}_share-switch-actionPlanShared_${cardId}-left`).on('click', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#${focusAreaId}_share-switch-actionPlanShared_${focusAreaId}-right`).on('click', function (event) {
+    $(`#${cardId}_share-switch-actionPlanShared_${cardId}-right`).on('click', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#focusArea-${focusAreaId} .action-plan_submit`).on('click', function (event) {
+    $(`#focusArea-${cardId} .action-plan_submit`).on('click', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
     // due date input is subscribed within datepicker's onSelect
