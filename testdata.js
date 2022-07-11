@@ -29977,7 +29977,7 @@ if (!('comparators' in state.Parameters)) {
 	State_Set('comparators', config.comparators);
 }
 
-if (actions == null) { // && !Main_IsProduction()) {
+if (!Main_IsProduction() && actions == null) {
 
 	actions = {
 		"Rollup": [
