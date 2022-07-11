@@ -1078,9 +1078,6 @@ function ActionFocusAreas_SubscribeFocusAreaToSaveChanges(planKey) {
     $(`#${cardId}_share-switch-actionPlanShared_${cardId}-right`).on('click', function (event) {
         FocusAreas_SaveChanges(focusArea);
     });
-    $(`#focusArea-${cardId} .action-plan_submit`).on('click', function (event) {
-        FocusAreas_SaveChanges(focusArea);
-    });
     // due date input is subscribed within datepicker's onSelect
 }
 
