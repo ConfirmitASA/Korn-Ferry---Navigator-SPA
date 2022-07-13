@@ -168,7 +168,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
                             <div class="ap-tag ${focusArea.cost ? 'ap-tag__active' : 'ap-tag__inactive'} ap-tag__cost"></div>
                         </div>
                         <div class="focus-area-info_area">${meta.Labels['labels.Area'].Label} ${meta.Hierarchy.Map[focusArea.planNode].Label}</div>
-                        <div class="focus-area-info_work-button">${meta.Buttons.WorkOnThis.Label}</div> 
+                        <div class="focus-area-info_work-button">${meta.Labels['buttons.WorkOnThis'].Label}</div> 
                     </div>
                     <div class="action-plan action-plan__collapsed">
                         <div class="action-plan_container">
@@ -183,7 +183,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
                                     <div class="selected-wrapper">
                                         <div class="selected-actions_title">${meta.Labels['labels.ActionPlan'].Label}</div>
                                         <div class="selected-actions_container selected-actions_container__hidden"></div>
-                                        <div class="add-to-plan selected-actions_add">${meta.Buttons.AddOwnAction.Label}</div>
+                                        <div class="add-to-plan selected-actions_add">${meta.Labels['buttons.AddOwnAction'].Label}</div> 
                                     </div>
                                 </div>
                                 <div id="innerblock3${index}" class="action-plan_personal">
@@ -196,7 +196,7 @@ function ActionFocusAreas_RenderFocusArea(focusArea, index) {
                                         <div class="personal-plan_title">${meta.Labels['labels.PersonalizeActionPlan'].Label}</div>
                                         <div class="personal-plan_name">
                                             <label for="plan-name-${cardId}" class="personal-plan_label">${meta.Labels['labels.Name'].Label}</label>
-                                            <input id="plan-name-${cardId}" type="text" class="plan-name__input" value="${focusArea.planName}" maxlength="50">
+                                            <input id="plan-name-${cardId}" type="text" class="plan-name__input" value="${focusArea.planName}" maxlength="100">
                                         </div>
                                         <div class="personal-plan_notes">
                                             <label for="plan-notes-${cardId}" class="personal-plan_label">${meta.Labels['labels.Notes'].Label}</label>
@@ -464,7 +464,7 @@ function ActionFocusAreas_RenderRecommendedActions(itemId, recommendedActions, i
                                     <div class="action-title recommended-action_title ${index == 0 ? 'action-title__uncollapsed' : 'action-title__collapsed'}"><div class="action-title_text">${recAction.Title}</div><div class="action-chevron ${index == 0 ? 'action-chevron__uncollapsed' : 'action-chevron__collapsed'}"></div></div>
                                     <div class="action-body recommended-action_body ${index == 0 ? 'action-body__uncollapsed' : 'action-body__collapsed'}">
                                         <div class="action-text recommended-action_text">${recAction.Text}</div>
-                                        <div class="add-to-plan recommended-action_add-to-plan">${meta.Buttons.AddToActionPlan.Label}</div>
+                                        <div class="add-to-plan recommended-action_add-to-plan">${meta.Labels['buttons.AddToActionPlan'].Label}</div> 
                                     </div>
                                 </div>`;
 
@@ -1122,7 +1122,8 @@ function maxLength() {
     contentEditables.forEach(function(item) {
         ['keydown','paste'].forEach( function(event) {
             item.addEventListener(event, function(e) {
-                var limit = 40;
+                var limit = 2000;
+                if (item.className.indexOf('title') !== -1) limit = 100;
                 var allowedKeys = false;
 
                 if (e.type === 'keydown') {
@@ -1158,4 +1159,3 @@ function stripHTML(html) {
     const parseHTML = new DOMParser().parseFromString(html, 'text/html');
     return parseHTML.body.textContent || '';
 }
-
