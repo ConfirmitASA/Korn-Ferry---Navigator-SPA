@@ -229,6 +229,8 @@ html[dir="rtl"] .ap-tag__active:after {
     background-repeat: no-repeat;
     width: 15px;
     height: 15px;
+    min-width: 15px;
+    min-height: 15px;
     filter: invert(100%);
 }
 .action-chevron__uncollapsed{
@@ -425,6 +427,9 @@ html[dir="rtl"] .ap-tag__active:after {
     filter: invert(100%);
     width: 10px;
     height: 10px;
+    min-width: 10px;
+    min-height: 10px;
+    margin-right: 10px;
     cursor: pointer;
 }
 .action-text .edit-icon {
@@ -434,7 +439,10 @@ html[dir="rtl"] .ap-tag__active:after {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: baseline;
+    line-height: 16px;
+    justify-content: space-between;
+    width: 100%;
 }
 .selected-action_text {
     display: flex;
@@ -530,4 +538,9 @@ html[dir="rtl"] .ap-tag__active:after {
 }
 .plan_share .switch-label {
     display: none;
+}
+
+div[contenteditable="true"] {
+    word-break: break-all;
+    white-space: pre-line;
 }

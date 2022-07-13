@@ -7,10 +7,10 @@ function ENPSScore_Page() {
         <div id="enps-score-details">
         </div>
         `,
-        
+
         ClassName: 'enps-score-container',
         Style: null,
-		ShowFilterSummary: true
+        ShowFilterSummary: true
     };
 }
 
@@ -254,9 +254,9 @@ function ENPSScore_Render() {
                     <div class="formula-wrapper">
                         <div class="nps-block">${meta.Labels['labels.ENPS'].Label}</div>
                         <div class="math-block">=</div>
-                        <div class="promoters-block"><div class="white-text">${meta.Labels['labels.PercentPromoters'].Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSPromotersScaleDesc.Label}</div></div>
+                        <div class="promoters-block"><div class="white-text">${meta.Labels['labels.PercentPromoters'].Label}</div><div class="gray-text">${meta.Labels['ENPSTexts.ENPSPromotersScaleDesc'].Label}</div></div>
                         <div class="math-block">-</div>
-                        <div class="detractors-block"><div class="white-text">${meta.Labels['labels.PercentDetractors'].Label}</div><div class="gray-text">${meta.ENPSTexts.ENPSDetractorsScaleDesc.Label}</div></div>
+                        <div class="detractors-block"><div class="white-text">${meta.Labels['labels.PercentDetractors'].Label}</div><div class="gray-text">${meta.Labels['ENPSTexts.ENPSDetractorsScaleDesc'].Label}</div></div>
                     </div>
                 </div>
                 -->
@@ -273,7 +273,7 @@ function ENPSScore_Render() {
     $('#enps-score-details').html(
         o.join('')
     );
-    
+
 
     // flipcard  hover
     $('.enps-flip-card-front').mouseenter(function() {
@@ -295,27 +295,27 @@ function ENPSScore_Render() {
         $('.enps-flipicon-back').removeClass('flipicon_hover');
     });
 
-    
+
 
     // Click: Flip Card - Front
-	$('.enps-flip-card-front').click(function() {
-		ENPSScore_FlipFrontToBack($(this));
-	});
+    $('.enps-flip-card-front').click(function() {
+        ENPSScore_FlipFrontToBack($(this));
+    });
 
-	// Click: Flip Card - Back
-	$('.enps-flip-card-back').click(function() {
+    // Click: Flip Card - Back
+    $('.enps-flip-card-back').click(function() {
         ENPSScore_FlipBackToFront($(this));
-	});
+    });
 
 
     //Show/hide details table
 
     $('#enps-moredetails-button').click(function() {
         $('#enps-breakby').toggleClass("data-hidden");
-	});
+    });
     $('.exit-card-details-indicator').click(function() {
         $(this).parent().toggleClass("data-hidden");
-	});
+    });
 
 
 
@@ -334,8 +334,8 @@ function ENPSScore_Render() {
         });
         $('body').scrollTop(0);
     }
-        
-        
+
+
     function ENPSScore_FlipBackToFront(x) {
         x.parent().removeClass('enps-flip-card-inner-back__hover');
         x.parent().removeClass('enps-flip-card-inner-click');
@@ -359,7 +359,7 @@ function ENPSScore_Render() {
 
         var delay = 0;
         d.each(function(){
-            $(this).velocity({opacity:1, top:0}, {duration: 300, delay: delay+=100});
+                $(this).velocity({opacity:1, top:0}, {duration: 300, delay: delay+=100});
             }
         );
 
@@ -374,7 +374,7 @@ function ENPSScore_Render() {
         $('.enps-distribution-description').each(function(){
             delay += 300;
             $(this).velocity({opacity: 1}, {duration: 500, delay: delay})
-        });    
+        });
     }
     else {
         $('.enps-add, .enps-subtract, .enps-distribution, .enps-distribution-description').css('opacity', 1);
@@ -411,7 +411,7 @@ function ENPSScore_ComparatorsView() {
                 var fav_display = (fav == null) ? NOT_AVAILABLE : fav + '%';
                 var unfav_display = (unfav == null) ? NOT_AVAILABLE : unfav + '%';
                 var enps_display = (fav == null || unfav == null) ? NOT_AVAILABLE : fav-unfav;
-                
+
 
                 html += `
                     <div class="enps-trend-wrapper">
@@ -437,13 +437,13 @@ function ENPSScore_ScaleDistributionView() {
     var blockHeight = 70;
     var color = '';
 
-    // Temporarily, generate random data distribution for the 0-10 scale 
+    // Temporarily, generate random data distribution for the 0-10 scale
     var scaleDistribition = []; //data.Dimensions["DIM_NPS"].DistributionScale;
     for (var i=0; i<11; ++i)
         scaleDistribition.push ( Math.round(Math.random()*100) );
 
     var maxVal = Math.max.apply(null, scaleDistribition);
-    
+
     for (var i=scaleDistribition.length - 1; i>=0; i--) {
         if (i>8) color = '#77bc1f';
         if (i>=7 && i<=8) color = 'orange';
@@ -454,4 +454,3 @@ function ENPSScore_ScaleDistributionView() {
     }
     return html;
 }
-

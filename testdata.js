@@ -1487,21 +1487,21 @@ if (meta == null) { // && !Main_IsProduction()) {
 				"N51_SD03": {
 					"1": {
 						"Title": "Share the big picture",
-						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy to your business unit and team’s strategy and goals.​"
+						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy toÂ your business unit and teamâ€™s strategy and goals.â€‹"
 					},
 					"2": {
 						"Title": "Align individual and company targets",
-						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company’s overall goals and strategy."
+						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the companyâ€™sÂ overall goals and strategy."
 					}
 				},
 				"N51_PE01": {
 					"1": {
 						"Title": "Share the big picture",
-						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy to your business unit and team’s strategy and goals.​"
+						"Label": "Set frequent team meetings and start with a Strategy Section in the agenda. \nExplain the current strategy and goals of the company and relate the larger strategy toÂ your business unit and teamâ€™s strategy and goals.â€‹"
 					},
 					"2": {
 						"Title": "Align individual and company targets",
-						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the company’s overall goals and strategy."
+						"Label": "Check in on your team member's performance on a regular basis. \nIn the initial meeting, agree clear goals for the employee to achieve and make sure they connect to the companyâ€™sÂ overall goals and strategy."
 					},
 					"3": {
 						"Title": "Stay alert",
@@ -29915,68 +29915,74 @@ if (data == null && !Main_IsProduction() ) {
 
 	data.Filters.IsTestData = true;
 
+
+
+	// NORMS-EP
+	data['NORMS-EP'] = {"AllCompany_A_17TO19_Avg":{"N":4442345,"Dist":{"Effective":46,"Frustrated":10,"Detached":14,"Ineffective":30}},"G10_A_17TO19_Avg":{"N":91652,"Dist":{"Effective":48,"Frustrated":10,"Detached":15,"Ineffective":27}},"G15_A_17TO19_Avg":{"N":234723,"Dist":{"Effective":46,"Frustrated":9,"Detached":13,"Ineffective":31}},"G20_A_17TO19_Avg":{"N":400939,"Dist":{"Effective":44,"Frustrated":10,"Detached":14,"Ineffective":31}},"G25_A_17TO19_Avg":{"N":1477377,"Dist":{"Effective":45,"Frustrated":10,"Detached":14,"Ineffective":31}},"JPN_G25_A_17TO19_Avg":{"N":356618,"Dist":{"Effective":25,"Frustrated":12,"Detached":12,"Ineffective":51}},"GBR_G25_A_17TO19_Avg":{"N":73803,"Dist":{"Effective":39,"Frustrated":11,"Detached":15,"Ineffective":35}},"G30_A_17TO19_Avg":{"N":651803,"Dist":{"Effective":48,"Frustrated":9,"Detached":14,"Ineffective":29}},"JPN_G30_A_17TO19_Avg":{"N":204661,"Dist":{"Effective":21,"Frustrated":13,"Detached":11,"Ineffective":56}},"GBR_G30_A_17TO19_Avg":{"N":33616,"Dist":{"Effective":41,"Frustrated":9,"Detached":16,"Ineffective":35}},"G35_A_17TO19_Avg":{"N":521616,"Dist":{"Effective":47,"Frustrated":9,"Detached":14,"Ineffective":30}},"GBR_G35_A_17TO19_Avg":{"N":91105,"Dist":{"Effective":42,"Frustrated":9,"Detached":14,"Ineffective":35}},"G40_A_17TO19_Avg":{"N":572173,"Dist":{"Effective":49,"Frustrated":10,"Detached":13,"Ineffective":28}},"ASIA_G40_A_17TO19_Avg":{"N":105795,"Dist":{"Effective":52,"Frustrated":8,"Detached":13,"Ineffective":26}},"EURO_G40_A_17TO19_Avg":{"N":243915,"Dist":{"Effective":41,"Frustrated":11,"Detached":14,"Ineffective":34}},"GBR_G40_A_17TO19_Avg":{"N":54863,"Dist":{"Effective":40,"Frustrated":12,"Detached":13,"Ineffective":35}},"USA_G40_A_17TO19_Avg":{"N":77746,"Dist":{"Effective":56,"Frustrated":11,"Detached":11,"Ineffective":23}},"G45_A_17TO19_Avg":{"N":148478,"Dist":{"Effective":47,"Frustrated":10,"Detached":16,"Ineffective":26}},"G50_A_17TO19_Avg":{"N":193761,"Dist":{"Effective":53,"Frustrated":9,"Detached":13,"Ineffective":25}},"G55_A_17TO19_Avg":{"N":119967,"Dist":{"Effective":41,"Frustrated":11,"Detached":15,"Ineffective":34}},"G99_A_17TO19_Avg":{"N":3043,"Dist":{"Effective":45,"Frustrated":13,"Detached":12,"Ineffective":30}},"X9000_A_17TO19_Avg":{"N":1990777,"Dist":{"Effective":46,"Frustrated":10,"Detached":14,"Ineffective":30}},"NORAM_X9000_A_17TO19_Avg":{"N":199191,"Dist":{"Effective":50,"Frustrated":12,"Detached":12,"Ineffective":27}},"EURO_X9000_A_17TO19_Avg":{"N":542847,"Dist":{"Effective":41,"Frustrated":10,"Detached":16,"Ineffective":33}},"JPN_X9000_A_17TO19_Avg":{"N":446092,"Dist":{"Effective":24,"Frustrated":12,"Detached":12,"Ineffective":52}},"GBR_X9000_A_17TO19_Avg":{"N":69069,"Dist":{"Effective":38,"Frustrated":11,"Detached":15,"Ineffective":36}},"USA_X9000_A_17TO19_Avg":{"N":175090,"Dist":{"Effective":49,"Frustrated":12,"Detached":12,"Ineffective":27}},"X9001_A_17TO19_Avg":{"N":389219,"Dist":{"Effective":47,"Frustrated":10,"Detached":13,"Ineffective":30}},"NORAM_X9001_A_17TO19_Avg":{"N":67906,"Dist":{"Effective":50,"Frustrated":11,"Detached":11,"Ineffective":28}},"USA_X9001_A_17TO19_Avg":{"N":57679,"Dist":{"Effective":41,"Frustrated":13,"Detached":12,"Ineffective":34}},"G100_A_17TO19_Avg":{"N":91652,"Dist":{"Effective":48,"Frustrated":10,"Detached":15,"Ineffective":27}},"G150_A_17TO19_Avg":{"N":173135,"Dist":{"Effective":47,"Frustrated":9,"Detached":15,"Ineffective":29}},"G151_A_17TO19_Avg":{"N":61588,"Dist":{"Effective":46,"Frustrated":10,"Detached":12,"Ineffective":32}},"G200_A_17TO19_Avg":{"N":202145,"Dist":{"Effective":45,"Frustrated":11,"Detached":14,"Ineffective":30}},"G201_A_17TO19_Avg":{"N":198794,"Dist":{"Effective":44,"Frustrated":9,"Detached":14,"Ineffective":33}},"G250_A_17TO19_Avg":{"N":165983,"Dist":{"Effective":57,"Frustrated":9,"Detached":12,"Ineffective":21}},"G251_A_17TO19_Avg":{"N":562815,"Dist":{"Effective":46,"Frustrated":10,"Detached":14,"Ineffective":31}},"JPN_G251_A_17TO19_Avg":{"N":119698,"Dist":{"Effective":28,"Frustrated":12,"Detached":12,"Ineffective":48}},"GBR_G251_A_17TO19_Avg":{"N":14888,"Dist":{"Effective":37,"Frustrated":10,"Detached":15,"Ineffective":37}},"G252_A_17TO19_Avg":{"N":309001,"Dist":{"Effective":43,"Frustrated":10,"Detached":15,"Ineffective":32}},"JPN_G252_A_17TO19_Avg":{"N":90913,"Dist":{"Effective":22,"Frustrated":11,"Detached":12,"Ineffective":56}},"GBR_G252_A_17TO19_Avg":{"N":13081,"Dist":{"Effective":36,"Frustrated":12,"Detached":15,"Ineffective":37}},"G253_A_17TO19_Avg":{"N":90200,"Dist":{"Effective":40,"Frustrated":10,"Detached":14,"Ineffective":36}},"G254_A_17TO19_Avg":{"N":176279,"Dist":{"Effective":44,"Frustrated":10,"Detached":14,"Ineffective":32}},"GBR_G254_A_17TO19_Avg":{"N":16286,"Dist":{"Effective":34,"Frustrated":13,"Detached":16,"Ineffective":37}},"G300_A_17TO19_Avg":{"N":303974,"Dist":{"Effective":49,"Frustrated":8,"Detached":14,"Ineffective":29}},"G301_A_17TO19_Avg":{"N":330224,"Dist":{"Effective":44,"Frustrated":10,"Detached":15,"Ineffective":31}},"G350_A_17TO19_Avg":{"N":438797,"Dist":{"Effective":47,"Frustrated":11,"Detached":13,"Ineffective":28}},"EURO_G350_A_17TO19_Avg":{"N":82381,"Dist":{"Effective":39,"Frustrated":12,"Detached":14,"Ineffective":36}},"USA_G350_A_17TO19_Avg":{"N":148235,"Dist":{"Effective":54,"Frustrated":11,"Detached":11,"Ineffective":24}},"G351_A_17TO19_Avg":{"N":82819,"Dist":{"Effective":48,"Frustrated":7,"Detached":14,"Ineffective":31}},"G400_A_17TO19_Avg":{"N":377792,"Dist":{"Effective":48,"Frustrated":10,"Detached":13,"Ineffective":29}},"EURO_G400_A_17TO19_Avg":{"N":190398,"Dist":{"Effective":44,"Frustrated":10,"Detached":15,"Ineffective":30}},"MIDEGCC_G400_A_17TO19_Avg":{"N":18772,"Dist":{"Effective":51,"Frustrated":9,"Detached":12,"Ineffective":28}},"MIDE_G400_A_17TO19_Avg":{"N":19310,"Dist":{"Effective":50,"Frustrated":9,"Detached":12,"Ineffective":29}},"MIDENA_G400_A_17TO19_Avg":{"N":25599,"Dist":{"Effective":48,"Frustrated":9,"Detached":12,"Ineffective":31}},"ASIAPAC_G400_A_17TO19_Avg":{"N":70285,"Dist":{"Effective":49,"Frustrated":9,"Detached":13,"Ineffective":29}},"G401_A_17TO19_Avg":{"N":91029,"Dist":{"Effective":46,"Frustrated":11,"Detached":13,"Ineffective":31}},"G402_A_17TO19_Avg":{"N":88905,"Dist":{"Effective":51,"Frustrated":9,"Detached":13,"Ineffective":27}},"GBR_G402_A_17TO19_Avg":{"N":8818,"Dist":{"Effective":40,"Frustrated":12,"Detached":12,"Ineffective":36}},"USA_G402_A_17TO19_Avg":{"N":23750,"Dist":{"Effective":57,"Frustrated":10,"Detached":10,"Ineffective":23}},"G450_A_17TO19_Avg":{"N":148478,"Dist":{"Effective":47,"Frustrated":10,"Detached":16,"Ineffective":26}},"G500_A_17TO19_Avg":{"N":136181,"Dist":{"Effective":55,"Frustrated":10,"Detached":11,"Ineffective":23}},"G550_A_17TO19_Avg":{"N":26518,"Dist":{"Effective":38,"Frustrated":11,"Detached":14,"Ineffective":36}},"G551_A_17TO19_Avg":{"N":84732,"Dist":{"Effective":46,"Frustrated":9,"Detached":15,"Ineffective":30}},"G552_A_17TO19_Avg":{"N":8717,"Dist":{"Effective":38,"Frustrated":12,"Detached":15,"Ineffective":35}},"G1001_A_17TO19_Avg":{"N":59911,"Dist":{"Effective":46,"Frustrated":15,"Detached":13,"Ineffective":26}},"G1003_A_17TO19_Avg":{"N":29668,"Dist":{"Effective":46,"Frustrated":7,"Detached":17,"Ineffective":29}},"G1510_A_17TO19_Avg":{"N":11250,"Dist":{"Effective":39,"Frustrated":10,"Detached":15,"Ineffective":37}},"G2000_A_17TO19_Avg":{"N":179291,"Dist":{"Effective":47,"Frustrated":12,"Detached":14,"Ineffective":27}},"G2002_A_17TO19_Avg":{"N":17552,"Dist":{"Effective":40,"Frustrated":9,"Detached":13,"Ineffective":38}},"G2011_A_17TO19_Avg":{"N":35999,"Dist":{"Effective":42,"Frustrated":7,"Detached":15,"Ineffective":36}},"G2012_A_17TO19_Avg":{"N":151123,"Dist":{"Effective":48,"Frustrated":9,"Detached":14,"Ineffective":30}},"G2500_A_17TO19_Avg":{"N":99718,"Dist":{"Effective":58,"Frustrated":9,"Detached":12,"Ineffective":21}},"G2501_A_17TO19_Avg":{"N":60118,"Dist":{"Effective":57,"Frustrated":9,"Detached":12,"Ineffective":22}},"G2511_A_17TO19_Avg":{"N":314617,"Dist":{"Effective":51,"Frustrated":11,"Detached":12,"Ineffective":27}},"G2512_A_17TO19_Avg":{"N":72654,"Dist":{"Effective":44,"Frustrated":9,"Detached":14,"Ineffective":33}},"G2513_A_17TO19_Avg":{"N":17482,"Dist":{"Effective":45,"Frustrated":9,"Detached":15,"Ineffective":30}},"G2515_A_17TO19_Avg":{"N":97413,"Dist":{"Effective":43,"Frustrated":10,"Detached":15,"Ineffective":32}},"G2521_A_17TO19_Avg":{"N":169898,"Dist":{"Effective":42,"Frustrated":10,"Detached":13,"Ineffective":35}},"G2522_A_17TO19_Avg":{"N":25459,"Dist":{"Effective":46,"Frustrated":9,"Detached":18,"Ineffective":28}},"G2534_A_17TO19_Avg":{"N":21270,"Dist":{"Effective":44,"Frustrated":10,"Detached":14,"Ineffective":31}},"G2541_A_17TO19_Avg":{"N":38781,"Dist":{"Effective":46,"Frustrated":10,"Detached":13,"Ineffective":30}},"G2549_A_17TO19_Avg":{"N":89493,"Dist":{"Effective":41,"Frustrated":10,"Detached":14,"Ineffective":35}},"G3000_A_17TO19_Avg":{"N":191291,"Dist":{"Effective":48,"Frustrated":8,"Detached":15,"Ineffective":29}},"G3503_A_17TO19_Avg":{"N":49193,"Dist":{"Effective":45,"Frustrated":13,"Detached":14,"Ineffective":28}},"G3510_A_17TO19_Avg":{"N":26235,"Dist":{"Effective":55,"Frustrated":6,"Detached":14,"Ineffective":25}},"G4000_A_17TO19_Avg":{"N":218174,"Dist":{"Effective":49,"Frustrated":11,"Detached":11,"Ineffective":28}},"G4002_A_17TO19_Avg":{"N":87377,"Dist":{"Effective":54,"Frustrated":9,"Detached":11,"Ineffective":26}},"G4012_A_17TO19_Avg":{"N":13063,"Dist":{"Effective":44,"Frustrated":8,"Detached":14,"Ineffective":34}},"G4020_A_17TO19_Avg":{"N":16173,"Dist":{"Effective":60,"Frustrated":10,"Detached":10,"Ineffective":19}},"G4022_A_17TO19_Avg":{"N":23523,"Dist":{"Effective":49,"Frustrated":10,"Detached":12,"Ineffective":29}},"G4029_A_17TO19_Avg":{"N":33179,"Dist":{"Effective":51,"Frustrated":9,"Detached":13,"Ineffective":27}},"G4500_A_17TO19_Avg":{"N":57349,"Dist":{"Effective":47,"Frustrated":12,"Detached":16,"Ineffective":24}},"G5001_A_17TO19_Avg":{"N":136181,"Dist":{"Effective":55,"Frustrated":10,"Detached":11,"Ineffective":23}},"G5501_A_17TO19_Avg":{"N":10797,"Dist":{"Effective":37,"Frustrated":13,"Detached":15,"Ineffective":35}},"G5514_A_17TO19_Avg":{"N":4056,"Dist":{"Effective":43,"Frustrated":9,"Detached":16,"Ineffective":32}},"G5520_A_17TO19_Avg":{"N":1925,"Dist":{"Effective":36,"Frustrated":12,"Detached":15,"Ineffective":37}},"G5521_A_17TO19_Avg":{"N":5923,"Dist":{"Effective":38,"Frustrated":12,"Detached":16,"Ineffective":33}},"AFRIC_A_17TO19_Avg":{"N":81421,"Dist":{"Effective":48,"Frustrated":10,"Detached":13,"Ineffective":29}},"LATCSAMER_A_17TO19_Avg":{"N":229123,"Dist":{"Effective":56,"Frustrated":13,"Detached":9,"Ineffective":21}},"OCEAN_A_17TO19_Avg":{"N":101112,"Dist":{"Effective":45,"Frustrated":11,"Detached":14,"Ineffective":30}},"AFRICW_A_17TO19_Avg":{"N":4091,"Dist":{"Effective":47,"Frustrated":8,"Detached":18,"Ineffective":27}},"LATCCENT_A_17TO19_Avg":{"N":85971,"Dist":{"Effective":58,"Frustrated":10,"Detached":11,"Ineffective":20}},"AFRICE_A_17TO19_Avg":{"N":18604,"Dist":{"Effective":53,"Frustrated":8,"Detached":13,"Ineffective":26}},"AFRICN_A_17TO19_Avg":{"N":36000,"Dist":{"Effective":47,"Frustrated":11,"Detached":13,"Ineffective":28}},"AFRICS_A_17TO19_Avg":{"N":20683,"Dist":{"Effective":46,"Frustrated":11,"Detached":12,"Ineffective":31}},"NORAM_A_17TO19_Avg":{"N":762189,"Dist":{"Effective":50,"Frustrated":11,"Detached":12,"Ineffective":26}},"LATCCAR_A_17TO19_Avg":{"N":2711,"Dist":{"Effective":49,"Frustrated":12,"Detached":11,"Ineffective":28}},"ASIAE_A_17TO19_Avg":{"N":900666,"Dist":{"Effective":41,"Frustrated":9,"Detached":13,"Ineffective":37}},"ASIAS_A_17TO19_Avg":{"N":83456,"Dist":{"Effective":65,"Frustrated":7,"Detached":11,"Ineffective":17}},"ASIASE_A_17TO19_Avg":{"N":196818,"Dist":{"Effective":57,"Frustrated":7,"Detached":14,"Ineffective":22}},"EUROS_A_17TO19_Avg":{"N":238175,"Dist":{"Effective":42,"Frustrated":13,"Detached":11,"Ineffective":34}},"OCEANANZ_A_17TO19_Avg":{"N":100152,"Dist":{"Effective":45,"Frustrated":11,"Detached":14,"Ineffective":30}},"ASIA_A_17TO19_Avg":{"N":1368387,"Dist":{"Effective":50,"Frustrated":9,"Detached":13,"Ineffective":29}},"ASIAC_A_17TO19_Avg":{"N":9672,"Dist":{"Effective":59,"Frustrated":6,"Detached":16,"Ineffective":19}},"ASIAW_A_17TO19_Avg":{"N":173090,"Dist":{"Effective":53,"Frustrated":10,"Detached":12,"Ineffective":24}},"EURO_A_17TO19_Avg":{"N":1260108,"Dist":{"Effective":41,"Frustrated":11,"Detached":15,"Ineffective":33}},"EUROE_A_17TO19_Avg":{"N":369048,"Dist":{"Effective":43,"Frustrated":7,"Detached":19,"Ineffective":30}},"EURON_A_17TO19_Avg":{"N":415135,"Dist":{"Effective":40,"Frustrated":11,"Detached":15,"Ineffective":34}},"EUROW_A_17TO19_Avg":{"N":252327,"Dist":{"Effective":40,"Frustrated":12,"Detached":16,"Ineffective":32}},"AFRICSSAH_A_17TO19_Avg":{"N":45072,"Dist":{"Effective":49,"Frustrated":9,"Detached":13,"Ineffective":29}},"LATC_A_17TO19_Avg":{"N":319008,"Dist":{"Effective":56,"Frustrated":12,"Detached":11,"Ineffective":21}},"MIDEGCC_A_17TO19_Avg":{"N":101342,"Dist":{"Effective":55,"Frustrated":9,"Detached":12,"Ineffective":23}},"EUROBALT_A_17TO19_Avg":{"N":9297,"Dist":{"Effective":37,"Frustrated":6,"Detached":25,"Ineffective":32}},"EUROBRIT_A_17TO19_Avg":{"N":306975,"Dist":{"Effective":41,"Frustrated":11,"Detached":14,"Ineffective":34}},"EUROSCAN_A_17TO19_Avg":{"N":104287,"Dist":{"Effective":41,"Frustrated":12,"Detached":15,"Ineffective":31}},"MIDE_A_17TO19_Avg":{"N":108020,"Dist":{"Effective":55,"Frustrated":9,"Detached":12,"Ineffective":23}},"MIDENA_A_17TO19_Avg":{"N":144407,"Dist":{"Effective":54,"Frustrated":10,"Detached":12,"Ineffective":24}},"MIDEA_A_17TO19_Avg":{"N":212794,"Dist":{"Effective":52,"Frustrated":10,"Detached":13,"Ineffective":26}},"ASIAPAC_A_17TO19_Avg":{"N":1464563,"Dist":{"Effective":49,"Frustrated":9,"Detached":13,"Ineffective":29}},"ARG_A_17TO19_Avg":{"N":29504,"Dist":{"Effective":54,"Frustrated":12,"Detached":9,"Ineffective":25}},"AUS_A_17TO19_Avg":{"N":93149,"Dist":{"Effective":44,"Frustrated":12,"Detached":14,"Ineffective":30}},"AUT_A_17TO19_Avg":{"N":6490,"Dist":{"Effective":50,"Frustrated":11,"Detached":16,"Ineffective":23}},"BHR_A_17TO19_Avg":{"N":3157,"Dist":{"Effective":51,"Frustrated":10,"Detached":12,"Ineffective":27}},"BEL_A_17TO19_Avg":{"N":17837,"Dist":{"Effective":41,"Frustrated":13,"Detached":14,"Ineffective":32}},"BRA_A_17TO19_Avg":{"N":136131,"Dist":{"Effective":55,"Frustrated":14,"Detached":8,"Ineffective":23}},"BGR_A_17TO19_Avg":{"N":8400,"Dist":{"Effective":46,"Frustrated":5,"Detached":22,"Ineffective":28}},"CAN_A_17TO19_Avg":{"N":83322,"Dist":{"Effective":49,"Frustrated":11,"Detached":13,"Ineffective":27}},"CHL_A_17TO19_Avg":{"N":19503,"Dist":{"Effective":59,"Frustrated":14,"Detached":7,"Ineffective":20}},"CHN_A_17TO19_Avg":{"N":222564,"Dist":{"Effective":55,"Frustrated":8,"Detached":12,"Ineffective":26}},"TWN_A_17TO19_Avg":{"N":7827,"Dist":{"Effective":53,"Frustrated":8,"Detached":14,"Ineffective":25}},"COL_A_17TO19_Avg":{"N":10816,"Dist":{"Effective":67,"Frustrated":12,"Detached":7,"Ineffective":15}},"CRI_A_17TO19_Avg":{"N":2739,"Dist":{"Effective":61,"Frustrated":13,"Detached":9,"Ineffective":17}},"CZE_A_17TO19_Avg":{"N":21426,"Dist":{"Effective":37,"Frustrated":6,"Detached":25,"Ineffective":33}},"DNK_A_17TO19_Avg":{"N":13366,"Dist":{"Effective":41,"Frustrated":14,"Detached":15,"Ineffective":29}},"FIN_A_17TO19_Avg":{"N":31661,"Dist":{"Effective":47,"Frustrated":12,"Detached":16,"Ineffective":25}},"FRA_A_17TO19_Avg":{"N":107199,"Dist":{"Effective":39,"Frustrated":13,"Detached":14,"Ineffective":35}},"DEU_A_17TO19_Avg":{"N":74815,"Dist":{"Effective":42,"Frustrated":11,"Detached":17,"Ineffective":30}},"GRC_A_17TO19_Avg":{"N":17002,"Dist":{"Effective":49,"Frustrated":15,"Detached":10,"Ineffective":27}},"HKG_A_17TO19_Avg":{"N":13671,"Dist":{"Effective":39,"Frustrated":8,"Detached":17,"Ineffective":37}},"HUN_A_17TO19_Avg":{"N":9973,"Dist":{"Effective":40,"Frustrated":11,"Detached":15,"Ineffective":34}},"IND_A_17TO19_Avg":{"N":75962,"Dist":{"Effective":64,"Frustrated":8,"Detached":11,"Ineffective":17}},"IDN_A_17TO19_Avg":{"N":46125,"Dist":{"Effective":66,"Frustrated":8,"Detached":13,"Ineffective":13}},"IRL_A_17TO19_Avg":{"N":15686,"Dist":{"Effective":42,"Frustrated":10,"Detached":14,"Ineffective":34}},"ISR_A_17TO19_Avg":{"N":22146,"Dist":{"Effective":52,"Frustrated":13,"Detached":12,"Ineffective":23}},"ITA_A_17TO19_Avg":{"N":20574,"Dist":{"Effective":39,"Frustrated":14,"Detached":10,"Ineffective":37}},"JPN_A_17TO19_Avg":{"N":606028,"Dist":{"Effective":26,"Frustrated":11,"Detached":13,"Ineffective":50}},"KAZ_A_17TO19_Avg":{"N":9416,"Dist":{"Effective":59,"Frustrated":6,"Detached":16,"Ineffective":19}},"JOR_A_17TO19_Avg":{"N":5450,"Dist":{"Effective":56,"Frustrated":11,"Detached":10,"Ineffective":22}},"KOR_A_17TO19_Avg":{"N":47102,"Dist":{"Effective":35,"Frustrated":14,"Detached":16,"Ineffective":35}},"KWT_A_17TO19_Avg":{"N":13433,"Dist":{"Effective":61,"Frustrated":8,"Detached":11,"Ineffective":20}},"LTU_A_17TO19_Avg":{"N":3335,"Dist":{"Effective":43,"Frustrated":5,"Detached":26,"Ineffective":26}},"LUX_A_17TO19_Avg":{"N":1088,"Dist":{"Effective":44,"Frustrated":15,"Detached":12,"Ineffective":29}},"MYS_A_17TO19_Avg":{"N":51522,"Dist":{"Effective":52,"Frustrated":7,"Detached":16,"Ineffective":25}},"MUS_A_17TO19_Avg":{"N":10867,"Dist":{"Effective":52,"Frustrated":7,"Detached":12,"Ineffective":29}},"MEX_A_17TO19_Avg":{"N":78849,"Dist":{"Effective":58,"Frustrated":10,"Detached":11,"Ineffective":20}},"NLD_A_17TO19_Avg":{"N":21988,"Dist":{"Effective":39,"Frustrated":13,"Detached":14,"Ineffective":34}},"NZL_A_17TO19_Avg":{"N":12964,"Dist":{"Effective":43,"Frustrated":12,"Detached":15,"Ineffective":30}},"NOR_A_17TO19_Avg":{"N":17629,"Dist":{"Effective":50,"Frustrated":11,"Detached":14,"Ineffective":25}},"PAN_A_17TO19_Avg":{"N":1366,"Dist":{"Effective":50,"Frustrated":13,"Detached":14,"Ineffective":23}},"PER_A_17TO19_Avg":{"N":14841,"Dist":{"Effective":66,"Frustrated":9,"Detached":8,"Ineffective":17}},"PHL_A_17TO19_Avg":{"N":20485,"Dist":{"Effective":65,"Frustrated":7,"Detached":12,"Ineffective":17}},"POL_A_17TO19_Avg":{"N":83175,"Dist":{"Effective":37,"Frustrated":7,"Detached":19,"Ineffective":37}},"PRT_A_17TO19_Avg":{"N":28032,"Dist":{"Effective":40,"Frustrated":13,"Detached":12,"Ineffective":35}},"QAT_A_17TO19_Avg":{"N":5471,"Dist":{"Effective":60,"Frustrated":9,"Detached":13,"Ineffective":18}},"ROU_A_17TO19_Avg":{"N":26633,"Dist":{"Effective":49,"Frustrated":6,"Detached":18,"Ineffective":26}},"RUS_A_17TO19_Avg":{"N":155156,"Dist":{"Effective":53,"Frustrated":9,"Detached":16,"Ineffective":22}},"SAU_A_17TO19_Avg":{"N":42262,"Dist":{"Effective":53,"Frustrated":9,"Detached":12,"Ineffective":25}},"SRB_A_17TO19_Avg":{"N":5224,"Dist":{"Effective":57,"Frustrated":7,"Detached":12,"Ineffective":23}},"SGP_A_17TO19_Avg":{"N":12418,"Dist":{"Effective":47,"Frustrated":8,"Detached":15,"Ineffective":30}},"SVK_A_17TO19_Avg":{"N":8856,"Dist":{"Effective":40,"Frustrated":9,"Detached":23,"Ineffective":28}},"VNM_A_17TO19_Avg":{"N":22895,"Dist":{"Effective":65,"Frustrated":8,"Detached":11,"Ineffective":17}},"ZAF_A_17TO19_Avg":{"N":20269,"Dist":{"Effective":50,"Frustrated":11,"Detached":12,"Ineffective":27}},"ESP_A_17TO19_Avg":{"N":146420,"Dist":{"Effective":43,"Frustrated":14,"Detached":10,"Ineffective":32}},"SWE_A_17TO19_Avg":{"N":39393,"Dist":{"Effective":42,"Frustrated":12,"Detached":14,"Ineffective":32}},"CHE_A_17TO19_Avg":{"N":16658,"Dist":{"Effective":45,"Frustrated":14,"Detached":16,"Ineffective":26}},"THA_A_17TO19_Avg":{"N":35091,"Dist":{"Effective":53,"Frustrated":10,"Detached":16,"Ineffective":21}},"ARE_A_17TO19_Avg":{"N":33607,"Dist":{"Effective":63,"Frustrated":7,"Detached":12,"Ineffective":18}},"TUR_A_17TO19_Avg":{"N":37345,"Dist":{"Effective":49,"Frustrated":13,"Detached":12,"Ineffective":26}},"UKR_A_17TO19_Avg":{"N":48482,"Dist":{"Effective":53,"Frustrated":8,"Detached":18,"Ineffective":21}},"EGY_A_17TO19_Avg":{"N":21725,"Dist":{"Effective":49,"Frustrated":10,"Detached":12,"Ineffective":29}},"GBR_A_17TO19_Avg":{"N":290259,"Dist":{"Effective":41,"Frustrated":11,"Detached":14,"Ineffective":34}},"USA_A_17TO19_Avg":{"N":677429,"Dist":{"Effective":51,"Frustrated":11,"Detached":12,"Ineffective":26}},"HP_A_17TO19_Avg":{"N":402911,"Dist":{"Effective":55,"Frustrated":11,"Detached":12,"Ineffective":23}}};
 }
 
 
-var config = {
+if (!Main_IsProduction())
+	var config = {
 
 	ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p137805539801.aspx',
 	//ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
+		ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
 
-	Norms: {
-		Codes: [
-			'AllCompany_A_17TO19_Avg',
-			'HP_A_17TO19_Avg'
-		]
-	},
-
-	CurrentWave: '2020',
-	PreviousWave: '2019',
-
-	SigTest: {
-		Threshold: 1.96,
-		BackgroundColor: {
-			Enabled: true
+		Norms: {
+			HighPerformers: 'HP_A_17TO19_Avg',
+			Industry: 'AllCompany_A_17TO19_Avg'
 		},
-		Suffix: ' *'
-	},
 
-	comparators: [
-		'Internal.Wave:2019',
-		'External.IndustryBenchmark',
-		'External.HighPerformers'
-	],
+		CurrentWave: '2020',
+		PreviousWave: '2019',
 
-
-	EngagementDimensionId: "DIM_ENG",
-	EnablementDimensionId: "DIM_ENA",
-
-	styles: {
-		DistributionChartEnps: {
-			bgcolors: ['#77bc1f', 'orange', '#d30f1d'],
-			colors: ['white', 'black', 'white']
+		SigTest: {
+			Threshold: 1.96,
+			BackgroundColor: {
+				Enabled: true
+			},
+			Suffix: ' *'
 		},
-		DistributionChart: {
-			bgcolors: ['#77bc1f', '#e0e0e0', '#d30f1d'],
-			colors: ['white', 'black', 'white']
-		},
-		DistributionChart_EffectivenessProfile: {
-			bgcolors: ['#82C341', '#F99B1E', '#00B7F1', '#F03223'],
-			colors: ['white', 'white', 'white', 'white']
-		},
-		DistributionChart_onecolor: {
-			bgcolor: '#00b4eb', //'rgb(0, 180, 235)',
-			color: 'white'
-		}
-	},
 
-	ActionPlannerDateFormat: "yy-mm-dd",
-	LimitActionsPerPlan: 10
-};
+		comparators: [
+			'Internal.Wave:2019',
+			'External.IndustryBenchmark',
+			'External.HighPerformers'
+		],
+
+
+		EngagementDimensionId: "DIM_ENG",
+		EnablementDimensionId: "DIM_ENA",
+
+		styles: {
+			DistributionChartEnps: {
+				bgcolors: ['#77bc1f', 'orange', '#d30f1d'],
+				colors: ['white', 'black', 'white']
+			},
+			DistributionChart: {
+				bgcolors: ['#77bc1f', '#e0e0e0', '#d30f1d'],
+				colors: ['white', 'black', 'white']
+			},
+			DistributionChart_EffectivenessProfile: {
+				bgcolors: ['#82C341', '#F99B1E', '#00B7F1', '#F03223'],
+				colors: ['white', 'white', 'white', 'white']
+			},
+			DistributionChart_onecolor: {
+				bgcolor: '#00b4eb',
+				color: 'white'
+			}
+		},
+
+		ActionPlannerDateFormat: "yy-mm-dd",
+		LimitActionsPerPlan: 10
+	};
 
 // Designates which comparators should be checked by default
-if (!('comparators' in state.Parameters)) {
-	State_Set('comparators', config.comparators);
+if (!Main_IsProduction()) {
+	if (!('comparators' in state.Parameters)) {
+		State_Set('comparators', config.comparators);
+	}
 }
 
 if (!Main_IsProduction() && actions == null) {

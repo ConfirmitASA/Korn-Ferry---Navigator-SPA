@@ -5,7 +5,7 @@ function EffectivenessProfile_Page() {
 		Label: meta.Labels['EffectivenessProfile'].Title,
 
 		LeftPane: meta.Labels['EffectivenessProfile'].Label,
-		
+
 		RightPane: `
 		<div id="effectiveness-chart-container"></div>
 		`,
@@ -16,18 +16,6 @@ function EffectivenessProfile_Page() {
 	};
 
 }
-/*
-function detectRTL() {
-	var elem = document.getElementsByTagName('html');
-	cs = window.getComputedStyle(elem[0], null).getPropertyValue('direction');
-	if (cs == 'rtl') {
-	   return true;
-	} else {
-	   return false;
-	}
-}
-var detectRTL = detectRTL();
-*/
 
 function EffectivenessProfile_Render() {
 	var o = [];
@@ -58,7 +46,6 @@ function EffectivenessProfile_Render() {
 	);
 
 
-
 	$('.effectiveness-profile-flip-card-front').addClass('backface-visible');
 	$('.effectiveness-profile-flip-card-back').addClass('backface-hidden');
 
@@ -70,24 +57,23 @@ function EffectivenessProfile_Render() {
 	EffectivenessProfile_DrawTileChart('bottomright-chart', chartData.Frustrated);
 
 	EffectivenessProfile_ShowQuadrantChart();
-
 	EffectivenessProfile_QuadrantCallout('bottomright', {
-		Text: meta.EffectivenessProfileTexts.Frustrated,
+		Text: meta.Labels['EffectivenessProfileTexts.Frustrated'].Label,
 		Left: meta.RTL ? -45 : 590,
 		Top: 410
 	});
 	EffectivenessProfile_QuadrantCallout('topright', {
-		Text: meta.EffectivenessProfileTexts.MostEffective,
+		Text: meta.Labels['EffectivenessProfileTexts.MostEffective'].Label,
 		Left: meta.RTL ? -45 : 590,
 		Top: 40
 	});
 	EffectivenessProfile_QuadrantCallout('bottomleft', {
-		Text: meta.EffectivenessProfileTexts.LeastEffective,
+		Text: meta.Labels['EffectivenessProfileTexts.LeastEffective'].Label,
 		Left: meta.RTL ? 590 : -45,
 		Top: 410
 	});
 	EffectivenessProfile_QuadrantCallout('topleft', {
-		Text: meta.EffectivenessProfileTexts.Detached,
+		Text: meta.Labels['EffectivenessProfileTexts.Detached'].Label,
 		Left: meta.RTL ? 590 : -45,
 		Top: 40
 	});
@@ -293,9 +279,6 @@ function EffectivenessProfile_GetCurrentWaveDataWithFilter() {
 function EffectivenessProfile_ComparatorsData_WithFilter() {
 	var comparators = Main_CompactComparatorSet(); // State_Get('comparators');
 
-	/*console.log('ep comparators');
-	console.log(comparators);*/
-
 	// Look up trend data for internal comparators
 	var comparators_data = {};
 
@@ -305,7 +288,7 @@ function EffectivenessProfile_ComparatorsData_WithFilter() {
 		var type = parts[0]; // "Internal" or "External"
 
 		var node_id;
-		var wave_id; 
+		var wave_id;
 
 		switch ( type ) {
 
@@ -328,25 +311,24 @@ function EffectivenessProfile_ComparatorsData_WithFilter() {
 						wave_id = x;
 						node_id = data.User.PersonalizedReportBase;
 				}
-				
+
 				var ep_key = Main_GetKeyWithFilter('EP', wave_id, node_id);
 
 				/*console.log('ep comparators ep_key');
 				console.log(ep_key);*/
 
 				comparators_data[ comparator_id ] = data[ep_key];
-	
+
 				break;
 
-
 			case "External":
-				// not yet supported
+				var name = parts[1];
+				var code = config.Norms[name]; // ['AllCompany_A_17TO19_Avg'];
+				comparators_data[ comparator_id ] = data['NORMS-EP'][code];
+
 				break;
 		}
 	}
-
-	/*console.log('ep comparators data');
-	console.log(comparators_data);*/
 
 	return comparators_data;
 }
@@ -423,7 +405,7 @@ function EffectivenessProfile_GetChartData() {
 		chartData.LeastEffective.series.colors.push('#C0C0C0');
 		chartData.Detached.series.colors.push('#C0C0C0');
 		chartData.Frustrated.series.colors.push('#C0C0C0');
-		chartData.MostEffective.series.colors.push('#C0C0C0');		
+		chartData.MostEffective.series.colors.push('#C0C0C0');
 	}
 
 	return chartData;
@@ -460,7 +442,7 @@ function EffectivenessProfile_DrawTileChart(tileId, chartData) {
 			title: {
 				text: ''
 			},
-			
+
 			stackLabels: {
 				useHTML: true,
 				enabled: true,
@@ -468,25 +450,25 @@ function EffectivenessProfile_DrawTileChart(tileId, chartData) {
 					fontSize: '12px'
 				}
 			}
-			
+
 		},
 		legend: {
 			enabled: false
 		},
-		
+
 		plotOptions: {
 			series: {
 				stacking: 'normal',
 				colorByPoint: true
 			},
 		},
-		
+
 		tooltip: {
 			enabled: false
 		},
 		series: [
-			chartData.series	
-	   ]
+			chartData.series
+		]
 	});
 
 }

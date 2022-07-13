@@ -290,15 +290,8 @@ function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartDa
                 title: {
                     text: ''
                 },
-
-                stackLabels: {
-                    useHTML: true,
-                    enabled: true,
-                    style: {
-                        fontSize: '14px'
-                    }
-                }
             },
+
             legend: {
                 enabled: false
             },
@@ -309,7 +302,11 @@ function ActionsStatistics_DrawCreatedDateByPlanCountsChart(containerId, chartDa
                 line: {
                     color: '#77bc1f',
                     dataLabels: {
-                        enabled: true
+                        useHTML: true,
+                        enabled: true,
+                        style: {
+                            fontSize: '12px'
+                        }
                     },
                     enableMouseTracking: false
                 }
