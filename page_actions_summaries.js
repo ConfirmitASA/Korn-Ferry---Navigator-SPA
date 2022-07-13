@@ -1,3 +1,9 @@
+const PLAN_FILTER = {
+	'own': 'ownplans',
+	'area': 'areaplans',
+	'shared': 'sharedplans'
+}
+
 function ActionsSummaries_Page() {
 	return 	{
 		Label: meta.Labels['ActionsSummaries'].Title,
@@ -40,7 +46,7 @@ function ActionsSummaries_Render() {
         </div>
     `);
 
-	State_Set ( 'actionplans', 'ownplans' );
+	State_Set ( 'actionplans', PLAN_FILTER.own );
 
 	let dt = ActionsSummaries_GetItemsTable();
 	o.push ( dt.Html );
@@ -59,6 +65,8 @@ function ActionsSummaries_Render() {
 	});
 
 	ActionsSummaries_AddTabSelectors();
+	ActionsSummaries_RenderClaimOwnershipConfirmationBox();
+	ActionsSummaries_HandleClaimOwnershipButtonClick();
 
 	$('#actionsplans-showactions-left').click(function () {
 		let switchElementValue = $(this).val();
@@ -94,12 +102,17 @@ function ActionsSummaries_GetItemsTable() {
 
 	let table_data = [];
 	let showActionsOn = State_Get('showactions') === 'On';
-
+	let claimOwnershipOn = !showActionsOn && ActionsSummaries_IsClaimOwnershipOn();
 
 	if(showActionsOn) {
 		headers = [
 			[
+				{ Label: "FocusAreaId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: "ItemOrderId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: "OwnerId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+
 				{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+
 				{ Label: meta.Labels["labels.PlanTitle"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.ActionTitle"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.ActionText"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
@@ -112,7 +125,12 @@ function ActionsSummaries_GetItemsTable() {
 	} else {
 		headers = [
 			[
+				{ Label: "FocusAreaId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: "ItemOrderId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+				{ Label: "OwnerId", ClassName: 'text-cell', rowspan: NofHeaderRows },
+
 				{ Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
+
 				{ Label: meta.Labels["labels.NameHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.AreaHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
 				{ Label: meta.Labels["labels.NotesHeader"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows },
@@ -123,20 +141,37 @@ function ActionsSummaries_GetItemsTable() {
 				{ Label: meta.Labels["labels.NOfActions"].Label, ClassName: 'text-cell', rowspan: NofHeaderRows }
 			]
 		];
+
+		if(claimOwnershipOn) {
+			headers[0].push(
+				{ Label: meta.Labels['labels.Action'].Label, ClassName: 'numeric-cell', rowspan: NofHeaderRows }
+			)
+		}
+
 		table_data = ActionsSummaries_GetPlansTableData();
 	}
 
-	var hideColumns = [0];
+	var hideColumns = [0, 1, 2, 3];
+	let disableOrderingColumns = [];
+	if(claimOwnershipOn) {
+		disableOrderingColumns.push(headers[0].length - 1);
+	}
 	let columnSettings = `
         'order': [[ 5, 'asc' ]],
         'searchHighlight': true,
 		'columnDefs': [
-			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false }
+			{ 'targets': [ ${hideColumns.join(',')} ], 'visible': false },
+			{ 'targets': [ ${disableOrderingColumns.join(',')} ], 'orderable': false }
 		],
     `;
 
 	let exportColumns = [];
-	for (var k = 0; k < headers[0].length; k++) exportColumns.push(k);
+	for (var k = 3; k < headers[0].length; k++) exportColumns.push(k);
+
+	//do not export claim ownership button
+	if(claimOwnershipOn) {
+		exportColumns.pop();
+	}
 
 	let view_name = Main_GetPageLabel ('#submenuitem-GroupExplore-ActionsSummaries'); /* +
     ' - ' +
@@ -180,7 +215,12 @@ function ActionsSummaries_GetPlansTableData() {
 		if (ActionsSummaries_IsPlanToShow(area)) {
 			let label = area.isDimension ? meta.Dimensions[focusAreaId].Label : meta.Items[focusAreaId].Label;
 			rowdata = [
+				{Label: area.itemId, ClassName: 'text-cell'},
+				{Label: area.itemOrderId, ClassName: 'text-cell'},
+				{Label: area.ownerId, ClassName: 'text-cell'},
+
 				{Label: label, ClassName: 'text-cell'},
+
 				{Label: area.planName, ClassName: 'text-cell'},
 				{Label: meta.Hierarchy.Map[area.planNode].Label, ClassName: 'text-cell'},
 				{Label: area.planNotes, ClassName: area.planNotes.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
@@ -196,6 +236,18 @@ function ActionsSummaries_GetPlansTableData() {
 					ClassName: 'text-cell'
 				},
 			];
+			if(ActionsSummaries_IsClaimOwnershipOn()) {
+				let actionButton = `<div class="action-cell">
+									<div class="action-cell-content"></div>
+								</div>`;
+				if(!FocusAreas_IsOwnFocusArea(area)) {
+					actionButton = `<div class="action-cell">
+									<div class="action-cell-content claim-ownership-icon"></div>
+								</div>`;
+				}
+
+				rowdata.push({ Label: actionButton, ClassName: 'numeric-cell claim-ownership-cell' });
+			}
 			tableData.push(rowdata);
 		}
 	}
@@ -221,7 +273,12 @@ function ActionsSummaries_GetActionsTableData() {
 
 			for (let action in actions) {
 				rowdata = [
+					{Label: area.itemId, ClassName: 'text-cell'},
+					{Label: area.itemOrderId, ClassName: 'text-cell'},
+					{Label: area.ownerId, ClassName: 'text-cell'},
+
 					{Label: label, ClassName: 'text-cell'},
+
 					{Label: area.planName, ClassName: 'text-cell'},
 					{Label: actions[action].actionTitle, ClassName: actions[action].actionTitle.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
 							if (actions[action].actionTitle.length <= 30) delete this.longstring;
@@ -248,9 +305,9 @@ function ActionsSummaries_IsPlanToShow(actionPlan) {
 
 	return actionPlan.planIsSubmitted &&
 		(
-			(plansFilter=='ownplans' && actionPlan.ownerId === data.User.UserId) ||
-			(plansFilter=='areaplans' && true) ||
-			(plansFilter=='sharedplans' && actionPlan.planIsShared)
+			(plansFilter === PLAN_FILTER.own && actionPlan.ownerId === data.User.UserId) ||
+			(plansFilter === PLAN_FILTER.area && true) ||
+			(plansFilter === PLAN_FILTER.shared && actionPlan.planIsShared)
 		);
 }
 
@@ -281,17 +338,17 @@ function ActionsSummaries_CreateTabLink(id, text, onClick) {
 }
 
 function ActionsSummaries_OwnPlans_OnClick() {
-	State_Set ( 'actionplans', 'ownplans' );
+	State_Set ( 'actionplans', PLAN_FILTER.own );
 	ActionsSummaries_UpdateItemsTable();
 }
 
 function ActionsSummaries_AreaPlans_OnClick() {
-	State_Set ( 'actionplans', 'areaplans' );
+	State_Set ( 'actionplans', PLAN_FILTER.area );
 	ActionsSummaries_UpdateItemsTable();
 }
 
 function ActionsSummaries_SharedPlans_OnClick() {
-	State_Set ( 'actionplans', 'sharedplans' );
+	State_Set ( 'actionplans', PLAN_FILTER.shared );
 	ActionsSummaries_UpdateItemsTable();
 }
 
@@ -322,10 +379,82 @@ function ActionsSummaries_UpdateItemsTable() {
 	}
 
 	ActionsSummaries_AddTabSelectors();
+	ActionsSummaries_HandleClaimOwnershipButtonClick();
 }
 
 
 function dateToMillis(date) {
 	moment.defaultFormat = "ddd MMM DD YYYY";
 	return moment(date, moment.defaultFormat).toDate().getTime()
+}
+
+function ActionsSummaries_RenderClaimOwnershipConfirmationBox() {
+	const confirmationBoxHTML =
+		`<div class="confirmation_content">
+			<div class="confirmation_text">${meta.Labels['labels.ClaimOwnershipConfirmation'].Label}</div>
+			<div class="confirmation_controls">
+				<div class="confirmation-button confirmation-button__agree">${meta.Labels['buttons.Yes'].Label}</div>
+				<div class="confirmation-button confirmation-button__close">${meta.Labels['buttons.No'].Label}</div>
+			</div>
+		</div>`;
+	$('#claim-ownership-confirmation-container').html(confirmationBoxHTML);
+}
+
+function ActionsSummaries_IsClaimOwnershipOn() {
+	let plansFilter = State_Get('actionplans');
+	if(plansFilter === PLAN_FILTER.area) {
+		return true;
+	}
+
+	return false;
+}
+
+function ActionsSummaries_HandleClaimOwnershipButtonClick() {
+	const table = $('#items-table-actionsplans').DataTable();
+	table.on('click', 'td.claim-ownership-cell', function (e) {
+		const correspondingRow = $(this).closest('tr');
+		const rowData = table.row(correspondingRow).data();
+
+		const focusAreaId = rowData['0'];
+		const itemOrderId = rowData['1'];
+		const ownerId = rowData['2'];
+		const planKey = FocusAreas_CreateFocusAreaKey(focusAreaId, itemOrderId, ownerId);
+
+		const onClaimOwnership = () => {
+			let planToClaimCopy = $.extend({}, FocusAreas_GetFocusArea(planKey));
+			planToClaimCopy.planActions = $.extend({}, FocusAreas_GetActionsInFocusArea(planKey));
+			//Add new plan with updated ownerId and itemOrderId
+			planToClaimCopy['ownerId'] = data.User.UserId;
+			planToClaimCopy['itemOrderId'] = FocusAreas_GetNextItemOrderId();
+			planToClaimCopy['planOwner'] = data.User.FirstName + ' ' + data.User.LastName;
+			FocusAreas_AddFocusArea(planToClaimCopy, true);
+
+			//Delete old plan - use initial plan key
+			FocusAreas_DeleteFocusArea(planKey);
+
+			//Update Summaries table
+			ActionsSummaries_UpdateItemsTable();
+		}
+
+		ActionsSummaries_HandleClaimOwnershipConfirmationButtonClick(onClaimOwnership);
+	});
+}
+
+function ActionsSummaries_HandleClaimOwnershipConfirmationButtonClick(onClaimOwnership) {
+	const confirmationBoxId = `claim-ownership-confirmation-container`;
+	const confirmationBox = $(`#${confirmationBoxId}`);
+	confirmationBox.removeClass('confirmation__hidden');
+
+	$(`#${confirmationBoxId} .confirmation-button__agree`).off('click').on('click', function (event) {
+		if (!!confirmationBox) {
+			$(confirmationBox).addClass('confirmation__hidden');
+			onClaimOwnership();
+		}
+	});
+
+	$(`#${confirmationBoxId}  .confirmation-button__close`).off('click').on('click', function (event) {
+		if (!!confirmationBox) {
+			$(confirmationBox).addClass('confirmation__hidden');
+		}
+	});
 }

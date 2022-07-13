@@ -1019,6 +1019,7 @@ if (meta == null) { // && !Main_IsProduction()) {
 			"labels.OwnPlans": {"Label": "Own Plans"},
 			"labels.AreaPlans": {"Label": "Area Plans"},
 			"labels.SharedPlans": {"Label": "Shared Plans"},
+			"labels.ClaimOwnershipConfirmation": {"Label": "The plan will be moved under your account and previous owner will no longer be able to edit the plan. Are you sure you want to claim ownership for this plan?"},
 			"labels.Owners": {"Label": "Owners"},
 			"labels.Actions": {"Label": "Actions"},
 			"labels.Plans": {"Label": "Plans"},
@@ -29919,7 +29920,8 @@ if (data == null && !Main_IsProduction() ) {
 
 var config = {
 
-	ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
+	ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p137805539801.aspx',
+	//ActionPlannerUrl: 'https://survey.us.confirmit.com/wix/p429903166529.aspx',
 
 	Norms: {
 		Codes: [

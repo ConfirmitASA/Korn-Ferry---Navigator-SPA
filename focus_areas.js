@@ -91,7 +91,7 @@ function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
 
         newPlan.planName = newPlanObj.planName ?? '';
         newPlan.planNotes = newPlanObj.planNotes ?? '';
-        newPlan.planActions = {}; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
+        newPlan.planActions = Object.keys(newPlanObj.planActions).length === 0 ? {} : newPlanObj.planActions; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
         newPlan.planStatus = newPlanObj.planStatus ?? 'NotStarted';
         newPlan.planDueDate = newPlanObj.planDueDate ?? dueDate.toDateString();
         newPlan.planCreatedDate = newPlanObj.planCreatedDate ?? (new Date()).toDateString();
@@ -104,7 +104,11 @@ function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
         FocusAreas.push(newPlan);
     }
     if(saveChanges) {
-        FocusAreas_SaveChanges(FocusAreas_GetFocusArea(planKey));
+        let addedFocusArea = FocusAreas_GetFocusArea(planKey);
+        FocusAreas_SaveChanges(addedFocusArea);
+        for (const actionId in FocusAreas_GetActionsInFocusArea(planKey)) {
+            FocusAreas_SaveChanges(addedFocusArea, FocusAreas_GetAction(planKey, actionId));
+        }
     }
 }
 
