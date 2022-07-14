@@ -433,6 +433,7 @@ function ActionsSummaries_HandleClaimOwnershipButtonClick() {
 
 			//Update Summaries table
 			ActionsSummaries_UpdateItemsTable();
+			FocusAreas_UpdateFocusAreasCounterSpan();
 		}
 
 		ActionsSummaries_HandleClaimOwnershipConfirmationButtonClick(onClaimOwnership);
