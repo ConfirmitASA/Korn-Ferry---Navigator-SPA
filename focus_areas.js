@@ -53,17 +53,6 @@ function FocusAreas_GetNextItemOrderId() {
     return (currentMax + 1).toString();
 }
 
-function FocusAreas_GetLastFocusAreaOrderId(planId, ownerId) {
-    const planOrderIds = FocusAreas.filter(plan => plan.itemId === planId && plan.ownerId === ownerId).map(plan => parseInt(plan.itemOrderId));
-    if(planOrderIds.length === 0) {
-        return '-1';
-    }
-
-    return planOrderIds.reduce(function(a, b) {
-        return Math.max(a, b);
-    }).toString();
-}
-
 function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
     const itemId = newPlanObj.itemId;
     const ownerId = newPlanObj.ownerId;
@@ -119,6 +108,16 @@ function FocusAreas_IsFocusAreaAlreadyAdded(planKey) {
     return  false;
 }
 
+function FocusAreas_GetSelectedItem(focusAreaId) {
+    let ownPlans = FocusAreas_GetOwnFocusAreas();
+    let selectedItems = ownPlans.filter(plan => plan.itemId === focusAreaId && !plan.planIsSubmitted); //we expect it to have exactly one item
+    if(selectedItems.length !== 0) {
+        return selectedItems[0];
+    } else {
+        return null;
+    }
+}
+
 function FocusAreas_IsItemSelected(focusAreaId) {
     let ownPlans = FocusAreas_GetOwnFocusAreas();
     return ownPlans.filter(plan => plan.itemId === focusAreaId && !plan.planIsSubmitted).length > 0;
@@ -141,8 +140,13 @@ function FocusAreas_DeleteFocusArea(planKey) {
 
 function FocusAreas_RemoveSelectedFocusArea(focusAreaId) {
     const ownerId = data.User.UserId;
-    const planKey = FocusAreas_CreateFocusAreaKey(focusAreaId, FocusAreas_GetLastFocusAreaOrderId(focusAreaId, ownerId), ownerId);
-    FocusAreas_DeleteFocusArea(planKey);
+    const selectedItem = FocusAreas_GetSelectedItem(focusAreaId);
+    if(selectedItem !== null) {
+        const planKey = FocusAreas_CreateFocusAreaKey(focusAreaId, selectedItem.itemOrderId, ownerId);
+        FocusAreas_DeleteFocusArea(planKey);
+    } else {
+        throw new Error(`Item ${focusAreaId} you requested to delete does not exist in the Focus Areas list`);
+    }
 }
 
 function FocusAreas_GetFocusArea(planKey) {
@@ -228,7 +232,7 @@ function FocusAreas_AddActionToFocusArea(planKey, newActionObj) {
     if(!!plan) {
         plan.planActions[newActionObj.itemId] = newActionObj;
     } else {
-        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Rolled Up FocusAreas list`);
+        throw new Error(`Item ${planKey.itemId} you're trying to update an action plan for does not exist in the Focus Areas list`);
     }
 }
 
