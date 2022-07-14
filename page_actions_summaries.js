@@ -221,7 +221,7 @@ function ActionsSummaries_GetPlansTableData() {
 
 				{Label: label, ClassName: 'text-cell'},
 
-				{Label: area.planName, ClassName: 'text-cell'},
+				{Label: area.planName, ClassName: 'text-cell nontruncate'},
 				{Label: meta.Hierarchy.Map[area.planNode].Label, ClassName: 'text-cell'},
 				{Label: area.planNotes, ClassName: area.planNotes.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
 						if (area.planNotes.length <= 30) delete this.longstring;
@@ -230,7 +230,7 @@ function ActionsSummaries_GetPlansTableData() {
 				{Label: meta.Labels['labels.' + area.planStatus].Label, ClassName: 'text-cell'},
 				{Label: area.planDueDate, datasort: dateToMillis(area.planDueDate), ClassName: 'text-cell'},
 				{Label: area.planLastUpdatedDate, datasort: dateToMillis(area.planLastUpdatedDate), ClassName: 'text-cell'},
-				{Label: area.planOwner, ClassName: 'text-cell'},
+				{Label: area.planOwner, ClassName: 'text-cell nontruncate'},
 				{
 					Label: !!area.planActions ? Object.keys(area.planActions).length : 0,
 					ClassName: 'text-cell'
@@ -279,18 +279,15 @@ function ActionsSummaries_GetActionsTableData() {
 
 					{Label: label, ClassName: 'text-cell'},
 
-					{Label: area.planName, ClassName: 'text-cell'},
-					{Label: actions[action].actionTitle, ClassName: actions[action].actionTitle.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
-							if (actions[action].actionTitle.length <= 30) delete this.longstring;
-							return actions[action].actionTitle;
-						}},
+					{Label: area.planName, ClassName: 'text-cell nontruncate'},
+					{Label: actions[action].actionTitle, ClassName: 'text-cell nontruncate'},
 					{Label: actions[action].actionText, ClassName: actions[action].actionText.length > 30 ? 'text-cell truncate' : 'text-cell', get longstring() {
 							if (actions[action].actionText.length <= 30) delete this.longstring;
 							return actions[action].actionText;
 						}},
 					{Label: meta.Labels['labels.' + actions[action].actionStatus].Label, ClassName: 'text-cell'},
 					{Label: actions[action].actionDueDate, datasort: dateToMillis(actions[action].actionDueDate), ClassName: 'text-cell'},
-					{Label: actions[action].actionOwner, ClassName: 'text-cell'}
+					{Label: actions[action].actionOwner, ClassName: 'text-cell nontruncate'}
 				];
 				tableData.push(rowdata);
 			}
