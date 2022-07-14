@@ -91,7 +91,7 @@ function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
 
         newPlan.planName = newPlanObj.planName ?? '';
         newPlan.planNotes = newPlanObj.planNotes ?? '';
-        newPlan.planActions = Object.keys(newPlanObj.planActions).length === 0 ? {} : newPlanObj.planActions; //{actionId, orderId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
+        newPlan.planActions = newPlanObj.hasOwnProperty('planActions') ? newPlanObj.planActions : {}; //{actionId, actionTitle, actionText, actionStatus, actionDueDate, actionOwner, isFromRecommended}
         newPlan.planStatus = newPlanObj.planStatus ?? 'NotStarted';
         newPlan.planDueDate = newPlanObj.planDueDate ?? dueDate.toDateString();
         newPlan.planCreatedDate = newPlanObj.planCreatedDate ?? (new Date()).toDateString();
