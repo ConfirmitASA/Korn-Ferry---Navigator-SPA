@@ -310,7 +310,7 @@ function FocusAreas_SetValues() {
     if (actions.Rollup === null) return;
     let dataObj = actions.Rollup;
 
-    let allActions = {};
+    let allActions = [];
     for (let i = 0; i < dataObj.length; i++) {
         let dataObjItem = dataObj[i];
         if (dataObjItem['active_flag'].toString() === '1') {
@@ -355,17 +355,16 @@ function FocusAreas_SetValues() {
 
                 actionObj['itemId'] = dataObjItem['item_id'];
 
-                allActions[itemId] = {
+                allActions.push({
                     actionObj: actionObj,
                     planKey: FocusAreas_CreateFocusAreaKey(dataObjItem['focus_area_id'], dataObjItem['item_order_id'], dataObjItem['owner_id'])
-                }
+                });
             }
         }
     }
 
     //now, after all saved plans were added, add actions
-    for (let actionId in allActions) {
-        let actionItem = allActions[actionId];
+    for (let actionItem of allActions) {
         FocusAreas_AddActionToFocusArea(actionItem.planKey, actionItem.actionObj);
     }
 }
