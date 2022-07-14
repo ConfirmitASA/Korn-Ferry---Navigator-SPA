@@ -423,10 +423,12 @@ function ActionsSummaries_HandleClaimOwnershipButtonClick() {
 		const onClaimOwnership = () => {
 			let planToClaimCopy = $.extend({}, FocusAreas_GetFocusArea(planKey));
 			planToClaimCopy.planActions = $.extend({}, FocusAreas_GetActionsInFocusArea(planKey));
-			//Add new plan with updated ownerId and itemOrderId
+			//Add new plan with updated ownerId
 			planToClaimCopy['ownerId'] = data.User.UserId;
+			//Update the fields with relevant values
 			planToClaimCopy['itemOrderId'] = FocusAreas_GetNextItemOrderId();
 			planToClaimCopy['planOwner'] = data.User.FirstName + ' ' + data.User.LastName;
+			planToClaimCopy['planLastUpdatedDate'] = (new Date()).toDateString();
 			FocusAreas_AddFocusArea(planToClaimCopy, true);
 
 			//Delete old plan - use initial plan key
