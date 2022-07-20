@@ -421,16 +421,8 @@ function ActionFocusAreas_HandleProgressBar(planColumnForProgressBar) {
 
 function ActionFocusAreas_GetRecommendedActions(focusAreaId) {
     // focusAreaId is a string that can be either a dimension reference ("DIM_N51"), or an item reference ("TR04")
-    let recommendedActionId = '';
+    let recommendedActionId = focusAreaId;
 
-    if(focusAreaId.split('_')[0] === 'DIM') {
-        //this is a dimension
-        recommendedActionId = focusAreaId;
-    } else {
-        //this is an item
-        let dimensionId = Main_GetDimensionIdByItemId(focusAreaId).replace('DIM_', '');
-        recommendedActionId = dimensionId + '_' + focusAreaId;
-    }
     const recommendedActionsObj = meta.Labels.Actions[recommendedActionId];
     let recommendedActions = [];
     for (const key in recommendedActionsObj) {
