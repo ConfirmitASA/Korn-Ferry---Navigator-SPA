@@ -203,6 +203,10 @@ function FocusAreas_GetOwnFocusAreas() {
     return FocusAreas_GetFocusAreas().filter(plan => FocusAreas_IsOwnFocusArea(plan));
 }
 
+function FocusAreas_GetRolledUpFocusAreas() {
+    return FocusAreas_GetFocusAreas().filter(plan => plan.isRolledUp);
+}
+
 function FocusAreas_GetAction(planKey, actionId) {
     let plan = FocusAreas_GetFocusArea(planKey);
     if(!!plan) {
