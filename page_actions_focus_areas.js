@@ -660,9 +660,9 @@ function ActionFocusAreas_HandleAddToActionPlanButtonClick(addActionButtons) {
         if(numberOfActions < 10) {
             let dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 14);
-
-            let metaActionId = actionId.split('_').slice(0, 2).join('_');
-            let metaActionOrderNumber = actionId.split('_')[2];
+            let idParts = actionId.split('_'); //for question: ['question_id', 'order_id'], for dimension: ['DIM", 'dimension_id', 'order_id']
+            let metaActionOrderNumber = idParts.pop();
+            let metaActionId = idParts.join('_');
             let newActionTitle = meta.Labels.Actions[metaActionId][metaActionOrderNumber].Title;
             let newActionText = meta.Labels.Actions[metaActionId][metaActionOrderNumber].Label;
 
