@@ -1,6 +1,9 @@
 #items-table-Demographic-Heatmap_filter {
     display: none;
 }
+#items-table-Demographic-Heatmap {
+    height: 100%;
+}
 #items-table-Demographic-Heatmap .dimension-row-cell {
     font-weight: bold;
 }
@@ -28,9 +31,6 @@
     left: 0px;
     margin-bottom: 20px;
 }
-#items-table-Demographic-Heatmap_wrapper {
-    overflow-x: scroll;
-}
 #items-table-Demographic-Heatmap_wrapper::-webkit-scrollbar-track {
     border-radius: 10px;
     background-color: #fff;
@@ -40,7 +40,6 @@
     background-color: #F5F5F5;
     height: 10px;
 }
-
 #items-table-Demographic-Heatmap_wrapper::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #d0d0d0;

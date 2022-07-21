@@ -110,15 +110,15 @@ function NonStandardQuestions_ItemsTable() {
 
         rowdata = [
             {Label: question.Answers[j].Label, ClassName: 'text-cell'},
-            {Label: formatter(n), ClassName: 'numeric-cell'},
+            {Label: formatter(n), datasort: n, ClassName: 'numeric-cell'},
             {Label: formatter(pct), ClassName: 'numeric-cell distribution-cell'},
-            {Label: Component_DistributionChartBar( pct ), datasort: pct,  ClassName: 'text-cell'}
+            {Label: Component_DistributionChartBar( pct ), ClassName: 'text-cell'}
         ];
         table_data.push(rowdata);
     }
 
     var columnSettings = `
-        'order': [[ 3, 'desc' ],[0, 'asc']],
+        'order': [[ 1, 'desc' ],[0, 'asc']],
         'columnDefs': [
             { 'targets': [1,2,3], type: 'numsort' }
         ],

@@ -7,13 +7,10 @@
     height: 40px;
     min-width: 100px;
     max-width: 300px;
-
     background-color: #FFFFFF;
     color: #121821;
     font: 400 1rem/1.28 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif;
-
     margin-right: 1px;
-
     border: none;
     border-radius: 5px 5px 0 0;
 }
@@ -24,7 +21,6 @@
     color: #FFFFFF;
     background-color: #77bc1f;
 }
-
 
 .truncate {
     white-space: nowrap;
@@ -45,6 +41,12 @@
     white-space: initial;
     display: inline-block;
     color: #121821;
+}
+.nontruncate {
+    word-break: break-word;
+    max-width: 200px;
+    width: 200px;
+    min-width: 200px;
 }
 
 .action-cell-content {

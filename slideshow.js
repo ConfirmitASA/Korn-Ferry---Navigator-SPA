@@ -268,8 +268,9 @@ function Slideshow_RenderKeyIndices() {
 
     var current_dimensions_key = Main_GetKeyWithFilter('DIMS', config.CurrentWave, data.User.PersonalizedReportBase);
     var current_dimensions = data[current_dimensions_key];
-    var comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
-
+    if (config.PreviousWave != null) {
+        var comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
+    }
     var comparators = Main_CompactComparatorSet();
     var comparators_data = Main_ComparatorsData_WithFilter();
 
@@ -278,7 +279,10 @@ function Slideshow_RenderKeyIndices() {
     for (var i = 0; i < metrics.length; i++) {
         var dimension_id = metrics[i];
         var current_score = current_dimensions[dimension_id].Dist.Fav;
-        var comparator_score = comparator_dimensions[dimension_id].Dist.Fav;
+        var comparator_score;
+
+        if (config.PreviousWave != null) comparator_score = comparator_dimensions[dimension_id].Dist.Fav;
+
         var scoreLabel = meta.Labels['labels.Favorable'].Label;
         var scoreValue = Utils_FormatPctOutput(current_score);
 
@@ -687,4 +691,3 @@ function Slideshow_AddItemToTable(itemId, is_all_dimensions_view, index) {
 
     return rowdata;
 }
-

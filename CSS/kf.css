@@ -167,12 +167,12 @@ p {
 }
 
 .menu,
-.menuitem { 
+.menuitem {
     display: inline-block;
     padding-right: 10px;
 }
 
-.logo { 
+.logo {
     display: inline-block;
     padding-right: 30px;
 }
@@ -361,7 +361,7 @@ b {
     top: -100px;
     z-index: -1;
     height: 200vh;
-  }
+}
 
 .greenarea {
     background-color: #000;
@@ -973,15 +973,15 @@ option {
 }
 
 .left-pane-content {
-    margin-bottom: 20px; 
-	width: 350px; 
-	max-width: 350px;
-	padding-right: 10px;
-	overflow: auto;
-	height: calc(100vh - 280px); 
-	font-size: 14px; 
-	font-weight: 300; 
-	line-height: 22px;
+    margin-bottom: 20px;
+    width: 350px;
+    max-width: 350px;
+    padding-right: 10px;
+    overflow: auto;
+    height: calc(100vh - 280px);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
 }
 
 .left-pane-content > p:first-child {
@@ -1060,33 +1060,33 @@ option {
 }
 
 .switch-component {
-	position: relative;
-	display: flex;
-	align-items: stretch;
-	justify-content: stretch;
-	max-width: 500px;
-	width: fit-content;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    max-width: 500px;
+    width: fit-content;
 }
 
 .switch-component input[type='radio'] {
-	display: none;
+    display: none;
 }
 
 .switch-component label {
-	padding: 5px 10px;
-	cursor: pointer;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 .switch-component .label-checked {
-	background-color: #77bc1f;
-	color: #ffffff;
+    background-color: #77bc1f;
+    color: #ffffff;
 }
 .switch-component label:not(.label-checked) {
     background-color: #fff;
     border: 1px solid #77bc1f;
 }
 select {
-	font-family: "Gotham A", "Gotham B", sans-serif !important;
-	border: 1px solid #77bc1f;
+    font-family: "Gotham A", "Gotham B", sans-serif !important;
+    border: 1px solid #77bc1f;
     max-width: 500px;
 }
 .items-table th {
@@ -1113,12 +1113,12 @@ select {
 
 .table-barchart {
     display: inline-block;
-	height: 25px;
-	text-align: center; 
+    height: 25px;
+    text-align: center;
     /*font-size: smaller;*/
 }
 .table-barchart span {
-    position: relative; 
+    position: relative;
     top: 4px;
 }
 
@@ -1138,7 +1138,7 @@ select {
 }
 
 .dropshadow {
-    filter: drop-shadow(0 1rem 2rem #d0d0d0);        
+    filter: drop-shadow(0 1rem 2rem #d0d0d0);
 }
 .numeric-cell .action-button {
     background-color: #778899;
@@ -1193,45 +1193,45 @@ table.dataTable thead th {
     margin-right: 5px;
 }
 .table_add-item-plus-circle__thic {
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z'/%3E%3C/svg%3E");
-filter: invert(12%) sepia(96%) saturate(4344%) hue-rotate(167deg) brightness(93%) contrast(103%);
-background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z'/%3E%3C/svg%3E");
+    filter: invert(12%) sepia(96%) saturate(4344%) hue-rotate(167deg) brightness(93%) contrast(103%);
+    background-repeat: no-repeat;
 }
 .table_add-item-plus-circle__thin {
-background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 52 52' style='enable-background:new 0 0 52 52%3B' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M26 0C11.664 0 0 11.663 0 26s11.664 26 26 26s26-11.663 26-26S40.336 0 26 0z M26 50C12.767 50 2 39.233 2 26S12.767 2 26 2s24 10.767 24 24S39.233 50 26 50z'/%3E%3Cpath d='M38.5 25H27V14c0-0.553-0.448-1-1-1s-1 0.447-1 1v11H13.5c-0.552 0-1 0.447-1 1s0.448 1 1 1H25v12c0 0.553 0.448 1 1 1s1-0.447 1-1V27h11.5c0.552 0 1-0.447 1-1S39.052 25 38.5 25z'/%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
-filter: invert(12%) sepia(96%) saturate(4344%) hue-rotate(167deg) brightness(93%) contrast(103%);
-background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 52 52' style='enable-background:new 0 0 52 52%3B' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M26 0C11.664 0 0 11.663 0 26s11.664 26 26 26s26-11.663 26-26S40.336 0 26 0z M26 50C12.767 50 2 39.233 2 26S12.767 2 26 2s24 10.767 24 24S39.233 50 26 50z'/%3E%3Cpath d='M38.5 25H27V14c0-0.553-0.448-1-1-1s-1 0.447-1 1v11H13.5c-0.552 0-1 0.447-1 1s0.448 1 1 1H25v12c0 0.553 0.448 1 1 1s1-0.447 1-1V27h11.5c0.552 0 1-0.447 1-1S39.052 25 38.5 25z'/%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+    filter: invert(12%) sepia(96%) saturate(4344%) hue-rotate(167deg) brightness(93%) contrast(103%);
+    background-repeat: no-repeat;
 }
 .table_remove-item-minus-circle {
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM168 232C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H168z'/%3E%3C/svg%3E");
-filter: invert(56%) sepia(96%) saturate(3277%) hue-rotate(149deg) brightness(94%) contrast(101%);
-background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM168 232C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H168z'/%3E%3C/svg%3E");
+    filter: invert(56%) sepia(96%) saturate(3277%) hue-rotate(149deg) brightness(94%) contrast(101%);
+    background-repeat: no-repeat;
 }
 .ap_add-items-plus-circle {
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z'/%3E%3C/svg%3E");
-filter: invert(56%) sepia(96%) saturate(3277%) hue-rotate(149deg) brightness(94%) contrast(101%);
-background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.1.1 by %40fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons  Inc. --%3E%3Cpath d='M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z'/%3E%3C/svg%3E");
+    filter: invert(56%) sepia(96%) saturate(3277%) hue-rotate(149deg) brightness(94%) contrast(101%);
+    background-repeat: no-repeat;
 }
 .action-button__selected {
-background-color: #00adbb!important;
-border: 1px solid #00adbb!important;
+    background-color: #00adbb!important;
+    border: 1px solid #00adbb!important;
 }
 #focusAreasCounter {
-position: relative;
-top: -13px;
-left: 5px;
-color: #ffffff;
-padding: 0px;
-border-radius: 50%;
-width: 23px;
-height: 23px;
-float: right;
-display: flex;
-justify-content: center;
-align-items: center;
+    position: relative;
+    top: -13px;
+    left: 5px;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .focus-areas-counter-visible {
-background-color: #00adbb;
+    background-color: #00adbb;
 }
 
 
@@ -1242,7 +1242,8 @@ background-color: #00adbb;
 
 /* sticky headers */
 .stickyHeaderWrapper {
-    height: 62vh;
+    min-height: 30vh;
+    max-height: 60vh;
     overflow-y: auto;
     width: 100%;
 }

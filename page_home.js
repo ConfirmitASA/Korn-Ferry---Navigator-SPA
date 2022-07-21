@@ -1,9 +1,8 @@
 // Home
 
-
-
 function Home_Render() {
 
+    /*
     var languages = {
         1: "Arabic",
         32772: "Chinese",
@@ -11,6 +10,16 @@ function Home_Render() {
         1046: "Portuguese",
         2058: "Spanish"
     };
+    */
+
+    // todo
+    var languages = {};
+    for (var prop in meta.Labels) {
+        if (prop.indexOf("languages.") != -1)  {
+            languages[prop.split('.')[1]] = meta.Labels[prop].Label;
+        }
+    }
+    console.log(languages);
 
     var o = [];
     for (var lang_id in languages) {
@@ -91,7 +100,7 @@ function Home_Render() {
         <div id="home-footer">
 
             <div style="margin-top: 30px; margin-bottom: 20px; font-size: 10px; color: white">
-                This report is also available in:
+                ${meta.Labels['labels.repLangs'].Label}
                 <div>
                     ${language_links}
                 </div>

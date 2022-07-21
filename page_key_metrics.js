@@ -52,9 +52,12 @@ function KeyMetrics_Render() {
 
         var current_score;
         var comparator_score;
+        var comparator_pct_distribution = {Fav: null, Neu: null, Unfav: null};
 
-        var comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
-        var comparator_pct_distribution = comparator_dimensions[ dimension_id ].Dist;
+        if (config.PreviousWave != null) {
+            var comparator_dimensions = Main_PreviousDimensionsData_WithFilter();
+            comparator_pct_distribution = comparator_dimensions[ dimension_id ].Dist;
+        }
 
         var key_metric = 'Distribution.Fav';
 
@@ -95,7 +98,6 @@ function KeyMetrics_Render() {
             scoreLabel = meta.Labels['labels.Favorable'].Label;
             scoreValue = -1; // score not currently available
         }
-
 
         var arrowClass = '';
         var vsTrendValue = Utils_Diff( current_score, comparator_score );
@@ -176,8 +178,11 @@ function KeyMetrics_Render() {
             }
         }
 
-        //var trend_indicator_description = meta.Labels["TrendIndicator"].Label + ' (vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label + ')'; 
-        var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
+        //var trend_indicator_description = meta.Labels["TrendIndicator"].Label + ' (vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label + ')';
+        var trend_indicator_description;
+        if (config.PreviousWave != null) {
+            trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
+        }
 
         var more_button_text = meta.Labels['buttons.More'].Label;
 

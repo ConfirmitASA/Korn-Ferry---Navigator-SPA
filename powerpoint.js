@@ -131,7 +131,7 @@ function Pptx_Generator() {
 		background: {
 			color: 'FFFFFF',
 		},
-		// green_background2, green_gradient6, KF_logo_white, KF_text_logo 
+		// green_background2, green_gradient6, KF_logo_white, KF_text_logo
 		objects: [
 			{ image: { x: 0, y: 0, h: '100%', w: '100%', data: PPT_image_storage.green_background2 } },
 			{ image: { x: 0, y: 0, h: '100%', w: '100%', data: PPT_image_storage.green_gradient6 } },
@@ -627,11 +627,14 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	];
 
 	var comparator_id = 'Internal.Wave:' + config.PreviousWave;
-
+	var trend_indicator_description;
 	var dimensions_data = Main_CurrentDimensionsData_WithFilter();
 	var all_comparator_data = Main_ComparatorsData_WithFilter(null, true); // force reading of all comparators (even if not checked in the UI)
-	var comparator_dimensions_data = all_comparator_data[comparator_id].Dimensions; //todo: what if the trend comparator is not selected in the UI?
-	var trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
+	var comparator_dimensions_data;
+	if (config.PreviousWave != null) comparator_dimensions_data = all_comparator_data[comparator_id].Dimensions;
+
+
+	if (config.PreviousWave != null) trend_indicator_description = 'vs. ' + meta.Comparators['Internal.Wave:' + config.PreviousWave].Label;
 
 	let keyMetricsSlide = pptx.addSlide({
 		masterName: "WHITE",
@@ -705,7 +708,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	// ENGAGEMENT --------------------------------------------------------
 
 	var eng_score = dimensions_data[engDimensionId].Dist.Fav;
-	var comparator_eng_score = comparator_dimensions_data[engDimensionId].Dist.Fav;
+	var comparator_eng_score = comparator_dimensions_data !== undefined ? comparator_dimensions_data[engDimensionId].Dist.Fav : null;
 	var engDiff = Utils_Diff ( eng_score, comparator_eng_score );
 	let engHas_trend = !( eng_score === null || comparator_eng_score === null);
 
@@ -779,7 +782,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	// ENABLEMENT --------------------------------------------------------
 
 	var ena_score = dimensions_data[enaDimensionId].Dist.Fav;
-	var comparator_ena_score = comparator_dimensions_data[enaDimensionId].Dist.Fav;
+	var comparator_ena_score = comparator_dimensions_data !== undefined ? comparator_dimensions_data[enaDimensionId].Dist.Fav : null;
 	var enaDiff = Utils_Diff ( ena_score, comparator_ena_score );
 	let enaHas_trend = !( ena_score === null || comparator_ena_score === null);
 
@@ -853,7 +856,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 
 	var dimension_id = data.Metrics[2]; //.DimensionId;
 	var dimension_score = dimensions_data[ dimension_id ].Dist.Fav;
-	var comparator_dimension_score = comparator_dimensions_data[ dimension_id ].Dist.Fav;
+	var comparator_dimension_score = comparator_dimensions_data !== undefined ? comparator_dimensions_data[ dimension_id ].Dist.Fav : null;
 	var dimensionDiff = Utils_Diff ( dimension_score, comparator_dimension_score );
 	let dimensionHas_trend = !( dimension_score === null || comparator_dimension_score === null);
 
@@ -2163,8 +2166,7 @@ function Pptx_AddHowToReadYourResultsSlide(pptx) {
 
 	var comparators = Main_CompactComparatorSet();
 	var comparators_data = Main_ComparatorsData_WithFilter();
-
-	var NofComparators = comparators ? Math.max(comparators.length, 3) : 0;
+	var NofComparators = comparators ? comparators.length < 3 ? comparators.length : 3 : 0;
 	var NofHeaderRows = (NofComparators > 0) ? 2 : 1;
 
 	var headers = [
