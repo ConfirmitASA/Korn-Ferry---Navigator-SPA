@@ -89,6 +89,7 @@ function FocusAreas_AddFocusArea(newPlanObj, saveChanges = true) {
         newPlan.planNode = newPlanObj.planNode ?? data.User.PersonalizedReportBase;
         newPlan.planIsSubmitted = newPlanObj.planIsSubmitted ?? false;
         newPlan.planIsShared = newPlanObj.planIsShared ?? false;
+        newPlan.isRolledUp = newPlan.isRolledUp ?? true;
 
         FocusAreas.push(newPlan);
     }
@@ -315,14 +316,16 @@ function FocusAreas__handleTableActionIconClick(containerId) {
 }
 
 function FocusAreas_SetValues() {
-    if (actions.Rollup === null) return;
-    let dataObj = actions.Rollup;
+    //actions.Own contains own plans and shared plans (both are not affected by hierarchy filter)
+    //actions.Rollup contains filtered by hierarchy plans
+
+    if (actions.Own === null || actions.Rollup === null) return;
+    let dataObj = actions.Rollup.concat(actions.Own);
 
     let allActions = [];
     for (let i = 0; i < dataObj.length; i++) {
         let dataObjItem = dataObj[i];
         if (dataObjItem['active_flag'].toString() === '1') {
-            let itemId = dataObjItem['item_id'];
             if (dataObjItem['is_action'].toString() === '0') {
                 let planObj = {};
                 planObj['isDimension'] = dataObjItem['is_dimension'] !== "0";
@@ -346,6 +349,8 @@ function FocusAreas_SetValues() {
                 planObj['itemId'] = dataObjItem['item_id'];
                 planObj['ownerId'] = dataObjItem['owner_id'];
                 planObj['itemOrderId'] = dataObjItem['item_order_id'];
+
+                planObj['isRolledUp'] = actions.Rollup.filter(plan => plan === dataObjItem).length > 0;
 
                 planObj.planActions = {};
                 const planKey = FocusAreas_CreateFocusAreaKey(planObj.itemId, planObj.itemOrderId, planObj.ownerId);

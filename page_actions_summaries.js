@@ -302,8 +302,8 @@ function ActionsSummaries_IsPlanToShow(actionPlan) {
 
 	return actionPlan.planIsSubmitted &&
 		(
-			(plansFilter === PLAN_FILTER.own && actionPlan.ownerId === data.User.UserId) ||
-			(plansFilter === PLAN_FILTER.area && true) ||
+			(plansFilter === PLAN_FILTER.own && FocusAreas_IsOwnFocusArea(actionPlan)) ||
+			(plansFilter === PLAN_FILTER.area && actionPlan.isRolledUp) ||
 			(plansFilter === PLAN_FILTER.shared && actionPlan.planIsShared)
 		);
 }
