@@ -194,8 +194,6 @@ function ActionStatistics_GetCreatedDateByPlanCountsChartData() {
         }
     }
 
-    console.log(dates);
-
     let dateRangeSelected = State_Get('daterange');
     switch (dateRangeSelected) {
         case 'LastWeek': {
