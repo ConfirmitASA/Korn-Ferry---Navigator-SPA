@@ -316,11 +316,16 @@ function FocusAreas__handleTableActionIconClick(containerId) {
 }
 
 function FocusAreas_SetValues() {
+    FocusAreas = [];
+    let dataObj = [];
     //actions.Own contains own plans and shared plans (both are not affected by hierarchy filter)
+    if (!!actions.Own) {
+        dataObj = dataObj.concat(actions.Own);
+    }
     //actions.Rollup contains filtered by hierarchy plans
-
-    if (actions.Own === null || actions.Rollup === null) return;
-    let dataObj = actions.Rollup.concat(actions.Own);
+    if (!!actions.Rollup) {
+        dataObj = dataObj.concat(actions.Rollup);
+    }
 
     let allActions = [];
     for (let i = 0; i < dataObj.length; i++) {
@@ -350,7 +355,9 @@ function FocusAreas_SetValues() {
                 planObj['ownerId'] = dataObjItem['owner_id'];
                 planObj['itemOrderId'] = dataObjItem['item_order_id'];
 
-                planObj['isRolledUp'] = actions.Rollup.filter(plan => plan === dataObjItem).length > 0;
+                planObj['isRolledUp'] = actions.Rollup.filter(plan =>
+                    plan['item_id'] === dataObjItem['item_id'] && plan['owner_id'] === dataObjItem['owner_id'] && plan['item_order_id'] === dataObjItem['item_order_id'])
+                    .length > 0;
 
                 planObj.planActions = {};
                 const planKey = FocusAreas_CreateFocusAreaKey(planObj.itemId, planObj.itemOrderId, planObj.ownerId);
