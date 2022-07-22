@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0
+  }
+  
+  html {
+    box-sizing: border-box;
+    font-size: 14px
+  }
+  
+  body, html {
+    height: 100%
+  }
+  
+  body {
+    color: #121821;
+    font: 400 1rem/1.28 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif;
+    line-height: normal
+  }
+  
+  *, :after, :before {
+    box-sizing: inherit
+  }
+  
+  ol, ul {
+    list-style: none
+  }
+  
+  table {
+    border-collapse: collapse;
+    border-spacing: 0
+  }
+  
+  th {
+    font-weight: 400
+  }
+  
+  h2 {
+    font: 400 2.143rem/1.27 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif
+  }
+  
+  @media screen and (min-width: 54.857rem) {
+    h2 {
+      font: 400 1.714rem/1.29 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif
+    }
+  }  
+
+  h3 {
+    font: 600 1.286rem/1.26 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif
+  }
+  
+  h4 {
+    font: 600 1rem/1.28 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif
+  }
+  
+  button, input, select, textarea {
+    font: 400 1rem/1.28 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif
+  }
+  
+  body {
+    background-color: #f0f2f5
+  }
+  
+  .page-root {
+    height: 100%
+  }
+
+
+  .app-wrapper, .application-routes, .editor-root, .editor-tools-wrapper {
+    height: inherit
+  }
+  
+  .visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px
+  }
+  
+  .view-navigation {
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #34393f;
+    color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+    height: 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0 1.5em
+  }
+  
+  .view-navigation li {
+    border-right: 1px solid #474c51;
+    height: inherit
+  }
+  
+  .view-navigation li:first-child {
+    border-left: 1px solid #474c51
+  }
+  
+  .view-navigation li a {
+    -ms-flex-align: center;
+    align-items: center;
+    color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: .8em;
+    height: inherit;
+    padding: 0 1.5em;
+    text-decoration: none
+  }
+  
+  .view-navigation li a:hover {
+    background-color: #24272b
+  }

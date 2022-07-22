@@ -1,0 +1,56 @@
+#items-table-Demographic-Heatmap_filter {
+    display: none;
+}
+#items-table-Demographic-Heatmap {
+    height: 100%;
+}
+#items-table-Demographic-Heatmap .dimension-row-cell {
+    font-weight: bold;
+}
+#items-table-Demographic-Heatmap .text-cell
+    /*#items-table-Demographic-Heatmap_container .dataTables_scrollHead .text-cell*/ {
+    width: 350px !important;
+    max-width: 350px !important;
+    min-width: 350px !important;
+    white-space: normal !important;
+}
+#items-table-Demographic-Heatmap .items-table-td {
+    white-space: normal;
+    text-align: center;
+}
+#Demographic-Heatmap-table-title {
+    margin-bottom: 20px;
+}
+#items-table-Demographic-Heatmap_container {
+    width: 100%;
+    max-width: 1200px;
+}
+#items-table-Demographic-Heatmap_container .dt-buttons {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0px;
+    margin-bottom: 20px;
+}
+#items-table-Demographic-Heatmap_wrapper::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+#items-table-Demographic-Heatmap_wrapper::-webkit-scrollbar {
+    background-color: #F5F5F5;
+    height: 10px;
+}
+#items-table-Demographic-Heatmap_wrapper::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d0d0d0;
+}
+
+/*#items-table-Demographic-Heatmap {
+    margin-top: -3px !important;
+}
+#items-table-Demographic-Heatmap_container .dataTables_scrollHead,
+#items-table-Demographic-Heatmap_container .dataTables_scrollBody,
+#items-table-Demographic-Heatmap_container .dataTables_scrollHead table,
+#items-table-Demographic-Heatmap_container .dataTables_scrollHead .dataTables_scrollHeadInner{
+    width: 100% !important;
+}*/

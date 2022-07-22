@@ -1,0 +1,193 @@
+<!-- jQuery -->
+<script src="libraries/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/fc-4.0.1/fh-3.2.1/r-2.2.9/sc-2.0.5/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.4/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/fc-4.0.1/fh-3.2.1/r-2.2.9/sc-2.0.5/datatables.min.js"></script>
+<script type="text/javascript" src="libraries/natural.js"></script>
+
+<script type="text/javascript" src="libraries/dataTables.searchHighlight.min.js"></script>
+<link rel="stylesheet" href="libraries/dataTables.searchHighlight.css" />
+<script type="text/javascript" src="libraries/jquery.highlight.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js" integrity="sha512-vFABRuf5oGUaztndx4KoAEUVQnOvAIFs59y4tO0DILGWhQiFnFHiR+ZJfxLDyJlXgeut9Z07Svuvm+1Jv89w5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<!-- Velocity -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.2/velocity.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.4.2/velocity.ui.min.js"></script>
+
+
+<!-- PowerPoint -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@latest/dist/pptxgen.min.js?v=1"></script>
+
+
+<!-- Highcharts -->
+<script src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/Highcharts/Highcharts-9.3.3-highcharts.js"></script>
+<script src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/Highcharts/Highcharts-9.3.3-highcharts-more.js"></script>
+
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow&amp;display=swap" rel="stylesheet">
+<link href="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC/fonts.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- Expandable Hierarchy -->
+<link rel="stylesheet" href="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/PressGaney/jquery.treetable.css">
+<script src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/PressGaney/promise-6.1.0.js"></script>
+<script src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/PressGaney/jquery.treetable.js"></script>
+<script src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/PressGaney/jquery-ui.min.js"></script>
+
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="CSS/kf.css">
+<link rel="stylesheet" href="CSS/main.css">
+<link rel="stylesheet" href="CSS/hierarchy.css">
+<link rel="stylesheet" href="CSS/effectivenessprofile.css">
+<link rel="stylesheet" href="CSS/effectivenessprofile_breakdown.css">
+<link rel="stylesheet" href="CSS/enps.css">
+<link rel="stylesheet" href="CSS/strengths_and_opportunities.css">
+<link rel="stylesheet" href="CSS/key_metrics.css">
+<link rel="stylesheet" href="CSS/response_rates.css">
+<link rel="stylesheet" href="CSS/demographic-heatmap.css">
+<link rel="stylesheet" href="CSS/demographic_highlighter.css">
+<link rel="stylesheet" href="CSS/focus_areas.css">
+<link rel="stylesheet" href="CSS/action_statistics.css">
+<link rel="stylesheet" href="CSS/actions_summaries.css">
+
+<!-- RTL test -->
+<!--
+<style>* {direction: rtl}.logo, .menu {float: right}#menuitem-LogOut {left: 20px; right: unset !important}.sidebyside {margin-right: 30vw; margin-left: unset !important}.rightside {border-right: 1px solid #606967; border-left: unset !important}.boxtext_header, .boxtext, .actioncontainer {text-align: right}.panes-background {background: linear-gradient(to right, #f0f0f0 0px, #f0f0f0 calc(100vw - 440px), #fff calc(100vw - 440px))}.hierarchy {left: 20px; right: unset;}.right-pane {right: 440px; left: unset;}.left-pane {right: 60px;}.left-pane-content {overflow: visible; padding-right: 0}.collapse-button {left: calc(100vw - 435px);}.collapsed-mode-button { right: 1px !important; left: unset !important}.collapsed-mode-right {right: 20px !important; left; unset !important}.submenuitem {padding: 15px 0px 0px 30px;}.enps-trend-arrow {transform: scaleX(-1);}.loader {left: 140px; right: unset !important}#items-table-opencomments_filter{float: left; margin-top: 20px;}.details-exit{left: 20px; right: unset !important}.button-report-ready {float: left}.funfact-title {padding-right: unset !important; padding-left: 80px;}.action-red {right: unset !important; left: 20px;}.filtersummary {background-position: calc(100% - 20px) 20px;}.button-report-loaded {right: unset !important; left: 2vw;}.content {padding: 1vw 6vw 1vw 40vw;}.vs_score, .vs_label { text-align: left };.vs_label {font-size: 14px}, .score_label{font-size:16px}.amber-arrow {transform: scaleX(-1);}.metriclabel_back {left: -8%;}.card-details-container {right: 390px; left: unset !important}.bolded {font-size: larger}.background-area { background: linear-gradient(80deg, rgba(4, 73, 59, 1) 78vw, rgba(0, 0, 0, 0.65) 78vw);}.language-selector { margin-left: 20px; margin-right: unset !important}#home-footer {margin-left: unset !important; margin-right: 30vw;}.menuitems{width: 100vw;}@media screen and (max-width: 1400px) {.menu.responsive .menuicon {right: 20px; left: unset !important; text-align: start; }.menu.responsive .menuitem {text-align: start !important; }#menuitem-LogOut { left: -20px; right: unset !important; position: relative !important;}.menu.responsive { padding: 10px 0px 0px 0px; right: -23px; }}#arrow-x { transform: scaleX(-1) }.icon-vertical {left: 256px;}.axislabely {top: 10px;}.trend-indicator-description div:nth-child(1) { left: 200px; }.trend-indicator-description div:nth-child(2) { left: 232px; }</style>
+-->
+<div style="
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0;
+	z-index: 9999999;
+	width: 100vw;"
+	 id="master-page-container">
+
+	<div id="fullpath-container" style="display:none">
+		<div id="fullpath" style="
+			background-color: #77bc1f;
+			color: white;
+			position: absolute;
+			font-size: 14px;
+			padding: 20px 60px;
+			height: 60px;
+			z-index: 999999999999999999999;
+			width: 100%;
+			/* margin-top: 60px; */
+			top: 60px;
+	"></div>
+		<div style="background-color: #000;height: 100vh;width: 100vw;opacity: 0.7;position: absolute;top: 100px;z-index: 2;"></div>
+	</div>
+
+
+	<div class="page-header">
+
+		<!-- HIERARCHY PICKER -->
+		<div id="hierarchy-picker-container"></div>
+
+		<!-- KF LOGO -->
+		<div class="logo">
+			<img src="https://survey.confirmit.com/isa/BDJPFRDMEYBPBKLVADAYFQCDAVIOEQJR/KornFerryPOC/kf-logo.svg">
+		</div>
+
+		<!-- MAIN MENU -->
+		<div class="menu"></div>
+
+	</div>
+
+	<!-- Pages Container -->
+	<div id="pages-container"></div>
+
+	<!-- Modal Filter Container -->
+	<div id="master-page-modal-filter-container">
+		<div id="master-page-modal-filter"></div>
+	</div>
+
+	<!-- Wait Spinner -->
+	<div id="master-page-modal-spinner-container">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Modal Wait Container -->
+	<div id="master-page-modal-wait-container">
+		<div id="master-page-modal-wait"></div>
+	</div>
+
+	<!-- Claim Ownership Confirmation Box Container -->
+	<div id="claim-ownership-confirmation-container" class="confirmation__hidden"></div>
+
+</div>
+
+
+<!-- Core -->
+<script src="state.js?version=1"></script>
+<script src="resources.js?version=1"></script>
+<script src="utils.js?version=2"></script>
+<script src="param_values.js?version=1"></script>
+<script src="main.js?version=1"></script>
+<script src="menu.js?version=1"></script>
+<script src="modal.js?version=1"></script>
+<script src="wait.js?version=1"></script>
+<script src="powerpoint.js?version=1"></script>
+<script src="powerpoint_image_storage.js?version=1"></script>
+<script src="focus_areas.js?version=1"></script>
+<script src="rolled_up_plans.js?version=1"></script>
+<script src="slideshow.js?version=1"></script>
+
+
+<!---- Visual Components -->
+<script src="component_hierarchypicker.js?version=1"></script>
+<script src="component_filter_summary.js?version=1"></script>
+<script src="component_dropdown.js?version=1"></script>
+<script src="component_datatable.js?version=1"></script>
+<script src="component_distribution_chart.js?version=1"></script>
+<script src="component_submenu.js?version=1"></script>
+<script src="component_testdata_indicator.js?version=1"></script>
+<script src="component_two_option_switch.js?version=1"></script>
+
+
+<!-- Pages -->
+<script src="page_intro.js?version=1"></script>
+<script src="page_home.js?version=1"></script>
+<script src="page_slideshow.js?version=1"></script>
+<script src="page_group_headlines.js?version=1"></script>
+<script src="page_key_metrics.js?version=1"></script>
+<script src="page_key_drivers.js?version=1"></script>
+<script src="page_strengths_and_opportunities.js?version=1"></script>
+<script src="page_effectiveness_profile.js?version=1"></script>
+<script src="page_effectiveness_profile_breakdown.js?version=1"></script>
+<script src="page_group_explore.js?version=1"></script>
+<script src="page_all_results.js?version=1"></script>
+<script src="page_results_breakdown.js?version=1"></script>
+<script src="page_demographic_heatmap.js?version=1"></script>
+<script src="page_demographic_highlighter.js?version=1"></script>
+<script src="page_non_standard_questions.js?version=1"></script>
+<script src="page_group_comments.js?version=1"></script>
+<script src="page_comments_themes.js?version=1"></script>
+<script src="page_open_comments.js?version=1"></script>
+<script src="page_group_enps.js"></script>
+<script src="page_enps_score.js?version=1"></script>
+<script src="page_enps_breakdown.js?version=1"></script>
+<script src="page_group_response.js?version=1"></script>
+<script src="page_response_rates.js?version=1"></script>
+<script src="page_group_actions.js"></script>
+<script src="page_actions_focus_areas.js"></script>
+<script src="page_actions_all_plans.js"></script>
+<script src="page_actions_own_plans.js"></script>
+<script src="page_actions_shared_plans.js"></script>
+<script src="page_actions_statistics.js"></script>
+<script src="page_actions_summaries.js"></script>
+
+<!-- Test Data-->
+<script src="testdata.js?version=1"></script>
