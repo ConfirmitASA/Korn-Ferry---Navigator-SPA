@@ -1720,7 +1720,7 @@ function Pptx_AddTakingAction(pptx) {
 	var stylePlain = { fontSize: 16, color: "000000", paraSpaceAfter: 8 };
 	var styleEmph = { fontSize: 16, color: "00634f", bold: true, paraSpaceAfter: 8 };
 	RightSideContent.push({ text: info[0] + "\n", options: { breakLine: true, ...stylePlain } });
-	for (var i = 1; i < info.length; i++) {
+	for (var i = 1; i < Object.keys(info).length; i++) {
 		var str = info[i].match(/(.+)?\[(.+)\](.+)?/);
 		RightSideContent.push({ text: "\u200b", options: { bullet: { code: '2714', indent: 20 }, ...styleEmph } });
 		if (str[1]) RightSideContent.push({ text: str[1], options: stylePlain });
