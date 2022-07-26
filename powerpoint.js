@@ -212,48 +212,48 @@ function Pptx_Generator() {
 	// add slides
 	pptx.addSection({ title: "Main section" });
 
-	Pptx_AddTitleSlide(pptx, meta.Labels.SlideTexts.SLIDE_TITLE.info, GetAccess("Title", data.User.Role));
-	Pptx_AddSurveyBackgroundSlide(pptx, GetAccess("SurveyBackground", data.User.Role));
-	Pptx_AddHowToReadYourResultsSlide(pptx, GetAccess("HowToReadResults", data.User.Role));
-	Pptx_AddEngagedPerformanceFrameworkSlide(pptx, GetAccess("EngagedPerformanceFramework", data.User.Role));
+	Pptx_AddTitleSlide(pptx, meta.Labels.SlideTexts.SLIDE_TITLE.info, GetAccess("Title"));
+	Pptx_AddSurveyBackgroundSlide(pptx, GetAccess("SurveyBackground"));
+	Pptx_AddHowToReadYourResultsSlide(pptx, GetAccess("HowToReadResults"));
+	Pptx_AddEngagedPerformanceFrameworkSlide(pptx, GetAccess("EngagedPerformanceFramework"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESSUMMARY.title, GetAccess("KeyMetrics_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESSUMMARY.title, GetAccess("KeyMetrics_Cover"));
 
-	Pptx_AddKeyMetricsSlide(pptx, GetAccess("KeyIndices", data.User.Role));
+	Pptx_AddKeyMetricsSlide(pptx, GetAccess("KeyIndices"));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement"));
 
 	Pptx_AddKeyDriversSlide(pptx, GetAccess("KeyDrivers", data.User.Role));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title, GetAccess("EP_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title, GetAccess("EP_Cover"));
 
-	Pptx_AddEffectivenessProfileSegmentationSlide(pptx, GetAccess("EP_Segmentation", data.User.Role));
-	Pptx_AddEffectivenessProfileDetailSlide(pptx, GetAccess("EP_Detail", data.User.Role));
+	Pptx_AddEffectivenessProfileSegmentationSlide(pptx, GetAccess("EP_Segmentation"));
+	Pptx_AddEffectivenessProfileDetailSlide(pptx, GetAccess("EP_Detail"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESDETAIL.title, GetAccess("Details_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESDETAIL.title, GetAccess("Details_Cover"));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true, GetAccess("Details_Dimensions", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true, GetAccess("Details_Dimensions"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5"));
 
 	for (var i in meta.CommentQuestions)
-		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments", data.User.Role));
+		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments"));
 
-	Pptx_AddTakingAction(pptx, GetAccess("TakingAction", data.User.Role));
+	Pptx_AddTakingAction(pptx, GetAccess("TakingAction"));
 
 	// add charts
 	pptx.addSection({ title: "Appendix" });
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false, GetAccess("Charts_Engagement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false, GetAccess("Charts_Enablement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false, GetAccess("Charts_Strengths", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false, GetAccess("Charts_Opportunities", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false, GetAccess("Charts_Dimensions", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false, GetAccess("Charts_Top5", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false, GetAccess("Charts_Bottom5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false, GetAccess("Charts_Engagement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false, GetAccess("Charts_Enablement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false, GetAccess("Charts_Strengths"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false, GetAccess("Charts_Opportunities"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false, GetAccess("Charts_Dimensions"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false, GetAccess("Charts_Top5"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false, GetAccess("Charts_Bottom5"));
 
 	pptx.writeFile({
 		fileName: 'Korn Ferry - Employee Engagement'
@@ -261,49 +261,10 @@ function Pptx_Generator() {
 
 }
 
-// data.User.Role
+// user access
 function GetAccess(pageID, role) {
-	var access = {
-		Title: ["SUPER", "MANAGER"],
-		SurveyBackground: ["SUPER", "MANAGER"],
-		HowToReadResults: ["SUPER", "MANAGER"],
-		EngagedPerformanceFramework: ["SUPER", "MANAGER"],
-
-		KeyMetrics_Cover: ["SUPER", "MANAGER"],
-		KeyIndices: ["SUPER", "MANAGER"],
-		Engagement: ["SUPER", "MANAGER"],
-		Enablement: ["SUPER", "MANAGER"],
-		KeyDrivers: ["SUPER", "MANAGER"],
-		TeamStrengths: ["SUPER", "MANAGER"],
-		TeamOpportunities: ["SUPER", "MANAGER"],
-
-		EP_Cover: ["SUPER"],
-		EP_Segmentation: ["SUPER"],
-		EP_Detail: ["SUPER"],
-
-		Details_Cover: ["SUPER", "MANAGER"],
-		Details_Dimensions: ["SUPER", "MANAGER"],
-		Details_Top5: ["SUPER", "MANAGER"],
-		Details_Bottom5: ["SUPER", "MANAGER"],
-
-		Comments: ["SUPER"], // several slides
-
-		TakingAction: ["SUPER", "MANAGER"],
-
-		Charts_Engagement: ["SUPER", "MANAGER"],
-		Charts_Enablement: ["SUPER", "MANAGER"],
-		Charts_Strengths: ["SUPER", "MANAGER"],
-		Charts_Opportunities: ["SUPER", "MANAGER"],
-		Charts_Dimensions: ["SUPER", "MANAGER"],
-		Charts_Top5: ["SUPER", "MANAGER"],
-		Charts_Bottom5: ["SUPER", "MANAGER"]
-	}
-
-	if (access[pageID].indexOf(role) == -1) {
-		return false
-	} else {
-		return true
-	}
+	if (meta.VisibleSlides.indexOf(pageID) != -1) return true;
+	return false;
 }
 
 function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access) {
