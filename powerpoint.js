@@ -1465,27 +1465,43 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 		fontFace: 'Arial'
 	}
 
+	const chartCategoryLabelsOptions = {
+		align: "right",
+		valign: "middle",
+		h: "24.5%",
+        w: "12%",
+		x: 1.1,
+		color: "7F7F7F",
+		fontSize: "8",
+		fontFace: "Arial"
+	}
+
 	var chartData = EffectivenessProfile_GetChartData();
 
 	//top left - Detached
-	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 2.15, w: '38%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
+	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 2.15, w: '30.6%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
 	effectivenessProfileDetailSlide.addChart(
 		pptx.charts.BAR,
 		[
 			{
 				name: chartData.Detached.series.name,
-				labels: chartData.Detached.categories.reverse(),
+				labels: [],
 				values: chartData.Detached.series.data.reverse(),
 			},
 		],
 		{
-			x: 1.65,
+			x: 2.51,
 			y: 2.1,
-			w: "37%",
+			w: "30.6%",
 			chartColors: chartData.Detached.series.colors.map((element) => element.split('#')[1]).reverse(),
 			...chartGeneralOptions
 		}
 	);
+
+	let categoryLabels = chartData.Detached.categories.reverse();
+	let rows = categoryLabels.map(elem => [elem]);
+	effectivenessProfileDetailSlide.addTable(rows, { y: 2.25, ...chartCategoryLabelsOptions });
+
 	effectivenessProfileDetailSlide.addText(chartData.Detached.series.name, {
 		x: 2.67,
 		y: 2,
@@ -1505,7 +1521,7 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 			},
 		],
 		{
-			x: 6.52,
+			x: 6.5,
 			y: 2.1,
 			w: "30%",
 			catAxisHidden: true,
@@ -1521,24 +1537,29 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 	})
 
 	//bottom left - LeastEffective
-	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 4.5, w: '38%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
+	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 4.5, w: '30.6%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
 	effectivenessProfileDetailSlide.addChart(
 		pptx.charts.BAR,
 		[
 			{
 				name: chartData.LeastEffective.series.name,
-				labels: chartData.LeastEffective.categories.reverse(),
+				labels: [],
 				values: chartData.LeastEffective.series.data.reverse(),
 			},
 		],
 		{
-			x: 1.65,
+			x: 2.51,
 			y: 4.5,
-			w: "37%",
+			w: "30.6%",
 			chartColors: chartData.LeastEffective.series.colors.map((element) => element.split('#')[1]).reverse(),
 			...chartGeneralOptions
 		}
 	);
+
+	categoryLabels = chartData.LeastEffective.categories.reverse();
+	rows = categoryLabels.map(elem => [elem]);
+	effectivenessProfileDetailSlide.addTable(rows, { y: 4.65, ...chartCategoryLabelsOptions });
+
 	effectivenessProfileDetailSlide.addText(chartData.LeastEffective.series.name, {
 		x: 2.67,
 		y: 4.385,
