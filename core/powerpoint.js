@@ -75,31 +75,24 @@ const PPTX_CHART_STYLE_COMMENTS = {
 	valAxisMaxVal: 100,
 	get valAxisOrientation() { return meta.RTL ? 'maxMin' : 'minMax'},
 };
+
 const PPTX_TABLE_STYLE = {
 	x: 1.0,
-	fontFace: 'Arial',
 	fontSize: 12,
+	fontFace: 'Arial',
 	align: 'center',
 	valign: 'middle',
 	border: [0, 0, { pt: '1', color: 'd0d0d0' }, 0]
 };
 
-const PPTX_DIMTABLE_STYLE = {
+const PPTX_LONG_TABLE_STYLE = {
 	x: 1.0,
 	autoPage: true,
 	autoPageRepeatHeader: true,
-	autoPageLineWeight: 0.5,
 	newSlideStartY: 0.5,
 	autoPageHeaderRows: 2,
-
-	rowH: 0.5,
-	h: 5.5,
-
-	fontFace: 'Arial',
-	fontSize: 12,
-	align: 'center',
-	valign: 'middle',
-	border: [0, 0, { pt: '1', color: 'd0d0d0' }, 0]
+	h: 5,
+	fontSize: 10,
 };
 
 const PPTX_CELL_GREEN = {
@@ -112,6 +105,11 @@ const PPTX_CELL_RED = {
 	bold: true,
 	align: 'center'
 };
+const PPTX_CELL_BLACK = {
+	color: '000000',
+	bold: false,
+	align: 'center'
+}
 
 // Button: Download (PowerPoint)
 function Pptx_Generator() {
@@ -224,7 +222,7 @@ function Pptx_Generator() {
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement"));
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement"));
 
-	Pptx_AddKeyDriversSlide(pptx, GetAccess("KeyDrivers", data.User.Role));
+	Pptx_AddKeyDriversSlide(pptx, GetAccess("KeyDrivers"));
 
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths"));
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities"));
@@ -262,7 +260,7 @@ function Pptx_Generator() {
 }
 
 // user access
-function GetAccess(pageID, role) {
+function GetAccess(pageID) {
 	if (meta.VisibleSlides.indexOf(pageID) != -1) return true;
 	return false;
 }
@@ -272,8 +270,7 @@ function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access
 
 	var infoStyle = Object.assign({}, PPTX_INFO_STYLE);
 
-	//var style = Object.assign({}, addTable ? PPTX_TABLE_STYLE : PPTX_CHART_STYLE);
-	var style = Object.assign({}, addTable ? (tableType == 'DIMS' ? PPTX_DIMTABLE_STYLE : PPTX_TABLE_STYLE) : PPTX_CHART_STYLE);
+	var style = Object.assign({}, addTable ? PPTX_TABLE_STYLE : PPTX_CHART_STYLE);
 
 	var section = addTable ? "Main section" : "Appendix";
 	var slide = pptx.addSlide({masterName: "WHITE",  sectionTitle: section});
@@ -305,15 +302,49 @@ function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access
 	else style.y = (tableType == 'DIMS') ? 1.1 : 1.5;
 
 	if (addTable) {
-		//style.colW = Pptx_ColW();
-
 		style.colW = meta.RTL ? Pptx_ColWRTL() : Pptx_ColW();
+		if (table.NofItems > 10) Object.assign(style, PPTX_LONG_TABLE_STYLE);
 		slide.addTable(table.rows, style);
-	}
-	else {
-		style.h = (tableType == 'DIMS') ? 0.4 * table.NofItems : 0.5 * table.NofItems;
+
+	} else {
+
+		/*
+		if (table.NofItems > 10) {
+		   style.h = 6;
+		   style.catAxisLabelFontSize = 14 / table.NofItems * 12;
+		   style.dataLabelFontSize = 14 / table.NofItems * 12;
+		   console.log(table);
+		}
 		style.chartColors = config.styles.DistributionChart.bgcolors;
 		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), style);
+		*/
+		style.chartColors = config.styles.DistributionChart.bgcolors;
+		RecursiveTableRedraw(pptx, slide, table, style, 1);
+	}
+}
+
+function RecursiveTableRedraw(pptx, slide, table, style, pages) {
+	var newStyle = Object.assign({}, style);
+	if (pages > 1) {
+		slide = pptx.addSlide({masterName: "WHITE",  sectionTitle: "Appendix"});
+	}
+	if (table.NofItems < 10) {
+		newStyle.h = 3,5;
+		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), newStyle);
+	} else {
+		newStyle.h = 6;
+		var newTable = {};
+		var newTableRows = table.rows.slice();
+		// cut table by 10 rows sections
+		var startRow = table.rows.length - table.NofItems;
+		newTableRows.splice(startRow + 10, newTableRows.length - 10);
+		newTable.rows = newTableRows;
+		newTable.NofItems = 10;
+		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(newTable), newStyle);
+		table.rows.splice(startRow, 10);
+		table.NofItems = table.NofItems - 10;
+		pages++;
+		RecursiveTableRedraw(pptx, slide, table, newStyle, pages);
 	}
 }
 
@@ -492,14 +523,15 @@ function Pptx_AddItemToTable(itemId, isDimension, index) {
 
 		if ( obj_comparator_data == null || obj_comparator_data[itemId] == null) {
 			value = NOT_AVAILABLE;
-			sigClassname = '';
+			sigClassname = Object.assign({}, PPTX_CELL_BLACK);
+
 		}
 		else {
 			var obj_comparator = obj_comparator_data[itemId]; // example: {N: ..., Dist: {...}}
 			var sig_test = Utils_SigTest ( obj, obj_comparator, 'Fav', isDimension );
 			sigClassname = sig_test.IsSignificant
-				? ( sig_test.Diff > 0 ? PPTX_CELL_GREEN : PPTX_CELL_RED)
-				: PPTX_TABLE_STYLE;
+				? ( sig_test.Diff > 0 ? Object.assign({}, PPTX_CELL_GREEN) : Object.assign({}, PPTX_CELL_RED))
+				: Object.assign({}, PPTX_CELL_BLACK);
 
 			value = (sig_test.Diff == null)
 				? NOT_AVAILABLE
@@ -1469,7 +1501,7 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 		align: "right",
 		valign: "middle",
 		h: "24.5%",
-        w: "12%",
+		w: "12%",
 		x: 1.1,
 		color: "7F7F7F",
 		fontSize: "8",
@@ -2196,14 +2228,14 @@ function Pptx_AddHowToReadYourResultsSlide(pptx) {
 
 			if ( item_comparator_data == null || item_comparator_data[item_id] == null) {
 				value = NOT_AVAILABLE;
-				sigClassname = '';
+				sigClassname = Object.assign({}, PPTX_CELL_BLACK);
 			}
 			else {
 				var item_comparator = item_comparator_data[item_id]; // example: {N: ..., Dist: {...}}
 				var sig_test = Utils_SigTest ( item, item_comparator, 'Fav', false );
 				sigClassname = sig_test.IsSignificant
-					? ( sig_test.Diff > 0 ? PPTX_CELL_GREEN : PPTX_CELL_RED)
-					: PPTX_TABLE_STYLE;
+					? ( sig_test.Diff > 0 ? Object.assign({}, PPTX_CELL_GREEN) : Object.assign({}, PPTX_CELL_RED))
+					: Object.assign({}, PPTX_CELL_BLACK);
 
 				value = (sig_test.Diff == null)
 					? NOT_AVAILABLE
