@@ -1,0 +1,116 @@
+
+
+        .dashboard__main-wrapper {
+			zoom: 0.7;
+		}
+
+        table.treetable tr.collapsed span.indenter a {
+            background-size: 7px !important
+        }
+
+        table.treetable span.indenter {
+            padding-right: 4px !important
+        }
+
+        table.treetable tr.expanded span.indenter a {
+            background-size: 7px !important
+        }
+
+        .acc_hdr {
+            width: 100px !important;
+            text-align: center !important;
+            font-weight: bold;
+            font-size: 16px !important;
+            vertical-align: top;
+            padding: 16px 4px !important;
+            min-width: 200px !important;
+        }
+
+        .acc_data {
+            font-size: 16px !important;
+            text-align: center !important;
+        }
+
+        .rollup_data {
+            font-size: 18px !important;
+            text-align: center !important;
+        }
+
+        #accordionTable td {
+            min-height: 30px !important;
+            padding: 10px 0px !important;
+            border-top: 1px solid #F0F0F0 !important;
+			background-color: transparent;
+        }
+
+        .HierarchyTitle {
+            white-space: nowrap !important;
+        }
+
+        .dashboard__main-wrapper.view-mode .dashboard__widget {
+            min-width: 1250px !important;
+        }
+
+        .r2i-row {
+            display: block;
+            margin-right: 0px;
+            flex-grow: unset;
+        }
+
+        #FullHierarchy,
+        #FlatHierarchy {
+            min-width: 800px;
+        }
+
+        .widgets__wrapper {
+            margin: auto;
+        }
+
+        #ShowFlat,
+        #ShowFull {
+            width: 50px;
+        }
+
+        .widget__body>div {
+            width: 100%;
+        }
+
+        .accordion {
+            font: 400 1.143rem/1.25 Source Sans Pro, Arial, Helvetica, Geneva, sans-serif;
+        }
+
+
+        .widget__body.widget__body--no-scrolling {
+            display: inline-block !important;
+        }
+
+        .dashboard__widget.dashboard__widget--small.r2i-widget {
+            width: 99% !important;
+        }
+
+        .menu-right-icon {
+            background-image: url(https://survey.confirmit.com/isa/MHEFJTEFAIDKIODVADEMBBJIFIMHDDIB/Icons/arrow_rt.png);
+            padding-right: 15px;
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+        }
+
+        table.treetable tr.collapsed span.indenter a {
+            background-image: url(https://survey.confirmit.com/isa/MHEFJTEFAIDKIODVADEMBBJIFIMHDDIB/Icons/arrow_rt.png);
+            background-size: 9px;
+            width: 10px;
+        }
+
+        table.treetable tr.expanded span.indenter a {
+            background-image: url(https://survey.confirmit.com/isa/MHEFJTEFAIDKIODVADEMBBJIFIMHDDIB/Icons/arrow_dn.png);
+            background-size: 9px;
+            width: 10px;
+        }
+
+        .menu-down-icon {
+            background-image: url(https://survey.confirmit.com/isa/MHEFJTEFAIDKIODVADEMBBJIFIMHDDIB/Icons/arrow_dn.png);
+            padding-right: 15px;
+            background-size: 10px 10px;
+            background-repeat: no-repeat;
+        }
+		
