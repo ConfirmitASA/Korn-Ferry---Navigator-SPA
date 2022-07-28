@@ -212,48 +212,48 @@ function Pptx_Generator() {
 	// add slides
 	pptx.addSection({ title: "Main section" });
 
-	Pptx_AddTitleSlide(pptx, meta.Labels.SlideTexts.SLIDE_TITLE.info, GetAccess("Title", data.User.Role));
-	Pptx_AddSurveyBackgroundSlide(pptx, GetAccess("SurveyBackground", data.User.Role));
-	Pptx_AddHowToReadYourResultsSlide(pptx, GetAccess("HowToReadResults", data.User.Role));
-	Pptx_AddEngagedPerformanceFrameworkSlide(pptx, GetAccess("EngagedPerformanceFramework", data.User.Role));
+	Pptx_AddTitleSlide(pptx, meta.Labels.SlideTexts.SLIDE_TITLE.info, GetAccess("Title"));
+	Pptx_AddSurveyBackgroundSlide(pptx, GetAccess("SurveyBackground"));
+	Pptx_AddHowToReadYourResultsSlide(pptx, GetAccess("HowToReadResults"));
+	Pptx_AddEngagedPerformanceFrameworkSlide(pptx, GetAccess("EngagedPerformanceFramework"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESSUMMARY.title, GetAccess("KeyMetrics_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESSUMMARY.title, GetAccess("KeyMetrics_Cover"));
 
-	Pptx_AddKeyMetricsSlide(pptx, GetAccess("KeyIndices", data.User.Role));
+	Pptx_AddKeyMetricsSlide(pptx, GetAccess("KeyIndices"));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', true, GetAccess("Engagement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', true, GetAccess("Enablement"));
 
 	Pptx_AddKeyDriversSlide(pptx, GetAccess("KeyDrivers", data.User.Role));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', true, GetAccess("TeamStrengths"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', true, GetAccess("TeamOpportunities"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title, GetAccess("EP_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.EffectivenessProfile.Title, GetAccess("EP_Cover"));
 
-	Pptx_AddEffectivenessProfileSegmentationSlide(pptx, GetAccess("EP_Segmentation", data.User.Role));
-	Pptx_AddEffectivenessProfileDetailSlide(pptx, GetAccess("EP_Detail", data.User.Role));
+	Pptx_AddEffectivenessProfileSegmentationSlide(pptx, GetAccess("EP_Segmentation"));
+	Pptx_AddEffectivenessProfileDetailSlide(pptx, GetAccess("EP_Detail"));
 
-	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESDETAIL.title, GetAccess("Details_Cover", data.User.Role));
+	Pptx_AddGreenCoverSlide(pptx, meta.Labels.SlideTexts.SLIDE_RESDETAIL.title, GetAccess("Details_Cover"));
 
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true, GetAccess("Details_Dimensions", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', true, GetAccess("Details_Dimensions"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5"));
 
 	for (var i in meta.CommentQuestions)
-		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments", data.User.Role));
+		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments"));
 
-	Pptx_AddTakingAction(pptx, GetAccess("TakingAction", data.User.Role));
+	Pptx_AddTakingAction(pptx, GetAccess("TakingAction"));
 
 	// add charts
 	pptx.addSection({ title: "Appendix" });
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false, GetAccess("Charts_Engagement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false, GetAccess("Charts_Enablement", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false, GetAccess("Charts_Strengths", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false, GetAccess("Charts_Opportunities", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false, GetAccess("Charts_Dimensions", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false, GetAccess("Charts_Top5", data.User.Role));
-	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false, GetAccess("Charts_Bottom5", data.User.Role));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENG', false, GetAccess("Charts_Engagement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'ENA', false, GetAccess("Charts_Enablement"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'STRENGTHS', false, GetAccess("Charts_Strengths"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'OPPORTUNITIES', false, GetAccess("Charts_Opportunities"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'DIMS', false, GetAccess("Charts_Dimensions"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', false, GetAccess("Charts_Top5"));
+	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', false, GetAccess("Charts_Bottom5"));
 
 	pptx.writeFile({
 		fileName: 'Korn Ferry - Employee Engagement'
@@ -261,49 +261,10 @@ function Pptx_Generator() {
 
 }
 
-// data.User.Role
+// user access
 function GetAccess(pageID, role) {
-	var access = {
-		Title: ["SUPER", "MANAGER"],
-		SurveyBackground: ["SUPER", "MANAGER"],
-		HowToReadResults: ["SUPER", "MANAGER"],
-		EngagedPerformanceFramework: ["SUPER", "MANAGER"],
-
-		KeyMetrics_Cover: ["SUPER", "MANAGER"],
-		KeyIndices: ["SUPER", "MANAGER"],
-		Engagement: ["SUPER", "MANAGER"],
-		Enablement: ["SUPER", "MANAGER"],
-		KeyDrivers: ["SUPER", "MANAGER"],
-		TeamStrengths: ["SUPER", "MANAGER"],
-		TeamOpportunities: ["SUPER", "MANAGER"],
-
-		EP_Cover: ["SUPER"],
-		EP_Segmentation: ["SUPER"],
-		EP_Detail: ["SUPER"],
-
-		Details_Cover: ["SUPER", "MANAGER"],
-		Details_Dimensions: ["SUPER", "MANAGER"],
-		Details_Top5: ["SUPER", "MANAGER"],
-		Details_Bottom5: ["SUPER", "MANAGER"],
-
-		Comments: ["SUPER"], // several slides
-
-		TakingAction: ["SUPER", "MANAGER"],
-
-		Charts_Engagement: ["SUPER", "MANAGER"],
-		Charts_Enablement: ["SUPER", "MANAGER"],
-		Charts_Strengths: ["SUPER", "MANAGER"],
-		Charts_Opportunities: ["SUPER", "MANAGER"],
-		Charts_Dimensions: ["SUPER", "MANAGER"],
-		Charts_Top5: ["SUPER", "MANAGER"],
-		Charts_Bottom5: ["SUPER", "MANAGER"]
-	}
-
-	if (access[pageID].indexOf(role) == -1) {
-		return false
-	} else {
-		return true
-	}
+	if (meta.VisibleSlides.indexOf(pageID) != -1) return true;
+	return false;
 }
 
 function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access) {
@@ -1504,27 +1465,43 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 		fontFace: 'Arial'
 	}
 
+	const chartCategoryLabelsOptions = {
+		align: "right",
+		valign: "middle",
+		h: "24.5%",
+        w: "12%",
+		x: 1.1,
+		color: "7F7F7F",
+		fontSize: "8",
+		fontFace: "Arial"
+	}
+
 	var chartData = EffectivenessProfile_GetChartData();
 
 	//top left - Detached
-	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 2.15, w: '38%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
+	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 2.15, w: '30.6%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
 	effectivenessProfileDetailSlide.addChart(
 		pptx.charts.BAR,
 		[
 			{
 				name: chartData.Detached.series.name,
-				labels: chartData.Detached.categories.reverse(),
+				labels: [],
 				values: chartData.Detached.series.data.reverse(),
 			},
 		],
 		{
-			x: 1.65,
+			x: 2.51,
 			y: 2.1,
-			w: "37%",
+			w: "30.6%",
 			chartColors: chartData.Detached.series.colors.map((element) => element.split('#')[1]).reverse(),
 			...chartGeneralOptions
 		}
 	);
+
+	let categoryLabels = chartData.Detached.categories.reverse();
+	let rows = categoryLabels.map(elem => [elem]);
+	effectivenessProfileDetailSlide.addTable(rows, { y: 2.25, ...chartCategoryLabelsOptions });
+
 	effectivenessProfileDetailSlide.addText(chartData.Detached.series.name, {
 		x: 2.67,
 		y: 2,
@@ -1544,7 +1521,7 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 			},
 		],
 		{
-			x: 6.52,
+			x: 6.5,
 			y: 2.1,
 			w: "30%",
 			catAxisHidden: true,
@@ -1560,24 +1537,29 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 	})
 
 	//bottom left - LeastEffective
-	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 4.5, w: '38%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
+	effectivenessProfileDetailSlide.addText(".", { x: 1.5, y: 4.5, w: '30.6%', h: '30%', fill: { color: "ffffff" }, color: "ffffff" });
 	effectivenessProfileDetailSlide.addChart(
 		pptx.charts.BAR,
 		[
 			{
 				name: chartData.LeastEffective.series.name,
-				labels: chartData.LeastEffective.categories.reverse(),
+				labels: [],
 				values: chartData.LeastEffective.series.data.reverse(),
 			},
 		],
 		{
-			x: 1.65,
+			x: 2.51,
 			y: 4.5,
-			w: "37%",
+			w: "30.6%",
 			chartColors: chartData.LeastEffective.series.colors.map((element) => element.split('#')[1]).reverse(),
 			...chartGeneralOptions
 		}
 	);
+
+	categoryLabels = chartData.LeastEffective.categories.reverse();
+	rows = categoryLabels.map(elem => [elem]);
+	effectivenessProfileDetailSlide.addTable(rows, { y: 4.65, ...chartCategoryLabelsOptions });
+
 	effectivenessProfileDetailSlide.addText(chartData.LeastEffective.series.name, {
 		x: 2.67,
 		y: 4.385,
@@ -1720,7 +1702,7 @@ function Pptx_AddTakingAction(pptx) {
 	var stylePlain = { fontSize: 16, color: "000000", paraSpaceAfter: 8 };
 	var styleEmph = { fontSize: 16, color: "00634f", bold: true, paraSpaceAfter: 8 };
 	RightSideContent.push({ text: info[0] + "\n", options: { breakLine: true, ...stylePlain } });
-	for (var i = 1; i < info.length; i++) {
+	for (var i = 1; i < Object.keys(info).length; i++) {
 		var str = info[i].match(/(.+)?\[(.+)\](.+)?/);
 		RightSideContent.push({ text: "\u200b", options: { bullet: { code: '2714', indent: 20 }, ...styleEmph } });
 		if (str[1]) RightSideContent.push({ text: str[1], options: stylePlain });

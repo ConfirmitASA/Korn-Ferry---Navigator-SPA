@@ -146,6 +146,7 @@
     align-self: flex-end;
     cursor: pointer;
     text-align: center;
+    z-index: 10;
 }
 #strengthsAndOpportunitiesItemTable {
     width: 100%;
