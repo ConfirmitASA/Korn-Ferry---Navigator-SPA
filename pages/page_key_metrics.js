@@ -43,10 +43,7 @@ function KeyMetrics_Render() {
 
     var metrics = data.Metrics;
 
-    const externalCardLimit = 3;
-
     for(var i = 0; i < metrics.length; i++) {
-        let externalCount = 0;
         var scoreType, scoreLabel, scoreValue;
 
         var dimension_id = metrics[i];
@@ -146,28 +143,30 @@ function KeyMetrics_Render() {
 								<table>
 			`);
 
-
+        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 2;
+        let externalCount = 0;
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
             var type = c.split('.')[0]; // "Internal" or "External"
 
-            if ( type == "External") {
+            if ( type == "External" && externalCount < externalCardLimit) {
 
-                if(externalCount < externalCardLimit){
-                    var comparator_data = comparators_data[c];
+                externalCount++;
 
-                    // Check if external norm exists for this dimension
-                    var comparator_fav = (
-                        comparator_data == null
-                        ||
-                        comparator_data.Dimensions == null
-                        ||
-                        comparator_data.Dimensions[ dimension_id ] == null
-                    )
-                        ? ''
-                        : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
+                var comparator_data = comparators_data[c];
 
-                    o.push(`
+                // Check if external norm exists for this dimension
+                var comparator_fav = (
+                    comparator_data == null
+                    ||
+                    comparator_data.Dimensions == null
+                    ||
+                    comparator_data.Dimensions[ dimension_id ] == null
+                )
+                    ? ''
+                    : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
+
+                o.push(`
 							<tr>
 								<td class="vs_label">
 									${meta.Comparators[c].Label}
@@ -178,9 +177,6 @@ function KeyMetrics_Render() {
 								</td>
 							</tr>
 						`);
-
-                    externalCount++;
-                }
             }
         }
 

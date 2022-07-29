@@ -302,7 +302,7 @@ function Slideshow_RenderKeyIndices() {
         }
 
         var comparators_scores = "";
-        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 3;
+        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 2;
         let externalCount = 0;
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
