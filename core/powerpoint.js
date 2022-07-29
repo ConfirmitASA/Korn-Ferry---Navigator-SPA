@@ -614,10 +614,7 @@ function Pptx_AddCommentsSlide(pptx, comm, access) {
 function Pptx_AddKeyMetricsSlide(pptx, access) {
 	if (access == false) return;
 
-	var external_comparators = [
-		"External.IndustryBenchmark",
-		"External.HighPerformers"
-	];
+	var external_comparators = Main_CompactComparatorSet();
 
 	var comparator_id = 'Internal.Wave:' + config.PreviousWave;
 	var trend_indicator_description;
