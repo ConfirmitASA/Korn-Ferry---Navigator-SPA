@@ -43,8 +43,10 @@ function KeyMetrics_Render() {
 
     var metrics = data.Metrics;
 
-    for(var i = 0; i < metrics.length; i++) {
+    const externalCardLimit = 3;
 
+    for(var i = 0; i < metrics.length; i++) {
+        let externalCount = 0;
         var scoreType, scoreLabel, scoreValue;
 
         var dimension_id = metrics[i];
@@ -151,30 +153,34 @@ function KeyMetrics_Render() {
 
             if ( type == "External") {
 
-                var comparator_data = comparators_data[c];
+                if(externalCount < externalCardLimit){
+                    var comparator_data = comparators_data[c];
 
-                // Check if external norm exists for this dimension
-                var comparator_fav = (
-                    comparator_data == null
-                    ||
-                    comparator_data.Dimensions == null
-                    ||
-                    comparator_data.Dimensions[ dimension_id ] == null
-                )
-                    ? ''
-                    : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
+                    // Check if external norm exists for this dimension
+                    var comparator_fav = (
+                        comparator_data == null
+                        ||
+                        comparator_data.Dimensions == null
+                        ||
+                        comparator_data.Dimensions[ dimension_id ] == null
+                    )
+                        ? ''
+                        : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
 
-                o.push(`
-                        <tr>
-                            <td class="vs_label">
-                                ${meta.Comparators[c].Label}
-                            </td>
+                    o.push(`
+							<tr>
+								<td class="vs_label">
+									${meta.Comparators[c].Label}
+								</td>
 
-                            <td class="vs_score">
-                                ${comparator_fav}
-                            </td>
-                        </tr>
-                    `);
+								<td class="vs_score">
+									${comparator_fav}
+								</td>
+							</tr>
+						`);
+
+                    externalCount++;
+                }
             }
         }
 
