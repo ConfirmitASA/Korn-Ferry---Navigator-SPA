@@ -302,11 +302,15 @@ function Slideshow_RenderKeyIndices() {
         }
 
         var comparators_scores = "";
+        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 2;
+        let externalCount = 0;
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
             var type = c.split('.')[0]; // "Internal" or "External"
 
-            if (type == "External") {
+            if (type == "External" && externalCount < externalCardLimit) {
+
+                externalCount++;
 
                 var comparator_data = comparators_data[c];
 
