@@ -744,11 +744,11 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	keyMetricsSlide.addText(
 		[
 			{
-				text: `${meta.Comparators[external_comparators[0]].Label}   ${external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[engDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[0] ? meta.Comparators[external_comparators[0]].Label : ''}   ${!!external_comparator1 && external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[engDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10, breakLine: true }
 			},
 			{
-				text: `${meta.Comparators[external_comparators[1]].Label}   ${external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[engDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[1] ? meta.Comparators[external_comparators[1]].Label : ''}   ${!!external_comparator2 && external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[engDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10 }
 			}
 		],
@@ -817,11 +817,11 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	keyMetricsSlide.addText(
 		[
 			{
-				text: `${meta.Comparators[external_comparators[0]].Label}   ${external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[enaDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[0] ? meta.Comparators[external_comparators[0]].Label : ''}   ${!!external_comparator1 && external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[enaDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10, breakLine: true }
 			},
 			{
-				text: `${meta.Comparators[external_comparators[1]].Label}   ${external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[enaDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[1] ? meta.Comparators[external_comparators[1]].Label : ''}   ${!!external_comparator2 && external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[enaDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10 }
 			}
 		],
@@ -891,11 +891,11 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	keyMetricsSlide.addText(
 		[
 			{
-				text: `${meta.Comparators[external_comparators[0]].Label}   ${external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[thirdCardDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[0] ? meta.Comparators[external_comparators[0]].Label : ''}   ${!!external_comparator1 && external_comparator1.Dimensions ? Utils_FormatPctOutput(external_comparator1.Dimensions[thirdCardDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10, breakLine: true }
 			},
 			{
-				text: `${meta.Comparators[external_comparators[1]].Label}   ${external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[thirdCardDimensionId].Dist.Fav) : ''}`,
+				text: `${external_comparators[1] ? meta.Comparators[external_comparators[1]].Label : ''}   ${!!external_comparator2 && external_comparator2.Dimensions ? Utils_FormatPctOutput(external_comparator2.Dimensions[thirdCardDimensionId].Dist.Fav) : ''}`,
 				options: { fontSize: 10 }
 			}
 		],
