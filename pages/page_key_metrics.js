@@ -65,29 +65,23 @@ function KeyMetrics_Render() {
             scoreType = key_metric.split('.')[1];
 
             switch (scoreType) {
-                case 'Fav' :
-                    current_score = pct_distribution.Fav;
-                    comparator_score = comparator_pct_distribution.Fav;
-                    scoreLabel = meta.Labels['labels.Favorable'].Label;
-                    scoreValue = Utils_FormatPctOutput(current_score);
-                    break;
-
                 case 'Neu' :
                     current_score = pct_distribution.Neu
                     comparator_score = comparator_pct_distribution.Neu;
-                    scoreLabel = meta.Labels.Neutral.Label;
+                    scoreLabel = meta.Labels['labels.Neutral'].Label;
                     scoreValue =  Utils_FormatPctOutput(current_score);
                     break;
 
                 case 'Unfav' :
                     current_score = pct_distribution.Unfav;
                     comparator_score = comparator_pct_distribution.Unfav;
-                    scoreLabel = meta.Labels.Unfavorable.Label;
+                    scoreLabel = meta.Labels['labels.Unfavorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
                     break;
 
+                case 'Fav' :
                 default :
-                    current_score = distribution.Fav;
+                    current_score = pct_distribution.Fav;
                     comparator_score = comparator_pct_distribution.Fav;
                     scoreLabel = meta.Labels['labels.Favorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
@@ -240,7 +234,7 @@ function KeyMetrics_Render() {
 							</div>
                             
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${dimension_id == 'DIM_N65' ? meta.Labels['KeyMetric_MoreCardText.DIM_N65'].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`] ? meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>
