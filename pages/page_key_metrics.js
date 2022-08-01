@@ -44,7 +44,6 @@ function KeyMetrics_Render() {
     var metrics = data.Metrics;
 
     for(var i = 0; i < metrics.length; i++) {
-
         var scoreType, scoreLabel, scoreValue;
 
         var dimension_id = metrics[i];
@@ -65,29 +64,23 @@ function KeyMetrics_Render() {
             scoreType = key_metric.split('.')[1];
 
             switch (scoreType) {
-                case 'Fav' :
-                    current_score = pct_distribution.Fav;
-                    comparator_score = comparator_pct_distribution.Fav;
-                    scoreLabel = meta.Labels['labels.Favorable'].Label;
-                    scoreValue = Utils_FormatPctOutput(current_score);
-                    break;
-
                 case 'Neu' :
                     current_score = pct_distribution.Neu
                     comparator_score = comparator_pct_distribution.Neu;
-                    scoreLabel = meta.Labels.Neutral.Label;
+                    scoreLabel = meta.Labels['labels.Neutral'].Label;
                     scoreValue =  Utils_FormatPctOutput(current_score);
                     break;
 
                 case 'Unfav' :
                     current_score = pct_distribution.Unfav;
                     comparator_score = comparator_pct_distribution.Unfav;
-                    scoreLabel = meta.Labels.Unfavorable.Label;
+                    scoreLabel = meta.Labels['labels.Unfavorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
                     break;
 
+                case 'Fav' :
                 default :
-                    current_score = distribution.Fav;
+                    current_score = pct_distribution.Fav;
                     comparator_score = comparator_pct_distribution.Fav;
                     scoreLabel = meta.Labels['labels.Favorable'].Label;
                     scoreValue = Utils_FormatPctOutput(current_score);
@@ -144,12 +137,15 @@ function KeyMetrics_Render() {
 								<table>
 			`);
 
-
+        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 2;
+        let externalCount = 0;
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
             var type = c.split('.')[0]; // "Internal" or "External"
 
-            if ( type == "External") {
+            if ( type == "External" && externalCount < externalCardLimit) {
+
+                externalCount++;
 
                 var comparator_data = comparators_data[c];
 
@@ -165,16 +161,16 @@ function KeyMetrics_Render() {
                     : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
 
                 o.push(`
-                        <tr>
-                            <td class="vs_label">
-                                ${meta.Comparators[c].Label}
-                            </td>
+							<tr>
+								<td class="vs_label">
+									${meta.Comparators[c].Label}
+								</td>
 
-                            <td class="vs_score">
-                                ${comparator_fav}
-                            </td>
-                        </tr>
-                    `);
+								<td class="vs_score">
+									${comparator_fav}
+								</td>
+							</tr>
+						`);
             }
         }
 
@@ -240,7 +236,7 @@ function KeyMetrics_Render() {
 							</div>
                             
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${dimension_id == 'DIM_N65' ? meta.Labels['KeyMetric_MoreCardText.DIM_N65'].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`] ? meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>

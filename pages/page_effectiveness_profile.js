@@ -324,8 +324,9 @@ function EffectivenessProfile_ComparatorsData_WithFilter() {
 			case "External":
 				var name = parts[1];
 				var code = config.Norms[name]; // ['AllCompany_A_17TO19_Avg'];
-				comparators_data[ comparator_id ] = data['NORMS-EP'][code];
-
+				if(data['NORMS-EP'][code] !== undefined){
+					comparators_data[ comparator_id ] = data['NORMS-EP'][code];
+				}
 				break;
 		}
 	}
