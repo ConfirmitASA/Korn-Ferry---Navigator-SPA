@@ -44,7 +44,6 @@ function KeyMetrics_Render() {
     var metrics = data.Metrics;
 
     for(var i = 0; i < metrics.length; i++) {
-
         var scoreType, scoreLabel, scoreValue;
 
         var dimension_id = metrics[i];
@@ -138,12 +137,15 @@ function KeyMetrics_Render() {
 								<table>
 			`);
 
-
+        let externalCardLimit = config.hasOwnProperty('ExternalCardLimit') ? config.ExternalCardLimit : 2;
+        let externalCount = 0;
         for (var k = 0; k < comparators.length; k++) {
             var c = comparators[k];
             var type = c.split('.')[0]; // "Internal" or "External"
 
-            if ( type == "External") {
+            if ( type == "External" && externalCount < externalCardLimit) {
+
+                externalCount++;
 
                 var comparator_data = comparators_data[c];
 
@@ -159,16 +161,16 @@ function KeyMetrics_Render() {
                     : Utils_FormatPctOutput(comparator_data.Dimensions[ dimension_id ].Dist.Fav);
 
                 o.push(`
-                        <tr>
-                            <td class="vs_label">
-                                ${meta.Comparators[c].Label}
-                            </td>
+							<tr>
+								<td class="vs_label">
+									${meta.Comparators[c].Label}
+								</td>
 
-                            <td class="vs_score">
-                                ${comparator_fav}
-                            </td>
-                        </tr>
-                    `);
+								<td class="vs_score">
+									${comparator_fav}
+								</td>
+							</tr>
+						`);
             }
         }
 

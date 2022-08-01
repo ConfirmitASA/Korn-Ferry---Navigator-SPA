@@ -1124,9 +1124,9 @@ function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id
 			case "External":
 
 				// need to understand how this mapping is supposed to work
-				var benchmark_id;
+				var benchmark_id = config.Norms[parts[1]];
 
-				switch ( parts[1] ) {
+				/*switch ( parts[1] ) {
 
 					case 'IndustryBenchmark':
 						benchmark_id = Main_ExternalNorms_IndustryNormId();
@@ -1135,7 +1135,7 @@ function Main_ComparatorsData_WithFilter( type, force_all, breakdown_variable_id
 					case 'HighPerformers':
 						benchmark_id = Main_ExternalNorms_HighPeformersNormId();
 						break;
-				}
+				}*/
 
 				var items_key = Main_GetNormsKeyWithFilter( benchmark_id, breakdown_variable_id, code );
 				var dimensions_key = Main_GetNormDimensionsKeyWithFilter ( benchmark_id, breakdown_variable_id, code );
@@ -1157,13 +1157,13 @@ function Main_ParentNodeId() {
 	return meta.Hierarchy.Map[ parent_id ].Id;
 }
 
-function Main_ExternalNorms_IndustryNormId() {
+/*function Main_ExternalNorms_IndustryNormId() {
 	return config.Norms.IndustryBenchmark; //Codes[0];
 }
 
 function Main_ExternalNorms_HighPeformersNormId() {
 	return config.Norms.HighPerformers; //Codes[1];
-}
+}*/
 
 function Main_GetNormsKeyWithFilter( benchmark_id, breakdown_variable_id, code ) {
 
