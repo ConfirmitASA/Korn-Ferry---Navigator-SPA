@@ -61,11 +61,13 @@ function OpenComments_Render() {
 
         // Change Comment Category List
         State_Set('CommentCategory', '-1');
+        /*
         var options = ParamValues_CommentCategory();
         var str = '<option value="-1">' + meta.Labels["labels.all"].Label + '</option>';
         for (var i=0; i<options.length; i++)
             str += '<option value="' + options[i].Code + '">' + options[i].Label + '</option>';
         $('#opencomments_category-highlighter-dropdown').html(str);
+        */
 
         Main_RefreshCurrentPage();
 
@@ -91,8 +93,12 @@ function OpenComments_VerbatimsTable() {
         };
     }
 
-    var comm = OpenComments_VariableId(); // example: "Comm1"
-    var cat = $('#opencomments_category-highlighter-dropdown').val(); // example: "1"
+    //var comm = OpenComments_VariableId(); // example: "Comm1"
+    var comm = State_Get('comment');
+
+    //var cat = $('#opencomments_category-highlighter-dropdown').val(); // example: "1"
+    var cat = State_Get('CommentCategory');
+
     var cat_text = $('#opencomments_category-highlighter-dropdown option:selected').text(); // example: "Quality"
 
     var table_data = [];
@@ -145,7 +151,7 @@ function OpenComments_VerbatimsTable() {
     `;
 
     var exportColumns = [ 1, 2 ];
-    var view_name = Main_GetPageLabel ('#submenuitem-GroupComments-OpenComments'); /* + 
+    var view_name = Main_GetPageLabel ('#submenuitem-GroupComments-OpenComments'); /* +
     ' - ' +
     $('#opencomments_comment-highlighter-dropdown option:selected').text();
     */
@@ -181,7 +187,7 @@ function OpenComments_VariableId() {
 }
 
 function OpenComments_Key() {
-    return ['COMM', config.CurrentWave, data.User.PersonalizedReportBase,  OpenComments_VariableId().toUpperCase(), Main_FilterHash()].join('.');
+    return ['COMM', config.CurrentWave, data.User.PersonalizedReportBase,  State_Get('comment').toUpperCase(), Main_FilterHash()].join('.');
 }
 
 function OpenComments_Data() {
