@@ -236,7 +236,9 @@ function KeyMetrics_Render() {
 							</div>
                             
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`] ? meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label : KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${dimension_id !== config.EngagementDimensionId && dimension_id !== config.EnablementDimensionId ? 
+                                meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label : 
+                                KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>
