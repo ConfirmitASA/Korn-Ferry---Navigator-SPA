@@ -111,22 +111,23 @@ function Modal_Render() {
 
 	for (var qid in meta.Demographics) {
 
-		var item = meta.Demographics[qid];
+		if ( qid.toUpperCase() != 'ORGCODE') {
+			var item = meta.Demographics[qid];
 
-		var tmp = [];
-		for (var code in item.Answers) {
-			var answer = item.Answers[code];
-			tmp.push(`<option value="${qid}.${code}">${answer.Label}</option>`);
+			var tmp = [];
+			for (var code in item.Answers) {
+				var answer = item.Answers[code];
+				tmp.push(`<option value="${qid}.${code}">${answer.Label}</option>`);
+			}
+
+			o.push(`
+					<div class=filterbox>
+						<div class=filterheading>${item.Label}</div>
+						<select size=4 multiple=multiple class=demoanswers>${tmp.join('')}</select>
+					</div>
+				`);
 		}
-
-		o.push(`
-				<div class=filterbox>
-					<div class=filterheading>${item.Label}</div>
-					<select size=4 multiple=multiple class=demoanswers>${tmp.join('')}</select>
-				</div>
-			`);
 	}
-
 
 	var has_data_filters = data.Filters.length>0;
 
@@ -207,7 +208,7 @@ function Modal_Render() {
 
 		var query = {
 			page: 'Modal',
-			Requester: 'Modal-#filter-apply-button', 
+			Requester: 'Modal-#filter-apply-button',
 			Filters: ModalGetFilters(),
 			EffectivenessByDemo: { Demo: State_Get('demo') },
 			Tables: ['items'],

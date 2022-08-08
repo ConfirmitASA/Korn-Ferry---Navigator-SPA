@@ -165,10 +165,22 @@ function ResultsBreakdown_ItemsTable() {
 			var dist = option.Dist;
 			if (itemId) dist = Utils_CountsToPercents ( dist );
 
-			var opt = meta.Demographics[breakdown_variable_id].Answers[j];
+			var opt;
+
+			switch (breakdown_variable_id.toUpperCase() ) {
+
+				case 'ORGCODE':
+					opt = meta.Hierarchy.Map[j];
+					break;
+
+				default:
+					opt = meta.Demographics[breakdown_variable_id].Answers[j];
+			}
+
 			var label = (opt == null)
 				? NOT_AVAILABLE
 				: opt.Label;
+
 
 			rowdata = [
 				{ Label: '0_', ClassName: 'id-cell' },

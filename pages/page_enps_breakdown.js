@@ -138,7 +138,18 @@ function ENPSBreakdown_ItemsTable() {
                 ? NOT_AVAILABLE
                 : (dist.Promoters - dist.Detractors);
 
-            var option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
+            var option;
+
+            switch (breakdown_variable_id.toUpperCase() ) {
+
+                case 'ORGCODE':
+                    option = meta.Hierarchy.Map[segment_code];
+                    break;
+
+                default:
+                    option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
+            }
+
             var label = (option == null)
                 ? NOT_AVAILABLE
                 : option.Label;
