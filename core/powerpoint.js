@@ -1527,7 +1527,7 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 		}
 	);
 
-	let categoryLabels = chartData.Detached.categories.reverse();
+	let categoryLabels = chartData.Detached.categories;
 	let rows = categoryLabels.map(elem => [elem]);
 	effectivenessProfileDetailSlide.addTable(rows, { y: 2.25, ...chartCategoryLabelsOptions });
 
@@ -1585,7 +1585,7 @@ function Pptx_AddEffectivenessProfileDetailSlide(pptx, access) {
 		}
 	);
 
-	categoryLabels = chartData.LeastEffective.categories.reverse();
+	categoryLabels = chartData.LeastEffective.categories;
 	rows = categoryLabels.map(elem => [elem]);
 	effectivenessProfileDetailSlide.addTable(rows, { y: 4.65, ...chartCategoryLabelsOptions });
 
