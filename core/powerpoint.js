@@ -319,30 +319,45 @@ function Pptx_AddSlideWithItemsList(pptx, tableData, tableType, addTable, access
 		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), style);
 		*/
 		style.chartColors = config.styles.DistributionChart.bgcolors;
-		RecursiveTableRedraw(pptx, slide, table, style, 1);
+		if (tableType == 'DIMS') {
+			RecursiveTableRedraw(pptx, slide, table, style, 1);
+		} else {
+			slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), style);
+		}
 	}
 }
 
 function RecursiveTableRedraw(pptx, slide, table, style, pages) {
 	var newStyle = Object.assign({}, style);
+	var dimsPerSlide;
+	var slideHeight;
+	if (config.DimensionsPerSlide < 5) {
+		dimsPerSlide = 5;
+	} else {
+		dimsPerSlide = config.DimensionsPerSlide;
+	}
+
+	slideHeight = dimsPerSlide*6/10;
+	if (slideHeight > 6) slideHeight = 6;
+	newStyle.h = slideHeight;
+
 	if (pages > 1) {
 		slide = pptx.addSlide({masterName: "WHITE",  sectionTitle: "Appendix"});
 	}
-	if (table.NofItems < 10) {
-		newStyle.h = 3,5;
+	if (table.NofItems < dimsPerSlide) {
+		newStyle.h = table.NofItems*0.85;
 		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), newStyle);
 	} else {
-		newStyle.h = 6;
+		// cut table by n rows sections
 		var newTable = {};
 		var newTableRows = table.rows.slice();
-		// cut table by 10 rows sections
 		var startRow = table.rows.length - table.NofItems;
-		newTableRows.splice(startRow + 10, newTableRows.length - 10);
+		newTableRows.splice(startRow + dimsPerSlide, newTableRows.length - dimsPerSlide);
 		newTable.rows = newTableRows;
-		newTable.NofItems = 10;
+		newTable.NofItems = dimsPerSlide;
 		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(newTable), newStyle);
-		table.rows.splice(startRow, 10);
-		table.NofItems = table.NofItems - 10;
+		table.rows.splice(startRow, dimsPerSlide);
+		table.NofItems = table.NofItems - dimsPerSlide;
 		pages++;
 		RecursiveTableRedraw(pptx, slide, table, newStyle, pages);
 	}
