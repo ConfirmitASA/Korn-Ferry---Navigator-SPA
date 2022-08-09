@@ -111,7 +111,7 @@ function Modal_Render() {
 
 	for (var qid in meta.Demographics) {
 
-		if ( qid.toUpperCase() != 'ORGCODE') {
+		if ( qid != config.PFQ) {
 			var item = meta.Demographics[qid];
 
 			var tmp = [];

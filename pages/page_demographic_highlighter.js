@@ -200,14 +200,10 @@ function DemographicHighlighter_CreateCards(breakBy, item, basisForComparison) {
 
 		var option;
 
-		switch (breakBy.toUpperCase() ) {
-
-			case 'ORGCODE':
-				option = meta.Hierarchy.Map[differences[i].Code];
-				break;
-
-			default:
-				option = meta.Demographics[breakBy].Answers[differences[i].Code];
+		if (breakBy == config.PFQ) {
+			option = meta.Hierarchy.Map[differences[i].Code];
+		} else {
+			option = meta.Demographics[breakBy].Answers[differences[i].Code];
 		}
 
 		if(differences[i].Value >= 0) {

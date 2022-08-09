@@ -167,14 +167,10 @@ function ResultsBreakdown_ItemsTable() {
 
 			var opt;
 
-			switch (breakdown_variable_id.toUpperCase() ) {
-
-				case 'ORGCODE':
-					opt = meta.Hierarchy.Map[j];
-					break;
-
-				default:
-					opt = meta.Demographics[breakdown_variable_id].Answers[j];
+			if (breakdown_variable_id == config.PFQ) {
+				opt = meta.Hierarchy.Map[j];
+			} else {
+				opt = meta.Demographics[breakdown_variable_id].Answers[j];
 			}
 
 			var label = (opt == null)

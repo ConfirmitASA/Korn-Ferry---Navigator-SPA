@@ -140,14 +140,10 @@ function ENPSBreakdown_ItemsTable() {
 
             var option;
 
-            switch (breakdown_variable_id.toUpperCase() ) {
-
-                case 'ORGCODE':
-                    option = meta.Hierarchy.Map[segment_code];
-                    break;
-
-                default:
-                    option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
+            if (breakdown_variable_id == config.PFQ) {
+                option = meta.Hierarchy.Map[segment_code];
+            } else {
+                option = meta.Demographics[breakdown_variable_id].Answers[segment_code];
             }
 
             var label = (option == null)

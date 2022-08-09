@@ -1,4 +1,4 @@
-// Demographic Highlighter
+// Demographic Heatmap
 
 function DemographicHeatmap_Page() {
     return {
@@ -311,15 +311,11 @@ function DemographicHeatmap_GetItemsTable() {
 
     var breakByAnswerIds;
 
-    switch ( breakbyVar.toUpperCase() ) {
-
-        case 'ORGCODE':
-            var data_key = Main_GetKeyWithFilter( 'ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, 'ORGCODE');
-            breakByAnswerIds = Object.keys ( data[data_key] );
-            break;
-
-        default:
-            breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Answers);
+    if (breakbyVar == config.PFQ) {
+        var data_key = Main_GetKeyWithFilter( 'ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, config.PFQ);
+        breakByAnswerIds = Object.keys ( data[data_key] );
+    } else {
+        breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Answers);
     }
 
     var key = Main_GetKeyWithFilter(
@@ -348,19 +344,15 @@ function DemographicHeatmap_GetItemsTable() {
     var key = Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId() );
     var nx = data[key];
 
-    for (var i = breakbyVar.toUpperCase() == 'ORGCODE' ? 1 : 0; i < breakByAnswerIds.length; i++) {
+    for (var i = breakbyVar == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
         var n = nx[breakByAnswerIds[i]].N;
 
         var option;
 
-        switch ( breakbyVar.toUpperCase() ) {
-
-            case 'ORGCODE':
-                option = meta.Hierarchy.Map[breakByAnswerIds[i]];
-                break;
-
-            default:
-                option = meta.Demographics[breakbyVar].Answers[breakByAnswerIds[i]];
+        if (breakbyVar == config.PFQ) {
+            option = meta.Hierarchy.Map[breakByAnswerIds[i]];
+        } else {
+            option = meta.Demographics[breakbyVar].Answers[breakByAnswerIds[i]];
         }
 
         headerRow1.push({
@@ -418,7 +410,7 @@ function DemographicHeatmap_GetItemsTable() {
 
     var exportColumns = [];
 
-    var BBlength = breakbyVar.toUpperCase() == 'ORGCODE' ? breakByAnswerIds.length - 1 : breakByAnswerIds.length;
+    var BBlength = breakbyVar == config.PFQ ? breakByAnswerIds.length - 1 : breakByAnswerIds.length;
     for (var k = 4; k < 4 + 3 + BBlength; k++) {
         exportColumns.push(k);
     }
@@ -486,7 +478,7 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
     }
 
     // Loop over all breakdown values
-    for (var i = breakdown_variable_id.toUpperCase() == 'ORGCODE' ? 1 : 0; i < breakByAnswerIds.length; i++) {
+    for (var i = breakdown_variable_id == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
         var breakdown_code = breakByAnswerIds[i];
         var breakdown_dimension_data = breakdown_data[breakdown_code][dimensionId];
         var dist = breakdown_dimension_data.Dist;
@@ -548,7 +540,7 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
         case 'PercentUnfavorable': property = 'Unfav'; break;
     }
 
-    for (var i = breakdown_variable_id.toUpperCase() == 'ORGCODE' ? 1 : 0; i < breakByAnswerIds.length; i++) {
+    for (var i = breakdown_variable_id == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
 
         var breakdown_code = breakByAnswerIds[i];
         var breakdown_item_data = breakdown_data[breakdown_code][itemId];
