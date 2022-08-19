@@ -344,7 +344,10 @@ function DemographicHeatmap_GetItemsTable() {
     var key = Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId() );
     var nx = data[key];
 
-    for (var i = breakbyVar == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
+    for (var i = 0; i < breakByAnswerIds.length; i++) {
+        if(breakbyVar == config.PFQ && breakByAnswerIds[i] === data.User.PersonalizedReportBase) {
+            continue; //don't show column for top node under One Level Down as it is already shown
+        }
         var n = nx[breakByAnswerIds[i]].N;
 
         var option;
@@ -478,7 +481,10 @@ function DemographicHeatmap_GetDimensionRowData(dimensionN, dimensionId, breakBy
     }
 
     // Loop over all breakdown values
-    for (var i = breakdown_variable_id == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
+    for (var i = 0; i < breakByAnswerIds.length; i++) {
+        if(breakdown_variable_id == config.PFQ && breakByAnswerIds[i] === data.User.PersonalizedReportBase) {
+            continue; //skip top node for One Level Down breakby
+        }
         var breakdown_code = breakByAnswerIds[i];
         var breakdown_dimension_data = breakdown_data[breakdown_code][dimensionId];
         var dist = breakdown_dimension_data.Dist;
@@ -540,8 +546,10 @@ function DemographicHeatmap_GetItemRowData(dimensionN, dimensionId, itemId, brea
         case 'PercentUnfavorable': property = 'Unfav'; break;
     }
 
-    for (var i = breakdown_variable_id == config.PFQ ? 1 : 0; i < breakByAnswerIds.length; i++) {
-
+    for (var i = 0; i < breakByAnswerIds.length; i++) {
+        if(breakdown_variable_id == config.PFQ && breakByAnswerIds[i] === data.User.PersonalizedReportBase) {
+            continue; //skip top node for One Level Down breakby
+        }
         var breakdown_code = breakByAnswerIds[i];
         var breakdown_item_data = breakdown_data[breakdown_code][itemId];
         var dist = Utils_CountsToPercents ( breakdown_item_data.Dist );
