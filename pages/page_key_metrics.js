@@ -44,11 +44,17 @@ function KeyMetrics_Render() {
     var metrics = data.Metrics;
 
     for(var i = 0; i < metrics.length; i++) {
+
+
         var scoreType, scoreLabel, scoreValue;
 
         var dimension_id = metrics[i];
-        var pct_distribution = current_dimensions[ dimension_id ].Dist;
-
+        try {
+            var pct_distribution = current_dimensions[ dimension_id ].Dist;
+        } catch(e) {
+            console.log('Error in Metrics Config: ' + dimension_id);
+            continue;
+        }
         var current_score;
         var comparator_score;
         var comparator_pct_distribution = {Fav: null, Neu: null, Unfav: null};
@@ -236,9 +242,9 @@ function KeyMetrics_Render() {
 							</div>
                             
 							<div style="position: absolute; top: 140px; left: 8%; width: 85%;">
-								${dimension_id !== config.EngagementDimensionId && dimension_id !== config.EnablementDimensionId ? 
-                                meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label : 
-                                KeyMetrics_MetricDrivers(dimension_id, scoreType)}
+								${dimension_id !== config.EngagementDimensionId && dimension_id !== config.EnablementDimensionId ?
+            meta.Labels[`KeyMetric_MoreCardText.${dimension_id}`].Label :
+            KeyMetrics_MetricDrivers(dimension_id, scoreType)}
 							</div>
 
 						</div>
@@ -259,6 +265,7 @@ function KeyMetrics_Render() {
             `
 
         );
+
     }
 
     // Update Main Container
@@ -570,6 +577,7 @@ function KeyMetrics_MetricDrivers(dimension_id, scoreType) {
     if (!!meta.Dimensions[ dimension_id ].Items) {
         for (var j = 0; j< 2 && j < drivers.length; j++) {
             var item_id = drivers[j]; // example: "AV01"
+            if (current_items[item_id] == undefined) continue;
             var pct_distribution = Utils_CountsToPercents ( current_items[item_id].Dist );
 
             var scoreValue;

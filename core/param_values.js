@@ -39,7 +39,7 @@ function ParamValues_Items() {
 
 	var qno = 0; // todo - fixed qno issue
 	for (var i of itemKeys) {
-		param_values.push ( {Code: 'items.' + i, Label: (++qno) + '. ' + meta.Items[i].Label} ); 
+		param_values.push ( {Code: 'items.' + i, Label: (++qno) + '. ' + meta.Items[i].Label} );
 	}
 
 	return param_values;
@@ -85,13 +85,12 @@ function ParamValues_Comment() {
 
 function ParamValues_CommentCategory() {
 	var comm = State_Get('comment');
-	//var CategoryList = config.comments[comm].CategoryList;
+	if ( meta.CommentCategories[comm] == null ) return null; // the active question is not coded
+
 	var param_values = [];
-
-	for (var i in meta.CommentCategories/*[CategoryList]*/) {
-		param_values.push ( {Code: i, Label: meta.CommentCategories/*[CategoryList]*/[i].Label} );
+	for (var i in meta.CommentCategories[comm]) {
+		param_values.push ( {Code: i, Label: meta.CommentCategories[comm][i].Label} );
 	}
-
 	return param_values;
 }
 

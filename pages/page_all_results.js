@@ -55,13 +55,13 @@ function AllResults_Render() {
 function AllResults_ItemsTable() {
 	// Return Value: {Html: <string>, [ScriptCode: <string>]}
 
-    var current_items = Main_CurrentItemsData_WithFilter();
-    var current_dimensions = Main_CurrentDimensionsData_WithFilter();
+	var current_items = Main_CurrentItemsData_WithFilter();
+	var current_dimensions = Main_CurrentDimensionsData_WithFilter();
 
 	// temp code until the Source property is removed
 	if (current_items.hasOwnProperty("Source"))
-		delete current_items.Source;	
-	
+		delete current_items.Source;
+
 	var itemgroup = State_Get('itemgroup');
 	var dimensionId = itemgroup.indexOf('dimensions.') == 0 ? itemgroup.split('.')[1] : '';
 
@@ -119,12 +119,17 @@ function AllResults_ItemsTable() {
 			}
 			if (itemgroup=='AllQuestionsOrdByDimension' || dimensionId==i) {
 				// Add Questions from this Dimension
-				var dimItems = meta.Dimensions[i].Items;
-				for (var j = 0; j < dimItems.length; j++) {
-					// Check if question exists in data (this is only a temp problem with test data, in real life we shouldn't have to do this test)
-					if ( current_items[dimItems[j]] != null ) {	
-						table_data.push( AllResults_AddItemToTable(dimItems[j], false, sort_qId) );
+				try {
+					var dimItems = meta.Dimensions[i].Items;
+					for (var j = 0; j < dimItems.length; j++) {
+						// Check if question exists in data (this is only a temp problem with test data, in real life we shouldn't have to do this test)
+						if ( current_items[dimItems[j]] != null ) {
+							table_data.push( AllResults_AddItemToTable(dimItems[j], false, sort_qId) );
+						}
 					}
+				}
+				catch(e) {
+					console.log("Error in Dimensions config: " + i);
 				}
 			}
 			counter++;
@@ -152,7 +157,7 @@ function AllResults_ItemsTable() {
 	`;
 
 	var exportColumns = [];
-	
+
 	for (var k = 1; k < ValidNCol; k++) exportColumns.push(k);
 	if (!is_all_dimensions_view) exportColumns.push(ValidNCol);
 	for (var k = ValidNCol+1; k < barchartCol; k++) exportColumns.push(k);
@@ -177,36 +182,38 @@ function AllResults_ItemsTable() {
 }
 
 function AllResults_AddItemToTable(itemId, isDimension, sortId) {
-    var formatter = Utils_FormatOutput;
+	var formatter = Utils_FormatOutput;
 
-    var comparators = Main_CompactComparatorSet();
-    var NofComparators = comparators ? comparators.length : 0;
-    var comparators_data = Main_ComparatorsData_WithFilter();
+	var comparators = Main_CompactComparatorSet();
+	var NofComparators = comparators ? comparators.length : 0;
+	var comparators_data = Main_ComparatorsData_WithFilter();
 
-    var current_data = isDimension
-        ? Main_CurrentDimensionsData_WithFilter()
-        : Main_CurrentItemsData_WithFilter();
+	var current_data = isDimension
+		? Main_CurrentDimensionsData_WithFilter()
+		: Main_CurrentItemsData_WithFilter();
 
-    var obj = current_data[itemId]; // Either Item or Dimension
+	var obj = current_data[itemId]; // Either Item or Dimension
+	try {
+		var label = isDimension
+			? '<b>'+meta.Dimensions[itemId].Label+'</b>'
+			: meta.Items[itemId].Label;
+	} catch (e) {
+		console.log("Error in Dimensions config: " + itemId);
+	}
+	var id = isDimension
+		? '&#9674;' // diamond symbol
+		: obj.QNo;
 
-    var label = isDimension
-        ? '<b>'+meta.Dimensions[itemId].Label+'</b>'
-        : meta.Items[itemId].Label;
-
-    var id = isDimension
-        ? '&#9674;' // diamond symbol
-        : obj.QNo;
-	
 	var validN = isDimension
-        ? ''	// don't show N value for dimensions
-        : formatter (obj.N);
+		? ''	// don't show N value for dimensions
+		: formatter (obj.N);
 
-    var pct_dist = isDimension
-        ? obj.Dist // dimensions already store rounded percentages in the distribution
-        : Utils_CountsToPercents(obj.Dist);
+	var pct_dist = isDimension
+		? obj.Dist // dimensions already store rounded percentages in the distribution
+		: Utils_CountsToPercents(obj.Dist);
 
-    var rowdata = [];
-    rowdata.push(
+	var rowdata = [];
+	rowdata.push(
 		{Label: sortId, ClassName: 'id-cell'},
 		{Label: id, ClassName: 'id-cell'},
 		{Label: label, ClassName: 'text-cell'},
@@ -215,37 +222,37 @@ function AllResults_AddItemToTable(itemId, isDimension, sortId) {
 		{Label: formatter (pct_dist.Neu), ClassName: 'numeric-cell distribution-cell'},
 		{Label: formatter (pct_dist.Unfav), ClassName: 'numeric-cell distribution-cell'},
 		{Label: Component_DistributionChartStacked(pct_dist), datasort: pct_dist.Fav, ClassName: 'text-cell'}
-    );
+	);
 
 	for (var k = 0; k < NofComparators; k++) {
 		var comparator_id = comparators[k];
 		var comparator_data = comparators_data[comparator_id];
 		var comparator_data_itemsdata = isDimension ? comparator_data.Dimensions : comparator_data.Items;
 
-        var value;
-        var sigClassname;
+		var value;
+		var sigClassname;
 
-        if (
-            comparator_data == null
-            ||
-            comparator_data_itemsdata == null
-            ||
-            comparator_data_itemsdata[itemId] == null
-        ) {
-            value = NOT_AVAILABLE;
-            sigClassname = '';
-        }
-        else {
-            var sig_test = Utils_SigTest(obj, comparator_data_itemsdata[itemId], 'Fav', isDimension);
-            sigClassname = sig_test.IsSignificant
-                ? (sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
-                : '';
+		if (
+			comparator_data == null
+			||
+			comparator_data_itemsdata == null
+			||
+			comparator_data_itemsdata[itemId] == null
+		) {
+			value = NOT_AVAILABLE;
+			sigClassname = '';
+		}
+		else {
+			var sig_test = Utils_SigTest(obj, comparator_data_itemsdata[itemId], 'Fav', isDimension);
+			sigClassname = sig_test.IsSignificant
+				? (sig_test.Diff > 0 ? 'cell-green' : 'cell-red')
+				: '';
 
-            value = (sig_test.Diff == null)
-                ? NOT_AVAILABLE
-                : (sig_test.Diff > 0 ? '+' : '') + sig_test.Diff + (sig_test.IsSignificant ? ' *' : '');
+			value = (sig_test.Diff == null)
+				? NOT_AVAILABLE
+				: (sig_test.Diff > 0 ? '+' : '') + sig_test.Diff + (sig_test.IsSignificant ? ' *' : '');
 
-        }
+		}
 		rowdata.push({ Label: value, datasort: parseFloat(value), ClassName: 'numeric-cell ' + sigClassname });
 	}
 
@@ -257,7 +264,6 @@ function AllResults_AddItemToTable(itemId, isDimension, sortId) {
 	let actionButton = `<div class="action-cell"><div class="action-icon ${actionButtonClass}" id = "${actionIdDimensionOrQuestion}-${itemId}-button" ></div></div>`;
 	rowdata.push({Label: actionButton, ClassName: 'numeric-cell'});
 
-    return rowdata;
+	return rowdata;
 }
-
 

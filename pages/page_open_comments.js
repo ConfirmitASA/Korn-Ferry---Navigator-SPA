@@ -30,13 +30,18 @@ function OpenComments_Render() {
         ParamValues_Comment()
     );
 
-    var Category_dropdown = Component_Dropdown(
-        'CommentCategory',
-        meta.Labels['labels.SelectTheme'].Label,
-        'opencomments_category-highlighter-dropdown',
-        meta.Labels['labels.all'].Label,
-        ParamValues_CommentCategory()
-    );
+    var comment_category_values = ParamValues_CommentCategory();
+
+    var Category_dropdown = '';
+    if ( comment_category_values != null ) {
+        Category_dropdown = Component_Dropdown(
+            'CommentCategory',
+            meta.Labels['labels.SelectTheme'].Label,
+            'opencomments_category-highlighter-dropdown',
+            meta.Labels['labels.all'].Label,
+            comment_category_values
+        );
+    }
 
     o.push(`
         <div class="selector-group">

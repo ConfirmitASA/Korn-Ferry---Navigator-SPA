@@ -458,6 +458,7 @@ function Slideshow_MetricDrivers(dimension_id) {
     if (!!meta.Dimensions[dimension_id].Items) {
         for (var j = 0; j < 2 && j < drivers.length; j++) {
             var item_id = drivers[j]; // example: "AV01"
+            if (current_items[item_id] == undefined) continue;
             var pct_distribution = Utils_CountsToPercents(current_items[item_id].Dist);
             var scoreValue = Utils_FormatPctOutput(pct_distribution.Fav);
             var item_dimension_id = Main_GetDimensionIdByItemId(item_id);

@@ -111,9 +111,68 @@ const PPTX_CELL_BLACK = {
 	align: 'center'
 }
 
+window.addEventListener("load", function(event) {
+	window.PPT_image_storage = {
+		root: config.FileLib,
+		get KF_logo_white() { return this.root + 'KF_logo_white.png'},
+		get KF_text_logo() { return this.root + 'KF_text_logo.png'},
+		get KF_logo_gray() { return this.root + 'KF_logo_gray.png'},
+		get green_background() { return this.root + 'green_background.png'},
+		get green_gradient1() { return this.root + 'green_gradient1.png'},
+		get green_background2() { return this.root + 'green_background2.jpg'},
+		get green_gradient2() { return this.root + 'green_gradient2.png'},
+		get green_gradient3() { return this.root + 'green_gradient3.png'},
+		get green_gradient4() { return this.root + 'green_gradient4.png'},
+		get green_gradient5() { return this.root + 'green_gradient5.png'},
+		get green_gradient6() { return this.root + 'green_gradient6.png'},
+		get gray_gradient() { return this.root + 'gray_gradient.png'},
+		get arrow_down() { return this.root + 'arrow_down.png'},
+		get arrow_up() { return this.root + 'arrow_up.png'},
+		get arrow_flat() { return this.root + 'arrow_flat.png'},
+		get authority_and_empowerement() { return this.root + 'authority_and_empowerement.png'},
+		get change_management() { return this.root + 'change_management.png'},
+		get clear_and_promising_direction() { return this.root + 'clear_and_promising_direction.png'},
+		get collaboration() { return this.root + 'collaboration.png'},
+		get communication() { return this.root + 'communication.png'},
+		get compensation_and_benefits() { return this.root + 'compensation_and_benefits.png'},
+		get confidence_in_leaders() { return this.root + 'confidence_in_leaders.png'},
+		get corporate_social_responsibility() { return this.root + 'corporate_social_responsibility.png'},
+		get development_opportunities() { return this.root + 'development_opportunities.png'},
+		get diversity_and_inclusion() { return this.root + 'diversity_and_inclusion.png'},
+		get employee_wellbeing() { return this.root + 'employee_wellbeing.png'},
+		get enablement() { return this.root + 'enablement.png'},
+		get engagement() { return this.root + 'engagement.png'},
+		get ethics_and_compliance() { return this.root + 'ethics_and_compliance.png'},
+		get organizational_agility() { return this.root + 'organizational_agility.png'},
+		get performance_management() { return this.root + 'performance_management.png'},
+		get quality_and_customer_focus() { return this.root + 'quality_and_customer_focus.png'},
+		get resources() { return this.root + 'resources.png'},
+		get respect_and_recognition() { return this.root + 'respect_and_recognition.png'},
+		get safety() { return this.root + 'safety.png'},
+		get strategy_alignment() { return this.root + 'strategy_alignment.png'},
+		get training() { return this.root + 'training.png'},
+		get work_structure_progress() { return this.root + 'work_structure_progress.png'},
+		get detached() { return this.root + 'detached.png'},
+		get frustrated() { return this.root + 'frustrated.png'},
+		get leasteffective() { return this.root + 'leasteffective.png'},
+		get mosteffective() { return this.root + 'mosteffective.png'},
+		get attract_talent() { return this.root + 'attract_talent.png'},
+		get customer_loyalty() { return this.root + 'customer_loyalty.png'},
+		get financial_performance() { return this.root + 'financial_performance.png'},
+		get operational_excellence() { return this.root + 'operational_excellence.png'},
+		get strong_brand() { return this.root + 'strong_brand.png'},
+		get enablement_briefcase() { return this.root + 'enablement_briefcase.png'},
+		get engagement_bulb() { return this.root + 'engagement_bulb.png'}
+	}
+});
+
 // Button: Download (PowerPoint)
 function Pptx_Generator() {
-	//alert('Dowloading PowerPoint...');
+	// Dowloading PowerPoint...
+
+	$('#page-Home').css('display', 'none');
+	$('#master-page-modal-spinner-container').css('display', 'block');
+	$('.loader').css('display', 'block');
 
 	var pptx = new PptxGenJS();
 
@@ -131,10 +190,10 @@ function Pptx_Generator() {
 		},
 		// green_background2, green_gradient6, KF_logo_white, KF_text_logo
 		objects: [
-			{ image: { x: 0, y: 0, h: '100%', w: '100%', data: PPT_image_storage.green_background2 } },
-			{ image: { x: 0, y: 0, h: '100%', w: '100%', data: PPT_image_storage.green_gradient6 } },
-			{ image: { x: 0.917, y: 6.11, h: 0.521, w: 0.5625, data: PPT_image_storage.KF_logo_white } },
-			{ image: { x: 1.622, y: 6.11, h: 0.394, w: 1.76, data: PPT_image_storage.KF_text_logo } },
+			{ image: { x: 0, y: 0, h: '100%', w: '100%', path: PPT_image_storage.green_background2 } },
+			{ image: { x: 0, y: 0, h: '100%', w: '100%', path: PPT_image_storage.green_gradient6 } },
+			{ image: { x: 0.917, y: 6.11, h: 0.521, w: 0.5625, path: PPT_image_storage.KF_logo_white } },
+			{ image: { x: 1.622, y: 6.11, h: 0.394, w: 1.76, path: PPT_image_storage.KF_text_logo } },
 		],
 	});
 
@@ -145,8 +204,8 @@ function Pptx_Generator() {
 		},
 		// gray_gradient, KF_logo_gray
 		objects: [
-			{ image: { x: 9.35, y: 0.0, h: '100%', w: 4, data: PPT_image_storage.gray_gradient } },
-			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, data: PPT_image_storage.KF_logo_gray } },
+			{ image: { x: 9.35, y: 0.0, h: '100%', w: 4, path: PPT_image_storage.gray_gradient } },
+			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, path: PPT_image_storage.KF_logo_gray } },
 			{ text: { text: copyChar + ' 2022 Korn Ferry', options: { x: 11.09, y: 6.95, w: 1.319, h: 0.256, fontSize: 10, color: 'A9A9A9' } } },
 			{ line: { x: 12.197, y: 6.894, h: 0.59, w: 0.197, rotate: 25, line: { color: "A9A9A9", width: 1 } } },
 		],
@@ -160,11 +219,11 @@ function Pptx_Generator() {
 		},
 		// green_background, green_gradient1, green_gradient2, green_gradient3, KF_logo_white
 		objects: [
-			{ image: { x: 0, y: 0, h: '100%', w: '100%', data: PPT_image_storage.green_background } },
-			{ image: { x: 0, y: 0, h: '100%', w: 6.909, data: PPT_image_storage.green_gradient1 } },
-			{ image: { x: 4.236, y: 0, h: '100%', w: 4.453, data: PPT_image_storage.green_gradient2 } },
-			{ image: { x: 12.055, y: 0, h: '100%', w: 1.280, data: PPT_image_storage.green_gradient3 } },
-			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, data: PPT_image_storage.KF_logo_white } },
+			{ image: { x: 0, y: 0, h: '100%', w: '100%', path: PPT_image_storage.green_background } },
+			{ image: { x: 0, y: 0, h: '100%', w: 6.909, path: PPT_image_storage.green_gradient1 } },
+			{ image: { x: 4.236, y: 0, h: '100%', w: 4.453, path: PPT_image_storage.green_gradient2 } },
+			{ image: { x: 12.055, y: 0, h: '100%', w: 1.280, path: PPT_image_storage.green_gradient3 } },
+			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, path: PPT_image_storage.KF_logo_white } },
 			{ text: { text: copyChar + ' 2022 Korn Ferry', options: { x: 11.09, y: 6.95, w: 1.319, h: 0.256, fontSize: 10, color: 'FFFFFF' } } },
 			{ line: { x: 12.197, y: 6.894, h: 0.59, w: 0.197, rotate: 25, line: { color: "FFFFFF", width: 1 } } },
 		],
@@ -178,8 +237,8 @@ function Pptx_Generator() {
 		},
 		// green_gradient4, KF_logo_gray
 		objects: [
-			{ image: { x: 9.217, y: 0, h: '100%', w: 4.118, data: PPT_image_storage.green_gradient4 } },
-			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, data: PPT_image_storage.KF_logo_gray } },
+			{ image: { x: 9.217, y: 0, h: '100%', w: 4.118, path: PPT_image_storage.green_gradient4 } },
+			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, path: PPT_image_storage.KF_logo_gray } },
 			{ text: { text: copyChar + ' 2022 Korn Ferry', options: { x: 11.09, y: 6.95, w: 1.319, h: 0.256, fontSize: 10, color: 'FFFFFF' } } },
 			{ line: { x: 12.197, y: 6.894, h: 0.59, w: 0.197, rotate: 25, line: { color: "FFFFFF", width: 1 } } },
 		],
@@ -193,9 +252,9 @@ function Pptx_Generator() {
 		},
 		// green_gradient5, KF_logo_white, gray_gradient
 		objects: [
-			{ image: { x: 0, y: 0, h: '100%', w: 5.98, data: PPT_image_storage.green_gradient5 } },
-			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, data: PPT_image_storage.KF_logo_white } },
-			{ image: { x: 9.35, y: 0.0, h: '100%', w: 4, data: PPT_image_storage.gray_gradient } },
+			{ image: { x: 0, y: 0, h: '100%', w: 5.98, path: PPT_image_storage.green_gradient5 } },
+			{ image: { x: 0.917, y: 6.81, h: 0.521, w: 0.5625, path: PPT_image_storage.KF_logo_white } },
+			{ image: { x: 9.35, y: 0.0, h: '100%', w: 4, path: PPT_image_storage.gray_gradient } },
 			{ text: { text: copyChar + ' 2022 Korn Ferry', options: { x: 11.09, y: 6.95, w: 1.319, h: 0.256, fontSize: 10, color: 'A9A9A9' } } },
 			{ line: { x: 12.197, y: 6.894, h: 0.59, w: 0.197, rotate: 25, line: { color: "A9A9A9", width: 1 } } },
 		],
@@ -238,7 +297,7 @@ function Pptx_Generator() {
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'TOP5', true, GetAccess("Details_Top5"));
 	Pptx_AddSlideWithItemsList(pptx, tableData, 'BOTTOM5', true, GetAccess("Details_Bottom5"));
 
-	for (var i in meta.CommentQuestions)
+	for (var i in meta.CommentCategories)
 		Pptx_AddCommentsSlide(pptx, i, GetAccess("Comments"));
 
 	Pptx_AddTakingAction(pptx, GetAccess("TakingAction"));
@@ -255,6 +314,11 @@ function Pptx_Generator() {
 
 	pptx.writeFile({
 		fileName: 'Korn Ferry - Employee Engagement'
+	}).then(fileName => {
+		$('#page-Home').css('display', 'block');
+		$('#master-page-modal-spinner-container').css('display', 'none');
+		$('.loader').css('display', 'none');
+		console.log(`PPT created: ${fileName}`);
 	});
 
 }
@@ -337,10 +401,6 @@ function RecursiveTableRedraw(pptx, slide, table, style, pages) {
 		dimsPerSlide = config.DimensionsPerSlide;
 	}
 
-	slideHeight = dimsPerSlide*6/10;
-	if (slideHeight > 6) slideHeight = 6;
-	newStyle.h = slideHeight;
-
 	if (pages > 1) {
 		slide = pptx.addSlide({masterName: "WHITE",  sectionTitle: "Appendix"});
 	}
@@ -348,6 +408,9 @@ function RecursiveTableRedraw(pptx, slide, table, style, pages) {
 		newStyle.h = table.NofItems*0.85;
 		slide.addChart(pptx.ChartType.bar, Pptx_GenerateChartData(table), newStyle);
 	} else {
+		slideHeight = dimsPerSlide*6/10;
+		if (slideHeight > 6) slideHeight = 6;
+		newStyle.h = slideHeight;
 		// cut table by n rows sections
 		var newTable = {};
 		var newTableRows = table.rows.slice();
@@ -480,16 +543,19 @@ function Pptx_GenerateTable(tableType) {
 
 function Pptx_SortByDimensionFav_Desc(a, b){
 	var items = Main_CurrentDimensionsData_WithFilter();
+	if (items[a] == undefined || items[b] == undefined) return;
 	return items[b].Dist.Fav - items[a].Dist.Fav;
 }
 
 function Pptx_SortByFav_Desc(a, b){
 	var items = Main_CurrentItemsData_WithFilter();
+	if (items[a] == undefined || items[b] == undefined) return;
 	return Utils_CountsToPercents(items[b].Dist).Fav - Utils_CountsToPercents(items[a].Dist).Fav;
 }
 
 function Pptx_SortByUnfav_Desc(a, b){
 	var items = Main_CurrentItemsData_WithFilter();
+	if (items[a] == undefined || items[b] == undefined) return;
 	return Utils_CountsToPercents(items[b].Dist).Unfav - Utils_CountsToPercents(items[a].Dist).Unfav;
 }
 
@@ -500,6 +566,7 @@ function Pptx_AddItemToTable(itemId, isDimension, index) {
 		: Main_CurrentItemsData_WithFilter();
 
 	var obj = current_data[itemId]; // Either Item or Dimension
+	if (obj == undefined) return [{text: '-'},{text: '-'},{text: '-'},{text: '-'},{text: '-'},{text: '-'},{text: '-'},{text: '-'}];
 
 	var label = isDimension
 		? meta.Dimensions[itemId].Label
@@ -597,8 +664,7 @@ function Pptx_AddCommentsSlide(pptx, comm, access) {
 	slide.addText(title, PPTX_TITLE_STYLE);
 
 	slide.addText(meta.CommentQuestions[comm].Label, PPTX_COMMENT_STYLE);
-
-	var categories = Object.keys(meta.CommentCategories); // {"1": ..., "2": ...}
+	var categories = Object.keys(meta.CommentCategories[comm]); // {"1": ..., "2": ...}
 	var key = Main_GetKeyWithFilter('COMCAT', config.CurrentWave, data.User.PersonalizedReportBase);
 	var d = data[key];
 
@@ -615,12 +681,12 @@ function Pptx_AddCommentsSlide(pptx, comm, access) {
 	var pct_distribution = Utils_CountsToPercents ( d[comm].Dist );
 	for (var i = 0; i < categories.length; i++) {
 		var cat = categories[i]; // example: "4"
-		arrChartData[0].labels.push(meta.CommentCategories[cat].Label + ' (N=' + d[comm].Dist[cat] + ')');
+		arrChartData[0].labels.push(meta.CommentCategories[comm][cat].Label + ' (N=' + d[comm].Dist[cat] + ')');
 		arrChartData[0].values.push( pct_distribution[cat] );
 	}
 
 	style.y = 1.5;
-	style.h = 0.4 * Object.keys(meta.CommentCategories).length;
+	style.h = 0.4 * Object.keys(meta.CommentCategories[comm]).length;
 	style.chartColors = [config.styles.DistributionChart_onecolor.bgcolor];
 
 	slide.addChart(pptx.ChartType.bar, arrChartData, style);
@@ -724,7 +790,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 	}
 
 	let keyMetricsEngagementArrowIconOptions = {
-		data: GetArrowIconPathBasedOnTrend( engDiff ),
+		path: GetArrowIconPathBasedOnTrend( engDiff ),
 		x: '11%',
 		...keyMetricsArrowIconGeneralOptions
 	}
@@ -744,7 +810,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 
 	keyMetricsSlide.addTable(engagementRows, keyMetricsEngagementTableOptions);
 
-	if (engHas_trend && keyMetricsEngagementArrowIconOptions.data != null)
+	if (engHas_trend && keyMetricsEngagementArrowIconOptions.path != null)
 		keyMetricsSlide.addImage(keyMetricsEngagementArrowIconOptions);
 
 	keyMetricsSlide.addImage(keyMetricsEngagementCardIconOptions);
@@ -797,7 +863,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 		...keyMetricsCardGeneralOptions
 	}
 	let keyMetricsEnablementArrowIconOptions = {
-		data: GetArrowIconPathBasedOnTrend( enaDiff ),
+		path: GetArrowIconPathBasedOnTrend( enaDiff ),
 		x: '40%',
 		...keyMetricsArrowIconGeneralOptions
 	}
@@ -817,7 +883,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 
 	keyMetricsSlide.addTable(enablementRows, keyMetricsEnablementTableOptions);
 
-	if ( enaHas_trend && keyMetricsEnablementArrowIconOptions.data != null )
+	if ( enaHas_trend && keyMetricsEnablementArrowIconOptions.path != null )
 		keyMetricsSlide.addImage(keyMetricsEnablementArrowIconOptions);
 
 	keyMetricsSlide.addImage(keyMetricsEnablementCardIconOptions);
@@ -871,7 +937,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 		...keyMetricsCardGeneralOptions
 	}
 	let keyMetricsThirdCardArrowIconOptions = {
-		data: GetArrowIconPathBasedOnTrend( dimensionDiff ),
+		path: GetArrowIconPathBasedOnTrend( dimensionDiff ),
 		x: '69%',
 		...keyMetricsArrowIconGeneralOptions
 	}
@@ -891,7 +957,7 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 
 	keyMetricsSlide.addTable(thirdCardRows, keyMetricsThirdCardTableOptions);
 
-	if (dimensionHas_trend && keyMetricsThirdCardArrowIconOptions.data != null)
+	if (dimensionHas_trend && keyMetricsThirdCardArrowIconOptions.path != null)
 		keyMetricsSlide.addImage(keyMetricsThirdCardArrowIconOptions);
 
 	keyMetricsSlide.addImage(keyMetricsThirdCardCardIconOptions);
@@ -951,68 +1017,68 @@ function Pptx_AddKeyMetricsSlide(pptx, access) {
 
 	function GetCardIconOptionsBasedOnDimensionId(dimensionId) {
 		let options = {
-			data: '',
+			path: '',
 			h: 1.1,
 			w: 1.1
 		}
 
 		switch (dimensionId) {
 			case 'DIM_ENG':
-				options.data = PPT_image_storage.engagement;
+				options.path = PPT_image_storage.engagement;
 				break;
 			case 'DIM_ENA':
-				options.data = PPT_image_storage.enablement;
+				options.path = PPT_image_storage.enablement;
 				break;
 			case 'DIM_N64':
-				options.data = PPT_image_storage.resources;
+				options.path = PPT_image_storage.resources;
 				options.w = 1.1;
 				options.h = 1;
 				break;
 			case 'DIM_N50':
-				options.data = PPT_image_storage.authority_and_empowerement;
+				options.path = PPT_image_storage.authority_and_empowerement;
 				break;
 			case 'DIM_N65':
-				options.data = PPT_image_storage.respect_and_recognition;
+				options.path = PPT_image_storage.respect_and_recognition;
 				break;
 			case 'DIM_N52':
-				options.data = PPT_image_storage.collaboration;
+				options.path = PPT_image_storage.collaboration;
 				break;
 			case 'DIM_N63':
-				options.data = PPT_image_storage.quality_and_customer_focus;
+				options.path = PPT_image_storage.quality_and_customer_focus;
 				options.w = 0.9;
 				options.h = 1.2;
 				break;
 			case 'DIM_N61':
-				options.data = PPT_image_storage.performance_management;
+				options.path = PPT_image_storage.performance_management;
 				options.w = 1.1;
 				options.h = 0.8;
 				break;
 			case 'DIM_N54':
-				options.data = PPT_image_storage.development_opportunities;
+				options.path = PPT_image_storage.development_opportunities;
 				break;
 			case 'DIM_N53':
-				options.data = PPT_image_storage.confidence_in_leaders;
+				options.path = PPT_image_storage.confidence_in_leaders;
 				options.w = 1;
 				options.h = 1.3;
 				break;
 			case 'DIM_N66':
-				options.data = PPT_image_storage.training;
+				options.path = PPT_image_storage.training;
 				options.w = 1.1;
 				options.h = 1.2;
 				break;
 			case 'DIM_N51':
-				options.data = PPT_image_storage.clear_and_promising_direction;
+				options.path = PPT_image_storage.clear_and_promising_direction;
 				break;
 			case 'DIM_N67':
-				options.data = PPT_image_storage.work_structure_progress;
+				options.path = PPT_image_storage.work_structure_progress;
 				break;
 			case 'DIM_N60':
-				options.data = PPT_image_storage.compensation_and_benefits;
+				options.path = PPT_image_storage.compensation_and_benefits;
 				options.w = 1.1;
 				options.h = 1.2;
 				break;
 			default:
-				options.data = PPT_image_storage.engagement;
+				options.path = PPT_image_storage.engagement;
 				break;
 		}
 
@@ -1100,14 +1166,14 @@ function Pptx_AddKeyDriversSlide(pptx, access) {
 	let enablementIconPath = PPT_image_storage.enablement;
 
 	keyDriversSlide.addImage({
-		data: engagementIconPath,
+		path: engagementIconPath,
 		x: '48%',
 		y: 2.1,
 		w: 0.5,
 		h: 0.5
 	});
 	keyDriversSlide.addImage({
-		data: enablementIconPath,
+		path: enablementIconPath,
 		x: '73%',
 		y: 2.1,
 		w: 0.5,
@@ -1169,6 +1235,7 @@ function Pptx_AddKeyDriversSlide(pptx, access) {
 	}
 
 	var dimension_id = Main_GetDimensionIdByItemId ( engagementDrivers[0] );
+	if (dimension_id == undefined) return;
 	keyDriversSlide.addText((meta.Dimensions[ dimension_id ].Label).toUpperCase(), {
 		x: '48%',
 		y: 3.55,
@@ -1176,6 +1243,7 @@ function Pptx_AddKeyDriversSlide(pptx, access) {
 	});
 
 	var dimension_id = Main_GetDimensionIdByItemId ( enablementDrivers[0] );
+	if (dimension_id == undefined) return;
 	keyDriversSlide.addText((meta.Dimensions[ dimension_id ].Label).toUpperCase(), {
 		x: '73%',
 		y: 3.55,
@@ -1236,6 +1304,7 @@ function Pptx_AddKeyDriversSlide(pptx, access) {
 	});
 
 	var dimension_id = Main_GetDimensionIdByItemId ( engagementDrivers[1] );
+	if (dimension_id == undefined) return;
 	keyDriversSlide.addText((meta.Dimensions[ dimension_id ].Label).toUpperCase(), {
 		x: '48%',
 		y: 4.55,
@@ -1243,6 +1312,7 @@ function Pptx_AddKeyDriversSlide(pptx, access) {
 	});
 
 	var dimension_id = Main_GetDimensionIdByItemId ( enablementDrivers[1] );
+	if (dimension_id == undefined) return;
 	keyDriversSlide.addText((meta.Dimensions[ dimension_id ].Label).toUpperCase(), {
 		x: '73%',
 		y: 4.55,
@@ -1358,28 +1428,28 @@ function Pptx_AddEffectivenessProfileSegmentationSlide(pptx, access) {
 
 	//add icons
 	effectivenessProfileSegmentationSlide.addImage({
-		data: PPT_image_storage.detached,
+		path: PPT_image_storage.detached,
 		h: 0.91,
 		w: 0.6,
 		y: 2.5,
 		x: 2.2
 	});
 	effectivenessProfileSegmentationSlide.addImage({
-		data: PPT_image_storage.mosteffective,
+		path: PPT_image_storage.mosteffective,
 		h: 0.91,
 		w: 0.65,
 		y: 2.5,
 		x: 4.8
 	});
 	effectivenessProfileSegmentationSlide.addImage({
-		data: PPT_image_storage.leasteffective,
+		path: PPT_image_storage.leasteffective,
 		h: 1,
 		w: 0.7,
 		y: 4.5,
 		x: 2.2
 	});
 	effectivenessProfileSegmentationSlide.addImage({
-		data: PPT_image_storage.frustrated,
+		path: PPT_image_storage.frustrated,
 		h: 1,
 		w: 0.7,
 		y: 4.5,
@@ -1943,7 +2013,7 @@ function Pptx_AddEngagedPerformanceFrameworkSlide(pptx) {
 		y: 3.8
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.engagement_bulb,
+		path: PPT_image_storage.engagement_bulb,
 		w: 0.22,
 		h: 0.33,
 		x: 5.5,
@@ -1964,7 +2034,7 @@ function Pptx_AddEngagedPerformanceFrameworkSlide(pptx) {
 		y: 2.6
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.enablement_briefcase,
+		path: PPT_image_storage.enablement_briefcase,
 		w: 0.33,
 		h: 0.2,
 		x: 5.5,
@@ -1985,35 +2055,35 @@ function Pptx_AddEngagedPerformanceFrameworkSlide(pptx) {
 		y: 5.1
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.operational_excellence,
+		path: PPT_image_storage.operational_excellence,
 		w: 0.45,
 		h: 0.38,
 		x: 8.8,
 		y: 2.2
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.customer_loyalty,
+		path: PPT_image_storage.customer_loyalty,
 		w: 0.28,
 		h: 0.385,
 		x: 8.8,
 		y: 3
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.financial_performance,
+		path: PPT_image_storage.financial_performance,
 		w: 0.3,
 		h: 0.35,
 		x: 8.8,
 		y: 3.8
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.attract_talent,
+		path: PPT_image_storage.attract_talent,
 		w: 0.38,
 		h: 0.38,
 		x: 8.8,
 		y: 4.6
 	});
 	engagedPerformanceSlide.addImage({
-		data: PPT_image_storage.strong_brand,
+		path: PPT_image_storage.strong_brand,
 		w: 0.38,
 		h: 0.38,
 		x: 8.8,

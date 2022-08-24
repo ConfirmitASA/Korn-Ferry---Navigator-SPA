@@ -76,6 +76,7 @@ function KeyDrivers_GetKeyDriversTable() {
 
     for(var item in keyDriversImpactData) {
         var itemData = items_data[item];
+        if (itemData == undefined) continue;
         var pct_distribution = Utils_CountsToPercents ( itemData.Dist );
 
         var cellImpactOnEngagement = keyDriversImpactData[item].ImpactOnEngagement;
@@ -99,13 +100,13 @@ function KeyDrivers_GetKeyDriversTable() {
             var value;
             var sigClassname;
 
-				 
-            if ( 
+
+            if (
                 comparator_data == null
                 ||
                 comparator_data.Items == null
                 ||
-                comparator_data.Items[item] == null 
+                comparator_data.Items[item] == null
             ) {
                 value = NOT_AVAILABLE;
                 sigClassname = '';
@@ -132,8 +133,8 @@ function KeyDrivers_GetKeyDriversTable() {
     }
 
     var numsortColumns = [];
-	var LastColIndex = 6 + NofComparators;
-	for (var k = 5; k <= LastColIndex ; k++) numsortColumns.push(k);
+    var LastColIndex = 6 + NofComparators;
+    for (var k = 5; k <= LastColIndex ; k++) numsortColumns.push(k);
 
     var columnSettings = `
 		'order': [ 0, 'asc' ],
@@ -177,7 +178,7 @@ function KeyDrivers_GetDataForDrivers() {
         var kda = data[kda_key];
         var drivers = kda[dimension_id];
         if (drivers == null) drivers = [];
-    
+
         if (dimension_id === config.EngagementDimensionId || dimension_id === config.EnablementDimensionId) {
             for (var j = 0; j < drivers.length; j++) {
                 var item_id = drivers[j];
