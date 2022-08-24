@@ -314,6 +314,7 @@ function DemographicHeatmap_GetItemsTable() {
     if (breakbyVar == config.PFQ) {
         var data_key = Main_GetKeyWithFilter( 'ITEMSX', config.CurrentWave, data.User.PersonalizedReportBase, config.PFQ);
         breakByAnswerIds = Object.keys ( data[data_key] );
+        breakByAnswerIds = breakByAnswerIds.filter(id => id !== data.User.PersonalizedReportBase);
     } else {
         breakByAnswerIds = Object.keys(meta.Demographics[breakbyVar].Answers);
     }
@@ -325,49 +326,51 @@ function DemographicHeatmap_GetItemsTable() {
     ); // example: "N.2020.389.0"
 
     var n = data[key].N;
+    var NofHeaderRows = breakByAnswerIds.length > 0 ? 2 : 1;
 
     var headers = [
         [
-            { Label: 'dimensionN', ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: 'dimensionFlag', ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: 'dimensionId', ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: 2 },
-            { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: 2 },
-            { Label: meta.Hierarchy.Map[ data.User.PersonalizedReportBase /*meta.Hierarchy.TopNode.Id*/].Label + ' <div class="n-count">(N=' + n + ')</div>', ClassName: 'numeric-cell', colspan: 1, rowspan: 2 },
-            { Label: meta.Demographics[breakbyVar].Label, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1 }
+            { Label: 'dimensionN', ClassName: 'text-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: 'dimensionFlag', ClassName: 'text-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: 'dimensionId', ClassName: 'text-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: 'isExclusive', ClassName: 'text-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: "#", ClassName: 'numeric-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: meta.Labels["labels.Question"].Label, ClassName: 'text-cell', colspan: 1, rowspan: NofHeaderRows },
+            { Label: meta.Hierarchy.Map[ data.User.PersonalizedReportBase /*meta.Hierarchy.TopNode.Id*/].Label + ' <div class="n-count">(N=' + n + ')</div>', ClassName: 'numeric-cell', colspan: 1, rowspan: NofHeaderRows }
         ]
     ];
 
-    // Demograpic Labels (including N=...)
-    var headerRow1 = [];
-    var key = Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId() );
-    var nx = data[key];
+    if(breakByAnswerIds.length > 0) {
+        headers[0].push(
+            { Label: meta.Demographics[breakbyVar].Label, ClassName: 'numeric-cell', colspan: breakByAnswerIds.length, rowspan: 1 }
+        );
 
-    for (var i = 0; i < breakByAnswerIds.length; i++) {
-        if(breakbyVar == config.PFQ && breakByAnswerIds[i] === data.User.PersonalizedReportBase) {
-            continue; //don't show column for top node under One Level Down as it is already shown
+        // Demograpic Labels (including N=...)
+        var headerRow1 = [];
+        var key = Main_GetKeyWithFilter('NX', config.CurrentWave, data.User.PersonalizedReportBase, DemographicHeatmap_VariableId() );
+        var nx = data[key];
+
+        for (var i = 0; i < breakByAnswerIds.length; i++) {
+            var n = nx[breakByAnswerIds[i]].N;
+
+            var option;
+
+            if (breakbyVar == config.PFQ) {
+                option = meta.Hierarchy.Map[breakByAnswerIds[i]];
+            } else {
+                option = meta.Demographics[breakbyVar].Answers[breakByAnswerIds[i]];
+            }
+
+            headerRow1.push({
+                Label: `${option.Label}` + ' <div class="n-count">(N=' + n + ')</div>',
+                ClassName: 'numeric-cell',
+                colspan: 1,
+                rowspan: 1
+            })
         }
-        var n = nx[breakByAnswerIds[i]].N;
 
-        var option;
-
-        if (breakbyVar == config.PFQ) {
-            option = meta.Hierarchy.Map[breakByAnswerIds[i]];
-        } else {
-            option = meta.Demographics[breakbyVar].Answers[breakByAnswerIds[i]];
-        }
-
-        headerRow1.push({
-            Label: `${option.Label}` + ' <div class="n-count">(N=' + n + ')</div>',
-            ClassName: 'numeric-cell',
-            colspan: 1,
-            rowspan: 1
-        })
-
+        headers.push(headerRow1);
     }
-
-    headers.push(headerRow1);
 
     var table_data = [];
 
@@ -397,7 +400,7 @@ function DemographicHeatmap_GetItemsTable() {
     }
 
     var numsortColumns = [];
-    var LastColIndex = 6 + breakByAnswerIds;
+    var LastColIndex = 6 + breakByAnswerIds.length;
     for (var k = 6; k <= LastColIndex ; k++) numsortColumns.push(k);
 
     var columnSettings = `
@@ -413,7 +416,7 @@ function DemographicHeatmap_GetItemsTable() {
 
     var exportColumns = [];
 
-    var BBlength = breakbyVar == config.PFQ ? breakByAnswerIds.length - 1 : breakByAnswerIds.length;
+    var BBlength = breakByAnswerIds.length;
     for (var k = 4; k < 4 + 3 + BBlength; k++) {
         exportColumns.push(k);
     }
